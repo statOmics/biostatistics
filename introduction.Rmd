@@ -1,0 +1,440 @@
+---
+title: "Introductie"
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+---
+
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+# Longvolume en rokerstatus
+
+- Onderzoekers willen de impact van roken onderzoeken op longcapaciteit bij schoolgaande kinderen en adolescenten. 
+- Ze meten hierbij de longcapaciteit (in l) bij rokende en niet-rokende leerlingen (forced expiratory volume).
+
+```{r echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/statOmics/biostatistics21/master/figs/fevMeasurement.jpg")
+```
+
+## Importeer data
+
+```{r}
+library(tidyverse)
+fev <- read_tsv("https://raw.githubusercontent.com/GTPB/PSLS20/master/data/fev.txt")
+```
+
+
+```{r}
+head(fev)
+```
+
+## Data manipulatie
+
+1.  `gender` and `smoking` kunnen beter worden omgezet naar factor variabelen
+2. De `height` variabele is in inches dus deze zetten we om in cm. 
+
+```{r}
+fev <- fev %>%
+  mutate(gender = as.factor(gender)) %>%
+  mutate(smoking = as.factor(smoking)) %>%
+  mutate(height_cm = height*2.54)
+head(fev)
+```
+
+## Enkele Concepten
+
+- In een **experimentele studie** gaat een onderzoeker de **behandeling** **at random** toewijzen aan de **experimentele eenheden** en observeert hij/zij het effect van de **behandeling** bij de experimentele eenheden door het meten van één of meerdere **reponse variabelen**. 
+
+- Een  **experimentele eenheid** (experimental unit) is de eenheid (subject, plant, pot, proefdier) dat at random aan de behandeling wordt toegewezen. 
+**Experimentele eenheden in fev example?** 
+
+- Een **response variabele** is a karakteristiek van de experimentele eenheid die wordt gemeten en geanalyseerd om het effect van de behandeling na te gaan.  **Response variable in fev example?**
+
+- Een **observationele eenheid** is de eenheid waarop de response variabele wordt gemeten. Veelal is er een één-op-één overeenkomst tussen experimentele en observationele eenheden. Maar dat is niet altijd zo: b.v. pseudoreplicatie zoals wanneer men technische herhalingen heeft voor elke gemeten karakteristiek bij een subject. **Observationele eenheid in fev voorbeeld?** 
+
+- Een **factor** is een verklarende variabele die twee of meer niveaus aan kan nemen. Voorbeelden in de fev studie?  
+
+---
+
+```{r pop2Samp2Pop,fig.asp=.8, fig.align='center',echo=FALSE}
+if ("pi"%in%ls()) rm("pi")
+kopvoeter<-function(x,y,angle=0,l=.2,cex.dot=.5,pch=19,col="black")
+{
+angle=angle/180*pi
+points(x,y,cex=cex.dot,pch=pch,col=col)
+lines(c(x,x+l*cos(-pi/2+angle)),c(y,y+l*sin(-pi/2+angle)),col=col)
+lines(c(x+l/2*cos(-pi/2+angle),x+l/2*cos(-pi/2+angle)+l/4*cos(angle)),c(y+l/2*sin(-pi/2+angle),y+l/2*sin(-pi/2+angle)+l/4*sin(angle)),col=col)
+lines(c(x+l/2*cos(-pi/2+angle),x+l/2*cos(-pi/2+angle)+l/4*cos(pi+angle)),c(y+l/2*sin(-pi/2+angle),y+l/2*sin(-pi/2+angle)+l/4*sin(pi+angle)),col=col)
+lines(c(x+l*cos(-pi/2+angle),x+l*cos(-pi/2+angle)+l/2*cos(-pi/2+pi/4+angle)),c(y+l*sin(-pi/2+angle),y+l*sin(-pi/2+angle)+l/2*sin(-pi/2+pi/4+angle)),col=col)
+lines(c(x+l*cos(-pi/2+angle),x+l*cos(-pi/2+angle)+l/2*cos(-pi/2-pi/4+angle)),c(y+l*sin(-pi/2+angle),y+l*sin(-pi/2+angle)+l/2*sin(-pi/2-pi/4+angle)),col=col)
+}
+
+par(mar=c(0,0,0,0),mai=c(0,0,0,0))
+plot(0,0,xlab="",ylab="",xlim=c(0,10),ylim=c(0,10),col=0,xaxt="none",yaxt="none",axes=FALSE)
+rect(0,6,10,10,border="red",lwd=2)
+text(.5,8,"populatie",srt=90,col="red",cex=2)
+symbols (3, 8, circles=1.5, col="red",add=TRUE,fg="red",inches=FALSE,lwd=2)
+grid=seq(0,1.3,.01)
+
+for (i in 1:50)
+{
+	angle1=runif(n=1,min=0,max=360)
+	angle2=runif(n=1,min=0,max=360)
+	radius=sample(grid,prob=grid^2*pi/sum(grid^2*pi),size=1)
+	kopvoeter(3+radius*cos(angle1/180*pi),8+radius*sin(angle1/180*pi),angle=angle2)
+}
+text(7.5,8,"Effect van roken in populatie",col="red",cex=1.2)
+
+rect(0,0,10,4,border="blue",lwd=2)
+text(.5,2,"sample",srt=90,col="blue",cex=2)
+symbols (3, 2, circles=1.5, col="red",add=TRUE,fg="blue",inches=FALSE,lwd=2)
+for (i in 0:2)
+	for (j in 0:4)
+{
+
+	kopvoeter(2.1+j*(3.9-2.1)/4,1.1+i)
+}
+text(7.5,2,"Effect van roken in steekproef",col="blue",cex=1.2)
+
+arrows(3,5.9,3,4.1,col="black",lwd=3)
+arrows(7,4.1,7,5.9,col="black",lwd=3)
+text(1.5,5,"EXP. DESIGN (1)",col="black",cex=1.2)
+text(8.5,5,"SCHATTEN &\nINFERENTIE (3)",col="black",cex=1.2)
+text(7.5,.5,"DATA EXPLORATIE &\nBESCHRIJVENDE STATISTIEK (2)",col="black",cex=1.2)
+```
+
+- Populatie?
+
+
+---
+
+## Data Exploratie
+
+### Summary statistics
+
+
+```{r}
+fevSum <- fev %>%
+  group_by(smoking) %>%
+  summarize_at("fev", 
+               list(mean = mean,
+                    sd = sd,
+                    n = length)
+                ) %>%
+  mutate(se = sd/sqrt(n))
+fevSum
+```
+
+- Let op dat deze code niet werkt als er ontbrekende data zijn.
+- In dat geval gebruik je onderstaande code
+
+
+```{r}
+fevSum <- fev %>%
+  group_by(smoking) %>%
+    summarize_at("fev",list(mean=~mean(.,na.rm=TRUE),
+                    sd=~sd(.,na.rm=TRUE),
+                    n=function(x) x%>%is.na%>%`!`%>%sum)) %>%
+  mutate(se=sd/sqrt(n))
+fevSum
+```
+
+## Visualisatie
+
+```{r}
+fev %>%
+  ggplot(aes(x = smoking, y = fev)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(alpha = .2)
+```
+
+- Effect grootte? 
+
+
+We kunnen de plots ook als objecten opslaan voor later gebruik! 
+
+```{r}
+p1 <- fev %>%
+  ggplot(aes(x=smoking,y=fev)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(alpha=.2)
+
+p2 <- fev %>%
+  ggplot(aes(sample=fev)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~smoking)
+
+p1
+p2
+```
+
+
+## Onderzoeksvraag
+
+De onderzoekers wensen het effect te kennen van roken op de long capaciteit van jongeren. 
+
+## Hoe modelleren we de data? 
+
+
+- $x_i$: dummy variabele voor rokerstatus voor subject $i$: $x_{i,1}=\begin{cases}
+0& \text{niet-roker}\\
+1& \text{roker}
+\end{cases}$. 
+
+\[Y_i\vert x_i\sim N(\mu_i,\sigma^2)\]
+
+via lineair model? 
+
+\[Y_i = \beta_0 + \beta_1 x_i + \epsilon_i \text{ met } \epsilon_i\sim N(0,\sigma^2)\]
+
+
+Vertaal de onderzoeksvraag naar de model parameters? 
+
+```{r}
+library(ExploreModelMatrix)
+
+lm1 <- lm(fev~smoking, fev)
+lm1 
+
+explMx <- VisualizeDesign(fev,designFormula = ~smoking)
+explMx$plotlist
+
+```
+
+- Vertaal de onderzoeksvraag naar een parameter in het model. 
+
+- Effectgrootte: 
+
+\[\mu_1-\mu_0 = \beta_0+\beta_1 - \beta_0 = \beta_1\] 
+
+
+### Schatten van de effectgrootte en de standard error
+
+```{r}
+summary(lm1)
+```
+
+## Statistische Inferentie?
+
+### Nul en alternatieve hypothese? 
+
+We wensen de **alternatieve hypothese** $H_1$ aan te tonen: er is een effect van roken op de longcapaciteit van jongeren. We vertalen dit naar ons model:
+
+- $H_1$: Gemiddeld is de longcapaciteit van niet-rokende en rokende jongeren verschillend
+\[\beta \neq 0\] 
+
+We kunnen op basis van data echter een hypothese niet bewijzen. Daarom zullen we het omgekeerde falsifiëren: 
+
+- $H_0$: Gemiddeld is de longcapaciteit van niet-rokende en rokende jongeren gelijk
+\[\beta = 0\] 
+
+- Hoe falsifieren we $H_0$? 
+
+---
+
+
+
+```{r}
+summary(lm1)
+```
+
+- Hoe waarschijnlijk is het om een effectgrootte (test-statistiek) te vinden die meer extreem is dan wat we observeerden in een random steekproef wanneer de nulhypothese waar is.  
+
+- Als we aannames kunnen doen over de verdelingen van de gegevens, kennen we de verdeling van de test statistiek en kunnen we die kans berekenen: **p-waarde**.
+- Als de p-waarde lager is dan het nominale significantie-niveau $\alpha$ verwerpen we de null hypothese. 
+
+*We controleren de kans op het maken van een vals positieve conclusie op het $\alpha$-niveau (type I fout)*
+
+- De p-value is enkel correct als de onderliggende aannames geldig zijn. 
+
+```{r}
+p1
+p2
+```
+
+- Biologische metingen zijn dikwijls niet normaal verdeeld. 
+- Dikwijls  zijn de gegevens na log-transformatie meer normaal verdeeld.  
+- Verschillen op log schaal:
+
+$$
+\log_2(S) - \log_2(NS) = \log_2 \frac{S}{NS} = \log_2 FC_{\frac{S}{NS}}
+$$
+
+
+---
+
+## Log transformation
+
+```{r}
+
+p1 <- fev %>%
+  ggplot(aes(x=smoking,y=log2(fev))) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(alpha=.2)
+
+p2 <- fev %>%
+  ggplot(aes(sample=log2(fev))) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~smoking)
+p1
+p2
+
+lm1 <- lm(log2(fev)~smoking,fev)
+summary(lm1)
+2^(lm1$coefficients)
+2^(confint(lm1))
+
+
+## verschil in variantie --> Welch t-test
+
+fevttest <- t.test(log2(fev)~smoking,fev)
+2^(fevttest$estimate[2]-fevttest$estimate[1])
+2^-fevttest$conf.int %>% sort
+```
+
+## Conclusie
+
+- Er is een extreem significant verschil in gemiddelde longinhoud tussen rokende en niet-rokende jongeren ($p << 0.001$). 
+
+- Gemiddelde is de longinhoud `r 2^(fevttest$estimate[2]-fevttest$estimate[1]) %>% format(digits=3)` keer groter bij rokerende dan bij niet-rokende jongeren (95% BI [`r 2^-fevttest$conf.int %>% sort %>% format(digits=3)`]
+.  
+
+---
+
+- Probleem!
+- Observationele studie
+- Confounding! 
+
+
+```{r,echo=FALSE, fig.align = "center",out.width = '50%'}
+plot(c(0,0,1),c(-2,2,0),pch=c("L","R","V"),xaxt="none",yaxt="none",axes=FALSE,xlab="",ylab="",cex=4,ylim=c(-2.2,2.2))
+arrows(x0=0.1,x1=.9,y0=1.8,y1=0.1,lwd=4)
+arrows(x0=0.1,x1=.9,y0=-1.8,y1=-0.2,lwd=4)
+arrows(x0=0,x1=0,y0=-1.4,y1=1.4,lwd=4)
+```
+
+- Leeftijd (L) is heeft een invloed op het rookgedrag (R) en op de longinhoud (V)!
+- Als we leeftijd niet meenemen in de analyse dan kan het zijn dat de associatie tussen rookgedrag en de longinhoud vertekend is omdat rokers en niet-rokers niet alleen in rookgedrag maar ook in leeftijd verschillen!
+- Confounding is een probleem die typisch optreedt in observationele studies!
+
+
+```{r}
+library(GGally)
+
+fev %>% 
+  mutate(lfev=log2(fev)) %>% 
+  dplyr::select(smoking,gender,age,height_cm,lfev) %>% 
+  ggpairs()
+```
+
+Een betere data exploratie: 
+```{r}
+fev %>%
+  ggplot(aes(x=as.factor(age),y=fev,fill=smoking)) +
+  geom_boxplot(outlier.shape=NA) +
+  geom_point(size = 0.1, position = position_jitterdodge()) +
+  theme_bw() +
+  scale_fill_manual(values=c("dimgrey","firebrick")) +
+  ggtitle("Boxplot of FEV versus smoking, stratified on age and gender") +
+  ylab("fev (l)") +
+  xlab("age (years)") + 
+  facet_grid(rows = vars(gender))
+```
+
+---
+
+- Hoe zouden we de associatie tussen leeftijd en fev kunnen modelleren? 
+- We doen dit eerst enkel voor niet-rokende meisjes. Want er is ook een associatie tussen fev en geslacht.  
+
+```{r}
+lm2 <- fev %>% 
+  filter(gender=="f" & smoking == 0) %>% 
+  lm(log2(fev)~age,.)
+
+summary(lm2)
+plot(lm2)
+
+fev %>% 
+  filter(gender=="f" & smoking == 0) %>% 
+  ggplot(aes(x=age,y=log2(fev))) + 
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x )
+```
+
+- Residu plot heeft probleem aan!
+
+
+```{r}
+lm3 <- fev %>% 
+  filter(gender=="f" & smoking == 0) %>% 
+  lm(log2(fev)~age + I(age ^2),.)
+
+summary(lm3)
+plot(lm3)
+```
+
+```{r}
+fev %>% 
+  ggplot(aes(x=age,y=log2(fev))) + 
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2)) +
+  facet_wrap(gender ~ smoking)
+```
+
+
+
+# Algemeen Linear Model
+
+Hoe kunnen we meerdere factoren en continue predictoren combineren in een lineair model?
+
+\[
+y_i= \beta_0 + \beta_S x_{i,S} + \beta_A x_{i,A}  +\epsilon_i,
+\]
+
+emt
+
+- $x_{i,S}$ een dummy variabele voor rokerstatus: $x_{i,1}=\begin{cases}
+0& \text{niet-roker}\\
+1& \text{roker}
+\end{cases}$
+- $x_{i,A}$ is de leeftijd. 
+
+
+---
+
+## Implementatie in R
+
+- We doen dit nu enkel voor de meisjes omdat er ook effecten van geslacht zijn. Later leren we hoe we daarmee om kunnen gaan.  
+
+```{r}
+lmS_age <- fev %>% 
+  filter(gender=="f") %>%
+  lm(log2(fev)~smoking + age,data=.)
+summary(lmS_age)
+```
+
+De parameter smoking1 krijgt nu de interpretatie van de gemiddelde log2 fold change in longinhoud tussen rokers en niet rokers na correctie voor de leeftijd: 
+
+- Roker: \[E[y|\text{roker}, X_A=x] = \beta_0 + \beta_s + \beta_A x\]
+- Niet-roker: \[E[y|\text{niet-roker}, X_A=x] = \beta_0 + \beta_A x\]
+- verschil tussen roker en niet-roker van dezelfde leeftijd ($X_A=x$): 
+\[E[y|\text{roker}, X_A=x]- E[y|\text{niet-roker}, X_A=x]=\beta_0 + \beta_s + \beta_A x- \beta_0 + \beta_A x = \beta_s\]
+
+We weten uit de data exploratie echter dat dit nog niet het correcte model is: 
+
+- Niet-lineair effect van leeftijd. 
+- Associatie tussen FEV en rokersstatus verandert i.f.v. leeftijd, waarschijnlijk door associatie met hoelang al wordt gerookt. We zullen later zien dat dit een interactie is. 
+- We wensen het model ook uit te breiden voor Gender.
+- We zien dat het niet evident is om conclusie te trekken op basis van observationele studies omwille van mogelijkse confounding
+- In de volgende lessen gaan we dieper in op het algemene lineair model waarin we meerdere factoren en continue variabelen kunnen combineren als predictoren voor het modelleren van het gemiddelde van de continue response variabele. 
+

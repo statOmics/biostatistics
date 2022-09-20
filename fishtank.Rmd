@@ -1,0 +1,69 @@
+---
+title: "Exercise 8.x: The fish tank dataset - solution"   
+author: "Lieven Clement and Jeroen Gilis"
+date: "statOmics, Ghent University (https://statomics.github.io)"  
+output:
+    html_document:
+      code_download: true    
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+---
+
+Import libraries
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+# Background 
+
+Researchers want to assess the effect of three different diets on the weight 
+gain of fish. They have set up an experiment with 12 different tanks of fish. 
+Each tank contains the same number of fish. The weight of 6 fish in each tank 
+was measured at the beginning and the end of the experiment. The researchers 
+recorded the weight gain.
+
+# Experimental design
+
+
+# Data import
+
+```{r}
+fish <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/fishTank.txt",header=TRUE)
+head(fish)
+```
+
+# Tidy data
+
+```{r}
+
+```
+
+# Data exploration
+
+Make an appropriate plot to explore the data. 
+
+```{r}
+
+```
+
+# Analysis
+
+Specify the model that you will use for answering the research question.
+
+
+## Model assumptions
+
+
+
+
+## Overall effect of diet
+
+## Post-hoc analysis
+
+## Conclusion
+
+Formulate your conclusion in terms of the research question. 

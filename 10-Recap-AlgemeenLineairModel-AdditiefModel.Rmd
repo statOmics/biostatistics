@@ -1,0 +1,186 @@
+---
+title: '10. Recap: Algemeen Lineair Model - Additief Model'
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
+                      message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+
+```{r include=FALSE}
+#Do not run during the lecture when we work interactively
+set.seed(1314)
+```
+
+# Dataset - Onderzoeksvraag - Design?
+
+- Prostaatkanker case studie
+- Associatie tussen prostaat specifiek antigen concentratie en andere predictoren
+
+- Type response?
+- Type predictoren?
+
+# Data-exploratie
+
+```{r}
+prostate <- read_csv("https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv")
+
+prostate <- prostate %>%
+  mutate(svi = as.factor(svi))
+
+library(GGally)
+prostate %>%
+  dplyr::select(-pgg45)  %>%
+  ggpairs()
+```
+
+- Schatting voor parameter $\beta_v$ mogelijks geen zuiver effect van tumor volume.
+- Zelfs als lcavol niet is geassocieerd met het lpsa,  dan nog kunnen patiënten met een groter tumor volume een hoger lpsa hebben omdat ze bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status 1).
+$\rightarrow$ Confounding.
+- Door de svi status in het model op te nemen corrigeren we voor de mogelijkse confounding.
+
+# Vertalen van onderzoeksvraag naar populatie parameters: effectgrootte
+
+\[\text{E}\left(Y\vert X_v, X_w, X_s\right) = \beta_0 + \beta_v X_v + \beta_w X_w + \beta_s X_s\]
+
+
+- Associatie van predictoren met log PSA: hellingen van het model
+- Meer accurate predicties door meerdere predictoren simultaan in rekening te brengen
+
+
+- Interpretatie?
+
+  - verschil in gemiddelde uitkomst tussen subjecten die in één eenheid van log tumor volume ($X_v$) verschillen, maar dezelfde waarde hebben voor de overige verklarende variabelen ($X_w$ en $X_s$) in het model.
+
+  - Associatie tussen log PSA en de predictor log tumor volume waarbij gecorrigeerd wordt voor de overige predictoren,  hier dus associatie van log PSA en het log tumor volume na correctie voor log prostaatgewicht en svi-status.
+
+
+# Schatten van effectgrootte a.d.h.v. steekproef
+
+- Kleinste kwadratentechniek
+
+```{r}
+lmV <- lm(lpsa~lcavol, prostate)
+summary(lmV)
+lmVWS <- lm(lpsa~lcavol + lweight + svi, prostate)
+summary(lmVWS)
+```
+
+De parameter bij lcavol geeft nu aan dat patiënten met een tumorvolume dat 1% hoger ligt, maar eenzelfde prostaat gewicht en svi status hebben, een prostaat antigeen concentratie zullen hebben dat gemiddeld slechts 0.55% hoger ligt.
+
+De reden dat we eerder een verschil van meer dan 0.72% vonden, kan worden verklaard doordat patiënten met een verschil in tumorvolume vaak ook verschillen in prostaat gewicht en svi status en omdat prostaat gewicht en svi mogelijks ook een associatie vertonen met log PSA
+
+
+```{r out.width='80%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+library(plot3D)
+grid.lines = 10
+x <- prostate$lcavol
+y <- prostate$lweight
+z <- prostate$lpsa
+fit <- lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=20
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g")
+
+for (i in 1:nrow(prostate))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[4]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="red",facets=NA,add=TRUE)
+```
+
+# Inferentie
+
+- Kunnen we hetgeen we zien in de steekproef vertalen naar de populatie toe?
+
+- Hiervoor moeten we rekening houden dat we maar een heel klein deel van de populatie hebben kunnen bemonsteren.
+
+- Gevens, statistieken en conclusies zijn stochastisch. Ze variëren van steekproef tot steekproef.
+
+- We moeten die variabiliteit in kunnen schatten o.b.v. één enkele steekproef!
+
+## Aannames?
+### Representatieve steekproef:
+
+$\hat\beta_j$ is een onvertekende schatter van $\beta$ als steekproef representatief is
+
+\[E[\hat \beta_j]=\beta_j\]
+
+### Normaliteit
+
+\[Y_{i} \sim N(\mu_i,\sigma^2)\]
+\[Y_i \sim N(\beta_0+\beta_vx_{iv}+\beta_wx_{iw} + \beta_sx_{is},\sigma^2)  \longrightarrow \hat \beta_j \sim N(\beta_j, \sigma^2_{\hat \beta_j})\]
+
+en lineaire combinaties van de model parameterschatters zijn ook normaal verdeeld.
+
+\[
+\longrightarrow L^T\hat \beta \sim N(L^T\beta, \sigma^2_{L^T\hat{\boldsymbol{\beta}}})
+\]
+
+### Onafhankelijkheid en gelijkheid van variantie
+
+\[\sigma^2_{L^T\hat{\boldsymbol{\beta}}} = c_L \sigma^2 \]
+
+- $\sigma^2?$
+
+\[\hat \sigma^2 = MSE = \sum\limits_{i=1} ^ n \frac{(Y_i - \hat Y_i)^2}{n-p}\]
+
+\[SE_{L^T\hat{\boldsymbol{\beta}}} = c_L \hat \sigma \]
+
+- t statistiek
+
+\[ T = \frac{L\hat{\boldsymbol{\beta}} - L\boldsymbol{\beta}}{\text{SE}_{L\hat{\boldsymbol{\beta}}}}
+ \sim t_{n-p}\]
+
+- BI en T-test $H_0: L\boldsymbol{\beta} = 0$ vs  $H_1: L\boldsymbol{\beta} \neq 0$
+
+- F statistiek volgt F-verdeling onder de $H_0$
+\[ F = \frac{MSR_2 - MSR_1}{MSE} \sim F_{p_2 - p_1,n-p_2}\]
+
+# R - output
+
+```{r}
+library(car)
+summary(lmVWS)
+Anova(lmVWS, type = "III")
+```
+
+# Conclusie
+
+De associaties tussen lpsa $\leftrightarrow$ log kanker volume, lpsa $\leftrightarrow$ log prostaat gewicht en lpsa $\leftrightarrow$ status van de zaadblaasjes zijn respectievelijk extreem significant ($p<<0.001$) en sterk significant ($p = 0.001$ en $p = 0.002$).
+
++ interpretaties van de hellingen en BI!
+
+
+# Wat als aannames niet zijn voldaan?
+
+- Normaliteit en heteroscedasticiteit niet voldaan: transformatie van Y
+- Lineariteit niet voldaan: transformatie van X of hogere orde termen (interacties en machten $X^2, X^3, ...$).
+- Normaliteit niet voldaan: bij grote steekproeven CLT

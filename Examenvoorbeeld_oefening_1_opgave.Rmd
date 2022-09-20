@@ -1,0 +1,39 @@
+---
+title: "Examenvoorbeeld vraag 1"
+author: "Lieven Clement, Alexandre Segers"
+date: "02/12/2021"
+output: html_document
+---
+
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+Onderzoekers bestuderen of er een associatie tussen het de dikte van de speklaag van varkens is met het percentage vlees van varkens (permeat). Ze willen ook weten of deze associatie verschilt tussen mannelijke en vrouwelijke varkens. Uit voorgaand onderzoek weten de onderzoekers dat er een associatie is tussen het de lengte van het varken en het percentage vlees. 
+
+
+
+# Data exploratie
+We lezen de data in, en filteren de data aangezien we het gewicht niet als variabele zullen gebruiken.
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+pigs <- read.csv(file = "https://raw.githubusercontent.com/statOmics/biostatistics21/master/pigs.csv")
+pigs <- pigs %>% subset(select = -weight)
+```
+
+
+# Algemeen lineair model opstellen
+
+
+# Hypotheses testen
+
+
+# Conclusie
+
+
+

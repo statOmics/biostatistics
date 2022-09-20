@@ -1,0 +1,779 @@
+---
+title: "Experimenteel Design II: Randomized Complete Block Designs en Pseudo-replicatie"
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+```{r}
+library(tidyverse)
+```
+
+# Randomized complete block designs
+
+\[\sigma^2= \sigma^2_{bio}+\sigma^2_\text{lab} +\sigma^2_\text{extraction} + \sigma^2_\text{run} + \ldots\]
+
+- Biologisch: fluctuaties in proteïne niveau tussen muizen, fluctaties in proteïne concentratie tussen cellen, ...
+- Technisch: kooi-effect, lab effect, week effect, plasma extractie, MS-run, ...
+
+# Nature methods: Points of significance - Blocking 
+
+[https://www.nature.com/articles/nmeth.3005.pdf](https://www.nature.com/articles/nmeth.3005.pdf)
+
+- Oneway anova is een speciaal geval van een "completely randomized design" (CRD):
+
+    - experimentele eenheden zijn at random getrokken uit de populatie. 
+    - behandelingen worden at random toegewezen aan de experimentele eenheden 
+    - Elke experimentele eenheid krijgt 1 behandeling en wordt 1 keer gemeten. 
+
+- In een blokdesign zijn de blokken blokken die at random worden gesampled uit de populatie van alle mogelijke blokken. 
+    
+    - De "randomized complete block design" (RCB) beperkt de randomisatie: de behandelingen worden binnen de blokken gerandomiseerd. 
+    - het kan niet als een one-way anova worden geanalyseerd. 
+    - Een gepaard design is het meest eenvoudige RCB: met blokgrootte 2.
+    - Binnen block effecten kunnen worden geschat met de lm functie in R.
+
+# Muis voorbeeld 
+
+## Intro
+
+```{r echo=FALSE, out.width="50%"}
+knitr::include_graphics("https://raw.githubusercontent.com/statOmics/PSLS21/master/figures/mouseTcell_RCB_design.png")
+```
+
+Duguet et al. (2017) MCP 16(8):1416-1432. doi: 10.1074/mcp.m116.062745
+
+- Alle behandelingen (hier celtypes) van interesse zijn binnen blok!  
+- We kunnen het effect schatten van de behandeling binnen blok! 
+
+We focussen op één proteïne
+
+  - De gemeten intensiteiten zijn reeds log2 getransformeerd. Verschillen in de intensiteiten kunnen dus als log2 FC (fold changes) worden geïnterpreteerd. 
+  - P16045 or Galectin-1. 
+  - Functie: "Lectin that binds beta-galactoside and a wide array of complex carbohydmousees. Plays a role in regulating apoptosis, cell proliferation and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis." (source: [uniprot](https://www.uniprot.org/uniprot/P16045))
+
+## Data Exploratie 
+
+```{r}
+mouse <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/mouseP16045.txt")
+mouse
+```
+
+
+```{r}
+mouse %>% 
+  ggplot(aes(x = mouse, y= intensity, col=celltype)) +
+  geom_point()
+```
+
+```{r}
+mouse %>%  
+    ggplot(aes(x = celltype, y= intensity)) +
+    geom_boxplot(aes(col=celltype),outlier.shape = NA) +
+    geom_line(aes(group = mouse)) +
+    geom_point(aes(col=celltype))
+```
+
+
+De plots tonen evidentie voor 
+
+- opregulatie van proteïne expressie in regulatorische T-cells en 
+- veel variabiliteit in de expressie tussen de proefdieren! 
+
+## Gepaarde analyse
+
+Het is een gepaard design, het meest eenvoudige RCB. 
+
+In de H5 van de basiscursus statistiek zouden we de data analyseren door gebruikt te maken van het verschil in expressie tussen de celtypes. 
+
+```{r}
+mouseWide <- mouse %>% 
+  spread(celltype,intensity) %>%
+  mutate(delta = Treg - Tcon)
+mouseWide
+```
+
+### Data exploratie
+
+- Boxplot van de verschillen 
+
+```{r}
+mouseWide %>% 
+  ggplot(aes(x="",y=delta)) +
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter()
+```
+
+- Summary statistics
+
+```{r}
+deltaSum <- mouseWide %>% 
+  summarize_at("delta", 
+               list(
+                    mean = ~ mean(.,na.rm = TRUE),
+                    sd = ~ sd(.,na.rm = TRUE),
+                    n = ~ is.na(.) %>% `!` %>% sum
+                   )
+               ) %>% 
+  mutate(se = sd/sqrt(n))
+deltaSum
+```  
+
+
+Merk op, dat de intensiteitsdata niet onafhankelijk zijn omdat we de expressie hebben gemeten in twee celtypes van hetzelfde proefdier. 
+
+- Covariantie en correlatie van de expressie in beide celtypes 
+
+```{r}
+cor(mouseWide[,c("Tcon","Treg")])
+var(mouseWide[,c("Tcon","Treg")])
+var(mouseWide[,c("Tcon","Treg")]) %>% 
+  diag %>% 
+  sqrt
+```
+
+- Er is inderdaad een grote correlatie in de expressie voor het proteïne in conventionele and regulatorische T-cellen. 
+
+- Standarddeviatie van verschil? 
+
+
+$$
+\begin{array}{lcl}
+\text{sd}_{ax_r + bx_c} &=& \sqrt{a^2\hat \sigma_r^2 + b^2 \hat \sigma_c^2 + 2ab \hat\sigma_{r,c}} \\
+\text{sd}_{x_r - x_c} &=&\sqrt{1^2\hat \sigma_r^2 + (-1)^2 \hat \sigma_c^2 + 2 \times 1
+\times -1 
+\times \hat\sigma_{r,c}}\\
+&=&\sqrt{\hat \sigma_r^2 + \hat \sigma_c^2 - 2 \times \hat\sigma_{r,c}}
+\end{array}
+$$
+
+
+
+```{r}
+sdDelta2 <- (c(-1,1) %*% var(mouseWide[,c("Tcon","Treg")]) %*% c(-1,1)) %>%
+  sqrt
+sdDelta2
+
+seDeltaBar <- sdDelta2 / sqrt(deltaSum$n)
+seDeltaBar
+
+deltaSum
+```
+
+- De standarddeviatie van het verschil is veel kleiner door de sterke correlatie in expressie in beide celtypes. 
+- Merk op, dat het gepaarde design ons toelaat om de log2 FC te berekenen tussen beide celtypes voor elk proefdier. 
+
+## RCB analyse
+
+We kunnen de data ook analyseren met een lineair model met 
+
+- een hoofdeffect voor celtype en
+- een hoofdeffect voor de blokfactor muis
+
+Omdat we de expressie in elk celtype hebben gemeten kunnen we dus het gemiddelde effect schatten voor elke muis. 
+
+```{r}
+lmRCB <- lm(intensity ~ celltype + mouse, mouse)
+plot(lmRCB, which = c(1,2,3))
+```
+
+Als je twijfelt of voldaan is aan de aannames van het model is het nuttig om gebruikt te maken van simulaties waarbij we data simuleren uit een model waar alle aannames zijn voldaan. 
+
+```{r}
+design <-  model.matrix(intensity ~ celltype + mouse, mouse) 
+sigmaMouse <- sqrt(car::Anova(lmRCB, type = "III")["mouse","Sum Sq"]/car::Anova(lmRCB, type = "III")["mouse","Df"]) 
+betas <- lmRCB$coefficients
+nMouse <- mouse$mouse %>% unique %>% length
+
+par(mfrow=c(3,3))
+for (i in 1:9)
+{
+    mouseEffect <- rnorm(nMouse, sd = sigmaMouse)
+    betasMouse <- mouseEffect[-1]-mouseEffect[1]
+    betas[-c(1:2)] <- betasMouse 
+    ysim <- design %*% betas  + rnorm(nrow(design),sd=sigma(lmRCB))
+    plot(lm(ysim ~ -1 + design), which = 1) 
+}
+```
+
+De deviaties die we in de residuplot zien voor ons experiment zijn vergelijkbaar met afwijkingen die we kunnen observeren uit gesimuleerde data uit een gelijkaardige proef waarbij aan alle aannames van het model is voldaan. 
+
+### Inferentie 
+
+```{r}
+anovaRCB <- car::Anova(lmRCB, type = "III")
+summary(lmRCB)
+t.test(mouseWide$delta)
+anovaRCB
+```
+
+Merk op dat 
+
+1. de puntschatter, se, t-test statistiek en p-waarde voor het celtype effect exact overeenkomt met de analyse a.d.h.v. een gepaarde t-test! 
+
+2. de anova analyse toont dat we met het model de totale variabiliteit in de expressie opsplitsen in variabiliteit door celtype (CT), variabiliteit tussen muizen (M) en residuele variabiliteit (R) binnen muis die we niet kunnen verklaren met het model:  
+
+$$
+\begin{array}{lcl}
+\text{SSTot} &=& \text{SSCT} + \text{SSM} + \text{SSE}\\
+`r round(anovaRCB[-1,"Sum Sq"] %>% sum(),1)` &=& `r round(anovaRCB["celltype","Sum Sq"],1)` + `r round(anovaRCB["mouse","Sum Sq"],1)` + `r round(anovaRCB["Residuals","Sum Sq"],1)`
+\end{array}
+$$
+
+Het celtype en muis effect verklaren respectievelijk
+$$
+\begin{array}{ll}
+\frac{\text{SSCT}}{\text{SSTot}}\times 100&\frac{\text{SSM}}{\text{SSTot}}\times 100\\\\
+`r round(anovaRCB["celltype","Sum Sq"]/sum(anovaRCB[-1,"Sum Sq"])*100,1)`&
+`r round(anovaRCB["mouse","Sum Sq"]/sum(anovaRCB[-1,"Sum Sq"])*100,1)`\\
+\end{array}
+$$
+
+percent van de variabiliteit in log2 proteïne-intensiteiten en
+
+$$ 
+\frac{\text{SSE}}{\text{SSTot}} \times 100 = `r round(anovaRCB["Residuals","Sum Sq"]/sum(anovaRCB[-1,"Sum Sq"])*100,1)`
+$$
+percent kan niet worden verklaard: residuele variabiliteit. 
+
+Merk op, dat 
+
+- de variabiliteit tussen muizen de grootste bron van variabiliteit is in de data, 
+- Deze variabiliteit kunnen we schatten met het RCB design en
+- we kunnen deze variabiliteit dus isoleren van de residuele variabiliteit
+- Dat leidt tot een veel hogere precisie van de schatter voor de gemiddelde log2 FC tussen  regulatorische eb conventionele T-cellen dan wat zou worden verkregen bij een CRD design!
+
+Merk ook op dat het RCB ook een aantal vrijheidsgraden dient op te offeren om het muiseffect te kunnen schatten, hier 6 DF.
+
+De winst in power van een RCB is dus een afweging tussen de variabiliteit die kan worden verklaart met het blokeffect en het verlies in vrijheidsgraden. 
+
+Als je je de formule voor de variantie covariantie matrix van de parameter schatters bijhaalt zien we
+$$
+\hat{\boldsymbol{\Sigma}}^2_{\hat{\boldsymbol{\beta}}}
+=\left(\mathbf{X}^T\mathbf{X}\right)^{-1}\hat\sigma^2
+$$
+
+dat het RCB een impact heeft op 
+
+- $\left(\mathbf{X}^T\mathbf{X}\right)^{-1}$ alsook op
+-  $\hat\sigma^2$ van de residuen!
+
+$\rightarrow$ We kunnen de variantie in de expressie tussen de proefdieren/blokken isoleren uit onze analyse! 
+
+$\rightarrow$ Dat reduceert de variantie van de residuen en leidt tot een toename in power als de variabiliteit tussen muizen/blokken groot is. 
+
+Merk op dat, 
+
+$$
+\hat\sigma^2 = \frac{\text{SSE}}{n-p} = \frac{SSTot - SSM - SSCT}{n-p} 
+$$ 
+
+- Blokken is dus nuttig als de reductie in SSE groot is in vergelijking met het verlies in vrijheidsgraden. 
+- Dus als SSM een groot deel in van de totale variabiliteit kan verklaren. 
+
+Verder heeft het verlies in vrijheidsgraden ook een impact op de t-verdeling die zal worden gebruikt voor inferentie, die hierdoor bredere staarten zal hebben. 
+
+# Vergelijking van de power tussen een CRD en RCB 
+
+## Voorbeelden van de twee designs
+
+Hier gaan we de data gebruiken om twee experimenten te simuleren:
+
+- een randomized complete block design (RCB) met 3 muizen
+
+- een completely randomized design (CRD) met 6 muizen maar waarbij we enkel één celtype per muis meten. 
+
+```{r}
+set.seed(859)
+mRcb <- mouse %>% 
+  pull(mouse) %>%
+  unique %>%
+  sample(size=3)
+
+rcbSmall <- mouse %>% filter(mouse%in%mRcb)
+rcbSmall
+```
+
+```{r}
+mCrd <- mouse %>% 
+  pull(mouse) %>%
+  unique %>%
+  sample(size=6)
+
+
+crdSmall <- 
+  bind_rows(
+    mouse %>% 
+      filter(mouse%in%mCrd[1:3]) %>% 
+      filter(celltype=="Tcon"),
+    mouse %>% 
+      filter(mouse%in%mCrd[-(1:3)]) %>% 
+      filter(celltype=="Treg"))
+crdSmall
+```
+
+In beide experimenten dienen we dus 6 massa-spectrometrie runs te doen. 
+
+
+```{r}
+lmCRDSmall <- lm(intensity ~ celltype, crdSmall)
+summary(lmCRDSmall)
+anova(lmCRDSmall)
+```
+
+```{r}
+lmRCBSmall <- lm(intensity ~ celltype + mouse, rcbSmall)
+anova(lmRCBSmall)
+summary(lmRCBSmall)
+```
+
+Merk op dat 
+
+- we de opregulatie van het proteïne in regulatorische T-cellen op kunnen pikken met het RCB maar niet met het CRD. 
+- de standarderror van de $\log_2\text{FC}_\text{Treg-Tcon}$ schatting is een factor `r round(summary(lmCRDSmall)$coef["celltypeTreg","Std. Error"]/summary(lmRCBSmall)$coef["celltypeTreg","Std. Error"],1)` kleiner voor het RCB design! 
+
+
+
+Een slechte data analyst die in zijn analyse vergeet om rekening te houden met het blokeffect is terug naar af:
+
+```{r}
+wrongRcb <- lm(intensity ~ celltype, rcbSmall)
+anova(wrongRcb)
+summary(wrongRcb)
+```
+
+- In deze analyse wordt de variabiliteit tussen de blokken geabsorbeerd in de variantieschatter voor de residuele variabiliteit. 
+
+- Uiteraard mogen we een RCB design nooit analyseren zonder de blokfactor op te nemen in het model omdat het design een randomisatierestrictie impliceert. 
+
+## Winst in power door blokking? 
+
+### Power voor completely randomized design (CRD)
+
+```{r}
+varBetweenPlusWithin <- sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Sum Sq"])/sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Df"])
+
+alpha <- 0.05
+nSim <- 20000
+b0 <- 0
+sd <- sqrt(varBetweenPlusWithin)
+ns <-  c(3,7)  
+deltas <- lmRCB$coefficients["celltypeTreg"]
+
+L <- limma::makeContrasts("celltypeTreg",levels=c("(Intercept)","celltypeTreg"))
+
+powerFast <- matrix(NA,nrow=length(ns)*length(deltas),ncol=3) %>% as.data.frame
+names(powerFast) <- c("b1","n","power")
+
+i <- 0
+for (n in ns)
+{
+  n1 <- n2 <-  n
+  
+  ### Simulation
+  predictorData <- data.frame(celltype = rep(c("Tcon","Treg"),c(n1,n2)) %>% as.factor)
+  design <- model.matrix(~celltype,predictorData)
+  
+  for (b1 in deltas)
+  {
+    ySim <- rnorm(nrow(predictorData)*nSim,sd=sd)
+    dim(ySim) <-c(nrow(predictorData),nSim)
+    ySim <- ySim + c(design %*%c(b0,b1))
+    ySim <- t(ySim)
+  
+    ### Fitting
+    fitAll <- limma::lmFit(ySim,design)
+  
+    ### Inference
+    varUnscaled <- c(t(L)%*%fitAll$cov.coefficients%*%L)
+    contrasts <- fitAll$coefficients %*%L
+    seContrasts <- varUnscaled^.5*fitAll$sigma
+    tstats <- contrasts/seContrasts
+    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
+    
+    i <- i+1
+    powerFast[i,] <- c(b1,n,mean(pvals < alpha))
+  }
+}
+powerFast
+```
+
+Omdat we hier een eenvoudige vergelijking tussen twee groepen doen kunnen we de power ook berekenen met de `power.t.test` functie.
+
+```{r}
+power.t.test(n = 3,delta = lmRCB$coefficients["celltypeTreg"], sd = sqrt(varBetweenPlusWithin))
+power.t.test(n = 7,delta = lmRCB$coefficients["celltypeTreg"], sd = sqrt(varBetweenPlusWithin))
+```
+
+## Power voor randomized complete block design (RCB)
+
+
+
+
+```{r}
+alpha <- 0.05
+nSim <- 20000
+b0 <- 0
+sd <- sigma(lmRCB)
+sdMouse<- sqrt(car::Anova(lmRCB)["mouse","Sum Sq"]/car::Anova(lmRCB)["mouse","Df"]) 
+ns <-  c(3,7)  
+deltas <- lmRCB$coefficients["celltypeTreg"]
+
+
+powerFastBlocking <- matrix(NA,nrow=length(ns)*length(deltas),ncol=3) %>% as.data.frame
+names(powerFastBlocking) <- c("b1","n","power")
+
+i <- 0
+for (n in ns)
+{
+  
+  ### Simulation
+  predictorData <- data.frame(celltype = rep(c("Tcon","Treg"),each=n) %>% as.factor, mouse = paste0("m",rep(1:n,2)))
+  design <- model.matrix(~ celltype + mouse,predictorData)
+  L <- limma::makeContrasts("celltypeTreg",levels=colnames(design))
+
+  for (b1 in deltas)
+  {
+    ySim <- rnorm(nrow(predictorData)*nSim,sd=sd)
+    dim(ySim) <-c(nrow(predictorData),nSim)
+    mouseEffect <- rnorm(n, sd = sdMouse)
+    betasMouse <- mouseEffect[-1]-mouseEffect[1]
+    ySim <- ySim + c(design %*%c(b0,b1,betasMouse))
+    ySim <- t(ySim)
+  
+    ### Fitting
+    fitAll <- limma::lmFit(ySim,design)
+  
+    ### Inference
+    varUnscaled <- c(t(L)%*%fitAll$cov.coefficients%*%L)
+    contrasts <- fitAll$coefficients %*%L
+    seContrasts <- varUnscaled^.5*fitAll$sigma
+    tstats <- contrasts/seContrasts
+    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
+    
+    i <- i+1
+    powerFastBlocking[i,] <- c(b1,n,mean(pvals < alpha))
+  }
+}
+powerFastBlocking
+```
+
+Merk op dat de power veel hoger is voor het RCB zowel voor een design met 6 als 14 massa-spectrometrie runs. 
+
+Omdat het RCB een blokgrootte heeft van 2  (gepaard design) kunnen we de power ook berekenen met de `power.t.test function` met `type = "one.sample"` en `sd` equal de standard deviatie van het verschil.
+
+
+```{r}
+power.t.test(n = 3,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
+power.t.test(n = 7,delta = mean(mouseWide$delta), sd = sd(mouseWide$delta))
+```
+
+Merk op dat de power iets anders is omdat we met de power.t.test functie hebben conditioneerd op de muizen uit het originele experiment  terwijl we de in de simulatie-studie hebben gegenereerd door het muiseffect te simuleren uit een normale verdeling. 
+
+## Impact van de hoeveelheid variabiliteit dat het blokeffect verklaart op de power?
+
+We variëren de hoeveelheid variabiliteit die het blokeffect verklaart:  
+$$
+\frac{\sigma^2_\text{between}}{\sigma^2_\text{between}+\sigma^2_\text{within}}=1-\frac{\sigma^2_\text{within}}{\sigma^2_\text{between}+\sigma^2_\text{within}}
+$$
+
+In ons voorbeeld is de ratio in de variabiliteit tussen muizen en de sum van de variabiliteit tussen en binnen muizen.  Merk op dat de variantie binnen muizen gelijk is aan de variantie van de errors van het RCB. De ratio voor ons experiment is 
+
+```{r}
+varBetweenPlusWithin <- sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Sum Sq"])/sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Df"])
+varWithin <- car::Anova(lmRCB)["Residuals","Sum Sq"]/car::Anova(lmRCB)["Residuals","Df"]
+varBetweenPlusWithin
+varWithin
+1- varWithin/varBetweenPlusWithin
+```
+
+
+```{r}
+alpha <- 0.05
+nSim <- 20000
+b0 <- 0
+varBetweenPlusWithin <- sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Sum Sq"])/sum(car::Anova(lmRCB,type="III")[c("mouse","Residuals"),"Df"])
+ 
+
+ns <-  c(3,7)  
+deltas <- lmRCB$coefficients["celltypeTreg"]
+
+fracVars <- seq(0,.95,.05)
+
+powerFastBlockingLow <- matrix(NA,nrow=length(ns)*length(fracVars),ncol=3) %>% as.data.frame
+names(powerFastBlockingLow) <- c("fracVars","n","power")
+
+i <- 0
+
+
+for (n in ns)
+{
+  
+  ### Simulation
+  predictorData <- data.frame(celltype = rep(c("Tcon","Treg"),each=n) %>% as.factor, mouse = paste0("m",rep(1:n,2)))
+  design <- model.matrix(~ celltype + mouse,predictorData)
+  L <- limma::makeContrasts("celltypeTreg",levels=colnames(design))
+  for (fracVar in fracVars)
+  {
+  sd <- sqrt(varBetweenPlusWithin*(1-fracVar))
+  sdMouse <- sqrt(varBetweenPlusWithin*fracVar) 
+  for (b1 in deltas)
+  {
+    ySim <- rnorm(nrow(predictorData)*nSim,sd=sd)
+    dim(ySim) <-c(nrow(predictorData),nSim)
+    mouseEffect <- rnorm(n, sd = sdMouse)
+    betasMouse <- mouseEffect[-1]-mouseEffect[1]
+    ySim <- ySim + c(design %*%c(b0,b1,betasMouse))
+    ySim <- t(ySim)
+  
+    ### Fitting
+    fitAll <- limma::lmFit(ySim,design)
+  
+    ### Inference
+    varUnscaled <- c(t(L)%*%fitAll$cov.coefficients%*%L)
+    contrasts <- fitAll$coefficients %*%L
+    seContrasts <- varUnscaled^.5*fitAll$sigma
+    tstats <- contrasts/seContrasts
+    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
+    
+    i <- i+1
+    powerFastBlockingLow[i,] <- c(fracVar,n,mean(pvals < alpha))
+  }
+  }
+}
+powerFastBlockingLow
+```
+
+```{r}
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+cols <- gg_color_hue(2)
+
+powerFastBlockingLow %>% 
+  as.data.frame %>%
+  mutate(n = as.factor(n)) %>%
+  ggplot(aes(fracVars,power,group=n,color=n)) +
+  geom_line() +
+  geom_hline(yintercept = powerFast %>% filter(n==3) %>% pull(power),color=cols[1]) +
+  annotate("text", label = "CRD (n=3)",
+    x = 0.05, y = powerFast %>% filter(n==3) %>% pull(power) +.02, size = 3, colour = cols[1]) +
+    geom_hline(yintercept = powerFast %>% filter(n==7) %>% pull(power),color=cols[2]) +
+    annotate("text", label = "CRD (n=7)",
+    x = 0.05, y = powerFast %>% filter(n==7) %>% pull(power) +.02, size = 3, colour = cols[2]) +
+  xlab(expression(~sigma[between]^2/(sigma[between]^2+sigma[within]^2))) +
+  geom_vline(xintercept=1-varWithin/varBetweenPlusWithin) +
+  xlim(0,1)
+```
+
+- Als de variantie die wordt verklaard door het blokeffect klein is dan verlies je power in vergelijking met het CRD design. Inderdaad,  
+    
+    - SSE verkleint dan niet veel en
+    - n$_\text{blocks}$-1 vrijheidsgraden werden opgeofferd. 
+    
+- Van zodra dat het blokeffect een behoorlijk aandeel van de variabiliteit verklaart is het RCB heel erg nuttig! 
+
+- Merk op dat hetzelfde aantal MS runs nodig zijn voor beide designs. Maar voor het RCB hebben we maar de helft van de ratten nodig. 
+
+# Penicilline voorbeeld 
+
+Voor de  productie van piniciline wordt corn steep liquor (CSL) gebruikt. CSL wordt in blends geproduceerd en er is een behoorlijk grote variabiliteit van blend tot blend. 
+
+Stel dat 
+
+- vier methoden moeten worden geëvalueerd om penicilline te produceren (A-D),
+- één blend voldoende is voor 4 runs met een penicilline reactor en 
+- dat 20 runs worden voorzien voor het experiment. 
+
+Hoe zou je de methoden toekennen aan de CSL blends. 
+
+
+```{r}
+data(penicillin, package="faraway")
+table(penicillin$blend,penicillin$treat)
+```
+
+## Data
+
+```{r}
+head(penicillin)
+matrix(penicillin$yield,nrow=5,ncol=4,byrow=TRUE,dimnames=list(levels(penicillin$blend),levels(penicillin$treat)))
+```
+
+```{r}
+penicillin %>% 
+  ggplot(aes(x = blend, y = yield, group = treat, color = treat)) + 
+  geom_line() +
+  geom_point()
+```
+
+```{r}
+penicillin %>% 
+  ggplot(aes(x = treat, y = yield, group = blend, color = blend)) + 
+  geom_line() +
+  geom_point()
+```
+
+## Analyse
+
+We analyseren de opbrengst met
+
+- een factor voor blend en  
+- een factor voor de behandeling. 
+
+```{r}
+lmPen <- lm(yield~treat + blend, data = penicillin)
+plot(lmPen)
+car::Anova(lmPen,type="III")
+```
+
+We kunnen besluiten dat het effect van de behandeling op de penicilline opbrengst niet significant is op het 5% significantieniveau. (p = `r car::Anova(lmPen,type="III")["treat","Pr(>F)"] %>% round(.,2)`.
+
+We observeren een groot effect van de blend op de opbrengst.  
+Blend verklaart `r round(car::Anova(lmPen,type="III")["blend","Sum Sq"]/sum(car::Anova(lmPen,type="III")[-1,"Sum Sq"])*100,1)`% van de variabiliteit in de penicilline opbrengst.
+
+
+# Pseudo-replicatie
+
+Een studie op de pathogeen Francisella tularensis werd door Ramond et al. (2015) uitgevoerd. 
+
+- F. tularensis besmet de cellen van de gastheer via fagocytosis. 
+- De auteurs toonden aan dat tularensis deficiënt is aan arginine. Het importeert arginine actief uit de cellen van de gastheer via een arginine transporter, ArgP. 
+- Zonder de transporter is de fagosome escape en multiplicatie in het cytoplasma vertraagd. 
+
+- In de  studie vergeleken ze het proteome van wild type F. tularensis (WT) met dat van ArgP-gene deleted F. tularensis (knock-out, D8). 
+
+- Elk bio-rep werd in technisch triplicaat gerund op de mass-spectrometer. 
+
+- We gebruiken de data voor het 50S ribosomaal proteïne L5 [A0Q4J5](https://www.uniprot.org/uniprot/A0Q4J5)
+
+## Data exploratie
+
+```{r}
+franc <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/francisellaA0Q4J5.txt")
+franc
+```
+
+```{r}
+franc %>% 
+  ggplot(aes(biorep, intensityLog2, color = genotype)) +
+  geom_point()
+```
+
+- Response? 
+- Experimentele eenheid?
+- Observationele eenheid? 
+- Factoren? 
+
+$\rightarrow$ Pseudo-replicatie, randomisatie naar bio-rep en elke bio-rep werd 3 keer gemeten. 
+
+$\rightarrow$ Als we de data zouden analyseren met een lineair model op basis van elke gemeten intensiteit, dan zouden we doen alsof we 18 bio-reps hadden in de studie. 
+$\rightarrow$ Effect van interesse tussen de bio-reps. Blok analyse is niet mogelijk! 
+
+Als we hetzelfde aantal technische replicaten hebben voor elke bio-rep: 
+
+- kunnen we de technische replicaten eerst uitmiddelen over elke biorep om onafhankelijke metingen te bekomen
+- deze gemiddelden zullen dan eenzelfde precisie hebben 
+- we kunnen dan het effect van de behandeling schatten op de samengevatte waarden per bio-rep. 
+
+- **LET OP: middel nooit uit over de bio-reps/experimentele eenheden**
+
+
+```{r}
+lmBiorep <- lm(intensityLog2 ~ -1 + biorep, franc)
+lmBiorep
+```
+
+```{r}
+francSum <- data.frame(genotype = rep(c("D8","WT"),each=3) %>% as.factor %>% relevel("WT"), intensityLog2 = lmBiorep$coef)
+francSum
+```
+
+```{r}
+lmSum <- lm(intensityLog2 ~ genotype, francSum)
+summary(lmSum)
+```
+
+## Verkeerde analyse 
+
+```{r}
+lmWrong <- lm(intensityLog2 ~ genotype, franc)
+summary(lmWrong)
+```
+
+Merk op dat de verkeerde analyse geen rekening houdt dat er meerdere technische replicaten zijn voor elke bio-repeat waardoor er een artificieel significant resultaat wordt bekomen omdat het voor deze analyse lijkt alsof er 3 drie zoveel onafhankelijke metingen zijn.   
+
+### Type I fout!
+
+```{r}
+sigmaWithin <- sigma(lmBiorep)
+sigmaBetween <- sigma(lmSum)
+xBiorep <- model.matrix(~-1+biorep,franc)
+xWrong <- model.matrix(~genotype,franc)
+
+
+set.seed(2523)
+nSim <- 1000
+resWrong <- matrix(NA,nSim,4) %>% as.data.frame
+names(resWrong) <- c("Estimate","Std. Error","t value","pvalue")
+resCorrect <- resWrong
+genotype <- franc$genotype
+genotypeSum <- francSum$genotype
+biorep <- franc$biorep
+
+for (i in 1:nSim)
+{
+biorepSim <- rnorm(ncol(xBiorep),sd=sigmaBetween)
+ySim <- xBiorep%*%biorepSim + rnorm(nrow(xBiorep),sd=sigmaWithin)
+ySum <- lm(ySim~biorep)$coefficient
+resWrong[i,] <- summary(lm(ySim~genotype))$coefficient[2,]
+resCorrect[i,]<-summary(lm(ySum~genotypeSum))$coefficient[2,]
+}
+mean(resCorrect$pvalue < 0.05)
+mean(resWrong$pvalue < 0.05)
+```
+
+```{r}
+qplot(resCorrect$pvalue,geom = "histogram",boundary=c(0,1)) +
+  stat_bin(breaks=seq(0,1,.1)) +
+  xlab("pvalue") +
+  ggtitle("Correct analysis")
+  
+qplot(resWrong$pvalue,geom = "histogram",boundary=c(0,1)) +
+  stat_bin(breaks=seq(0,1,.1)) +
+  xlab("pvalue") +
+  ggtitle("Wrong analysis")
+```
+
+- We observeren dat de analyse die geen rekening houdt met pseudo-replicatie veel te liberaal is! 
+
+- De analyse waarbij we eerst uitmiddellen over de technische replicaten geeft correcte p-waarden en een juiste controle van de type I fout! 
+
+## Verschillend aantal technische herhalingen? 
+
+1. subsampelen tot we een gelijk aantal technische herhalingen hebben en dan uitmiddelen (suboptimaal $\rightarrow$ verlies aan informatie) 
+
+2. Meer geavanceerde methoden zijn noodzakelijk: 
+  
+    - e.g. mixed models 
+    - het mixed model framework kan de correlatiestructuur van de data modelleren. 
+    
+- Mixed models kunnen ook worden gebruikt voor de analyse van designs waarbij men is geïnteresseerd in effecten die zowel binnen als tussen blokken dienen te worden geschat, e.g.  split-plot designs. 
+
+- Mixed models vallen buiten het bestek van deze cursus maar worden behandeld in het opleidingsonderdeel geavanceerde biostatistiek in de master opleiding
+
+# Nature methods: Split-plot designs
+
+[Nature Methods - Point of Significance - Split-plot Designs](https://www.nature.com/articles/nmeth.3293.pdf)  

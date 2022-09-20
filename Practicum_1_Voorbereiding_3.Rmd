@@ -1,0 +1,26 @@
+---
+title: "Practicum 1: Voorbereiding 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Eetgedrag knaagdieren:
+
+Een bioloog onderzocht het effect van schimmelinfecties in voeding op het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan een groep van 8 knaagdieren, steriele appels aan een groep van 4 knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht (kilogram) werden gemeten. De data is beschikbaar in dataset "knaagdieren".
+```{r}
+suppressPackageStartupMessages({
+library(tidyverse)
+library(ggplot2)})
+```
+
+
+
+```{r}
+knaagdieren <- data.frame(weight=c(11,33,48,34,112,369,64,44,177,80,141,332),group=as.factor(c(rep("treat",8),rep("ctrl",4))))
+```
+
+# Analyseer of er een verschil is in de gemiddelde hoeveelheid appels die gegeten worden in beide groepen appels. Noteer de verschillende analysestappen en schrijf een conclusie.

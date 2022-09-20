@@ -1,0 +1,243 @@
+---
+title: "Algemeen Lineair Model: niet-additief meervoudig lineair regressie model"
+output:
+  html_document:
+    code_download: yes
+    highlight: tango
+    number_sections: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+  pdf_document:
+      toc: true
+      number_sections: true
+      latex_engine: xelatex
+  word_document:
+    toc: yes
+---
+
+# Achtergrond
+
+Resistentie tegen het gif EI-43,064 wordt getest bij 96 vissen (dojovissen (0), goudvissen (1) en zebravissen (2)).
+Elke vis wordt apart in een aquarium gestopt die een bepaalde `dosis` (in mg) van het gif bevat.
+Naast de overlevingstijd in minuten (de uitkomst, `minsurv`) werd ook het `gewicht` van de vis gemeten (in gram).
+De onderzoekers weten uit vorige experimenten dat de overlevingstijd vaak sterk afhangt van het gewicht en dat de resistentie dikwijls soortafhankelijk is.
+De onderzoekers wensen inzicht te krijgen in het effect van de dosis en het gewicht van de vis op de overlevingstijd en of resistentie tegen het gif verschillend is bij de verschillende soorten.
+
+## Laad de libraries
+
+```{r}
+library(dplyr)
+library(ggplot2)
+#install.packages("GGally")
+library(GGally)
+library(car)
+library(multcomp)
+```
+
+# Data-exploratie
+
+Lees de dataset poison.dat in via `read.table`.
+We zagen in de voorgaande practica al dat de overlevingstijd beter op log2-schaal wordt gemodelleerd.
+
+```{r}
+poison <- read.table("https://raw.githubusercontent.com/statOmics/statistiekBasisCursusData/master/practicum8/poison.dat", sep="", header = TRUE)
+
+# We vormen de vissoort om in een factor en log2 transformeren de overlevingstijd
+poison <- poison %>%
+  mutate(soort = as.factor(soort),
+         log2minsurv = log2(minsurv))
+
+poison %>%
+  ggpairs
+```
+
+- De overlevingstijd lijkt geassocieerd met het gewicht, soort en de dosis.
+
+- We observeren een sterke positieve associatie tussen de log2-overlevingstijd en het gewicht.
+
+- Bij lage gewichten lijkt de log2-overlevingstijd wat af te vlakken.
+
+- Daarnaast zien we ook dat het gewicht niet gelijk verdeeld is binnen elke dosis.
+
+- Er lijkt ook een associatie tussen de gewicht en soort.
+
+We bestuderen de effecten verder:
+
+Geef een scatterplot voor de log2-overlevingstijd ten opzichte van de dosis, voor elke soort apart. Trek ook een best passende rechte door elke figuur. Wat kan je opmerken over de log2-overlevingstijd in functie van de dosis? Verschilt de invloed van de dosis op de log2-overlevingstijd tussen de soorten?
+
+
+```{r}
+scatterplot1<-poison%>% ggplot(aes(x=dosis, y=log2minsurv))+
+  geom_point()+
+  stat_smooth(method="lm")+
+  facet_wrap(~soort)
+scatterplot1
+```
+
+De plot toont geen sterk verschil van het effect van de dosis op de log2-overlevingstijd  tussen de verschillende vissoorten. We zullen hiervoor tijdens de statistische inferentie een statistische test uitvoeren.
+
+Geef een scatterplot voor de log2-overlevingstijd ten opzichte van het gewicht, voor elke soort apart. Trek ook een best passende rechte door elke figuur. Wat kan je opmerken over de log2-overlevingstijd in functie van het gewicht? Verschilt de invloed van het gewicht op de log2-overlevingstijd tussen de soorten?
+
+```{r}
+scatterplot2<-poison%>% ggplot(aes(x=gewicht, y=log2minsurv))+
+  geom_point()+
+  stat_smooth(method="lm")+
+  facet_wrap(~soort)
+scatterplot2
+```
+
+De plot suggereert een verschil in het effect van gewicht op de log2-overlevingstijd tussen de verschillende vissoorten. Opnieuw zullen we via een statistische test nagaan of dit verschil statistisch significant is.
+
+Gezien de onderzoekers op basis van voorgaande studies vermoeden dat het effect van de dosis kan variëren van soort tot soort zouden we in de modellen interacties moeten voorzien tussen dosis en soort, zodat elke soort een verschillende dosisrespons kan tonen. Aangezien we in de data ook zien dat de invloed van het gewicht op de log2-overlevingstijd lijkt te verschillen tussen de soorten voegen we deze ook toe aan het model. Ten slotte voegen we ook de interactie tussen gewicht en dosis toe. 
+
+We bekomen dus het onderstaande model:
+$$
+y_i=\beta_0+\beta_d x_{id} + \beta_g x_{ig} +\beta_{sg} x_{isg} +\beta_{sz} x_{isz} + \beta_{d:sg} x_{id}x_{isg} + \beta_{d:sz} x_{id}x_{isz} + \beta_{g:sg} x_{ig}x_{isg} + \beta_{g:sz} x_{ig}x_{isz} + \beta_{d:g} x_{id}x_{ig} + \epsilon_i,
+$$
+
+
+met $y_i$ de log2 overlevingstijd, $x_{id}$ de dosis en $x_{ig}$ het gewicht van vis $i$. $x_{isg}$ is een dummy-variabele die aangeeft of vis $i$ een goudvis is en $x_{isz}$ een dummy-variabele die aangeeft of de vis een zebravis is.
+De referentieklasse is dus voor de soort dojovissen (als  $x_{isg}=0$ en $x_{isz}=0$).
+Verder is $\epsilon_i \text{ i.i.d. } N(0,\sigma^2)$.
+
+
+
+
+Modelleer de log2-overlevingstijd in functie van de soort, de dosis en het gewicht van de vis. Neem al de tweeweg-interacties mee in het model. Ga de voorwaarden van het lineaire model na.
+
+
+```{r}
+
+lmInt <- lm(log2minsurv~ soort + dosis + gewicht + soort:dosis + soort:gewicht + 
+              dosis:gewicht,
+            data = poison)
+plot(lmInt)
+```
+
+Zijn al de assumpties van het lineaire model voldaan?
+
+De QQ-plot suggereert mogelijks lichte afwijkingen van normaliteit. Er zijn echter veel observaties waardoor we kunnen aannemen dat de gemiddelden approximatief normaal verdeeld zullen zijn. Bovendien zijn de afwijkingen symmetrisch. Voor symmetrische distributies convergeert de verdeling van de parameterschatters sneller naar de normale verdeling en kunnen we de centrale limietstelling sneller toepassen.
+
+Verder tonen we via simulatie aan dat de afwijkingen in de QQ-plot vallen binnen hetgene we kunnen verwachten o.b.v. gegevens uit een normale verdeling. (Merk op dat orig slaat op de QQ-plot van de residuen voor het model met interacties)
+
+```{r}
+set.seed(1025)
+nobs <- nrow(poison)
+
+data.frame(
+  y = c(lmInt$res,
+        rnorm(nobs*8,
+              sd = sigma(lmInt)
+             )
+      ),
+  label = rep(
+              c("orig",
+                paste0("sim",1:8)),
+              each = nobs)) %>%
+  ggplot(aes(sample = y)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~ label)
+```
+
+# Model opstellen via de conventionele methode: testen van interacties en niet-significante interacties verwijderen uit het model
+
+We testen nu via een anova-analyse met type III kwadratensommen of de interactietermen significant zijn. We verwijderen telkens de minst significante interactieterm zolang er niet-significante interactietermen zijn. 
+
+Merk op dat je nooit een hoofdeffect mag verwijderen zolang er interactietermen van dit hoofdeffect in het model zitten. 
+
+Merk verder op dat type III kwadratensommen niet kunnen verkregen worden via de standaard anova functie. De Anova functie uit het car package laat dat wel toe.
+
+```{r}
+Anova(lmInt,type="III")
+```
+
+We zien dat zowel de interactie soort:dosis als dosis:gewicht niet significant zijn. We verwijderen eerst de minst significante interactieterm, namelijk soort:dosis. 
+
+Dit betekent dat het effect van de dosis op de log2-overlevingstijd (de helling) niet significant verschilt tussen de verschillende vissen. We voeren opnieuw een anova uit op het model zonder interactieterm soort:dosis.
+
+```{r}
+lm_zonder_soort_dosis <- lm(log2minsurv~ soort + dosis + gewicht + soort:gewicht + dosis:gewicht ,data = poison)
+Anova(lm_zonder_soort_dosis,type="III")
+```
+
+We zien dat de interactie tussen dosis en gewicht ook niet significant is. We verwijderen deze uit het model. Dit betekent dat het effect van de dosis (helling) op de log2-overlevingstijd niet significant verschilt bij een verschillend gewicht. We voeren opnieuw een anova uit op het resterende model.
+
+```{r}
+lm_final <- lm(log2minsurv ~ soort + dosis + gewicht + soort:gewicht, data = poison)
+Anova(lm_final,type="III")
+```
+
+
+We zien dat de interactieterm tussen soort en gewicht significant blijft. Dit komt overeen met wat we in de figuren bij de data exploratie hebben geobserveerd. Het effect van het gewicht (de helling) op de log2-overlevingstijd verschilt dus significant tussen de verschillende vissoorten op het 5% significantieniveau. We behouden deze interactieterm dus in het model. We bekomen dus het volgende model:
+
+$$
+y_i=\beta_0+\beta_d x_{id} + \beta_g x_{ig} +\beta_{sg} x_{isg} +\beta_{sz} x_{isz} + \beta_{g:sg} x_{ig}x_{isg} + \beta_{g:sz} x_{ig}x_{isz} + \epsilon_i
+$$
+Wat equivalent is aan
+$$
+y_i=\beta_0 + \beta_{sg} x_{isg} +\beta_{sz} x_{isz} + \beta_d x_{id} + (\beta_g +\beta_{g:sg}x_{isg} + \beta_{g:sz}x_{isz})x_{ig}   + \epsilon_i
+$$
+
+Dit model zal eigenlijk drie regressievlakken opleveren: 1 voor dojovissen, 1 voor goudvissen en 1 voor zebravissen.
+
+$$
+\begin{array}{ll}
+\text{dojovis } (x_{isg}=0\text{ en }x_{isz}=0):&E[y\vert \text{dojovis}]=\beta_0 + \beta_d x_{id} + \beta_g x_{ig} \\
+\text{goudvis }  (x_{isg}=1\text{ en }x_{isz}=0):&E[y\vert \text{goudvis}]=\beta_0+\beta_{sg}+\beta_d x_{id} + (\beta_g+\beta_{g:sg}) x_{ig} \\
+\text{zebravis }  (x_{isg}=0\text{ en }x_{isz}=1):&E[y\vert \text{zebravis}]=\beta_0+\beta_{sz}+\beta_d x_{id} + (\beta_g+\beta_{g:sz}) x_{ig}\\
+\end{array}
+$$
+
+
+
+- Het hoofdeffect voor soort zorgt dus dat elke soort een verschillend intercept van log2-overlevingstijd heeft ($\beta_0$, $\beta_0 + \beta_{sg}$, $\beta_0+\beta_{sz}$ voor dojo-, goud- en zebravissen, respectievelijk).
+
+- De interactie tussen soort en gewicht zorgt ervoor dat het gewichtseffect (helling) verschillend kan zijn voor elke soort ($\beta_g$, $\beta_g+\beta_{g:sg}$, $\beta_g+\beta_{g:sz}$ voor dojo-, goud- en zebravissen, respectievelijk). 
+
+- Het dosiseffect (helling) blijft gelijk voor de verschillende vissen.
+
+
+```{r}
+summary(lm_final)
+```
+
+# Testen van hypotheses
+
+Ga met behulp van het opgestelde model volgende onderzoeksvragen na voor elke vissoort. Corrigeer hierbij voor multiple testing en controleer het experimentgewijs significantieniveau op 5%:
+
+- Is er een associatie tussen dosis en log2-overlevingstijd voor de verschillende vissoorten?
+- Is er een associatie tussen gewicht en log2-overlevingstijd voor de verschillende vissoorten?
+- Tussen welke vissoorten is er een verschil in associatie tussen dosis en log2-overlevingstijd?
+- Tussen welke vissoorten is er een verschil in associatie tussen gewicht en log2-overlevingstijd?
+
+```{r}
+mcp <- glht(lm_final,linfct = c("dosis = 0", 
+                                "gewicht = 0", 
+                                "gewicht + soort1:gewicht = 0",
+                                "gewicht + soort2:gewicht = 0",
+                                "soort1:gewicht = 0",
+                                "soort2:gewicht = 0",
+                                "soort2:gewicht - soort1:gewicht = 0"))
+summary(mcp)
+```
+
+```{r}
+confints <- confint(mcp)
+confints
+2^confints$confint
+2^-confints$confint
+```
+
+
+# Conclusie
+
+Er is een extreem significant effect van de dosis op de overlevingstijd (p << 0.001).
+De overlevingstijd van vissen die aan een hogere dosis van het gif worden blootgesteld neemt gemiddeld met een factor`r 2^abs(confints$confint["dosis",1])  %>% round(.,1)` af per mg extra gif die wordt toegediend (95% BI [`r 2^abs(confints$confint["dosis",-1])  %>% round(.,1)%>% sort`]).  Het dosiseffect verschilt niet significant tussen de verschillende vissoorten op het 5% significantie-niveau. 
+
+Verder is er een sterk significante associatie is tussen gewicht en overlevingstijd bij zowel de dojovissen (contrast: gewicht == 0, p = 0.001) als de goudvissen (contrast: gewicht + soort1:gewicht == 0, p << 0.001). Voor vissen met een verschillend lichaamsgewicht is de overlevingstijd gemiddeld een factor `r 2^abs(confints$confint["gewicht",1])  %>% round(.,1)` en `r 2^abs(confints$confint["gewicht + soort1:gewicht",1])  %>% round(.,1)` per gram lichaamsgewicht hoger voor de zwaardere vis bij respectievelijk dojo- en goudvissen (95% BI [`r 2^abs(confints$confint["gewicht",-1])  %>% round(.,1)%>% sort`] en [`r 2^abs(confints$confint["gewicht + soort1:gewicht",-1])  %>% round(.,1)%>% sort`], respectievelijk). 
+Voor de zebravissen (contrast: gewicht + soort2:gewicht == 0, p = 0.999) is er geen significante associatie tussen gewicht en overlevingstijd.
+
+De associatie van gewicht en de log2-overlevingstijd is significant verschillend tussen zebravissen en goudvissen (contrast: soort2:gewicht - soort1:gewicht == 0, p= 0.0483). Bij zebravissen stijgt de overlevingstijd per gram extra gewicht met een factor `r 2^abs(confints$confint["soort2:gewicht - soort1:gewicht",1])  %>% round(.,1)` minder dan bij goudvissen (95% BI [`r 2^abs(confints$confint["soort2:gewicht - soort1:gewicht",-1])  %>% round(.,1)%>% sort`]). 
+De associatie van gewicht en de log2-overlevingstijd is niet significant verschillend tussen goudvissen en dojovissen (contrast: soort1:gewicht == 0, p = 0.64) en tussen zebravissen en dojovissen (contrast: soort2:gewicht == 0, p=0.34). 

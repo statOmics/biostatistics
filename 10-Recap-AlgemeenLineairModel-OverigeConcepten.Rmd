@@ -1,0 +1,707 @@
+---
+title: "10. Recap: Algemeen Lineair Model - Interacties - Diagnostiek - Contrasten - Dactoriële proeven"
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+      latex_engine: xelatex
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(multcomp)
+library(GGally)
+library(car)
+prostate <- read_csv("https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv")
+prostate$svi <- as.factor(prostate$svi)
+lmVWS <- lm(lpsa~lcavol + lweight + svi, prostate)
+```
+
+# Model met interacties
+
+- Effect modificatie!
+
+- **Associatie van een predictor en de respons variabele** hangt van de waarde van een **andere predictor**.
+
+## Interactie tussen continue predictor variabele en een categorische predictor?
+
+Om deze **interactie** of **effectmodificatie** tussen variabelen $X_v$ en $X_s$, en $X_w$ en $X_s$ statistisch te modelleren, kan men de producten van beide variabelen in kwestie aan het model toevoegen
+
+$$
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} + \beta_{vs} x_{iv}x_{is} + \beta_{ws} x_{iw}x_{is}  +\epsilon_i
+$$
+
+Deze termen kwantificeren de *interactie-effecten* van respectievelijk de predictoren $x_v$ en $x_s$, en, $x_v$ en $x_s$ op de gemiddelde uitkomst.
+
+In dit model worden de termen $\beta_vx_{iv}$, $\beta_wx_{iw}$ en $\beta_s x_{is}$ de *hoofdeffecten* van de predictoren $x_v$, $x_w$ en $x_s$ genoemd.
+
+```{r}
+lmVWS_IntVS_WS <- lm(
+  lpsa ~
+    lcavol +
+    lweight +
+    svi +
+    svi:lcavol +
+    svi:lweight,
+  data = prostate)
+
+summary(lmVWS_IntVS_WS)
+```
+
+
+Omdat $X_S$ een dummy variabele is, verkrijgen we verschillende regressievlakken:
+
+1. Model voor $X_s=0$: $$Y=\beta_0+\beta_vX_v+\beta_wX_w + \epsilon$$ waar de hoofdeffecten de hellingen voor lcavol en lweight zijn
+
+2. en het model voor $X_s=1$:
+   $$\begin{array}{lcl}
+   Y&=&\beta_0+\beta_vX_v+\beta_s+\beta_wX_w+\beta_{vs}X_v + \beta_{ws}X_w +\epsilon\\
+  &=& (\beta_0+\beta_s)+(\beta_v+\beta_{vs})X_v+(\beta_w+\beta_{ws})X_w+\epsilon
+  \end{array}$$
+met intercept $\beta_0+\beta_s$ en hellingen $\beta_v+\beta_{vs}$ en $\beta_w+\beta_{ws}$
+
+- De helling voor lcavol en lweight hangt af van de status van de zaadblaasjes!
+
+```{r out.width='100%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+par(mfrow=c(1,2))
+library(plot3D)
+grid.lines = 10
+x<-prostate$lcavol
+y<-prostate$lweight
+z<-prostate$lpsa
+fit<-lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=-25
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Additive model")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[4]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="orange",facets=NA,add=TRUE)
+
+
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Model met lcavol:lweight interactie")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS_IntVS_WS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVS_WS$coef[1]+lmVWS_IntVS_WS$coef[2]*x+lmVWS_IntVS_WS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVS_WS$coef[1]+lmVWS_IntVS_WS$coef[4]+lmVWS_IntVS_WS$coef[2]*x+lmVWS_IntVS_WS$coef[3]*y+lmVWS_IntVS_WS$coef[5]*x+lmVWS_IntVS_WS$coef[6]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="orange",facets=NA,add=TRUE)
+```
+
+
+## Interactie tussen continue predictoren?
+
+
+$$
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} + \beta_{vw} x_{iv}x_{iw} +\epsilon_i
+$$
+
+Deze term kwantificeert het *interactie-effect* van de predictoren $x_v$ en $x_w$ op de gemiddelde uitkomst.
+
+---
+
+Het effect van een verschil in 1 eenheid in $X_v$ op de gemiddelde uitkomst bedraagt nu:
+
+$$
+\begin{array}{l}
+E(Y | X_v=x_v +1, X_w=x_w, X_s=x_s) - E(Y | X_v=x_v, X_w=x_w, X_s=x_s) \\
+\quad = \left[\beta_0 + \beta_v (x_{v}+1) + \beta_w x_w +\beta_s x_{s} + \beta_{vw} (x_{v}+1) x_w \right] - \left[\beta_0 + \beta_v x_{v} + \beta_w x_w  + \beta_s x_{s} + \beta_{vw} (x_{v}) x_w \right]\\
+\quad = \beta_v +  \beta_{vw} x_w
+ \end{array}
+ $$
+
+- De helling voor lcavol hangt m.a.w. af van het log gewicht van de prostaat!
+
+- We kunnen hetzelfde doen voor lweight. Helling voor lweight hangt af van het log volume van de tumor!  
+
+---
+
+```{r}
+lmVWS_IntVW <- lm(
+  lpsa ~ lcavol +
+    lweight +
+    svi +
+    lcavol:lweight,
+  prostate)
+
+summary(lmVWS_IntVW)
+```
+
+```{r out.width='100%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+par(mfrow=c(1,2))
+library(plot3D)
+grid.lines = 10
+x<-prostate$lcavol
+y<-prostate$lweight
+z<-prostate$lpsa
+fit<-lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=-25
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Additive model")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+
+
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Model met lcavol:lweight interactie")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS_IntVW$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVW$coef[1]+lmVWS_IntVW$coef[2]*x+lmVWS_IntVW$coef[3]*y+lmVWS_IntVW$coef[5]*x*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+```
+
+# Anova tabel en aanvullende kwadratensommen?
+
+Beschouw de volgende twee **geneste** regressiemodellen voor predictoren $x_1, \ldots, x_{p-k}$ en $x_1, \ldots, x_{p-1}$:
+$$
+  Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-k} x_{ip-k}  + \epsilon_i,
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma_1^{2})$, en
+$$
+Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-1} x_{ip-1}  + \epsilon_i,
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma_2^{2})$.
+
+Voor het eerste (gereduceerde) model geldt de decompositie
+\[
+  \text{SSTot} = \text{SSR}_1 + \text{SSE}_1
+\]
+en voor het tweede (niet-gereduceerde) model
+\[
+  \text{SSTot} = \text{SSR}_2 + \text{SSE}_2
+\]
+(SSTot is uiteraard dezelfde in beide modellen omdat dit niet afhangt van het regressiemodel).
+
+\[
+  \text{SSTot} = \text{SSR}_{2 \mid 1} + \text{SSR}_1 + \text{SSE}_2
+\]
+
+\[
+F = \frac{\text{SSR}_{2 \mid 1}}{\text{SSE}_2}
+\]
+
+- Testen voor alle niveaus van een factor simultaan: omnibus test.
+- Testen voor totale effect van een predictor: hoofdeffecten + interacties
+- ...
+
+# Diagnostiek
+
+## Multicollineariteit
+
+\[\textrm{VIF}_j=\left(1-R_j^2\right)^{-1}\]
+
+### Body fat voorbeeld
+
+```{r out.width='90%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+bodyfat <- read_delim("https://raw.githubusercontent.com/statomics/sbc20/master/data/bodyfat.txt",delim=" ")
+bodyfat %>% ggpairs()
+```
+
+```{r echo=FALSE}
+lmFat <- lm(
+  Body_fat ~
+    Triceps +
+    Thigh +
+    Midarm,
+  data = bodyfat)
+
+summary(lmFat)
+```
+
+```{r}
+vif(lmFat)
+```
+
+
+```{r echo=FALSE}
+lmMidarm <- lm(
+  Midarm ~
+    Triceps +
+    Thigh,
+    data = bodyfat)
+
+summary(lmMidarm)
+```
+
+## Invloedrijke Observaties
+
+### Exploratief
+
+- *Studentized residu's* om outliers op te sporen
+- *leverage (invloed, hefboom)* om observaties met extreem covariaatpatroon op te sporen
+
+```{r}
+plot(lmVWS,5)
+```
+
+### Cooks distance
+
+\[D_i=\frac{\sum_{j=1}^n(\hat{Y}_j-\hat{Y}_{j(i)})^2}{p\textrm{MSE}}\]
+
+- Extreme Cook's distance als het het 50\% percentiel van de $F_{p,n-p}$-verdeling overschrijdt.
+
+```{r}
+plot(lmVWS,4)
+```
+
+### DFBETAS
+
+$$\textrm{DFBETAS}_{j(i)}=\frac{\hat{\beta}_{j}-\hat{\beta}_{j(i)}}{\textrm{SD}(\hat{\beta}_{j})}$$
+-  DFBETAS extreem is wanneer ze 1 overschrijdt in kleine tot middelgrote datasets en $2/\sqrt{n}$ in grote datasets
+
+```{r out.width='90%', fig.asp=.8, fig.align='center', message=FALSE, echo=FALSE}
+par(mfrow=c(2,2))
+dfbetasPlots(lmVWS)
+```
+
+
+# Contrasten
+
+## Bloeddruk voorbeeld
+
+```{r}
+library(NHANES)
+bpData <- NHANES %>%
+filter(
+  Race1 =="White" &
+    Age >= 18 &
+    !is.na(BPSysAve)
+    )
+
+mBp1 <- lm(BPSysAve ~ Age*Gender, bpData)
+par(mfrow = c(2,2))
+plot(mBp1)
+```
+
+### Remediering heteroscedasticiteit
+
+Illustratie: Bij grote steekproeven kunnen we corrigeren voor heteroscedasticiteit.
+
+```{r}
+mSd <- lm(mBp1$res %>% abs ~ mBp1$fitted)
+```
+
+We schatten het model nu opnieuw:
+
+```{r}
+mBp3 <- lm(BPSysAve ~ Age*Gender, bpData, w = 1/mSd$fitted^2)
+```
+
+### Besluitvorming
+
+
+De onderzoeksvragen vertalen zich in de volgende nullhypotheses:
+
+1. Associatie tussen bloeddruk en leeftijd bij de vrouwen? \[H_0: \beta_\text{Age} = 0 \text{ vs } H_1: \beta_\text{Age} \neq 0 \]
+
+2. Associatie tussen bloeddruk en leeftijd bij de mannen? \[H_0: \beta_\text{Age} + \beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age} + \beta_\text{Age:Gendermale} \neq 0 \]
+
+3. Is de Associatie tussen bloeddruk en leeftijd verschillend bij mannen en vrouwen? \[H_0: \beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age:Gendermale} \neq 0 \]
+
+
+- We kunnen onderzoeksvraag 1 en 3 onmiddelijk toetsen o.b.v. de model output.
+
+- Onderzoeksvraag 2 is echter een lineaire combinatie van twee parameters.
+
+\[
+\begin{array}{lcl}
+L \boldsymbol{\beta} &=& 0\\\\
+\left[\begin{array}{cccc} 0 &0& 1& 1\end{array} \right]\left[\begin{array}{c}\beta_0\\
+\beta_g\\
+\beta_a\\
+\beta_{a:g}\end{array}
+\right] &=&  0\\\\
+0\beta_0 + 0 \beta_g + 1 \beta_a + 1\beta_{a:g} &=& 0\\\\
+\beta_a + \beta_{a:g} &=&0
+\end{array}
+\]
+
+- Bovendien is er ook het probleem dat we meerdere toetsen nodig hebben om de associaties te bestuderen.
+
+
+1.  We toetsen eerste de omnibus hypothese dat er geen associatie is tussen leeftijd en de bloeddruk.
+
+$$
+H_0: \beta_\text{Age} = \beta_\text{Age} + \beta_\text{Age:Gendermale} = \beta_\text{Age:Gendermale} = 0
+$$
+
+  - Dat vereenvoudigt zich tot het toetsen dat
+$$ 
+    H_0: \beta_\text{Age} = \beta_\text{Age:Gendermale} = 0
+$$
+    
+  - Wat we kunnen evalueren door twee modellen te vergelijken. Een model met enkel het gender effect en volledige model met Gender, Age en Gender x Age interactie.
+
+2. Als we deze hypothese kunnen verwerpen voeren we posthoc analyses uit voor elk van de 3 contrasten.
+
+
+```{r}
+mBp0 <- lm(BPSysAve ~ Gender, bpData, w = 1/mSd$fitted^2)
+anova(mBp0, mBp3)
+```  
+
+De posthoc testen kunnen we opnieuw uitvoeren a.d.h.v. het multcomp pakket.
+
+```{r}
+bpPosthoc <- glht(mBp3, linfct=c(
+  "Age = 0",
+  "Age + Age:Gendermale = 0",
+  "Age:Gendermale = 0")
+  )
+bpPosthoc %>% summary
+
+bpPosthocBI <- bpPosthoc %>% confint
+bpPosthocBI
+```
+
+### Conclusie
+
+We kunnen besluiten dat er een extreem significante associatie is tussen leeftijd en de bloeddruk (p << 0.001).
+De bloeddruk bij twee vrouwen die in leeftijd verschillen is gemiddeld `r round(bpPosthocBI$confint[1,1],2)` mm Hg hoger per jaar leeftijdsverschil bij de oudste vrouw en dat verschil is extreem significant (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[1,-1],2),collapse=", ")`]).
+De bloeddruk bij mannen die in leeftijd verschillen is gemiddeld `r round(bpPosthocBI$confint[2,1],2)` mm Hg hoger per jaar leeftijdsverschil bij de oudere man. (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[2,-1],2),collapse=", ")`]).
+Het gemiddelde bloeddrukverschil tussen personen in leeftijd verschillen is gemiddeld `r abs(round(bpPosthocBI$confint[3,1],2))` mm Hg/jaar lager bij mannen dan vrouwen (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[3,-1],2),collapse=", ")`]).  
+
+## Marginale effecten
+
+Wat doen we als interacties niet significant zijn?
+
+- Conventionele aanpak: interacties uit model halen
+- Daarna schatten we de hoofdeffecten met vereenvoudigd model
+
+Merk op dat
+
+1. We bij complexe modellen veel testen uitvoeren om tot het vereenvoudigt model te komen.
+2. Het aanvaarden van de nulhypotheses een zwakke conclusie is en dat er typisch weinig power is om een interactie op te pikken. Het is dus mogelijk dat het model zonder interacties toch het foutieve model is.
+3. Bij high troughput experimenten gaan we typisch inferentie doen voor alle genen/proteinen die we meten (vb. 40000 genen of 1000den proteïnen). Door grote correctie voor multiple testing kunnen we interactie termen niet weglaten want daar weten we zeker dat de power om interacties op te pikken zeer laag.
+
+Omwille van deze redenen kunnen we ook de interacties in het model laten en inferentie doen over de marginale effecten.
+
+- De effecten waarbij we uitmiddelen over alle predictorwaarden van de andere predictoren.
+- In een gerandomiseerde observationele studie zullen we zo dus de assocatie schatten voor de gemiddelde patiënt in de populatie.
+
+- Zie oefeningen: vissen en kpna2
+
+
+### Testosteron concentratie bij volwassen mannen in de NHANES studie
+
+Veronderstel dat we wensen te bestuderen of er een associatie is leeftijd en gewicht van volwassen mannen in de Amerikaanse populatie op de de testosteron concentratie. 
+
+```{r}
+modTes <- lm(formula = Testosterone ~ Age * Weight, data = NHANES %>% 
+    filter(Age > 18 & Gender == "male" & !is.na(Testosterone) &!is.na(Weight) & !is.na(Age)))
+plot(modTes)
+```
+
+```{r}
+summary(modTes)
+```
+
+- Er is geen significante interactie. Het aanvaarden van de nulhypothese is een zwakke conclusie.
+Daarom kunnen we opteren om de interactie in het model te laten.
+
+- Merk op dat de hoofdeffecten geen zinvolle interpretatie hebben!
+
+- Omdat er geen significante interactie is, is het zinvol om een uitspraak te doen over de associatie van gewicht en testosteron, en leeftijd en testosteron.
+
+We kunnen hierover een uitspraak doen door te marginaliseren over alle leeftijden (gewichten) van de mannen in het experiment.
+
+$$
+\frac{\sum\limits_{i=1}^n (\beta_a + \beta_{w:a} X_{w})}{n}= \beta_a +\beta_{w:a} \bar{X}_w
+$$
+
+$$
+\frac{\sum\limits_{i=1}^n (\beta_w + \beta_{w:a} X_{a})}{n}= \beta_w +\beta_{w:a} \bar{X}_a
+$$
+
+
+
+
+```{r}
+NHANES %>% 
+  filter(Age > 18 & Gender == "male" & !is.na(Testosterone) &!is.na(Weight) & !is.na(Age))  %>% 
+  pull(Weight) %>%
+  mean %>% 
+  round(.,1)
+```
+
+```{r}
+NHANES %>% 
+  filter(Age > 18 & Gender == "male" & !is.na(Testosterone) &!is.na(Weight) & !is.na(Age))  %>% 
+  pull(Age) %>%
+  mean %>% 
+  round(.,1)
+```
+
+We evalueren nu het contrast voor de marginale effecten:
+
+```{r}
+marginalEffects <- glht(
+  modTes, 
+  linfct = c(
+    "Age +88.9*Age:Weight= 0",
+    "Weight +46.4*Age:Weight= 0"
+    )
+  )
+summary(marginalEffects)
+confint(marginalEffects)
+```
+
+
+Dit heeft een interpretatie van het gemiddelde leeftijds- en de gemiddelde gewichtsassociatie in de populatie. 
+
+Volgens de conventionele aanpak hadden we de interactie uit het model verwijderd. 
+
+```{r}
+modAddTes <- lm(formula = Testosterone ~ Age + Weight, data = 
+    NHANES %>% 
+    filter(Age > 18 & Gender == "male" & !is.na(Testosterone) &!is.na(Weight) & !is.na(Age)))
+summary(modAddTes)
+```
+
+Merk op dat de schattingen uit het additief model lichtjes verschillend zijn omdat de data niet gebalanceerd zijn, we hebben niet dezelfde gewichten voor alle leeftijden en niet dezelfde leeftijden voor alle gewichten.
+
+```{r}
+NHANES %>% 
+    filter(Age > 18 & Gender == "male" & !is.na(Testosterone) &!is.na(Weight) & !is.na(Age)) %>% 
+  ggplot(aes(Age,Weight)) +
+  geom_point()
+```
+
+# Factoriële proeven 
+
+## Data 
+
+
+48 ratten werden at random toegewezen aan
+
+- 3 giffen (I,II,III) and 
+- 4 behandelingen (A,B,C,D), 
+
+en, 
+
+- de overlevingstijd werd opgemeten (eenheid: 10 h)
+
+We transformeren de data eerst naar uren
+
+```{r}
+data(rats,package = "faraway")
+
+rats <- rats %>% 
+  mutate(time=time * 10)
+
+rats %>% 
+  ggpairs()
+```
+
+```{r}
+rats %>%
+  ggplot(aes(x=treat,y=time)) + 
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter() +
+  facet_wrap(~poison) +
+  ylab("time (h)")
+```
+
+```{r}
+rats %>%
+  ggplot(aes(x=treat,y=1/time)) + 
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter() +
+  facet_wrap(~poison) + 
+  ylab ("rate of dying (1/h)")
+
+rats3 <- lm(1/time~poison*treat, rats)
+```
+
+We modelleren de "snelheid van sterven" met een hoofdeffect voor gif en behandeling en een gif $\times$ behandeling interactie. 
+
+$$
+\begin{array}{lcl}
+y_i &=& \beta_0  + \\
+&&\beta_{II} x_{iII} + \beta_{III} x_{iIII} + \\
+&& \beta_{B} x_{iB}  + \beta_{C} x_{iC} + \beta_{D} x_{iD} + \\
+&&\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  + \beta_{II:D}x_{iII}x_{iD} + \\
+&&\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  + \beta_{III:D}x_{iIII}x_{iD} +
+\epsilon_i
+\end{array}
+$$
+
+met $i = 1, \ldots, n$, $n=48$, en, $x_{iII}$, $x_{iIII}$, $x_{iB}$, $x_{iC}$ en $x_{iD}$ dummy variabelen voor respectievelijk gif II, III, behandeling B, C, en D.
+
+## Inferentie
+
+
+```{r} 
+ExploreModelMatrix::VisualizeDesign(rats,~poison*treat)$plot
+```
+
+Een interactie tussen gif en behandeling impliceert dat we het effect van het type gif afzonderlijk moeten bestuderen voor elke behandeling: 
+
+1. Voor behandeling A moeten we dan volgende nulhypotheses toetsen:
+
+- II-I: $H_0: \beta_{II}=0$
+- III-I: $H_0: \beta_{III}=0$
+- III-II: $H_0: \beta_{III}-\beta_{II}=0$
+
+2. Voor behandeling B:
+
+- II-I: $H_0: \beta_{II}+\beta_{II:B}=0$
+- III-I: $H_0: \beta_{III}+\beta_{III:B}=0$
+- III-II: $H_0: \beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0$
+
+3. Voor behandeling C:
+
+- II-I: $H_0: \beta_{II}+\beta_{II:C}=0$
+- III-I: $H_0: \beta_{III}+\beta_{III:C}=0$
+- III-II: $H_0: \beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0$
+
+4. Voor behandeling D:
+
+- II-I: $H_0: \beta_{II}+\beta_{II:D}=0$
+- III-I: $H_0: \beta_{III}+\beta_{III:D}=0$
+- III-II: $H_0: \beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0$
+
+Hetzelfde geldt wanneer we het effect van de behandeling bestuderen: 
+
+1. Voor gif I toetsen we dan nulhypothese
+
+- B-A: $H_0: \beta_{B}=0$
+- C-A: $H_0: \beta_{C}=0$
+- D-A: $H_0: \beta_{D}=0$
+- C-B: $H_0: \beta_{C}-\beta_{B}=0$
+- D-B: $H_0: \beta_{D}-\beta_{B}=0$
+- D-C: $H_0: \beta_{D}-\beta_{C}=0$
+
+2. Gif II
+
+- B-A: $H_0: \beta_{B}+\beta_{II:B}=0$
+- C-A: $H_0: \beta_{C}+\beta_{II:C}=0$
+- D-A: $H_0: \beta_{D}+\beta_{II:D}=0$
+- C-B: $H_0: \beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0$
+- D-B: $H_0: \beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0$
+- D-C: $H_0: \beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0$
+
+3. Gif III
+
+- B-A: $H_0: \beta_{B}+\beta_{III:B}=0$
+- C-A: $H_0: \beta_{C}+\beta_{III:C}=0$
+- D-A: $H_0: \beta_{D}+\beta_{II:D}=0$
+- C-B: $H_0: \beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0$
+- D-B: $H_0: \beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0$
+- D-C: $H_0: \beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0$
+
+
+```{r}
+library(car)
+Anova(rats3, type="III")
+```
+
+In onze studie was de interactie echter niet significant. Het effect van het gif (II-I, III-I en III- II) verandert dus niet significant volgens de behandeling (A, B, C, en D) en vice versa. Voor onze dataset lijkt het dus zinvol om 
+
+1. de effectgrootte voor de pairsgewijze vergelijkingen tussen de verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te middelen over alle behandelingen (A, B, C, en D), en, 
+2.  de effectgrootte voor de pairsgewijze vergelijkingen tussen de verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten door ze uit te middelen over alle giffen (I, II, III). 
+
+Dat zou ons gelijkaardige schattingen van de effectgroottes moeten geven als deze voor het additieve model waarbij we de interactie term uit het model hadden geweerd. 
+
+
+B.v. voor gif III vs gif II zou dat in volgende contrast resulteren: 
+
+- III-II: 
+$$H_0: 
+\begin{array}{l}
+\frac{\beta_{III}-\beta_{II}}{4} + \\
+\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} + \\
+\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} - \beta_{II:C}}{4} + \\
+\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} - \beta_{II:D}}{4}=0
+\end{array}
+$$
+$$
+H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4} \times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
+-\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4} \times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
+$$
+
+We schatten met onderstaande code alle gemiddelde contrasten a.d.h.v. het model met interactie.
+
+```{r}
+contrasts <- c(
+  "poisonII + 1/4*poisonII:treatB + 1/4*poisonII:treatC + 1/4*poisonII:treatD = 0",
+  "poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD= 0",
+  "poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD - poisonII - 1/4*poisonII:treatB - 1/4*poisonII:treatC - 1/4*poisonII:treatD = 0",
+  "treatB + 1/3*poisonII:treatB + 1/3*poisonIII:treatB = 0",
+  "treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC = 0",
+  "treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD = 0",
+  "treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0",
+  "treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0",
+  "treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatC - 1/3*poisonII:treatC - 1/3*poisonIII:treatC = 0") 
+
+
+comparisonsInt2 <- glht(rats3, linfct = contrasts
+)
+plot(comparisonsInt2,yaxt="none")
+contrastNames <- c("II-I","III-I","III-II","B-A","C-A","D-A","C-B","D-B","D-C")
+axis(2,at=c(length(contrastNames):1), labels=contrastNames,las=2)
+```
+
+
+## Conclusie 
+
+Er is een extreem significant effect van het type gif en de behandeling op de snelheid van sterven bij ratten (p << 0.001).
+
+De interactie tussen gif en behandeling is niet significant (p = `r  Anova(rats3,type="III")["poison:treat","Pr(>F)"] %>% round(3)`). 
+
+De snelheid van sterven is gemiddeld `r confint(comparisonsInt2)$confint[contrastNames=="III-I",1] %>% round(2)`h$^{-1}$  en `r confint(comparisonsInt2)$confint[contrastNames=="III-II",1] %>% round(2)`h$^{-1}$ hoger voor ratten die blootgesteld worden aan gif III dan aan respectievelijk gif I en II (beide p << 0.001, 95% BI III-I: [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="III-I",-1],2),collapse=", ")`]h$^{-1}$, 95% BI III-II: [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="III-II",-1],2),collapse=", ")`]h$^{-1}$)
+De gemiddelde snelheid van sterven was niet significant verschillend tussen ratten die werden blootgesteld aan gif I en gif II (p=`r round(summary(comparisonsInt2)$test$pvalues[contrastNames=="II-I"],3)`).
+
+De snelheid van sterven is gemiddeld `r confint(comparisonsInt2)$confint[contrastNames=="B-A",1] %>% round(2) %>% abs`h$^{-1}$ en `r confint(comparisonsInt2)$confint[contrastNames=="D-A",1] %>% round(2)%>% abs`h$^{-1}$ hoger na behandeling A dan na behandeling B en D (p << 0.001, 95% BI B-A: [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="B-A",-1],2),collapse=", ")`]h$^{-1}$, 95% BI D-A: [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="D-A",-1],2),collapse=", ")`]h$^{-1}$). 
+De snelheid van sterven is gemiddeld `r confint(comparisonsInt2)$confint[contrastNames=="C-B",1] %>% round(2)`h$^{-1}$ en `r confint(comparisonsInt2)$confint[contrastNames=="D-C",1] %>% round(2) %>% abs`h$^{-1}$ hoger na behandeling C dan respectievelijk na behandeling B en D (C-B: p << 0.001, 95% CI [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="C-B",-1],2),collapse=", ")`]h$^{-1}$ , D-C: p = `r summary(comparisonsInt2)$test$pvalues[contrastNames=="D-C"] %>% round(3)`, 95% CI [`r paste(round(confint(comparisonsInt2)$confint[contrastNames=="D-C",-1],2),collapse=", ")`]h$^{-1}$). 
+De gemiddelde snelheid van sterven is niet significant verschillend tussen ratten behandeld met behandeling C vs A, en D vs B (p- waarden respectievelijk p = `r summary(comparisonsInt2)$test$pvalues[contrastNames=="C-A"] %>% round(3)` en p = `r summary(comparisonsInt2)$test$pvalues[contrastNames=="D-B"] %>% round(3)`).
+
+Alle p-waarden werden gecorrigeerd voor meervoudig testen. 

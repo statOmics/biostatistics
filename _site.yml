@@ -1,0 +1,99 @@
+name: "Biostatistiek 2021 (biostatistics21)"
+navbar:
+  title: "Biostatistiek 2021"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Hoorcolleges"
+      icon: fa-chalkboard-teacher
+      menu:
+        - text: "Introductie"
+          href: introduction.html
+        - text: "Algemeen Lineair Model"
+          href: 10-MultipleRegression.html
+        - text: "Factoriële Designs"
+          href: 10-MultipleRegression-FactorialDesigns.html
+        - text: "Experimental Design I"
+          href: experimentalDesignI.html
+        - text: "Experimental Design II"
+          href:  experimentalDesignII.html 
+    - text: "Labs"
+      icon: fa-laptop
+      menu:
+        - text: "Practicum 1: Voorbeeld two-sample t-test"
+          href: ttest_example.html
+        - text: "Practicum 1: Voorbeeld anova"
+          href: anova_example.html
+        - text: "Practicum 1: Voorbereiding 1"
+          href: Practicum_1_Voorbereiding_1.html
+        - text: "Practicum 1: Voorbereiding 2"
+          href: Practicum_1_Voorbereiding_2.html
+        - text: "Practicum 1: Voorbereiding 3"
+          href: Practicum_1_Voorbereiding_3.html
+        - text: "Practicum 1: Oefening lineair model"
+          href: Practicum_1_oefening_4.html
+        - text: "Practicum 1: Oplossing two-sample t-test"
+          href: Practicum_1_oplossing_Two_sample_t_test.html
+        - text: "Practicum 1: Oplossing Anova"
+          href: Practicum_1_oplossing_anova.html
+        - text: "Practicum 1: Oplossing niet-parametrische test"
+          href: Practicum_1_oplossing_niet_parametrische_test.html
+        - text: "Practicum 1: Oplossing lineaire regressie"
+          href: Practicum_1_oplossing_lineair_model.html
+        - text: "Practicum 3: Algemeen Lineair model: Oplossing oefening 2"
+          href: oefening_vissen_volledig_uitgewerkt.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oefening 1"
+          href: Exp_design_fast_1_ex.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oefening 2"
+          href: Exp_design_fast_2_ex.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oefening 3"
+          href: Exp_design_fast_3_ex.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1"
+          href: Exp_design_fast_1_sol.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2"
+          href: Exp_design_fast_2_sol.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3"
+          href: Exp_design_fast_3_sol.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 1"
+          href: Rats_01_ex.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 2"
+          href: fishtank.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 3"
+          href: Rats02_ex.html
+        - text: "Practicum 5: Experimenteel design II: oplossing blocking oefening 1"
+          href: Rats_01.html
+        - text: "Practicum 5: Experimenteel design II: oplossing blocking oefening 2"
+          href: fishtank_sol.html
+        - text: "Practicum 5: Experimenteel design II: oplossing blocking oefening 3"
+          href: Rats_02.html
+        - text: "Examenvoorbeeld: Opgave oefening 1"
+          href: Examenvoorbeeld_oefening_1_opgave.html
+        - text: "Examenvoorbeeld: Opgave oefening 2"
+          href: Examenvoorbeeld_oefening_2_opgave.html
+        - text: "Examenvoorbeeld: Oplossing oefening 1"
+          href: Examenvoorbeeld_oefening_1.html
+        - text: "Examenvoorbeeld: Oplossing oefening 2"
+          href: Examenvoorbeeld_oefening_2.html
+
+
+
+  right:
+    - icon: fab fa-github
+      href: https://github.com/statOmics/biostatistics21
+    - text: "statOmics"
+      href: http://statomics.github.io/
+output:
+  html_document:
+      code_download: true
+      df_print: paged
+      theme: flatly
+      highligt: tango
+      toc: true
+      toc_float: true
+      number_sections: true
+      code_folding: show
+      include:
+        after_body: footer.html
+      css: style.css
+new_session: true
+exclude: ["renv.lock"]

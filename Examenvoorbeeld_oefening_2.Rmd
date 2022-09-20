@@ -1,0 +1,158 @@
+---
+title: "Examen voorbeeldoefening 2"
+author: "Alexandre Segers & Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+
+Onderzoekers hebben het proteoom van weefselbiopsieën van verschillende regio's in het hart in kaart gebracht voor 3 patienten (patient 3, 4 en 8 genummerd). Ze hebben het proteoom gemeten in het linker atrium (LA), rechter atrium (RA), linker ventrikel (LV) en rechter ventrikel (RV) met massa-spectrometrie. 
+
+De intensiteiten  zijn een goeie proxy voor de proteineconcentratie. Het is de conventie in massaspectrometrie gebasseerde proteomics om de intensiteiten op log-schaal te modelleren zodat de verschillen op log-schaal een interpretatie krijgen als log2-fold changes. De intensiteitsdata zijn reeds log2 getransformeerd.  
+
+In dit examen zijn we vooral geïnteresseerd in het proteïne Myosin light chain 3 (verder MyosinL3 genoemd) en wensen we volgende onderzoeksvragen te beantwoorden: 
+
+1. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de linkerzijde van het hart.
+2. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de rechterzijde van het hart.
+3. Is de fold change van MyosinL3 tussen  ventrikel en atrium verschillend tussen linker- en rechterzijde van het hart
+
+# Data exploratie
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+Merk op dat de intensiteiten nog niet log2 getranformeerd zijn!!! 
+
+```{r}
+hart <- read.csv(file = "https://raw.githubusercontent.com/statOmics/biostatistics21/master/hearthproteine.csv")
+hart
+```
+
+We zien dat de data in "character" format staat voor location en tissue, en integer voor patient. We veranderen deze allemaal naar factor. 
+
+```{r}
+hart$location <- as.factor(hart$location)
+hart$tissue <- as.factor(hart$tissue)
+hart$patient <- as.factor(hart$patient)
+```
+
+Aangezien we de data per patient opnemen kunnen we verwachten dat de proteïneintensiteit per patient gecorreleerd is. Daarom bekijken we de data per patient, en vormen zo dus een geblocked design per patient.
+
+```{r}
+hart %>% 
+  ggplot(aes(x=location:tissue, y=intensity %>% log2)) +
+    theme_bw() +
+    geom_line(aes(group=patient, color=patient)) +
+    geom_point(aes(color=patient))+
+    ggtitle("log2 proteïne-intensiteit per hartcompartiment") +
+    ylab("log2-proteïne-intensiteit") 
+```
+
+Zoals we vermoedden is de log2-proteïneintensiteit meer gelijkend per patient. Zo kan je bijvoorbeeld zien dat patient 8 op elk van de 4 verschillende metingen de laagste log2-proteïneintensiteit heeft. We zien ook dat er een groot verschil lijkt te zijn tussen het atrium en ventrikel, op zowel de linker als rechterkant van het hart. Het lijkt ook dat er een minder groot verschil is tussen het ventrikel en atrium aan de rechterkant van het hart tegenover de linkerkant. 
+
+Het is ook duidelijk dat er weinig data zijn om de aannames van het model goed te kunnen evalueren. Dat is jammergenoeg dikwijls het geval wanneer dure high-throughput technologiën worden gebruikt.
+
+# Algemeen lineair model opstellen
+
+We modelleren de log2-proteïneintensiteit in functie van de locatie, het weefsel, de locatie $\times$ weefsel-interactie en een blokfactor voor patient. 
+
+Merk op dat we geen interacties toevoegen voor patient. 
+Dat is immers ook niet zinvol hier omdat we anders de resultaten niet kunnen veralgemenen naar de populatie toe. 
+Bovendien laat de studie ook niet toe om dit te schatten, we hebben immers maar 1 meting per hartkamer per patient. 
+
+```{r}
+lm1 <- lm(intensity %>% log2 ~ location*tissue + patient, data = hart)
+summary(lm1)
+```
+
+
+```{r}
+plot(lm1)
+```
+
+Er zijn onvoldoende data om de aannames na te gaan. We zien wel geen grote afwijkingen in de QQ-plot en de variantie lijkt min of meer constant en veronderstellen dat aan de aannames van het model is voldaan. 
+
+# Hypotheses testen
+
+We wensen drie onderzoeksvragen te evalueren en vertalen die als volgt naar de parameters van het model.
+Aangezien we een factorieel design hebben kunnen we de gemiddelde log2-proteïneintensiteit weergeven per groep:
+
+```{r}
+library(ExploreModelMatrix)
+ExploreModelMatrix::VisualizeDesign(hart, ~  location*tissue + patient)$plotlist
+```
+
+1. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de linkerzijde van het hart.
+
+$$ H_0: \beta_V = 0 \leftrightarrow H_1: \beta_V \neq 0 $$
+
+2. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de rechterzijde van het hart.
+
+$$ H_0: \beta_V + \beta_{V:R}= 0 \leftrightarrow H_1: \beta_V  + \beta_{V:R} \neq 0 $$
+
+3. Is de fold change van MyosinL3 tussen  ventrikel en atrium verschillend tussen linker- en rechterzijde van het hart
+$$ H_0: \beta_{V:R}= 0 \leftrightarrow H_1: \beta_{V:R} \neq 0 $$
+
+Eerst zullen we een omnibustest uitvoeren om te testen voor alle hypothesen simultaan. Dat vertaalt zich in de volgende omnibus null hypothese: 
+$$ H_0: \beta_V = \beta_V+\beta_{V:R} = \beta_{V:R} = 0 \rightarrow \beta_V = \beta_{V:R} = 0$$
+Wat leidt tot het testen van
+
+$$ H_0: \beta_V = \beta_{V:R} = 0 \leftrightarrow H_1: \beta_V \neq 0 \text{ en, of } \beta_{V:R} \neq 0 $$
+De omnibushypothese kunnen we evalueren met een F-test tussen het volledig model en met het model dat enkel de blokfactor patient en het locatie-effect bevat.
+
+```{r}
+lm0 <- lm(intensity %>% log2 ~ patient + location, data=hart)
+anova(lm0, lm1)
+```
+
+We zien dat er een extreem significant verschil is in de regulatie van MyosinL3 tussen het ventrikel en atrium in het hart, ofwel links en/of rechts en/of dat er een interactie is. 
+
+We evalueren nu elke hypothese in een posthoc analyse: 
+
+```{r}
+library(multcomp)
+mcp <- glht(lm1,linfct = c("tissueV = 0", 
+                                "tissueV + locationR:tissueV = 0",
+                                "locationR:tissueV = 0"
+                                ))
+summary(mcp)
+
+```
+
+```{r}
+confint(mcp)
+```
+
+```{r}
+2^confint(mcp)$confint
+```
+
+
+# Conclusie:
+
+Er is een extreem significant verschil in de regulatie van het Myosin3L proteine tussen het ventrikel en atrium in het hart (p << 0.001).
+
+Het geometrisch gemiddelde van de expressie van Myosin3L is een factor `r confint(mcp)$confint[1,1] %>% 2^. %>% round(.,0)` hoger in het linkerventrikel dan in het linkeratrium (p < 0.001, 95% BI [`r confint(mcp)$confint[1,-1] %>% 2^. %>% round(.,1)`]). 
+
+Het geometrisch gemiddelde van de expressie van  Myosin3L is een factor `r confint(mcp)$confint[2,1] %>% 2^. %>% round(.,0)` hoger in het rechterventrikel dan in het rechteratrium (p < 0.001, 95% BI [`r confint(mcp)$confint[2,-1] %>% 2^. %>% round(.,1)`]). 
+
+De opregulatie van Myosin3L in ventrikel vs het atrium is gemiddeld een factor `r confint(mcp)$confint[3,1] %>% abs %>% 2^. %>% round(.,0)` hoger in de linker- dan in de rechterzijde (p = `r summary(mcp)$test$pvalues[3] %>% round(.,3)`, 95% BI [`r confint(mcp)$confint[3,-1] %>% abs %>% sort %>%  2^. %>% round(.,1)`] ). 

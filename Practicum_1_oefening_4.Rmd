@@ -1,0 +1,47 @@
+---
+title: "Practicum 1: Oefening 4"
+author: "Alexandre Segers & Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Invloed concentratie op reactiesnelheid 
+
+De reactiesnelheid van een proces met een enzyme als katalysator wordt opgemeten door het aantal radioactieve reactieproducten te tellen in functie van de substraatconcentratie. Dat wordt gedaan voor een reactiemengsel met Puromycine en zonder Puromycine.
+
+We willen nagaan of er een lineair verband is tussen de gemiddelde reactiesnelheid en de substraatconcentratie voor zowel de groep die behandeld is met Puromycine als voor de controlegroep zonder Puromicine. Aangezien we de data zouden moeten analyseren met een meervoudige lineaire regressiemodel die het effect van de concentratie en de behandeling kan modelleren, beperken we ons voorlopig tot de data van de groep die behandeld is met Puromycine.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+data(Puromycin)
+Puromycin <- Puromycin %>% filter(state=="treated")
+Puromycin
+```
+
+
+

@@ -1,0 +1,152 @@
+---
+title: "Practicum 2: Witte bloedcellen"
+author: "xxx en Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+
+output:
+  html_document:
+    code_download: yes
+    highlight: tango
+    number_sections: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    toc: yes
+---
+
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+# Concentratie witte bloedcellen bij ratten
+
+De data die we hier beschouwen zijn afkomstig van een studie waarbij men een behandelde groep van 16 ratten met de pertussis bacteria heeft geïnfecteerd. Men mat vervolgens de concentratie van de witte bloedcellen (WBC) in aantal per kubieke mm. In een controlegroep van 24 ratten werd eveneens de concentratie van witte bloedcellen gemeten.
+
+De data is beschikbaar in het bestand wbcon.dat. Dit bestand bevat twee variabelen, de variabele WBC die de `concentratie` witte bloedcellen weergeeft en de variabele `groep` die twee mogelijke waarden kan aannemen:
+
+- 0: de rat behoort tot de controlegroep
+- 1: de rat behoort tot de behandelde groep
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+#install.packages("tidyr")
+library(tidyr)
+```
+
+Lees de dataset wbcon.dat in.
+
+```{r}
+wbcon <- read.table("https://raw.githubusercontent.com/statOmics/statistiekBasisCursusData/master/practicum3/wbcon.dat", header = TRUE)
+```
+
+# Data-exploratie 
+
+## Is de gemiddelde concentratie witte bloedcellen groter in de controlegroep of in de behandelde groep?
+
+```{r}
+wbSum <- wbcon %>%
+  group_by(groep) %>%
+  summarize_at("WBC", 
+               list(mean=~mean(.,na.rm=TRUE),
+                    sd=~sd(.,na.rm=TRUE),
+                    n=function(x) x%>%is.na%>%`!`%>%sum)
+                ) %>%
+  mutate(se = sd/sqrt(n))
+wbSum
+```
+
+Na pertrussis infectie verdriedubbelt het aantal witte bloedcellen/mm$^3$. Maar is dit verschil significant?
+
+## Figuur van de ruwe gegevens 
+
+```{r}
+wbcon$groep <- as.factor(wbcon$groep) # groep is integer, we willen een factor
+boxplot <- ggplot(data=wbcon,aes(x=groep, y=WBC, col=groep)) + 
+  geom_boxplot(outlier.shape=NA) + 
+  geom_jitter() +
+  theme_bw() + 
+  ggtitle("Concentratie witte bloedcellen")
+
+boxplot 
+```
+
+Op de boxplots zien we dat de variantie tussen beide groepen erg verschillend is.
+
+# Aannames voor de statistische toets
+
+Welke test moeten we uitvoeren om na te gaan of de gemiddelde concentratie witte bloedcellen verschillend is in de controle versus de behandelde groep? Welke voorwaarden moeten we hiervoor nagaan?
+
+Het experiment werd opgezet met 40 ratten. 16 ratten werden at random toegewezen aan de behandelingsgroep en de overige ratten kregen een controle behandeling. Dit betekent dat de data ongepaard zijn en dat we dus een ongepaarde two sample t-test zullen uitvoeren. De voorwaarden voor deze test zijn de volgende:
+
+- onafhankelijke observaties
+- concentratie witte bloedcellen in elke groep normaal verdeeld
+- gelijkheid van variantie
+
+Onafhankelijkheid kan worden verkregen door studiedesign. We gaan ervan uit dat de ratten die betrokken zijn in de studie onafhankelijk werden getrokken uit de populatie van ratten.
+
+Om na te gaan of de concentratie witte bloedcellen in beide groepen normaal verdeeld zijn, maken we 2 QQ-plots.
+
+```{r}
+qqplot <- wbcon %>% 
+  ggplot(aes(sample=WBC)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~groep)
+qqplot
+```
+
+Meer informatie over QQ-plots kan je terugvinden in kennisclip "4.4 De Normale benadering van gegevens" in de statistiekcursus ([dodona](https://dodona.ugent.be/en/courses/469/series/5024/activities/1463749967/), [html](https://statomics.github.io/sbc21/chap_describe.html#sec:normal), [youtube](https://youtu.be/_OLtgfagMTg)).
+
+Uit de boxplot bleek dat de variantie van de gegevens niet gelijk was. 
+Daarom kunnen we geen gebruik maken van de gepoolde variantieschatter en voeren we een Welch-modified two sample t-test uit. 
+
+# Hypothesis en statistische toets
+
+Formuleer de nul- en alternatieve hypothese voor een tweezijdige test. Voer deze test uit op het 5% significantieniveau.
+
+## Nul- en alternatieve hypothese 
+
+We willen nagaan of de gemiddelde concentratie witte bloedcellen in de controlegroep significant verschilt van de gemiddelde concentratie witte bloedcellen in behandelde groep. De nul- en alternatieve hypothese horende voor het toetsen van deze onderzoeksvraag zijn:
+
+Nulhypothese
+
+- *In symbolen*: $H_0: \mu_0 = \mu_1$
+- *In woorden*: $H_0:$ de gemiddelde concentratie witte bloedcellen in controlegroep is gelijk aan de gemiddelde concentratie witte bloedcellen in behandelde groep.
+
+
+Alternatieve hypothese
+
+- *In symbolen* : $H_A: \mu_0 \neq \mu_1$
+- *In woorden*: $H_A:$ de gemiddelde concentratie witte bloedcellen in controlegroep is verschillend van de gemiddelde concentratie witte bloedcellen in behandelde groep.
+
+met $\mu_0$: het populatiegemiddelde van de concentratie witte bloedcellen bij ratten na behandeling met de controle en $\mu_1$:  het populatiegemiddelde van de concentratie witte bloedcellen bij ratten na infectie met de pertrussis bacteriën. 
+
+## Tweezijdige two sample t-test met ongelijkheid van variantie
+
+Bij de t-test functie is het argument `var.equal` default `var.equal = FALSE` zodat de Welch t-test wordt uitgevoerd waarbij wordt gewerkt met een afzonderlijke variantieschatter per groep.
+
+```{r}
+test <- t.test(WBC ~ groep,wbcon)
+test
+```
+
+## Interpretatie 
+De t-test heeft een p-waarde van `r format(test$p.value,digits=2)`. Deze p-waarde is veel kleiner dan het vooropgestelde significantieniveau $\alpha=0.05$. Hierdoor kunnen we de nulhypothese kunnen verwerpen op het 5% significantieniveau. Dit betekent dat concentratie witte bloedcellen gemiddeld significant verschillend is tussen ratten die de controle behandeling kregen en ratten die geïnfecteerd werden met pertrussis. 
+
+De t-test geeft ook een 95% betrouwbaarheidsinterval weer van `r format(test$conf.int[1],digits=3)` tot `r format(test$conf.int[2],digits=3)`. 
+
+**We hebben dus geschat dat het werkelijke gemiddelde verschil in concentratie witte bloedcellen tussen de controle groep en de behandelde groep met 95% kans tussen `r format(test$conf.int[1],digits=3)` bloedcellen/mm$^3$ en `r format(test$conf.int[2],digits=3)` ligt.**
+
+
+# Conclusie
+
+De gemiddelde witte bloedcelconcentratie is extreem significant verschillend tussen ratten die geïnfecteerd worden met pertrussis en ratten die de controle behandeling ondergaan (p << 0.001). 
+De witte bloedcelconcentratie is gemiddeld `r wbSum %>% pull(mean) %>% diff %>% format(digits=3)` bloedcellen/mm$^3$ hoger bij ratten na infectie met pertrussis dan bij ratten die de controlebehandeling ondergaan (95% BI [`r -test$conf.int %>%  sort %>% format(digits=3)`]). 
+

@@ -1,0 +1,1121 @@
+---
+title: "10. Algemeen lineair model"
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true    
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+      latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE, comment = NA, echo = TRUE,
+                      message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+Link naar webpage/script die wordt gebruik in de kennisclips:
+
+- [script Hoofdstuk 10](https://statomics.github.io/sbc21/rmd/10-MultipleRegression.html)
+
+
+# Inleiding
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/3ltCTl4stEI"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+- Tot nu toe: één uitkomst $Y$ en één predictor $X$.
+- Vaak handig om meerdere predictors te gebruiken om de respons te modelleren. bijv
+
+1. Associatie tussen X en Y verstoord door confounder: blootstelling aan asbest (X) op de longfunctie (Y ), is leeftijd (C).
+2. Welke van een groep variabelen beïnvloedt een gegeven uitkomst. Habitat en menselijke activiteit op biodiversiteit in het regenwoud. (grootte, ouderdom, hoogteligging van het woud $\rightarrow$ bestudeer het simultane effect van die verschillende variabelen
+3. Voorspellen van uitkomst voor individuen: zoveel mogelijk predictieve informatie simultaan gebruiken. Verwante predicties (maar dan voor het risico op sterfte) worden dagdagelijks gebruikt in eenheden intensieve zorgen om de ernst van de gezondheidstoestand van een patiënt uit te drukken.
+
+$\rightarrow$ Uitbreiden van enkelvoudige lineaire regressie naar meerdere predictoren.
+
+---
+
+## Prostaatkanker voorbeeld
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/ZdZ5XLaDZi0"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+- Prostaat specific antigen (PSA) en een aantal klinische metingen bij 97 mannen waarvan de prostaat werd verwijderd.
+- Associatie van PSA i.f.v.
+
+    - tumor volume (lcavol)
+    - het gewicht van de prostaat (lweight)
+    - leeftijd (age)
+    - de goedaardige prostaathypertrofie hoeveelheid (lbph)
+    - een indicator voor de aantasting van de zaadblaasjes (svi)
+    - capsulaire penetratie (lcp)
+    - Gleason score (gleason)
+    - precentage gleason score 4/5 (pgg45)
+
+---
+
+```{r}
+prostate <- read_csv("https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv")
+prostate
+prostate$svi <- as.factor(prostate$svi)
+```
+
+---
+
+```{r , out.width='100%', fig.asp=.8, fig.align='center',echo=FALSE}
+library(GGally)
+prostate %>%
+  dplyr::select(-pgg45)  %>%
+  ggpairs()
+```
+
+---
+
+# Additief meervoudig lineaire regressie model
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/vATACtD6kpU"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+Afzonderlijke lineaire regressiemodellen, zoals
+
+$$E(Y|X_v)=\beta_0 + \beta_v X_v$$
+
+- Associatie tussen lpsa en 1 variabele vb (lcavol).
+- Meer accurate predicties door meerdere predictoren simultaan in rekening te brengen
+- Schatting voor parameter $\beta_v$ mogelijks geen zuiver effect van tumor volume.
+- $\beta_v$ gemiddeld verschil in log-psa voor patiënten die 1 eenheid in het log tumor volume (lcavol) verschillen.
+- Zelfs als lcavol niet is geassocieerd met het lpsa,  dan nog kunnen patiënten met een groter tumor volume een hoger lpsa hebben omdat ze bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status 1).
+$\rightarrow$ Confounding.
+- Vergelijken van patiënten met zelfde svi status
+- Kan eenvoudig via meervoudige lineaire regressiemodellen
+
+
+---
+
+## Statistisch model
+
+- $p-1$ predictors $X_1,...,X_{p-1}$ en uitkomst $Y$ voor $n$ subjecten
+- bijvoorbeeld p-1=3: log kanker volume ($X_v$), log gewicht van de prostaat ($X_w$) en status van de zaadblaasjes ($X_s$)
+
+\begin{equation}  
+Y_i =\beta_0 + \beta_1 X_{i1} + ... +\beta_{p-1} X_{ip-1} + \epsilon_i
+\end{equation}
+\begin{equation}  
+Y_i =\beta_0 + \beta_v X_{iv} +\beta_{w} X_{iw} \beta_{s}X_{is}+ \epsilon_i
+\end{equation}
+
+- $\beta_0,\beta_1,...,\beta_{p-1}$ ongekende parameters
+- $\epsilon_i$ residuen die niet verklaard kunnen worden door de predictors
+- Schatting met *kleinste kwadraten techniek*
+
+---
+
+Model staat toe om:
+
+1. de verwachte uitkomst te voorspellen voor subjecten gegeven hun waarden $x_1,...,x_{p-1}$ voor de predictoren.
+
+\[ E[Y\vert X_1=x_1, \ldots X_{p-1}=x_{p-1}]=\hat{\beta}_0+\hat{\beta}_1x_1+...+\hat{\beta}_{p-1}x_{p-1}\]
+
+2. Verschilt gemiddelde uitkomst tussen 2 groepen subjecten die $\delta$ eenheden verschillen in een verklarende variabele $X_j$ maar dezelfde waarden hebben voor alle andere variabelen $\{X_k,k=1,...,p,k\ne j\}$.
+
+$$
+\begin{array}{l}
+E(Y|X_v=x_v+\delta,X_w=x_w,X_{s}=x_{s}) \\
+\quad\quad - E(Y|X_v=x_v,X_w=x_w,X_{s}=x_{s}) \\\\
+\quad =\beta_0 + \beta_v (x_v +\delta) +  \beta_w x_w+ \beta_{s} x_{s}\\
+\quad\quad- \beta_0 - \beta_v x_v  - \beta_wx_w-\beta_{s} x_{s} \\\\
+\quad= \beta_v\delta
+\end{array}
+$$
+
+Interpretatie $\beta_v$:
+
+- verschil in gemiddelde uitkomst tussen subjecten die in één eenheid van log tumor volume ($X_v$) verschillen, maar dezelfde waarde hebben voor de overige verklarende variabelen ($X_w$ en $X_s$) in het model.
+
+of
+
+- Effect van predictor log tumor volume waarbij gecorrigeerd wordt voor de overige predictoren,  hier dus associatie van tumor volume na correctie voor prostaatgewicht en svi-status.
+
+---
+
+### Prostate voorbeeld
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/5Im-lIB4jGs"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+```{r}
+lmV <- lm(lpsa ~ lcavol, prostate)
+summary(lmV)
+```
+
+---
+
+```{r}
+lmVWS <- lm(lpsa~lcavol + lweight + svi, prostate)
+summary(lmVWS)
+```
+
+Na terug transformatie
+```{r}
+lmVWS$coef %>% exp
+```
+
+---
+
+```{r out.width='80%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+library(plot3D)
+grid.lines = 10
+x <- prostate$lcavol
+y <- prostate$lweight
+z <- prostate$lpsa
+fit <- lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=20
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g")
+
+for (i in 1:nrow(prostate))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[4]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="red",facets=NA,add=TRUE)
+```
+
+---
+
+# Besluitvorming in algemeen lineair regressiemodellen
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/6AbrMvfGXVw"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+Als gegevens representatief zijn dan zijn kleinste kwadraten schatters voor het intercept en de hellingen onvertekend.
+$$E[\hat \beta_j]=\beta_j,\quad j=0,\ldots,p-1.$$
+
+- Om resultaten uit de steekproef te kunnen veralgemenen naar de populatie is inzicht nodig in de verdeling van de parameterschatters.
+
+- Om dat op basis van slechts één steekproef te kunnen doen zijn bijkomende veronderstellingen nodig.
+
+
+1. *Lineariteit*
+
+2. *Onafhankelijkheid*
+
+3. *Homoscedasticiteit* of *gelijke variantie*
+4. *Normaliteit*: residuen $\epsilon_i$ zijn normaal verdeeld
+
+Onder deze aannames geldt:
+$$\epsilon_i \sim N(0,\sigma^2).$$
+en
+$$Y_i\sim N(\beta_0+\beta_1 X_{i1}+\ldots+\beta_{p-1} X_{ip-1},\sigma^2)$$
+
+---
+
+
+- Hellingen zullen opnieuw nauwkeuriger worden geschat als de observaties meer gespreid zijn.
+
+- De conditionele variantie ($\sigma^2$) opnieuw schatten op basis van  de *mean squared error* (MSE):
+
+$$\hat\sigma^2=MSE=\frac{\sum\limits_{i=1}^n \left(y_i-\hat\beta_0-\hat\beta_1 X_{i1}-\ldots-\hat\beta_{p-1} X_{ip-1}\right)^2}{n-p}=\frac{\sum\limits_{i=1}^n e^2_i}{n-p}.$$
+
+Opnieuw toetsen en betrouwbaarheidsintervallen via  
+$$T_k=\frac{\hat{\beta}_k-\beta_k}{SE(\hat{\beta}_k)} \text{ met } k=0, \ldots, p-1.$$
+
+Als aan alle aannames is voldaan dan volgen deze statistieken $T_k$ een t-verdeling met $n-p$ vrijheidsgraden.
+
+---
+
+Wanneer niet is voldaan aan de veronderstelling van normaliteit maar wel aan lineariteit, onafhankelijkheid en homoscedasticiteit dan kunnen we voor inferentie opnieuw beroep doen op de centrale limietstelling die zegt dat de statistiek $T_k$ bij benadering een standaard Normale verdeling zal volgen wanneer het aantal observaties voldoende groot is.
+
+---
+
+Voor het prostaatkanker voorbeeld kunnen we de effecten in de steekproef opnieuw veralgemenen naar de populatie toe door betrouwbaarheidsintervallen te bouwen voor de hellingen:
+
+$$[\hat\beta_j - t_{n-p,\alpha/2} \text{SE}_{\hat\beta_j},\hat\beta_j + t_{n-p,\alpha/2} \text{SE}_{\hat\beta_j}]$$.
+
+```{r}
+confint(lmVWS)
+```
+
+---
+
+Formele hypothese testen:
+$$H_0: \beta_j=0$$
+$$H_1: \beta_j\neq0$$
+
+met test statistiek
+$$T=\frac{\hat{\beta}_j-0}{SE(\hat{\beta}_j)}$$
+die een t-verdeling volgt met $n-p$ vrijheidsgraden onder $H_0$
+
+---
+
+```{r}
+summary(lmVWS)
+```
+
+---
+
+## Nagaan van modelveronderstellingen
+
+```{r}
+plot(lmVWS)
+```
+
+---
+
+
+## Het niet-additieve meervoudig lineair regressiemodel
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/gdm0_Hh7Abc"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+### Interactie tussen een continue variabele en een factor variabele
+
+- Het vorige model wordt het additief model genoemd omdat de bijdrage van het kanker volume in lpsa niet afhangt van de hoogte van het prostaat gewicht en de status van de zaadblaasjes.
+- De helling voor lcavol hangt m.a.w. niet af van de hoogte van het log prostaat gewicht en de status van de zaadblaasjes.
+
+$$
+\begin{array}{l}
+E[Y\vert X_v=x_v + \delta_v, X_w = x_w, X_S = x_s] - E[Y\vert X_v=x_v, X_w=x_w, X_s=x_s] = \\
+\quad\quad \left[\beta_0 + \beta_v (x_{v}+\delta_v) + \beta_w x_{w} +\beta_s x_{s}\right] - \left[\beta_0 + \beta_v x_{v} + \beta_w x_{w} +\beta_s x_s\right] \\
+\quad\quad = \beta_v \delta_v
+\end{array}
+$$
+
+De svi status en de hoogte van het log-prostaatgewicht ($x_w$) heeft geen invloed op de bijdrage van het log-tumorvolume ($x_v$) in de gemiddelde log-prostaat antigeen concentratie en vice versa.
+
+
+---
+
+
+- Het zou nu echter kunnen zijn dat de associatie tussen lpsa en lcavol wel afhangt van de status van de zaadblaasjes.
+- De gemiddelde toename in lpsa tussen patiënten die één eenheid van log-tumorvolume verschillen zou bijvoorbeeld lager kunnen zijn voor patiënten met  aangetaste zaadblaasjes dan voor patienten met niet-aangetaste zaadblaasjes.
+
+- Het effect van het tumorvolume op de prostaat antigeen concentratie hangt in dit geval af van de status van de zaadblaasjes.
+
+Om deze **interactie** of **effectmodificatie** tussen variabelen $X_v$ en $X_s$, en $X_w$ en $X_s$ statistisch te modelleren, kan men de producten van beide variabelen in kwestie aan het model toevoegen
+
+$$
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} + \beta_{vs} x_{iv}x_{is} + \beta_{ws} x_{iw}x_{is}  +\epsilon_i
+$$
+
+Deze termen kwantificeren de *interactie-effecten* van respectievelijk de predictoren $x_v$ en $x_s$, en, $x_v$ en $x_s$ op de gemiddelde uitkomst.
+
+In dit model worden de termen $\beta_vx_{iv}$, $\beta_wx_{iw}$ en $\beta_sx_{is} dikwijls de *hoofdeffecten* van de predictoren $x_v$, $x_w$ en $x_s$ genoemd.
+
+```{r}
+lmVWS_IntVS_WS <- lm(
+  lpsa ~
+    lcavol +
+    lweight +
+    svi +
+    svi:lcavol +
+    svi:lweight,
+  data = prostate)
+
+summary(lmVWS_IntVS_WS)
+```
+
+---
+
+Omdat $X_S$ een dummy variabele is, verkrijgen we verschillende regressievlakken:
+
+1. Model voor $X_s=0$: $$Y=\beta_0+\beta_vX_v+\beta_wX_w + \epsilon$$ waar de hoofdeffecten de hellingen voor lcavol en lweight zijn
+
+2. en het model voor $X_s=1$:
+   $$\begin{array}{lcl}
+   Y&=&\beta_0+\beta_vX_v+\beta_s+\beta_wX_w+\beta_{vs}X_v + \beta_{ws}X_w +\epsilon\\
+  &=& (\beta_0+\beta_s)+(\beta_v+\beta_{vs})X_v+(\beta_w+\beta_{ws})X_w+\epsilon
+  \end{array}$$
+met intercept $\beta_0+\beta_s$ en hellingen $\beta_v+\beta_{vs}$ en $\beta_w+\beta_{ws}$
+
+---
+
+```{r out.width='100%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+par(mfrow=c(1,2))
+library(plot3D)
+grid.lines = 10
+x<-prostate$lcavol
+y<-prostate$lweight
+z<-prostate$lpsa
+fit<-lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=-25
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Additive model")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[4]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="orange",facets=NA,add=TRUE)
+
+
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Model met lcavol:lweight interactie")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS_IntVS_WS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVS_WS$coef[1]+lmVWS_IntVS_WS$coef[2]*x+lmVWS_IntVS_WS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+z2.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVS_WS$coef[1]+lmVWS_IntVS_WS$coef[4]+lmVWS_IntVS_WS$coef[2]*x+lmVWS_IntVS_WS$coef[3]*y+lmVWS_IntVS_WS$coef[5]*x+lmVWS_IntVS_WS$coef[6]*y})
+surf3D(x.pred3D,y.pred3D,z2.pred3D,col="orange",facets=NA,add=TRUE)
+```
+
+### Interactie tussen twee continue variabelen
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/LWBXS4mYbMI"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+- Het zou nu echter kunnen zijn dat de associatie tussen lpsa en lcavol afhangt van het prostaatgewicht.
+- De gemiddelde toename in lpsa tussen patiënten die één eenheid van log-tumorvolume verschillen zou bijvoorbeeld lager kunnen zijn voor patiënten met een hoog prostaatgewicht dan bij patiënten met een laag prostaatgewicht.
+- Het effect van het tumorvolume op de prostaat antigeen concentratie hangt in dit geval af van het prostaatgewicht.
+
+Om deze **interactie** of **effectmodificatie** tussen 2 variabelen $X_v$ en $X_w$ statistisch te modelleren, kan men het product van beide variabelen in kwestie aan het model toevoegen
+
+$$
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} + \beta_{vw} x_{iv}x_{iw} +\epsilon_i
+$$
+
+Deze term kwantificeert het *interactie-effect* van de predictoren $x_v$ en $x_w$ op de gemiddelde uitkomst.
+
+---
+
+Het effect van een verschil in 1 eenheid in $X_v$ op de gemiddelde uitkomst bedraagt nu:
+
+$$
+\begin{array}{l}
+E(Y | X_v=x_v +1, X_w=x_w, X_s=x_s) - E(Y | X_v=x_v, X_w=x_w, X_s=x_s) \\
+\quad = \left[\beta_0 + \beta_v (x_{v}+1) + \beta_w x_w +\beta_s x_{s} + \beta_{vw} (x_{v}+1) x_w \right] - \left[\beta_0 + \beta_v x_{v} + \beta_w x_w  + \beta_s x_{s} + \beta_{vw} (x_{v}) x_w \right]\\
+\quad = \beta_v +  \beta_{vw} x_w
+ \end{array}
+ $$
+
+
+---
+
+```{r}
+lmVWS_IntVW <- lm(
+  lpsa ~ lcavol +
+    lweight +
+    svi +
+    lcavol:lweight,
+  prostate)
+
+summary(lmVWS_IntVW)
+```
+
+---
+
+
+```{r out.width='100%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+par(mfrow=c(1,2))
+library(plot3D)
+grid.lines = 10
+x<-prostate$lcavol
+y<-prostate$lweight
+z<-prostate$lpsa
+fit<-lm(z~x+y+svi,data=prostate)
+x.pred <- seq(min(x), max(x), length.out = grid.lines)
+y.pred <- seq(min(y), max(y), length.out = grid.lines)
+
+# fitted points for droplines to surface
+th=-25
+ph=5
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Additive model")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS$coef[1]+lmVWS$coef[2]*x+lmVWS$coef[3]*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+
+
+scatter3D(x, y, z, pch = 16,col=c("darkblue","red")[as.double(prostate$svi)], cex = .75,
+    theta = th, phi = ph, ticktype = "detailed",
+    xlab = "lcavol", ylab = "lweight", zlab = "lpsa",  
+   colvar=FALSE,bty = "g",main="Model met lcavol:lweight interactie")
+
+for (i in which(prostate$svi=="healthy"))
+lines3D(x=rep(prostate$lcavol[i],2),y=rep(prostate$lweight[i],2),z=c(prostate$lpsa[i],lmVWS_IntVW$fit[i]),col=c("darkblue","red")[as.double(prostate$svi)[i]],add=TRUE,lty=2)
+
+z.pred3D <- outer(x.pred, y.pred, function(x,y) {lmVWS_IntVW$coef[1]+lmVWS_IntVW$coef[2]*x+lmVWS_IntVW$coef[3]*y+lmVWS_IntVW$coef[5]*x*y})
+x.pred3D <- outer(x.pred,y.pred,function(x,y) x)
+y.pred3D <- outer(x.pred,y.pred,function(x,y) y)
+surf3D(x.pred3D,y.pred3D,z.pred3D,col="blue",facets=NA,add=TRUE)
+```
+
+---
+
+- Merk op, dat het interactie effect dat geobserveerd wordt in de steekproef echter statistisch niet significant is (p=`r round(summary(lmVWS_IntVW)$coef[5,4],2)`).
+
+- Gezien de hoofdeffecten die betrokken zijn in een interactie term niet los van elkaar kunnen worden geïnterpreteerd is de conventie om een interactieterm uit het model te verwijderen wanneer die niet significant is.
+
+- Na verwijdering van de niet-significante interactieterm kunnen de hoofdeffecten worden geïnterpreteerd.
+
+
+---
+
+### Interactie tussen twee factor variabelen
+
+Zie aparte presentatie over factoriële designs
+
+---
+
+# ANOVA Tabel
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/Y4klT3eXJwI"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+De totale kwadratensom SSTot is opnieuw
+
+$$
+  \text{SSTot} = \sum_{i=1}^n (Y_i - \bar{Y})^2.
+$$
+
+Ook de residuele kwadratensom is zoals voorheen.
+$$
+  \text{SSE} = \sum_{i=1}^n (Y_i-\hat{Y}_i)^2.
+$$
+
+Dan geldt de volgende decompositie van de totale kwadratensom,
+$$
+  \text{SSTot} = \text{SSR} + \text{SSE} ,
+$$
+met
+$$
+  \text{SSR} = \sum_{i=1}^n (\hat{Y}_i-\bar{Y})^2.
+$$
+
+---
+
+
+Voor de vrijheidsgraden en de gemiddelde kwadratensommen geldt:
+
+- SSTot heeft $n-1$ vrijheidsgraden en $\text{SSTot}/(n-1)$ is een schatter voor de variantie van $Y$ (van de marginale distributie van $Y$).
+- SSE heeft $n-p$ vrijheidsgraden en $\text{MSE}=\text{SSE}/(n-p)$ is een schatter voor de residuele variantie van $Y$ gegeven de regressoren (i.e. een schatter voor de residuele variantie $\sigma^2$ van de foutterm $\epsilon$).
+- SSR heeft $p-1$ vrijheidsgraden en $\text{MSR}=\text{SSR}/(p-1)$ is de gemiddelde kwadratensom van de regressie.
+
+De determinatiecoëfficiënt blijft zoals voorheen, i.e.
+$$
+  R^2 = 1-\frac{\text{SSE}}{\text{SSTot}} = \frac{\text{SSR}}{\text{SSTot}}
+$$
+is de fractie van de totale variabiliteit in de uitkomsten die verklaard wordt door het regressiemodel.
+
+De teststatistiek $F=\text{MSR}/\text{MSE}$ is onder $H_0:\beta_1=\ldots=\beta_{p-1}=0$ verdeeld als $F_{p-1;n-p}$.
+
+---
+
+```{r, echo=FALSE}
+summary(lmVWS)
+```
+
+---
+
+## Extra Kwadratensommen
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/LXgh32U9Dq4"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+Beschouw de volgende twee regressiemodellen voor regressoren $x_1$ en $x_2$:
+$$
+  Y_i = \beta_0+\beta_1 x_{i1} + \epsilon_i,
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma_1^{2})$, en
+$$
+Y_i = \beta_0+\beta_1 x_{i1}+\beta_2 x_{i2} + \epsilon_i,
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma_2^{2})$.
+
+Voor het eerste (gereduceerde) model geldt de decompositie
+\[
+  \text{SSTot} = \text{SSR}_1 + \text{SSE}_1
+\]
+en voor het tweede (niet-gereduceerde) model
+\[
+  \text{SSTot} = \text{SSR}_2 + \text{SSE}_2
+\]
+(SSTot is uiteraard dezelfde in beide modellen omdat dit niet afhangt van het regressiemodel).
+
+---
+
+**Definitie extra kwadratensom**
+De *extra kwadratensom* (Engels: *extra sum of squares*) van predictor $x_2$ t.o.v. het model met enkel $x_1$ als predictor wordt gegeven door
+$$
+  \text{SSR}_{2\mid 1} = \text{SSE}_1-\text{SSE}_2=\text{SSR}_2-\text{SSR}_1.
+$$  
+
+**Einde definitie**
+
+Merk eerst op dat $\text{SSE}_1-\text{SSE}_2=\text{SSR}_2-\text{SSR}_1$ triviaal is gezien de decomposities van de totale kwadratensommen.
+
+De extra kwadratensom $\text{SSR}_{2\mid 1}$ kan eenvoudig geïnterpreteerd worden als de extra variantie van de uitkomst die verklaard kan worden door regressor $x_2$ toe te voegen aan een model waarin regressor $x_1$ reeds aanwezig is.
+
+Met dit nieuw soort kwadratensom kunnen we voor het model met twee predictoren schrijven
+$$
+  \text{SSTot} = \text{SSR}_1+ \text{SSR}_{2\mid 1} + \text{SSE}.
+$$
+Dit volgt rechtstreeks uit de definitie van de extra kwadratensom $\text{SSR}_{2\mid 1}$.
+
+
+---
+
+
+Uitbreiding: Zonder in te boeten in algemeenheid starten we met de regressiemodellen ($s<p-1$)
+$$
+Y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{s} x_{is} + \epsilon_i
+$$
+met $\epsilon_i\text{ iid }N(0,\sigma_1^{2})$, en ($s< q\leq p-1$)
+$$
+Y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{s} x_{is} + \beta_{s+1} x_{is+1} + \cdots \beta_{q}x_{iq}+ \epsilon_i
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma_2^{2})$.
+
+
+De **extra kwadratensom** van predictoren $x_{s+1}, \ldots, x_q$ t.o.v. het model met enkel de predictoren  $x_1,\ldots, x_{s}$ wordt gegeven door
+$$
+  \text{SSR}_{s+1, \ldots, q\mid 1,\ldots, s} = \text{SSE}_1-\text{SSE}_2=\text{SSR}_2-\text{SSR}_1.
+$$  
+
+---
+
+### Type I Kwadratensommen
+
+Stel dat $p-1$ regressoren beschouwd worden, en beschouw een sequentie van modellen ($s=2,\ldots, p-1$)
+$$
+Y_i = \beta_0 + \sum_{j=1}^{s} \beta_j x_{ij} + \epsilon_i
+$$
+met $\epsilon_i\text{ iid } N(0,\sigma^{2})$.
+
+- De overeenkomstige kwadratensommen worden genoteerd als $\text{SSR}_{s}$ en $\text{SSE}_{s}$.
+- De modelsequentie geeft ook aanleiding tot extra kwadratensommen $\text{SSR}_{s\mid 1,\ldots, s-1}$.
+- Deze laatste kwadratensom wordt een type I kwadratensom genoemd. Merk op dat deze afhangt van de volgorde (nummering) van regressoren.
+
+---
+
+Er kan aangetoond worden dat voor Model met $s=p-1$ geldt
+$$
+ \text{SSTot} = \text{SSR}_1 + \text{SSR}_{2\mid 1} + \text{SSR}_{3\mid 1,2} + \cdots + \text{SSR}_{p-1\mid 1,\ldots, p-2} + \text{SSE},
+$$
+met $\text{SSE}$ de residuele kwadratensom van het model met alle $p-1$ regressoren en
+$$
+  \text{SSR}_1 + \text{SSR}_{2\mid 1} + \text{SSR}_{3\mid 1,2} + \cdots + \text{SSR}_{p-1\mid 1,\ldots, p-2} = \text{SSR}
+$$
+met $\text{SSR}$ de kwadratensom van de regressie van het model met alle $p-1$ regressoren.
+
+- Interpretatie van iedere term afhangt van de volgorde van de regressoren in de sequentie van regressiemodellen.
+
+
+---
+
+
+- Iedere type I SSR heeft betrekking op het effect van 1 regressor en heeft dus 1 vrijheidsgraad.
+- Voor iedere type I SSR term kan een gemiddelde kwadratensom gedefinieerd worden als $\text{MSR}_{j\mid 1,\ldots, j-1}=\text{SSR}_{j\mid 1,\ldots, j-1}/1$.
+- De teststatistiek $F=\text{MSR}_{j\mid 1,\ldots, j-1}/\text{MSE}$ is onder $H_0:\beta_j=0$ met $s=j$ verdeeld als $F_{1;n-(j+1)}$.
+- Deze kwadratensommen worden standaard weergegeven door de anova functie in R.
+
+---
+
+### Type III Kwadratensommen
+
+De type III kwadratensom van regressor $x_j$ wordt gegeven door de extra kwadratensom
+$$
+  \text{SSR}_{j \mid 1,\ldots, j-1,j+1,\ldots, p-1} = \text{SSE}_1-\text{SSE}_2
+$$
+
+- $\text{SSE}_2$ de residuele kwadratensom van regressiemodel met alle $p-1$ regressoren.
+- $\text{SSE}_1$ de residuele kwadratensom van regressiemodel met alle $p-1$ regressoren, uitgezonderd regressor $x_j$.
+
+De type III kwadratensom $\text{SSR}_{j \mid 1,\ldots, j-1,j+1,\ldots, p-1}$ kwantificeert dus het aandeel van de totale variantie van de uitkomst dat door regressor $x_j$ verklaard wordt en dat niet door de andere $p-2$ regressoren verklaard wordt.
+
+---
+
+De type III kwadratensom heeft ook 1 vrijheidsgraad omdat het om 1 $\beta$-parameter gaat.
+
+Voor iedere type III SSR term kan een gemiddelde kwadratensom gedefinieerd worden als $\text{MSR}_{j \mid 1,\ldots, j-1,j+1,\ldots, p-1}=\text{SSR}_{j \mid 1,\ldots, j-1,j+1,\ldots, p-1}/1$.
+
+De teststatistiek $F=\text{MSR}_{j \mid 1,\ldots, j-1,j+1,\ldots, p-1}/\text{MSE}$ is onder $H_0:\beta_j=0$ verdeeld as $F_{1;n-p}$.
+
+---
+
+```{r}
+library(car)
+Anova(lmVWS,type=3)
+```
+
+p-waarden identiek aan die van tweezijdige t-testen
+
+Merk echter op dat alle dummy's voor factoren met meerdere niveaus in één keer uit het model worden gehaald. De type III sum of squares heeft dus evenveel vrijheidsgraden als het aantal dummy's en er wordt een omnibustest uitgevoerd voor het effect van de factor.
+
+---
+
+# Diagnostiek
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/6t84tO2zOcs"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+## Multicollineariteit
+
+```{r echo=FALSE}
+summary(lmVWS)
+```
+
+---
+
+```{r echo=FALSE}
+summary(lmVWS_IntVW)
+```
+
+---
+
+
+- Schattingen verschillend van additief model en standaardfouten zijn veel groter!
+- De oorzaak is probleem van multicollineariteit.
+- Als 2 predictoren sterk gecorreleerd zijn, dan delen ze voor een groot stuk dezelfde informatie
+- Moeilijk om de afzonderlijke effecten van beiden op de uitkomst te schatten.
+- Kleinste kwadratenschatters onstabiel wordt
+- Standaard errors kunnen worden opgeblazen
+- Zolang men enkel predicties tracht te bekomen op basis van het regressiemodel zonder daarbij te extrapoleren buiten het bereik van de predictoren is multicollineariteit geen probleem.
+- Wel probleem voor inferentie
+
+
+---
+
+```{r}
+cor(cbind(prostate$lcavol,prostate$lweight,prostate$lcavol*prostate$lweight))
+```
+
+- hoge correlatie tussen log-tumorvolume en interactieterm.
+- Is een gekend probleem voor hogere orde termen (interacties en kwadratische termen)
+
+---
+
+- Multicollineariteit opsporen a.d.h.v. correlatie matrix of scatterplot matrix is niet ideaal.
+- Geen idee in welke mate de geobserveerde multicollineariteit de resultaten onstabiel maakt.
+- In modellen met 3 of meerdere predictoren, zeg X1, X2, X3 kan er zware multicollineariteit optreden ondanks dat alle paarsgewijze correlaties tussen de predictoren laag zijn.
+- Ook multicollineariteit als er een hoge correlatie is tussen X1 en een lineaire combinatie van X2 en X3.
+
+
+---
+
+### Variance inflation factor (VIF)
+
+
+Voor de $j$-de parameter in het regressiemodel gedefinieerd wordt als
+\[\textrm{VIF}_j=\left(1-R_j^2\right)^{-1}\]
+
+- In deze uitdrukking stelt $R_j^2$ de meervoudige determinatiecoëfficiënt voor van een lineaire regressie van de $j$-de predictor op alle andere predictoren in het model.
+- VIF is 1 als $j$-de predictor niet lineair geassocieerd is met de andere predictoren in het model.
+- VIF is groter dan 1 in alle andere gevallen.
+- VIF is factor waarmee geobserveerde variantie groter is dan wanneer alle predictoren onafhankelijk zouden zijn.
+- VIF > 10 $\rightarrow$ ernstige multicollineariteit.
+
+---
+
+### Body fat voorbeeld
+
+```{r out.width='90%', fig.asp=.8, fig.align='center', message=FALSE,echo=FALSE}
+bodyfat <- read_delim("https://raw.githubusercontent.com/statomics/sbc20/master/data/bodyfat.txt",delim=" ")
+bodyfat %>% ggpairs()
+```
+
+---
+
+```{r echo=FALSE}
+lmFat <- lm(
+  Body_fat ~
+    Triceps +
+    Thigh +
+    Midarm,
+  data = bodyfat)
+
+summary(lmFat)
+```
+
+---
+
+```{r}
+vif(lmFat)
+```
+
+---
+
+```{r echo=FALSE}
+lmMidarm <- lm(
+  Midarm ~
+    Triceps +
+    Thigh,
+    data = bodyfat)
+
+summary(lmMidarm)
+```
+
+---
+
+
+We evalueren nu de VIF in het prostaatkanker voorbeeld voor het additieve model en het model met interactie.
+
+```{r}
+vif(lmVWS)
+vif(lmVWS_IntVW)
+```
+
+
+- Inflatie voor interactietermen wordt vaak veroorzaakt door het feit dat het hoofdeffect een andere interpretatie krijgt.
+
+---
+
+## Invloedrijke Observaties
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/CcZE9mRUSTE"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+```{r echo=FALSE}
+set.seed(112358)
+nobs<-20
+sdy<-1
+x<-seq(0,1,length=nobs)
+y<-10+5*x+rnorm(nobs,sd=sdy)
+x1<-c(x,0.5)
+y1 <- c(y,10+5*1.5+rnorm(1,sd=sdy))
+x2 <- c(x,1.5)
+y2 <- c(y,y1[21])
+x3 <- c(x,1.5)
+y3 <- c(y,11)
+plot(x,y,xlim=range(c(x1,x2,x3)),ylim=range(c(y1,y2,y3)))
+points(c(x1[21],x2[21],x3[21]),c(y1[21],y2[21],y3[21]),pch=as.character(1:3),col=2:4)
+abline(lm(y~x),lwd=2)
+abline(lm(y1~x1),col=2,lty=2,lwd=2)
+abline(lm(y2~x2),col=3,lty=3,lwd=2)
+abline(lm(y3~x3),col=4,lty=4,lwd=2)
+legend("topleft",col=1:4,lty=1:4,legend=paste("lm",c("",as.character(1:3))),text.col=1:4)
+```
+
+---
+
+- Het is niet wenselijk dat een enkele waarneming het resultaat van een lineaire regressieanalyse grotendeels bepaald
+- Diagnostieken die ons toelaten om extreme observaties op te sporen
+- *Studentized residu's* om outliers op te sporen
+- *leverage (invloed, hefboom)* om observaties met extreem covariaatpatroon op te sporen
+
+---
+
+### Cook's distance
+
+
+- Een meer rechtstreekse maat om de invloed van elke observatie op de regressie-analyse uit te drukken
+- Cook's distance voor $i$-de observatie is een diagnostische maat voor de invloed van die observatie op alle predicties of voor haar invloed  op *alle* geschatte parameters.
+\[D_i=\frac{\sum_{j=1}^n(\hat{Y}_j-\hat{Y}_{j(i)})^2}{p\textrm{MSE}}\]
+- Als Cook's distance $D_i$ groot is, dan heeft de $i$-de observatie een grote invloed op de predicties en geschatte parameters.
+- Extreme Cook's distance als het het 50\% percentiel van de $F_{p,n-p}$-verdeling overschrijdt.
+
+
+---
+
+
+```{r  out.width='100%', fig.asp=.8, fig.align='center', message=FALSE, echo=FALSE}
+par(mfrow=c(2,2))
+plot(lmVWS,which=5)
+plot(lmVWS_IntVW,which=5)
+plot(cooks.distance(lmVWS),type="h",ylim=c(0,1),main="Additive model")
+abline(h=qf(0.5,length(lmVWS$coef),nrow(prostate)-length(lmVWS$coef)),lty=2)
+plot(cooks.distance(lmVWS_IntVW),type="h",ylim=c(0,1), main="Model with lcavol:lweight interaction")
+abline(h=qf(0.5,length(lmVWS_IntVW$coef),nrow(prostate)-length(lmVWS_IntVW$coef)),lty=2)
+```
+
+---
+
+- Eenmaal men vastgesteld heeft dat een observatie invloedrijk is, kan men zogenaamde *DFBETAS* gebruiken om te bepalen op welke parameter(s) ze een grote invloed uitoefent.
+-  DFBETAS van de $i$-de observatie vormen een diagnostische maat voor de invloed van die observatie *op elke regressieparameter afzonderlijk*
+$$\textrm{DFBETAS}_{j(i)}=\frac{\hat{\beta}_{j}-\hat{\beta}_{j(i)}}{\textrm{SD}(\hat{\beta}_{j})}$$
+-  DFBETAS extreem is wanneer ze 1 overschrijdt in kleine tot middelgrote datasets en $2/\sqrt{n}$ in grote datasets
+
+---
+
+
+```{r out.width='90%', fig.asp=.8, fig.align='center', message=FALSE, echo=FALSE}
+par(mfrow=c(2,2))
+dfbetasPlots(lmVWS)
+```
+
+---
+
+```{r out.width='90%', fig.align='center', message=FALSE, echo=FALSE}
+par(mfrow=c(2,2))
+dfbetasPlots(lmVWS_IntVW)
+```
+
+---
+
+```{r out.width='100%',fig.align='center', message=FALSE, echo=FALSE}
+boxplot(exp(prostate$lweight),ylab="Prostate Weight (g)")
+```
+
+
+---
+
+# Constrasten
+
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/TXuXuve20wM"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+- Bij meer complexe algemene lineaire modellen wenst men dikwijls meerdere hypothesen te toetsen.
+- Bovendien vertalen de onderzoekshypotheses zich hierbij niet steeds in één parameter, maar in een lineaire combinatie van modelparameters.
+- Een lineaire combinatie van modelparameters wordt ook een contrast genoemd.
+
+## NHANES voorbeeld
+
+- Stel dat de onderzoekers de associatie tussen de leeftijd en de bloeddruk wensen te bestuderen. Mogelijks is die associatie anders is bij mannen dan vrouwen.
+
+- De onderzoekers wensen de volgende onderzoeksvragen te beantwoorden:
+
+    - Is er een associatie tussen leeftijd en de bloeddruk  bij vrouwen?
+    - Is er een associatie tussen leeftijd en de bloeddruk bij mannen?
+    - Is de associatie tussen leeftijd en de bloeddruk verschillend bij mannen dan bij vrouwen?
+
+## Model
+
+We fitten een model op basis van de gemiddelde systolische bloeddruk (`BPSysAve`) in functie van de leeftijd, geslacht en een interactie tussen leeftijd en geslacht voor volwassen blanke subjecten uit de NHANES studie.
+
+```{r}
+library(NHANES)
+bpData <- NHANES %>%
+filter(
+  Race1 =="White" &
+    Age >= 18 &
+    !is.na(BPSysAve)
+    )
+
+mBp1 <- lm(BPSysAve ~ Age*Gender, bpData)
+par(mfrow = c(2,2))
+plot(mBp1)
+```
+
+- Aannames van het model zijn niet voldaan!
+
+    - lineariteit lijkt ok
+    - heteroscedasticiteit
+    - Geen normaliteit: scheve verdeling met staart naar rechts.
+    - Grote dataset we kunnen steunen op de CLT
+
+### Transformatie
+
+We fitten een model op basis van de log2 getransformeerde gemiddelde systolische bloeddruk (`BPSysAve`) in functie van de leeftijd, geslacht en een interactie tussen leeftijd en geslacht.
+
+```{r}
+mBp2 <- lm(BPSysAve %>% log2 ~ Age*Gender, bpData)
+par(mfrow = c(2,2))
+plot(mBp2)
+```
+
+- De residuen tonen nog steeds heteroscedasticiteit.
+
+### Remediëren voor heteroscedasticiteit
+
+- Als de plot van de residuen i.f.v. de geschatte waarden een toetervorm vertoont kan men toch correcte inferentie bekomen voor grote steekproeven als men de variantie van de response kan schatten.
+- De inverse variantie voor elke observatie kan dan als gewicht worden gebruikt in de lm functie.
+
+1. We zullen daarom de standard deviatie modelleren in functie van het gemiddelde.
+2. Dat kan door de absolute waarde van de residuen te modelleren in functie van de gefitte waarden.
+3. We kunnen de variantie van Y schatten voor elke observatie d.m.v de kwadraten van de predicties voor alle data punten a.d.h.v model voor de standard deviatie.
+4. De inferentie blijft asymptotisch geldig.
+
+```{r}
+mSd <- lm(mBp1$res %>% abs ~ mBp2$fitted)
+```
+
+We schatten het model nu opnieuw:
+
+```{r}
+mBp3 <- lm(BPSysAve ~ Age*Gender, bpData, w = 1/mSd$fitted^2)
+```
+
+De residuen vertonen nog steeds heteroscedasticiteit.
+
+```{r}
+data.frame(residuals = mBp3$residuals, fit = mBp3$fitted) %>%
+  ggplot(aes(fit,residuals)) +
+  geom_point()
+```
+
+Na het herschalen van de residuen a.d.h.v. de standard deviatie (vermenigvuldigen met vierkantswortel van het gewicht) zijn de geschaalde residuen homoscedastisch.
+
+De parameters worden geschat door de gewogen kleinste kwadraten techniek.
+
+\[ SSE = \sum\limits_{i=1}^n w_i e_i^2\]
+
+met $w_i = 1/\hat \sigma^2_i$.
+
+De gewogen regressie zal dus correct rekening houden met heteroscedasticiteit.
+
+```{r}
+data.frame(scaled_residuals = mBp3$residuals/mSd$fitted, fit = mBp3$fitted) %>%
+  ggplot(aes(fit,scaled_residuals)) +
+  geom_point()
+```
+
+### Besluitvorming
+
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/GLan10H4kuk"
+frameborder="0"
+style="display: block; margin: auto;"
+allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+```{r}
+summary(mBp3)
+```
+
+De onderzoeksvragen vertalen zich in de volgende nullhypotheses:
+
+1. Associatie tussen bloeddruk en leeftijd bij de vrouwen? \[H_0: \beta_\text{Age} = 0 \text{ vs } H_1: \beta_\text{Age} \neq 0 \]
+
+2. Associatie tussen bloeddruk en leeftijd bij de mannen? \[H_0: \beta_\text{Age} + \beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age} + \beta_\text{Age:Gendermale} \neq 0 \]
+
+3. Is de Associatie tussen bloeddruk en leeftijd verschillend bij mannen en vrouwen? \[H_0: \beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age:Gendermale} \neq 0 \]
+
+
+- We kunnen onderzoeksvraag 1 en 3 onmiddelijk toetsen o.b.v. de model output.
+- Onderzoeksvraag 2 is echter een lineaire combinatie van twee parameters.
+- Bovendien is er ook het probleem dat we meerdere toetsen nodig hebben om de associatie te bestuderen.
+
+We kunnen opnieuw gebruik maken van een Anova approach.
+
+1.  We toetsen eerste de omnibus hypothese dat er geen associatie is tussen leeftijd en de bloeddruk.
+
+\[ H_0: \beta_\text{Age} = \beta_\text{Age} + \beta_\text{Age:Gendermale} = \beta_\text{Age:Gendermale} = 0
+\]
+
+- Dat vereenvoudigt zich tot het toetsen dat
+
+\[ H_0: \beta_\text{Age} = \beta_\text{Age:Gendermale} = 0
+\]
+
+- Wat we kunnen evalueren door twee modellen te vergelijken. Een model met enkel het gender effect en volledige model met Gender, Age en Gender x Age interactie.
+
+2. Als we deze hypothese kunnen verwerpen voeren we posthoc analyses uit voor elk van de 3 contrasten.
+
+
+#### Omnibus test
+
+```{r}
+mBp0 <- lm(BPSysAve ~ Gender, bpData, w = 1/mSd$fitted^2)
+anova(mBp0, mBp3)
+```  
+
+
+#### Posthoc testen
+
+De posthoc testen kunnen we opnieuw uitvoeren a.d.h.v. het multcomp pakket.
+
+```{r}
+library(multcomp)
+bpPosthoc <- glht(mBp3, linfct=c(
+  "Age = 0",
+  "Age + Age:Gendermale = 0",
+  "Age:Gendermale = 0")
+  )
+bpPosthoc %>% summary
+
+bpPosthocBI <- bpPosthoc %>% confint
+bpPosthocBI
+```
+
+Merk op dat de glht functie ons toelaat om de contrasten te definiëren door de nulhypotheses expliciet te formuleren in een karaktervector waarbij gebruik wordt gemaakt van de naam van de pararameters in het model.
+
+#### Conclusie
+
+We kunnen besluiten dat er een extreem significante associatie is tussen leeftijd en de bloeddruk (p << 0.001).
+De bloeddruk bij twee vrouwen die in leeftijd verschillen is gemiddeld `r round(bpPosthocBI$confint[1,1],2)` mm Hg hoger per jaar leeftijdsverschil bij de oudste vrouw en dat verschil is extreem significant (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[1,-1],2),collapse=", ")`].
+De bloeddruk bij mannen die in leeftijd verschillen is gemiddeld `r round(bpPosthocBI$confint[2,1],2)` mm Hg hoger per jaar leeftijdsverschil bij de oudere man. (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[2,-1],2),collapse=", ")`].
+Het gemiddelde bloeddrukverschil tussen personen in leeftijd verschillen is gemiddeld `r round(bpPosthocBI$confint[3,1],2)` mm Hg/jaar hoger bij vrouwen dan mannen (p << 0.001, 95% BI [`r paste(round(bpPosthocBI$confint[3,-1],2),collapse=", ")`]).  
+
+# [Home](https://statomics.github.io/sbc20/) {-}

@@ -1,0 +1,190 @@
+---
+title: "Examenvoorbeeld vraag 1"
+author: "Lieven Clement, Alexandre Segers"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+---
+
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+Onderzoekers bestuderen of er een associatie tussen het de dikte van de speklaag van varkens is met het percentage vlees van varkens (permeat). Ze willen ook weten of deze associatie verschilt tussen mannelijke en vrouwelijke varkens. Uit voorgaand onderzoek weten de onderzoekers dat er een associatie is tussen het de lengte van het varken en het percentage vlees. 
+
+
+
+# Data exploratie
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+We lezen de data in, en filteren de data aangezien we het gewicht niet als variabele zullen gebruiken.
+```{r}
+pigs <- read.csv(file = "https://raw.githubusercontent.com/statOmics/biostatistics21/master/pigs.csv")
+pigs <- pigs %>% subset(select = -weight)
+```
+
+```{r}
+head(pigs)
+dim(pigs)
+```
+
+```{r}
+library(GGally)
+pigs %>%
+  ggpairs
+```
+
+Hieruit zien we dat er een duidelijke lineaire associatie is tussen het percentage vlees en de dikte van de speklaag. Er is geen duidelijke associatie tussen het percentage vlees en de lengte van het varken. Wel lijkt er een verschil van percentage vlees te zijn tussen de verschillende geslachten.
+
+We bekijken verder de associaties tussen het percentage vlees en de dikte van de speklaag per geslacht. Dit doen we ook voor de associatie met de lengte.
+
+```{r}
+pigs %>% ggplot(aes(x=bacon,y=permeat)) + 
+  geom_point() + 
+  stat_smooth(method = "lm") + 
+  facet_wrap(~sex)
+```
+
+
+
+```{r}
+pigs %>% ggplot(aes(x=length,y=permeat)) + 
+  geom_point() + 
+  stat_smooth(method = "lm") + 
+  facet_wrap(~sex)
+```
+
+Het effect van zowel de dikte van de speklaag en de lengte lijkt licht te verschillen tussen mannelijke en vrouwelijke varkens. Er is dus mogelijks een interactie tussen dikte van de speklaag en gender en lengte en gender.
+
+# Algemeen lineair model opstellen
+
+We modelleren eerst het percentage vlees in functie van alle variabelen, samen met alle tweeweg interactietermen. We modelleren dus eerst:
+$E[permeat] = \beta_{bacon} x_{bacon} + \beta_{length} x_{length} + \beta_{sex} x_{sex} + \beta_{bacon:length} x_{bacon} x_{length} + \beta_{bacon:sex} x_{bacon} x_{sex} + \beta_{length:sex} x_{length} x_{sex}$
+
+Merk op dat je hier geen bacon * length * sex kunt gebruiken, aangezien er dan ook de drieweg-interactie sex:bacon:length zou zijn, wat buiten de scope van de cursus valt.
+
+```{r}
+lm_1 <- lm(permeat ~ bacon + length + sex + bacon:length + bacon:sex + length:sex, data = pigs)
+summary(lm_1)
+```
+
+
+We gaan de assumpties van het lineaire model na:
+
+```{r}
+plot(lm_1)
+```
+
+Alle assumpties lijken voldaan: De residuen zijn gemiddeld 0 voor elke respons waarde, de residuen zijn normaal verdeeld en de variantie is constant.
+
+We gaan verder met het bekijken welke variabelen we in het model behouden. We gaan via een anova met type 3 kwadratensommen na of de variabelen significant zijn. We beginnen met enkel de interactietermen te bekijken. 
+
+```{r}
+library(car)
+Anova(lm_1, type = "III")
+```
+
+Zowel de interactieterm bacon:length als de interactieterm length:sex zijn niet significant op het 5% significantieniveau. We verwijderen de minst significante, bacon:length, en voeren opnieuw een anova met type 3 kwadratensommen uit.
+
+```{r}
+lm_2 <- lm(permeat ~ bacon + length + sex + bacon:sex + length:sex, data = pigs)
+Anova(lm_2, type = "III")
+```
+
+De interactie length:sex is weer niet significant. We verwijderen deze uit het model en voeren opnieuw een anova met type 3 kwadratensommen uit. 
+
+```{r}
+lm_3 <- lm(permeat ~ bacon + length + sex + bacon:sex , data = pigs)
+Anova(lm_3, type = "III")
+
+```
+
+We zien dat de resterende variabelen en interactieterm allemaal significant zijn. We behouden het model met de drie hoofdvariabelen en een interactieterm tussen bacon en geslacht.
+
+We bekijken of de modelassumpties voldaan zijn voor dit model.
+
+```{r}
+plot(lm_3)
+```
+
+De assumpties lijken weer voldaan. 
+
+# Hypotheses testen
+
+De onderzoekers wilden volgende hypotheses testen:
+
+- Is er een associatie tussen het percentage vlees en de dikte van de speklaag?
+- Is er een verschil in de associatie tussen het percentage vlees en de dikte van de speklaag bij de verschillende geslachten?
+
+Dit vertaalt zich naar de volgende hypotheses:
+
+$$1.\quad H_0: \beta_{bacon} = 0 : \text{Er is geen lineaire associatie tussen het vleespercentage en de dikte speklaag bij zeugen.}$$
+$$\updownarrow$$
+$$H_1: \beta_{bacon} \neq  0 : \text{Er is een lineaire associatie tussen het vleespercentage en de dikte speklaag bij zeugen}$$
+
+$$2.\quad H_0: \beta_{bacon} + \beta_{bacon:sex}= 0 : \text{Er is geen lineaire associatie tussen het vleespercentage en de dikte speklaag bij beren (mannelijke varkens).}$$
+$$\updownarrow$$
+$$H_1: \beta_{bacon} + \beta_{bacon:sex} \neq 0 : \text{Er is een lineaire associatie tussen het vleespercentage en de dikte speklaag bij beren (mannelijke varkens).}$$
+
+
+$$3. \quad H_0:\beta_{bacon:sex} = 0 : \text{De associatie tussen de dikte van de speklaag en het vetpercentage is gelijk bij zeugen en beren.}$$
+$$\updownarrow$$
+$$H_1: \beta_{bacon:sex} \neq 0 : \text{De associatie tussen de dikte van de speklaag en het vetpercentage is verschillend bij zeugen en beren.}$$
+
+
+
+We voeren eerst en omnibus test uit waarbij we alle nulhypotheses simultaan falsifiëren, we kunnen dit door simultaan te testen voor het hoofdeffect voor bacon en de bacon $\times$ sex interactie:
+
+$$H_0: \beta_{bacon} = \beta_{bacon:sex} = 0. $$
+$$\updownarrow$$
+$$H_1: \beta_{bacon} \neq 0 \text{ en, of } \beta_{bacon:sex} \neq 0. $$
+
+
+De omnibushypothese kunnen we evalueren met een F-test tussen het volledig model en met het model dat enkel het hoofdeffect van lengte en geslacht bevat.
+
+```{r}
+lm_4 <- lm(permeat ~ length + sex , data = pigs)
+anova(lm_3,lm_4)
+```
+
+Gezien we de omnibus hypothese heel extreem significant kunnen verwerpen, evalueren we in een posthoc analyse of er een associatie is tussen de dikte van de speklaag en het vleespercentage bij zeugen, beren en of er een verschil is tussen de associatie bij zeugen en beren. 
+
+```{r}
+library(multcomp)
+mcp <- glht(lm_3,linfct = c("bacon = 0", 
+                                "bacon + bacon:sexmale = 0",
+                                "bacon:sexmale = 0"
+                                ))
+summary(mcp)
+```
+
+```{r}
+confintModel <- confint(mcp)
+confintModel
+```
+
+# Conclusie
+
+Er is een extreem significante lineaire associatie tussen de dikte van de speklaag en het vleespercentage bij varkens (p << 0.001). 
+De lineaire associatie tussen de dikte van de speklaag en het vleespercentage is heel sterk significant bij zowel vrouwelijke (p<<0.001) als mannelijke varkens (p<0.001). 
+Voor zeugen, die een verschillende dikte van speklaag hebben, is het vleespercentage gemiddeld `r confintModel$confint[1,1] %>% abs %>% sort %>% round(.,2) %>% paste0(.," %/mm")` lager bij zeugen met de dikste speklaag (95% BI [`r confintModel$confint[1,-1] %>% abs %>% sort %>% round(.,2) %>% paste0(.," %/mm")`]). 
+Voor beren (mannelijke varkens), die een verschillende dikte van speklaag hebben, is het vleespercentage gemiddeld `r confintModel$confint[2,1] %>% abs %>% sort %>% round(.,2) %>% paste0(.," %/mm")` lager bij beren met de dikste speklaag (95% BI [`r confintModel$confint[2,-1] %>% abs %>% sort %>% round(.,2) %>% paste0(.," %/mm")`]).
+Er is op het 5% significantieniveau geen significant verschil in de associatie tussen de dikte van de speklaag en het vleespercentage tussen vrouwelijke en mannelijke varkens na correctie voor multiple testing (p = 0.0734).
+
+
+
+
+

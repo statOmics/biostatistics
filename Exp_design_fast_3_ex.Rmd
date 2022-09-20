@@ -1,0 +1,210 @@
+---
+title: "Experimenteel Design II: replicatie en power - KPNA2"
+author: "Lieven Clement & Alexandre Segers"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+  html_document:
+    code_download: yes
+    theme: cosmo
+    toc: yes
+    toc_float: yes
+    highlight: tango
+    number_sections: yes
+---
+
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+# Background
+
+Histologic grade in breast cancer provides clinically important prognostic information. Researchers examined whether histologic grade was associated with gene expression profiles of breast cancers and whether such profiles could be used to improve histologic grading. In this tutorial we will assess the association between histologic grade and the expression of the KPNA2 gene that is known to be associated with poor BC prognosis.
+The patients, however, do not only differ in the histologic grade, but also on their lymph node status. 
+The lymph nodes were not affected (0) or chirugically removed (1).
+
+- Redo data analysis (you can copy the results of the tutorial on multiple linear regression)
+- What is the power to pick up each of the contrasts when their real effect sizes would be equal to the effect sizes we observed in the study? 
+- How does the power evolves if we have 2 upto 10 repeats for each factor combination of grade and node when their real effect sizes would be equal to the ones we observed in the study? 
+- What is the power to pick up each of the contrasts when the FC for grade for patients with unaffected lymf nodes equals 1.5 ($\beta_g = log2(1.5)$)? 
+
+
+# Data analysis
+## Import KPNA2 data in R
+```{r}
+kpna2 <- read.table("https://raw.githubusercontent.com/statOmics/SGA21/master/data/kpna2.txt",header=TRUE)
+kpna2
+```
+
+Because histolic grade and lymph node status are both categorical variables, we model them both as factors.
+
+```{r,eval=FALSE}
+kpna2$grade <- ...
+kpna2$node <- ...
+```
+
+```{r,eval=FALSE}
+kpna2 %>% 
+  ggplot(aes(x=node:grade,y=gene,fill=node:grade)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter()
+```
+
+As discussed in a previous exercise, it seems that there is both an effect of histologic grade and lymph node status on the gene expression. There also seems to be a different effect of lymph node status on the gene expression for the different histologic grades.
+
+As we saw before, we can model this with a model that contains both histologic grade, lymph node status and the interaction term between both. When checking the linear model assumptions, we see that the variance is not equal. Therefore we model the gene expression with a log2-transformation, which makes that all the assumptions of the linear model are satisfied.
+
+
+```{r,eval=FALSE}
+#Model with main effects for histological grade and node and grade x node interaction
+
+```
+
+
+Check if the interaction term is significant:
+
+```{r,eval=FALSE}
+library(car)
+
+```
+
+As we are dealing with a factorial design, we can calculate the mean gene expression for each group by the following parameter summations.
+
+```{r,eval=FALSE}
+ExploreModelMatrix::VisualizeDesign(kpna2,~grade*node)$plotlist
+```
+
+The researchers want to know the power for testing following hypotheses (remark that we will have to adjust for multiple testing):
+
+- Log fold change between histologic grade 3 and histologic grade 1 for patients with unaffected lymph nodes (=0).
+
+$$H_0: \log_2{FC}_{g3n0-g1n0} = \beta_{g3} = 0$$
+
+- Log fold change between histologic grade 3 and histologic grade 1 for patients with removed lymph nodes (=1). 
+
+$$H_0: \log_2{FC}_{g3n1-g1n1} = \beta_{g3} + \beta_{g3n1} = 0$$
+
+- Log fold change between unaffected and removed lymph nodes for patients of histologic grade 1.
+
+$$H_0: \log_2{FC}_{g1n1-g1n0} = \beta_{n1} = 0$$
+
+- Log fold change between unaffected and removed lymph nodes for patients of histologic grade 3.
+
+$$H_0: \log_2{FC}_{g3n1-g3n0} = \beta_{n1} + \beta_{g3n1} = 0$$
+
+- Difference in log fold change between patients of histological grade 3 and histological grade 1 with removed lymph nodes and log fold change between patients between patients of histological grade 3 and histological grade 1 with unaffected lymph nodes.
+
+$$H_0: \log_2{FC}_{g3n1-g1n1} - \log_2{FC}_{g3n0-g1n0} = \beta_{g3n1} = 0$$ which is an equivalent hypotheses with $$H_0: \log_2{FC}_{g3n1-g3n0} - \log_2{FC}_{g1n1-g1n0} = \beta_{g3n1} = 0$$
+
+We can test this using multcomp, which controls for multiple testing.
+
+```{r,eval=FALSE}
+library(multcomp)
+
+```
+
+We get a significant p-value for the first, second, third and fifth hypothesis. The fourth hypothesis is not significant at the overall 5% significance level.
+
+# Power of the tests for each of the contrasts
+
+## Simulation function
+
+Function to simulate data similar to that of our experiment under our model assumptions. 
+
+```{r,eval=FALSE}
+simFastMultipleContrasts <- function(form, data, betas, sd, contrasts, alpha = .05, nSim = 10000, adjust = "bonferroni")
+{
+    ySim <- rnorm(nrow(data)*nSim,sd=sd)
+    dim(ySim) <-c(nrow(data),nSim)
+    design <- model.matrix(form, data)
+    ySim <- ySim + c(design %*%betas)
+    ySim <- t(ySim)
+  
+    ### Fitting
+    fitAll <- limma::lmFit(ySim,design)
+  
+    ### Inference
+    varUnscaled <- t(contrasts)%*%fitAll$cov.coefficients%*%contrasts
+    contrasts <- fitAll$coefficients %*%contrasts
+    seContrasts <- matrix(diag(varUnscaled)^.5,nrow=nSim,ncol=5,byrow = TRUE)*fitAll$sigma
+    tstats <- contrasts/seContrasts
+    pvals <- pt(abs(tstats),fitAll$df.residual,lower.tail = FALSE)*2
+    pvals <- t(apply(pvals, 1, p.adjust, method = adjust))
+    
+    return(colMeans(pvals < alpha))
+}
+```
+
+## power of current experiment
+
+```{r,eval=FALSE}
+power1 <- simFastMultipleContrasts(form = ...,
+                                   data = ...,
+                                   betas = ..., 
+                                   sd = ...,
+                                   contrasts = ...,
+                                   alpha = ...,
+                                   nSim = ...)
+power1
+```
+
+We observe large powers for all contrasts, except for contrast nodeg3, which has a small effect size. 
+
+## Power for increasing sample size
+
+```{r,eval=FALSE}
+
+powers <- matrix(NA,nrow=9, ncol=6)
+colnames(powers) <- c("n",colnames(contrasts))
+powers[,1] <- 2:10
+
+# Zorg hier voor 1 designpunt (of observatie) per groep. In de for-loop gaan we deze designpunten herhalen voor het aantal observaties.
+dataAllComb <- data.frame(grade = ...,
+                          node = ...) 
+  
+for (i in 1:nrow(powers))
+{  
+predData <- data.frame(grade = rep(dataAllComb$grade, powers[i,1]), 
+                       node = rep(dataAllComb$node, powers[i,1]))
+
+powers[i,-1] <- simFastMultipleContrasts(form = ...,
+                                   data = predData,
+                                   betas = ..., 
+                                   sd = ...,
+                                   contrasts = ...,
+                                   alpha = ...,
+                                   nSim = ...)
+}
+powers
+```
+
+```{r,eval=FALSE}
+powers %>% 
+  as.data.frame %>% 
+  gather(contrast, power, -n) %>% 
+  ggplot(aes(n,power,color=contrast)) +
+  geom_line()
+```
+
+## Power when FC for grade in patients with unaffected lymph nodes equals 1.5 ($\beta_g = log2(1.5)$)
+
+```{r,eval=FALSE}
+power3 <- simFastMultipleContrasts(form = ...,
+                                   data = ...,
+                                   betas = ..., 
+                                   sd = ...,
+                                   contrasts = ...,
+                                   alpha = ...,
+                                   nSim = ...)
+power3
+```
+

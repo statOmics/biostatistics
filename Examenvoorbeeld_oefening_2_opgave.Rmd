@@ -1,0 +1,52 @@
+---
+title: "Examen voorbeeldoefening 2"
+author: "Alexandre Segers & Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+    pdf_document:
+      toc: true
+      number_sections: true
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+
+---
+
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+
+
+Onderzoekers hebben het proteoom van weefselbiopsieën van verschillende regio's in het hart in kaart gebracht voor 3 patienten (patient 3, 4 en 8 genummerd). Ze hebben het proteoom gemeten in het linker atrium (LA), rechter atrium (RA), linker ventrikel (LV) en rechter ventrikel (RV) met massa-spectrometrie. 
+
+De intensiteiten  zijn een goeie proxy voor de proteineconcentratie. Het is de conventie in massaspectrometrie gebasseerde proteomics om de intensiteiten op log-schaal te modelleren zodat de verschillen op log-schaal een interpretatie krijgen als log2-fold changes. De intensiteitsdata zijn reeds log2 getransformeerd.  
+
+In dit examen zijn we vooral geïnteresseerd in het proteïne Myosin light chain 3 (verder MyosinL3 genoemd) en wensen we volgende onderzoeksvragen te beantwoorden: 
+
+1. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de linkerzijde van het hart.
+2. Is er een verschil in de regulatie van MyosinL3 tussen  het ventrikel en het atrium in de rechterzijde van het hart.
+3. Is de fold change van MyosinL3 tussen ventrikel en atrium verschillend tussen linker- en rechterzijde van het hart
+
+# Data exploratie
+
+Merk op dat de intensiteiten nog niet log2 getranformeerd zijn!!! 
+
+```{r}
+hart <- read.csv(file = "https://raw.githubusercontent.com/statOmics/biostatistics21/master/hearthproteine.csv")
+
+```
+
+# Algemeen lineair model opstellen
+
+
+# Hypotheses testen
+
+
+# Conclusie:
+

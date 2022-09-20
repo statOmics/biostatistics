@@ -1,0 +1,85 @@
+---
+title: "Practicum 1: Voorbereiding 1"
+output: html_document
+---
+
+# Plantgroei bij behandeling
+Deze studie vergelijkt het droog gewicht van planten tussen een controle behandeling en twee verschillende behandelingen. We willen weten of het gemiddeld gewicht van planten bij behandeling twee (de data van behandeling één gaan we niet gebruiken) verschilt tegenover de controle groep. Beide behandelingen zijn toegepast op 10 planten. De planten zijn willekeurig over de behandelingen verdeeld.
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggplot2)})
+```
+
+
+# Data exploratie
+```{r}
+data("PlantGrowth")
+```
+
+## Datastructuur bekijken
+```{r}
+#Bekijk hoe de dataset PlantGrowth eruit ziet
+
+```
+## Data filteren
+We gaan eerst de data filteren zodat enkel de controle- (ctrl) en tweede behandelingsgroep (trt2) gebruikt worden.
+```{r}
+#Filter de data zodat enkel data van de controle- (ctrl) en tweede behandelingsgroep (trt2) gebruikt worden.
+
+```
+
+
+## Figuur van de data
+We gaan de gewichten (weight) van de planten per groep (group) plotten door middel van een boxplot om te zien hoe onze distributie eruit ziet.
+```{r}
+#Maak een boxplot voor elke groep (group) van het gewicht (weight) van de planten 
+
+
+
+
+```
+
+
+# T-test
+
+## Geef de nul- en alternatieve hypothese van de two-sample t-test:
+
+
+## Geef de assumpties van de deze test en ga deze na:
+
+
+## Voer de two-sample t-test uit. Wat kan je hieruit concluderen op vlak van hypothesetest en betrouwbaarheidsinterval?
+
+```{r}
+# Voer de two-sample t-test uit om de nulhypothese van gelijk gemiddeld gewicht tussen de controlebehandeling en behandeling 2 na te gaan.
+
+
+```
+
+
+# Lineair model
+
+## Wat is de link tussen de two-sample t-test en het lineair model?
+
+## Geef de nul- en alternatieve hypothese van deze test:
+
+## Geef de assumpties van de deze test en ga deze na:
+
+
+## Modelleer de data via een lineaire regressie en ga na of de nulhypothese van gelijk gemiddeld gewicht verworpen wordt. Wat kan je zeggen over de hypothesetest en de betrouwbaarheidsintervallen? Wat betekenen de verschillende parameters?
+
+```{r}
+# Voer een lineare regressie toe van het gewicht in functie van de behandelingsgroep.
+
+
+```
+
+```{r}
+# Geef de 95% confidence intervals van de geschatte parameters.
+```
+
+
+# Conclusie: Geef de conclusie van je analyse
+

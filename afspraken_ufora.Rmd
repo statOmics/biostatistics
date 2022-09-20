@@ -1,0 +1,57 @@
+---
+title: "Organisatie cursus Biostatistiek"
+author: "Lieven Clement"
+date: "statOmics, Ghent University (https://statomics.github.io)"
+output:
+    html_document:
+      code_download: true    
+      theme: cosmo
+      toc: true
+      toc_float: true
+      highlight: tango
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Organisatie
+
+## Lesgevers
+
+- Week 1-7: Univariate statistiek. Prof. Lieven Clement 
+- Week 9-12: Multivariate statistiek. Prof. Koen Sabbe
+
+## Partim univariate statistiek
+
+- Week 1: Introductie (On campus)
+- Week 2-4:  Algemeen Lineair model. Kennis clips op Dodona. (https://dodona.ugent.be/nl/courses/805/). Leerpad met deadlines
+- Week 5: Boostersessie meervoudige regressie (On campus)
+- Week 6-7: Experimental design (On campus)
+
+## Werkcolleges Univariate Statistiek
+
+- Begeleiding Alexandre Seghers (email: Alexandre.Segers@UGent.be)
+- Week 1-3: heropfrissen R via Dodona
+- Week 4-8 en Week 10 
+
+# Examen 
+
+- Univariate statistiek 8/20
+- Multivariate statistiek 7/20
+- Examentaak in R 5/20
+
+## Examenvorm Partim Univariate
+
+- Open vragen die kunnen worden opgelost door gebruik te maken van overzichtsdocument die zal worden voorzien door de lesgever op het examen
+- Test op inzicht en logisch redeneren
+- Kritische analyse van de statistische output en resultaten in een wetenschappelijke publicatie
+- Grotere klemtoon op interpretatie dan berekening
+
+
+      
+## Feedback Partim Univariate
+
+  - Enkel na inschrijving
+  - Precieze datum wordt nog meegegeven
