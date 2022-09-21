@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>10. Algemeen Lineair Model - Factoriële Designs</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">10. Algemeen Lineair Model - Factoriële
+Designs</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="introductie" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introductie</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V1QAv2_oYBs
+" frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<p>In deze sectie illustreren we hoe experimenten met een factoriële
+proefopzet geanalyseerd kunnen worden met het algemeen lineair
+model.</p>
+<p>We focussen hierbij op een two-way anova design waarbij we een
+continue response modelleren in functie van twee categorische predictor
+variabelen (factoren).</p>
+</div>
+<div id="data" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data</h1>
+<p>48 ratten werden at random toegewezen aan</p>
+<ul>
+<li>3 giffen (I,II,III) and</li>
+<li>4 behandelingen (A,B,C,D),</li>
+</ul>
+<p>en,</p>
+<ul>
+<li>de overlevingstijd werd opgemeten (eenheid: 10 h)</li>
+</ul>
+<p>We transformeren de data eerst naar uren</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rats <span class="ot">&lt;-</span> rats <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time=</span>time <span class="sc">*</span> <span class="dv">10</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>De data exploratie suggereert een effect van beide factoren.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span>time)) <span class="sc">+</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;time (h)&quot;</span>)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ul>
+<li>Er zou een interactie kunnen zijn tussen behandeling en gif, het
+effect van het gif op de overlevingstijd hangt dan af van de behandeling
+en vice versa.</li>
+<li>De boxplots geven ook aan dat de data heteroscedastisch zijn.</li>
+</ul>
+</div>
+<div id="model" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Model</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UxHKF0fgwkY
+" frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<p>We modelleren de data met een hoofdeffect voor gif en behandeling en
+een gif <span class="math inline">\(\times\)</span> behandeling
+interactie.</p>
+<p><span class="math display">\[
+\begin{array}{lcl}
+y_i &amp;=&amp; \beta_0  + \\
+&amp;&amp;\beta_{II} x_{iII} + \beta_{III} x_{iIII} + \\
+&amp;&amp; \beta_{B} x_{iB}  + \beta_{C} x_{iC} + \beta_{D} x_{iD} + \\
+&amp;&amp;\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  +
+\beta_{II:D}x_{iII}x_{iD} + \\
+&amp;&amp;\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  +
+\beta_{III:D}x_{iIII}x_{iD} +
+\epsilon_i
+\end{array}
+\]</span></p>
+<p>met <span class="math inline">\(i = 1, \ldots, n\)</span>, <span
+class="math inline">\(n=48\)</span>, en, <span
+class="math inline">\(x_{iII}\)</span>, <span
+class="math inline">\(x_{iIII}\)</span>, <span
+class="math inline">\(x_{iB}\)</span>, <span
+class="math inline">\(x_{iC}\)</span> en <span
+class="math inline">\(x_{iD}\)</span> dummy variabelen voor
+respectievelijk gif II, III, behandeling B, C, en D.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rats1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(time<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rats1)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = time ~ poison * treat, data = rats)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.2500 -0.4875  0.0500  0.4312  4.2500 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)        4.1250     0.7457   5.532 2.94e-06 ***
+poisonII          -0.9250     1.0546  -0.877   0.3862    
+poisonIII         -2.0250     1.0546  -1.920   0.0628 .  
+treatB             4.6750     1.0546   4.433 8.37e-05 ***
+treatC             1.5500     1.0546   1.470   0.1503    
+treatD             1.9750     1.0546   1.873   0.0692 .  
+poisonII:treatB    0.2750     1.4914   0.184   0.8547    
+poisonIII:treatB  -3.4250     1.4914  -2.297   0.0276 *  
+poisonII:treatC   -1.0000     1.4914  -0.671   0.5068    
+poisonIII:treatC  -1.3000     1.4914  -0.872   0.3892    
+poisonII:treatD    1.5000     1.4914   1.006   0.3212    
+poisonIII:treatD  -0.8250     1.4914  -0.553   0.5836    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.491 on 36 degrees of freedom
+Multiple R-squared:  0.7335,    Adjusted R-squared:  0.6521 
+F-statistic:  9.01 on 11 and 36 DF,  p-value: 1.986e-07</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats1)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
+<p>De errors zijn heteroscedastisch. De residu plot suggereert een
+relatie tussen gemiddelde en variantie. De QQ-plot suggereert dat de
+verdeling mogelijks bredere staarten heeft dan de normale verdeling.</p>
+<div id="transformaties" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Transformaties</h2>
+<div id="logaritmische-transformatie" class="section level3"
+number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Logaritmische
+transformatie</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span><span class="fu">log2</span>(time))) <span class="sc">+</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rats2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(time <span class="sc">%&gt;%</span> log2<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats2)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-4.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-5.png" width="672" /></p>
+<p>Log transformatie verwijdert heteroscedasticiteit niet volledig.</p>
+</div>
+<div id="reciproke-transformatie" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Reciproke
+transformatie</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span><span class="dv">1</span><span class="sc">/</span>time)) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span> (<span class="st">&quot;rate of dying (1/h)&quot;</span>)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rats3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="dv">1</span><span class="sc">/</span>time<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats3) </span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
+<p>De reciproke transformatie lijkt beter. Transformaties bemoeilijken
+soms de interpretatie. Hier kan de reciproke transformatie echter worden
+geïnterpreteerd als de “snelheid van sterven” (rate of dying).</p>
+</div>
+</div>
+</div>
+<div id="inferentie" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Inferentie</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Dy3SyyamlHg
+" frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/GtGKActzZT0
+" frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<p>Er zijn meerdere interactie termen in het model. We kunnen deze eerst
+samen testen a.d.h.v. van de resultaten uit de anova tabel.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(rats3, <span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.24738304","2":"1","3":"103.039498","4":"4.158034e-12","_rn_":"(Intercept)"},{"1":"0.11103531","2":"2","3":"23.124105","4":"3.476712e-07","_rn_":"poison"},{"1":"0.03572343","2":"3","3":"4.959818","4":"5.535116e-03","_rn_":"treat"},{"1":"0.01570772","2":"6","3":"1.090425","4":"3.867329e-01","_rn_":"poison:treat"},{"1":"0.08643083","2":"36","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="verwijderen-van-niet-significante-interactie."
+class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Verwijderen van
+niet-significante interactie.</h2>
+<p>De interactie tussen gif en behandeling is niet significant op het 5%
+niveau.</p>
+<p>Een veelgebruikte methode is om de niet-significante interactie te
+verwijderen uit het model.</p>
+<p>We verkrijgen dan een additief model wat toelaat om de effecten van
+de twee factoren afzonderlijk te bestuderen.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rats4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="dv">1</span><span class="sc">/</span>time<span class="sc">~</span>poison <span class="sc">+</span> treat, rats)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats4)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
+<p>We zien wel iets meer afwijkingen in de residu plot.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(rats4, <span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.5821881","2":"1","3":"239.39932","4":"5.936991e-19","_rn_":"(Intercept)"},{"1":"0.3487712","2":"2","3":"71.70843","4":"2.864848e-14","_rn_":"poison"},{"1":"0.2041429","2":"3","3":"27.98160","4":"4.191931e-10","_rn_":"treat"},{"1":"0.1021386","2":"42","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>De anova tabel toont dat het effect van gif en behandeling beiden
+extreem siginficant zijn (beide <span class="math inline">\(p&lt;&lt;
+0.001\)</span>).</p>
+<p>Het additieve model laat toe om de effecten van het type gif en de
+behandeling afzonderlijke te bestuderen via een post-hoc analyse.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>comparisons <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats4, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">poison =</span> <span class="st">&quot;Tukey&quot;</span>, <span class="at">treat=</span><span class="st">&quot;Tukey&quot;</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(comparisons)</span></code></pre></div>
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = 1/time ~ poison + treat, data = rats)
+
+Linear Hypotheses:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+poison: II - I == 0    0.04686    0.01744   2.688  0.07342 .  
+poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
+poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
+treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
+treat: C - A == 0     -0.05721    0.02013  -2.842  0.05092 .  
+treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
+treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
+treat: D - B == 0      0.02991    0.02013   1.485  0.61543    
+treat: D - C == 0     -0.07862    0.02013  -3.905  0.00272 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+(Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(comparisons)</span></code></pre></div>
+<pre><code>
+     Simultaneous Confidence Intervals
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = 1/time ~ poison + treat, data = rats)
+
+Quantile = 2.8504
+95% family-wise confidence level
+ 
+
+Linear Hypotheses:
+                      Estimate  lwr       upr      
+poison: II - I == 0    0.046864 -0.002833  0.096561
+poison: III - I == 0   0.199642  0.149945  0.249340
+poison: III - II == 0  0.152778  0.103081  0.202476
+treat: B - A == 0     -0.165740 -0.223126 -0.108355
+treat: C - A == 0     -0.057214 -0.114599  0.000172
+treat: D - A == 0     -0.135834 -0.193219 -0.078448
+treat: C - B == 0      0.108527  0.051141  0.165912
+treat: D - B == 0      0.029906 -0.027479  0.087292
+treat: D - C == 0     -0.078620 -0.136006 -0.021235</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisons,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="niet-significante-interactie-term-in-het-model-weerhouden"
+class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Niet-significante
+interactie term in het model weerhouden</h2>
+<p>Het aanvaarden van de null hypothese dat er geen interactie is, is
+een zwakke conclusie. Het zou immers kunnen dat de power van het
+experiment te klein is om de interactie op te pikken. We kunnen er ook
+voor kiezen om de niet significante interactie term in het model te
+laten.</p>
+<p>Als de interactie significant zou zijn geweest, betekent dit dat het
+effect van het gif op de snelheid van sterven afhangt van de behandeling
+en vice versa. Dan kunnen we het effect van het type gif en de
+behandeling op de overlevingstijd niet afzonderlijk bestuderen.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(rats,<span class="sc">~</span>poison<span class="sc">*</span>treat)<span class="sc">$</span>plot</span></code></pre></div>
+<pre><code>[[1]]</code></pre>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>We zouden dan het effect van het type gif afzonderlijk moeten
+bestuderen voor elke behandeling:</p>
+<ol style="list-style-type: decimal">
+<li>Voor behandeling A moeten we dan volgende nulhypotheses
+toetsen:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0: \beta_{II}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0: \beta_{III}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}-\beta_{II}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Voor behandeling B:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:B}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Voor behandeling C:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:C}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Voor behandeling D:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:D}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0\)</span></li>
+</ul>
+<p>Het zelfde geldt wanneer we het effect van de behandeling
+bestuderen:</p>
+<ol style="list-style-type: decimal">
+<li>Voor gif I toetsen we dan nulhypothese</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0: \beta_{B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0: \beta_{C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0: \beta_{D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}-\beta_{B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{C}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Gif II</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{II:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Gif III</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{III:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0\)</span></li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>comparisonsInt <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats3, <span class="at">linfct =</span> <span class="fu">c</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII = 0&quot;</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII = 0&quot;</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII - poisonII = 0&quot;</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB - poisonII- poisonII:treatB = 0&quot;</span>,  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC - poisonII- poisonII:treatC = 0&quot;</span>,  </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD - poisonII- poisonII:treatD = 0&quot;</span>,  </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB = 0&quot;</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC = 0&quot;</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD = 0&quot;</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC - treatB = 0&quot;</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD - treatB = 0&quot;</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD - treatC = 0&quot;</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonII:treatC - treatB - poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatB - poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatC - poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonIII:treatC - treatB - poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatB - poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatC - poisonIII:treatC = 0&quot;</span>)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>contrastNames<span class="ot">&lt;-</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],<span class="at">each=</span><span class="dv">3</span>),<span class="fu">rep</span>(<span class="fu">apply</span>(<span class="fu">combn</span>(<span class="fu">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="dv">2</span>)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="at">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">4</span>),<span class="at">sep=</span><span class="st">&quot;: &quot;</span>),</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="at">each=</span><span class="dv">6</span>),<span class="fu">rep</span>(<span class="fu">apply</span>(<span class="fu">combn</span>(<span class="fu">c</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]),<span class="dv">2</span>)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="at">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">3</span>),<span class="at">sep=</span><span class="st">&quot;: &quot;</span>))</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisonsInt,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>In onze studie was de interactie echter niet significant. Het effect
+van het gif (II-I, III-I en III- II) verandert dus niet significant
+volgens de behandeling (A, B, C, en D) en vice versa. Voor onze dataset
+lijkt het dus zinvol om</p>
+<ol style="list-style-type: decimal">
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te
+middelen over alle behandelingen (A, B, C, en D), en,</li>
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten
+door ze uit te middelen over alle giffen (I, II, III).</li>
+</ol>
+<p>Dat zou ons gelijkaardige schattingen van de effectgroottes moeten
+geven als deze voor het additieve model waarbij we de interactie term
+uit het model hadden geweerd.</p>
+<p>B.v. voor gif III vs gif II zou dat in volgende contrast
+resulteren:</p>
+<ul>
+<li>III-II: <span class="math display">\[H_0:
+\begin{array}{l}
+\frac{\beta_{III}-\beta_{II}}{4} + \\
+\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} +
+\\
+\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} -
+\beta_{II:C}}{4} + \\
+\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} -
+\beta_{II:D}}{4}=0
+\end{array}
+\]</span> <span class="math display">\[
+H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4}
+\times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
+-\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4}
+\times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
+\]</span></li>
+</ul>
+<p>We schatten met onderstaande code alle gemiddelde contrasten a.d.h.v.
+het model met interactie.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + 1/4*poisonII:treatB + 1/4*poisonII:treatC + 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD= 0&quot;</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD - poisonII - 1/4*poisonII:treatB - 1/4*poisonII:treatC - 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + 1/3*poisonII:treatB + 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatC - 1/3*poisonII:treatC - 1/3*poisonIII:treatC = 0&quot;</span>) </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>comparisonsInt2 <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats3, <span class="at">linfct =</span> contrasts</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisonsInt2,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>De geschatte effectgroottes zijn inderdaad exact gelijk als bij het
+model zonder interactie omdat het experiment gebalanceerd is.</p>
+<p>De standaard errors verschillen wel lichtjes. Dat is het gevolg van
+de errors die verschillen tussen beiden modellen alsook het aantal
+vrijheidsgraden van de errors (n-p).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Additive_coef=</span><span class="fu">summary</span>(comparisons)<span class="sc">$</span>test<span class="sc">$</span>coef,<span class="at">Additive_se=</span><span class="fu">summary</span>(comparisons)<span class="sc">$</span>test<span class="sc">$</span>sigma,<span class="at">Int_coef=</span><span class="fu">summary</span>(comparisonsInt2)<span class="sc">$</span>test<span class="sc">$</span>coef,<span class="at">int_se=</span><span class="fu">summary</span>(comparisonsInt2)<span class="sc">$</span>test<span class="sc">$</span>sigma) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Additive_coef"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Additive_se"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Int_coef"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["int_se"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.047","2":"0.017","3":"0.047","4":"0.017","_rn_":"poison: II - I"},{"1":"0.200","2":"0.017","3":"0.200","4":"0.017","_rn_":"poison: III - I"},{"1":"0.153","2":"0.017","3":"0.153","4":"0.017","_rn_":"poison: III - II"},{"1":"-0.166","2":"0.020","3":"-0.166","4":"0.020","_rn_":"treat: B - A"},{"1":"-0.057","2":"0.020","3":"-0.057","4":"0.020","_rn_":"treat: C - A"},{"1":"-0.136","2":"0.020","3":"-0.136","4":"0.020","_rn_":"treat: D - A"},{"1":"0.109","2":"0.020","3":"0.109","4":"0.020","_rn_":"treat: C - B"},{"1":"0.030","2":"0.020","3":"0.030","4":"0.020","_rn_":"treat: D - B"},{"1":"-0.079","2":"0.020","3":"-0.079","4":"0.020","_rn_":"treat: D - C"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="conclusie" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusie</h1>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/95DvzLFe3yk
+" frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+<p>Er is een extreem significant effect van het type gif en de
+behandeling op de snelheid van sterven bij ratten (p &lt;&lt;
+0.001).</p>
+<p>De interactie tussen gif en behandeling is niet significant (p =
+0.387).</p>
+<p>De snelheid van sterven is gemiddeld 0.2h<span
+class="math inline">\(^{-1}\)</span> en 0.15h<span
+class="math inline">\(^{-1}\)</span> hoger voor ratten die blootgesteld
+worden aan gif III dan aan respectievelijk gif I en II (beide p &lt;&lt;
+0.001, 95% BI III-I: [0.15, 0.25]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI III-II: [0.1, 0.2]h<span
+class="math inline">\(^{-1}\)</span>) De gemiddelde snelheid van sterven
+was niet significant verschillend tussen ratten die werden blootgesteld
+aan gif I en gif II (p=0.074).</p>
+<p>De snelheid van sterven is gemiddeld 0.17h<span
+class="math inline">\(^{-1}\)</span> en 0.14h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling A dan na
+behandeling B en D (p &lt;&lt; 0.001, 95% BI B-A: [-0.22, -0.11]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI D-A: [-0.19, -0.08]h<span
+class="math inline">\(^{-1}\)</span>). De snelheid van sterven is
+gemiddeld 0.11h<span class="math inline">\(^{-1}\)</span> en 0.08h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling C dan
+respectievelijk na behandeling B en D (C-B: p &lt;&lt; 0.001, 95% CI
+[0.05, 0.17]h<span class="math inline">\(^{-1}\)</span> , D-C: p =
+0.003, 95% CI [-0.14, -0.02]h<span
+class="math inline">\(^{-1}\)</span>). De gemiddelde snelheid van
+sterven is niet significant verschillend tussen ratten behandeld met
+behandeling C vs A, en D vs B (p- waarden respectievelijk p = 0.051 en p
+= 0.61).</p>
+<p>Alle p-waarden werden gecorrigeerd voor meervoudig testen.</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMTAuIEFsZ2VtZWVuIExpbmVhaXIgTW9kZWwgLSBGYWN0b3Jpw6tsZSBEZXNpZ25zIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB0cnVlICAgIAogICAgdGhlbWU6IGNvc21vCiAgICB0b2M6IHRydWUKICAgIHRvY19mbG9hdDogdHJ1ZQogICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgcGRmX2RvY3VtZW50OgogICAgdG9jOiB0cnVlCiAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAoKLS0tCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGluY2x1ZGUgPSBUUlVFLCBjb21tZW50ID0gTkEsIGVjaG8gPSBUUlVFLAogICAgICAgICAgICAgICAgICAgICAgbWVzc2FnZSA9IEZBTFNFLCB3YXJuaW5nID0gRkFMU0UpCmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgSW50cm9kdWN0aWUKCjxpZnJhbWUgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMTUiIHNyYz0iaHR0cHM6Ly93d3cueW91dHViZS5jb20vZW1iZWQvVjFRQXYyX29ZQnMKIiBmcmFtZWJvcmRlcj0iMCIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyBtYXJnaW46IGF1dG87IiBhbGxvdz0iYXV0b3BsYXk7IGVuY3J5cHRlZC1tZWRpYSIgYWxsb3dmdWxsc2NyZWVuPjwvaWZyYW1lPgoKCgpJbiBkZXplIHNlY3RpZSBpbGx1c3RyZXJlbiB3ZSBob2UgZXhwZXJpbWVudGVuIG1ldCBlZW4gZmFjdG9yacOrbGUgcHJvZWZvcHpldCBnZWFuYWx5c2VlcmQga3VubmVuIHdvcmRlbiBtZXQgaGV0IGFsZ2VtZWVuIGxpbmVhaXIgbW9kZWwuIAoKV2UgZm9jdXNzZW4gaGllcmJpaiBvcCBlZW4gdHdvLXdheSBhbm92YSBkZXNpZ24gd2FhcmJpaiB3ZSBlZW4gY29udGludWUgcmVzcG9uc2UgbW9kZWxsZXJlbiBpbiBmdW5jdGllIHZhbiB0d2VlIGNhdGVnb3Jpc2NoZSBwcmVkaWN0b3IgdmFyaWFiZWxlbiAoZmFjdG9yZW4pLiAKCgojIERhdGEgCgoKNDggcmF0dGVuIHdlcmRlbiBhdCByYW5kb20gdG9lZ2V3ZXplbiBhYW4KCi0gMyBnaWZmZW4gKEksSUksSUlJKSBhbmQgCi0gNCBiZWhhbmRlbGluZ2VuIChBLEIsQyxEKSwgCgplbiwgCgotIGRlIG92ZXJsZXZpbmdzdGlqZCB3ZXJkIG9wZ2VtZXRlbiAoZWVuaGVpZDogMTAgaCkKCldlIHRyYW5zZm9ybWVyZW4gZGUgZGF0YSBlZXJzdCBuYWFyIHVyZW4KCmBgYHtyfQpsaWJyYXJ5KGZhcmF3YXkpCmRhdGEocmF0cykKCnJhdHMgPC0gcmF0cyAlPiUgCiAgbXV0YXRlKHRpbWU9dGltZSAqIDEwKQoKbGlicmFyeShHR2FsbHkpCnJhdHMgJT4lIAogIGdncGFpcnMoKQpgYGAKCkRlIGRhdGEgZXhwbG9yYXRpZSBzdWdnZXJlZXJ0IGVlbiBlZmZlY3QgdmFuIGJlaWRlIGZhY3RvcmVuLiAKCmBgYHtyfQpyYXRzICU+JQogIGdncGxvdChhZXMoeD10cmVhdCx5PXRpbWUpKSArIAogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlPU5BKSArIAogIGdlb21faml0dGVyKCkgKwogIGZhY2V0X3dyYXAofnBvaXNvbikgKwogIHlsYWIoInRpbWUgKGgpIikKYGBgCgotIEVyIHpvdSBlZW4gaW50ZXJhY3RpZSBrdW5uZW4gemlqbiB0dXNzZW4gYmVoYW5kZWxpbmcgZW4gZ2lmLCBoZXQgZWZmZWN0IHZhbiBoZXQgZ2lmIG9wIGRlIG92ZXJsZXZpbmdzdGlqZCBoYW5ndCBkYW4gYWYgdmFuIGRlIGJlaGFuZGVsaW5nIGVuIHZpY2UgdmVyc2EuIAotIERlIGJveHBsb3RzIGdldmVuIG9vayBhYW4gZGF0IGRlIGRhdGEgaGV0ZXJvc2NlZGFzdGlzY2ggemlqbi4gCgojIE1vZGVsIAoKPGlmcmFtZSB3aWR0aD0iNTYwIiBoZWlnaHQ9IjMxNSIgc3JjPSJodHRwczovL3d3dy55b3V0dWJlLmNvbS9lbWJlZC9VeEhLRjBmZ3drWQoiIGZyYW1lYm9yZGVyPSIwIiBzdHlsZT0iZGlzcGxheTogYmxvY2s7IG1hcmdpbjogYXV0bzsiIGFsbG93PSJhdXRvcGxheTsgZW5jcnlwdGVkLW1lZGlhIiBhbGxvd2Z1bGxzY3JlZW4+PC9pZnJhbWU+CgoKV2UgbW9kZWxsZXJlbiBkZSBkYXRhIG1ldCBlZW4gaG9vZmRlZmZlY3Qgdm9vciBnaWYgZW4gYmVoYW5kZWxpbmcgZW4gZWVuIGdpZiAkXHRpbWVzJCBiZWhhbmRlbGluZyBpbnRlcmFjdGllLiAKCiQkClxiZWdpbnthcnJheX17bGNsfQp5X2kgJj0mIFxiZXRhXzAgICsgXFwKJiZcYmV0YV97SUl9IHhfe2lJSX0gKyBcYmV0YV97SUlJfSB4X3tpSUlJfSArIFxcCiYmIFxiZXRhX3tCfSB4X3tpQn0gICsgXGJldGFfe0N9IHhfe2lDfSArIFxiZXRhX3tEfSB4X3tpRH0gKyBcXAomJlxiZXRhX3tJSTpCfXhfe2lJSX14X3tpQn0gKyBcYmV0YV97SUk6Q314X3tpSUl9eF97aUN9ICArIFxiZXRhX3tJSTpEfXhfe2lJSX14X3tpRH0gKyBcXAomJlxiZXRhX3tJSUk6Qn14X3tpSUlJfXhfe2lCfSArIFxiZXRhX3tJSUk6Q314X3tpSUlJfXhfe2lDfSAgKyBcYmV0YV97SUlJOkR9eF97aUlJSX14X3tpRH0gKwpcZXBzaWxvbl9pClxlbmR7YXJyYXl9CiQkCgptZXQgJGkgPSAxLCBcbGRvdHMsIG4kLCAkbj00OCQsIGVuLCAkeF97aUlJfSQsICR4X3tpSUlJfSQsICR4X3tpQn0kLCAkeF97aUN9JCBlbiAkeF97aUR9JCBkdW1teSB2YXJpYWJlbGVuIHZvb3IgcmVzcGVjdGlldmVsaWprIGdpZiBJSSwgSUlJLCBiZWhhbmRlbGluZyBCLCBDLCBlbiBELgoKYGBge3J9CnJhdHMxIDwtIGxtKHRpbWV+cG9pc29uKnRyZWF0LCByYXRzKQpzdW1tYXJ5KHJhdHMxKQpwbG90KHJhdHMxKQpgYGAKCkRlIGVycm9ycyB6aWpuIGhldGVyb3NjZWRhc3Rpc2NoLiBEZSByZXNpZHUgcGxvdCBzdWdnZXJlZXJ0IGVlbiByZWxhdGllIHR1c3NlbiBnZW1pZGRlbGRlIGVuIHZhcmlhbnRpZS4gRGUgUVEtcGxvdCBzdWdnZXJlZXJ0IGRhdCBkZSB2ZXJkZWxpbmcgbW9nZWxpamtzIGJyZWRlcmUgc3RhYXJ0ZW4gaGVlZnQgZGFuIGRlIG5vcm1hbGUgdmVyZGVsaW5nLiAKCgojIyBUcmFuc2Zvcm1hdGllcyAKCiMjIyBMb2dhcml0bWlzY2hlIHRyYW5zZm9ybWF0aWUgCgpgYGB7cn0KcmF0cyAlPiUKICBnZ3Bsb3QoYWVzKHg9dHJlYXQseT1sb2cyKHRpbWUpKSkgKyAKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZT1OQSkgKyAKICBnZW9tX2ppdHRlcigpICsKICBmYWNldF93cmFwKH5wb2lzb24pCgpyYXRzMiA8LSBsbSh0aW1lICU+JSBsb2cyfnBvaXNvbip0cmVhdCwgcmF0cykKcGxvdChyYXRzMikKYGBgCgpMb2cgdHJhbnNmb3JtYXRpZSB2ZXJ3aWpkZXJ0IGhldGVyb3NjZWRhc3RpY2l0ZWl0IG5pZXQgdm9sbGVkaWcuIAoKIyMjIFJlY2lwcm9rZSB0cmFuc2Zvcm1hdGllCgpgYGB7cn0KcmF0cyAlPiUKICBnZ3Bsb3QoYWVzKHg9dHJlYXQseT0xL3RpbWUpKSArIAogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlPU5BKSArIAogIGdlb21faml0dGVyKCkgKwogIGZhY2V0X3dyYXAofnBvaXNvbikgKyAKICB5bGFiICgicmF0ZSBvZiBkeWluZyAoMS9oKSIpCgpyYXRzMyA8LSBsbSgxL3RpbWV+cG9pc29uKnRyZWF0LCByYXRzKQpwbG90KHJhdHMzKSAKYGBgCgpEZSByZWNpcHJva2UgdHJhbnNmb3JtYXRpZSBsaWprdCBiZXRlci4gClRyYW5zZm9ybWF0aWVzIGJlbW9laWxpamtlbiBzb21zIGRlIGludGVycHJldGF0aWUuIApIaWVyIGthbiBkZSByZWNpcHJva2UgdHJhbnNmb3JtYXRpZSBlY2h0ZXIgd29yZGVuIGdlw69udGVycHJldGVlcmQgYWxzIGRlICJzbmVsaGVpZCB2YW4gc3RlcnZlbiIgKHJhdGUgb2YgZHlpbmcpLiAKCiMgSW5mZXJlbnRpZSAKCgo8aWZyYW1lIHdpZHRoPSI1NjAiIGhlaWdodD0iMzE1IiBzcmM9Imh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL2VtYmVkL0R5M1N5eWFtbEhnCiIgZnJhbWVib3JkZXI9IjAiIHN0eWxlPSJkaXNwbGF5OiBibG9jazsgbWFyZ2luOiBhdXRvOyIgYWxsb3c9ImF1dG9wbGF5OyBlbmNyeXB0ZWQtbWVkaWEiIGFsbG93ZnVsbHNjcmVlbj48L2lmcmFtZT4KCgo8aWZyYW1lIHdpZHRoPSI1NjAiIGhlaWdodD0iMzE1IiBzcmM9Imh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL2VtYmVkL0d0R0tBY3R6WlQwCiIgZnJhbWVib3JkZXI9IjAiIHN0eWxlPSJkaXNwbGF5OiBibG9jazsgbWFyZ2luOiBhdXRvOyIgYWxsb3c9ImF1dG9wbGF5OyBlbmNyeXB0ZWQtbWVkaWEiIGFsbG93ZnVsbHNjcmVlbj48L2lmcmFtZT4KCkVyIHppam4gbWVlcmRlcmUgaW50ZXJhY3RpZSB0ZXJtZW4gaW4gaGV0IG1vZGVsLiAKV2Uga3VubmVuIGRlemUgZWVyc3Qgc2FtZW4gdGVzdGVuIGEuZC5oLnYuIHZhbiBkZSByZXN1bHRhdGVuIHVpdCBkZSBhbm92YSB0YWJlbC4gCgpgYGB7cn0KbGlicmFyeShjYXIpCkFub3ZhKHJhdHMzLCB0eXBlPSJJSUkiKQpgYGAKCiMjIFZlcndpamRlcmVuIHZhbiBuaWV0LXNpZ25pZmljYW50ZSBpbnRlcmFjdGllLiAKCkRlIGludGVyYWN0aWUgdHVzc2VuIGdpZiBlbiBiZWhhbmRlbGluZyBpcyBuaWV0IHNpZ25pZmljYW50IG9wIGhldCA1JSBuaXZlYXUuIAoKRWVuIHZlZWxnZWJydWlrdGUgbWV0aG9kZSBpcyBvbSBkZSBuaWV0LXNpZ25pZmljYW50ZSBpbnRlcmFjdGllIHRlIHZlcndpamRlcmVuIHVpdCBoZXQgbW9kZWwuIAoKV2UgdmVya3JpamdlbiBkYW4gZWVuIGFkZGl0aWVmIG1vZGVsIHdhdCB0b2VsYWF0IG9tIGRlIGVmZmVjdGVuIHZhbiBkZSB0d2VlIGZhY3RvcmVuIGFmem9uZGVybGlqayB0ZSBiZXN0dWRlcmVuLiAKCmBgYHtyfQpyYXRzNCA8LSBsbSgxL3RpbWV+cG9pc29uICsgdHJlYXQsIHJhdHMpCnBsb3QocmF0czQpCmBgYAoKV2UgemllbiB3ZWwgaWV0cyBtZWVyIGFmd2lqa2luZ2VuIGluIGRlIHJlc2lkdSBwbG90LgoKYGBge3J9CkFub3ZhKHJhdHM0LCB0eXBlPSJJSUkiKQpgYGAKCkRlIGFub3ZhIHRhYmVsIHRvb250IGRhdCBoZXQgZWZmZWN0IHZhbiBnaWYgZW4gYmVoYW5kZWxpbmcgYmVpZGVuIGV4dHJlZW0gc2lnaW5maWNhbnQgemlqbiAoYmVpZGUgJHA8PCAwLjAwMSQpLgoKSGV0IGFkZGl0aWV2ZSBtb2RlbCBsYWF0IHRvZSBvbSBkZSBlZmZlY3RlbiB2YW4gaGV0IHR5cGUgZ2lmIGVuIGRlIGJlaGFuZGVsaW5nIGFmem9uZGVybGlqa2UgdGUgYmVzdHVkZXJlbiB2aWEgZWVuIHBvc3QtaG9jIGFuYWx5c2UuIAoKYGBge3J9CmxpYnJhcnkobXVsdGNvbXApCmNvbXBhcmlzb25zIDwtIGdsaHQocmF0czQsIGxpbmZjdCA9IG1jcChwb2lzb24gPSAiVHVrZXkiLCB0cmVhdD0iVHVrZXkiKSkKc3VtbWFyeShjb21wYXJpc29ucykKY29uZmludChjb21wYXJpc29ucykKcGxvdChjb21wYXJpc29ucyx5YXh0PSJub25lIikKY29udHJhc3ROYW1lcyA8LSBjKCJJSS1JIiwiSUlJLUkiLCJJSUktSUkiLCJCLUEiLCJDLUEiLCJELUEiLCJDLUIiLCJELUIiLCJELUMiKQpheGlzKDIsYXQ9YyhsZW5ndGgoY29udHJhc3ROYW1lcyk6MSksIGxhYmVscz1jb250cmFzdE5hbWVzLGxhcz0yKQpgYGAKCiMjIE5pZXQtc2lnbmlmaWNhbnRlIGludGVyYWN0aWUgdGVybSBpbiBoZXQgbW9kZWwgd2VlcmhvdWRlbgoKSGV0IGFhbnZhYXJkZW4gdmFuIGRlIG51bGwgaHlwb3RoZXNlIGRhdCBlciBnZWVuIGludGVyYWN0aWUgaXMsIGlzIGVlbiB6d2Fra2UgY29uY2x1c2llLiAKSGV0IHpvdSBpbW1lcnMga3VubmVuIGRhdCBkZSBwb3dlciB2YW4gaGV0IGV4cGVyaW1lbnQgdGUga2xlaW4gaXMgb20gZGUgaW50ZXJhY3RpZSBvcCB0ZSBwaWtrZW4uCldlIGt1bm5lbiBlciBvb2sgdm9vciBraWV6ZW4gb20gZGUgbmlldCBzaWduaWZpY2FudGUgaW50ZXJhY3RpZSB0ZXJtIGluIGhldCBtb2RlbCB0ZSBsYXRlbi4gCgpBbHMgZGUgaW50ZXJhY3RpZSBzaWduaWZpY2FudCB6b3UgemlqbiBnZXdlZXN0LCBiZXRla2VudCBkaXQgZGF0IGhldCBlZmZlY3QgdmFuIGhldCBnaWYgb3AgZGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gYWZoYW5ndCB2YW4gZGUgYmVoYW5kZWxpbmcgZW4gdmljZSB2ZXJzYS4gCkRhbiBrdW5uZW4gd2UgaGV0IGVmZmVjdCB2YW4gaGV0IHR5cGUgZ2lmIGVuIGRlIGJlaGFuZGVsaW5nIG9wIGRlIG92ZXJsZXZpbmdzdGlqZCBuaWV0IGFmem9uZGVybGlqayBiZXN0dWRlcmVuLiAKCmBgYHtyfSAKRXhwbG9yZU1vZGVsTWF0cml4OjpWaXN1YWxpemVEZXNpZ24ocmF0cyx+cG9pc29uKnRyZWF0KSRwbG90CmBgYAoKV2Ugem91ZGVuIGRhbiBoZXQgZWZmZWN0IHZhbiBoZXQgdHlwZSBnaWYgYWZ6b25kZXJsaWprIG1vZXRlbiBiZXN0dWRlcmVuIHZvb3IgZWxrZSBiZWhhbmRlbGluZzogCgoxLiBWb29yIGJlaGFuZGVsaW5nIEEgbW9ldGVuIHdlIGRhbiB2b2xnZW5kZSBudWxoeXBvdGhlc2VzIHRvZXRzZW46CgotIElJLUk6ICRIXzA6IFxiZXRhX3tJSX09MCQKLSBJSUktSTogJEhfMDogXGJldGFfe0lJSX09MCQKLSBJSUktSUk6ICRIXzA6IFxiZXRhX3tJSUl9LVxiZXRhX3tJSX09MCQKCjIuIFZvb3IgYmVoYW5kZWxpbmcgQjoKCi0gSUktSTogJEhfMDogXGJldGFfe0lJfStcYmV0YV97SUk6Qn09MCQKLSBJSUktSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpCfT0wJAotIElJSS1JSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpCfS1cYmV0YV97SUl9LVxiZXRhX3tJSTpCfT0wJAoKMy4gVm9vciBiZWhhbmRlbGluZyBDOgoKLSBJSS1JOiAkSF8wOiBcYmV0YV97SUl9K1xiZXRhX3tJSTpDfT0wJAotIElJSS1JOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkN9PTAkCi0gSUlJLUlJOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkN9LVxiZXRhX3tJSX0tXGJldGFfe0lJOkN9PTAkCgo0LiBWb29yIGJlaGFuZGVsaW5nIEQ6CgotIElJLUk6ICRIXzA6IFxiZXRhX3tJSX0rXGJldGFfe0lJOkR9PTAkCi0gSUlJLUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6RH09MCQKLSBJSUktSUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6RH0tXGJldGFfe0lJfS1cYmV0YV97SUk6RH09MCQKCkhldCB6ZWxmZGUgZ2VsZHQgd2FubmVlciB3ZSBoZXQgZWZmZWN0IHZhbiBkZSBiZWhhbmRlbGluZyBiZXN0dWRlcmVuOiAKCjEuIFZvb3IgZ2lmIEkgdG9ldHNlbiB3ZSBkYW4gbnVsaHlwb3RoZXNlCgotIEItQTogJEhfMDogXGJldGFfe0J9PTAkCi0gQy1BOiAkSF8wOiBcYmV0YV97Q309MCQKLSBELUE6ICRIXzA6IFxiZXRhX3tEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9LVxiZXRhX3tCfT0wJAotIEQtQjogJEhfMDogXGJldGFfe0R9LVxiZXRhX3tCfT0wJAotIEQtQzogJEhfMDogXGJldGFfe0R9LVxiZXRhX3tDfT0wJAoKMi4gR2lmIElJCgotIEItQTogJEhfMDogXGJldGFfe0J9K1xiZXRhX3tJSTpCfT0wJAotIEMtQTogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSTpDfT0wJAotIEQtQTogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSTpEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSTpDfS1cYmV0YV97Qn0tXGJldGFfe0lJOkJ9PTAkCi0gRC1COiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJOkR9LVxiZXRhX3tCfS1cYmV0YV97SUk6Qn09MCQKLSBELUM6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUk6RH0tXGJldGFfe0N9LVxiZXRhX3tJSTpDfT0wJAoKMy4gR2lmIElJSQoKLSBCLUE6ICRIXzA6IFxiZXRhX3tCfStcYmV0YV97SUlJOkJ9PTAkCi0gQy1BOiAkSF8wOiBcYmV0YV97Q30rXGJldGFfe0lJSTpDfT0wJAotIEQtQTogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSTpEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSUk6Q30tXGJldGFfe0J9LVxiZXRhX3tJSUk6Qn09MCQKLSBELUI6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUlJOkR9LVxiZXRhX3tCfS1cYmV0YV97SUlJOkJ9PTAkCi0gRC1DOiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJSTpEfS1cYmV0YV97Q30tXGJldGFfe0lJSTpDfT0wJAoKYGBge3IgZmlnLmhlaWdodD0xMH0KY29tcGFyaXNvbnNJbnQgPC0gZ2xodChyYXRzMywgbGluZmN0ID0gYygKICAicG9pc29uSUkgPSAwIiwKICAicG9pc29uSUlJID0gMCIsCiAgInBvaXNvbklJSSAtIHBvaXNvbklJID0gMCIsCiAgInBvaXNvbklJICsgcG9pc29uSUk6dHJlYXRCID0gMCIsCiAgInBvaXNvbklJSSArIHBvaXNvbklJSTp0cmVhdEIgPSAwIiwKICAicG9pc29uSUlJICsgcG9pc29uSUlJOnRyZWF0QiAtIHBvaXNvbklJLSBwb2lzb25JSTp0cmVhdEIgPSAwIiwgIAogICJwb2lzb25JSSArIHBvaXNvbklJOnRyZWF0QyA9IDAiLAogICJwb2lzb25JSUkgKyBwb2lzb25JSUk6dHJlYXRDID0gMCIsCiAgInBvaXNvbklJSSArIHBvaXNvbklJSTp0cmVhdEMgLSBwb2lzb25JSS0gcG9pc29uSUk6dHJlYXRDID0gMCIsICAKICAicG9pc29uSUkgKyBwb2lzb25JSTp0cmVhdEQgPSAwIiwKICAicG9pc29uSUlJICsgcG9pc29uSUlJOnRyZWF0RCA9IDAiLAogICJwb2lzb25JSUkgKyBwb2lzb25JSUk6dHJlYXREIC0gcG9pc29uSUktIHBvaXNvbklJOnRyZWF0RCA9IDAiLCAgCiAgInRyZWF0QiA9IDAiLAogICJ0cmVhdEMgPSAwIiwKICAidHJlYXREID0gMCIsCiAgInRyZWF0QyAtIHRyZWF0QiA9IDAiLAogICJ0cmVhdEQgLSB0cmVhdEIgPSAwIiwKICAidHJlYXREIC0gdHJlYXRDID0gMCIsCiAgInRyZWF0QiArIHBvaXNvbklJOnRyZWF0QiA9IDAiLAogICJ0cmVhdEMgKyBwb2lzb25JSTp0cmVhdEMgPSAwIiwKICAidHJlYXREICsgcG9pc29uSUk6dHJlYXREID0gMCIsCiAgInRyZWF0QyArIHBvaXNvbklJOnRyZWF0QyAtIHRyZWF0QiAtIHBvaXNvbklJOnRyZWF0QiA9IDAiLAogICJ0cmVhdEQgKyBwb2lzb25JSTp0cmVhdEQgLSB0cmVhdEIgLSBwb2lzb25JSTp0cmVhdEIgPSAwIiwKICAidHJlYXREICsgcG9pc29uSUk6dHJlYXREIC0gdHJlYXRDIC0gcG9pc29uSUk6dHJlYXRDID0gMCIsCiAgInRyZWF0QiArIHBvaXNvbklJSTp0cmVhdEIgPSAwIiwKICAidHJlYXRDICsgcG9pc29uSUlJOnRyZWF0QyA9IDAiLAogICJ0cmVhdEQgKyBwb2lzb25JSUk6dHJlYXREID0gMCIsCiAgInRyZWF0QyArIHBvaXNvbklJSTp0cmVhdEMgLSB0cmVhdEIgLSBwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0RCArIHBvaXNvbklJSTp0cmVhdEQgLSB0cmVhdEIgLSBwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0RCArIHBvaXNvbklJSTp0cmVhdEQgLSB0cmVhdEMgLSBwb2lzb25JSUk6dHJlYXRDID0gMCIpCikKCmNvbnRyYXN0TmFtZXM8LQogIGMocGFzdGUocmVwKExFVFRFUlNbMTo0XSxlYWNoPTMpLHJlcChhcHBseShjb21ibihjKCJJIiwiSUkiLCJJSUkiKSwyKVsyOjEsXSwyLHBhc3RlLGNvbGxhcHNlPSItIikgLDQpLHNlcD0iOiAiKSwKICAgIHBhc3RlKHJlcChjKCJJIiwiSUkiLCJJSUkiKSxlYWNoPTYpLHJlcChhcHBseShjb21ibihjKExFVFRFUlNbMTo0XSksMilbMjoxLF0sMixwYXN0ZSxjb2xsYXBzZT0iLSIpICwzKSxzZXA9IjogIikpCgpwbG90KGNvbXBhcmlzb25zSW50LHlheHQ9Im5vbmUiKQpheGlzKDIsYXQ9YyhsZW5ndGgoY29udHJhc3ROYW1lcyk6MSksIGxhYmVscz1jb250cmFzdE5hbWVzLGxhcz0yKQpgYGAKCkluIG9uemUgc3R1ZGllIHdhcyBkZSBpbnRlcmFjdGllIGVjaHRlciBuaWV0IHNpZ25pZmljYW50LiBIZXQgZWZmZWN0IHZhbiBoZXQgZ2lmIChJSS1JLCBJSUktSSBlbiBJSUktIElJKSB2ZXJhbmRlcnQgZHVzIG5pZXQgc2lnbmlmaWNhbnQgdm9sZ2VucyBkZSBiZWhhbmRlbGluZyAoQSwgQiwgQywgZW4gRCkgZW4gdmljZSB2ZXJzYS4gVm9vciBvbnplIGRhdGFzZXQgbGlqa3QgaGV0IGR1cyB6aW52b2wgb20gCgoxLiBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGdpZmZlbiAoSUktSSwgSUlJLUkgZW4gSUlJLSBJSSkgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGJlaGFuZGVsaW5nZW4gKEEsIEIsIEMsIGVuIEQpLCBlbiwgCjIuICBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGJlaGFuZGVsaW5nZW4gKEItQSwgQy1BLCBELUEsIEMtQiwgRC1CIGVuIEQtQykgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGdpZmZlbiAoSSwgSUksIElJSSkuIAoKRGF0IHpvdSBvbnMgZ2VsaWprYWFyZGlnZSBzY2hhdHRpbmdlbiB2YW4gZGUgZWZmZWN0Z3Jvb3R0ZXMgbW9ldGVuIGdldmVuIGFscyBkZXplIHZvb3IgaGV0IGFkZGl0aWV2ZSBtb2RlbCB3YWFyYmlqIHdlIGRlIGludGVyYWN0aWUgdGVybSB1aXQgaGV0IG1vZGVsIGhhZGRlbiBnZXdlZXJkLiAKCgpCLnYuIHZvb3IgZ2lmIElJSSB2cyBnaWYgSUkgem91IGRhdCBpbiB2b2xnZW5kZSBjb250cmFzdCByZXN1bHRlcmVuOiAKCi0gSUlJLUlJOiAKJCRIXzA6IApcYmVnaW57YXJyYXl9e2x9ClxmcmFje1xiZXRhX3tJSUl9LVxiZXRhX3tJSX19ezR9ICsgXFwKXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkJ9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Qn19ezR9ICsgXFwKXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkN9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Q319ezR9ICsgXFwKXHF1YWQgXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkR9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6RH19ezR9PTAKXGVuZHthcnJheX0KJCQKJCQKSF8wOlxiZXRhX3tJSUl9ICsgXGZyYWN7MX17NH0gXHRpbWVzIFxiZXRhX3tJSUk6Qn0gKyAgXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJSTpDfSArICBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUlJOkR9Ci1cYmV0YV97SUl9IC0gXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJOkJ9IC0gIFxmcmFjezF9ezR9IFx0aW1lc1xiZXRhX3tJSTpDfSAgLSBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUk6RH09MAokJAoKV2Ugc2NoYXR0ZW4gbWV0IG9uZGVyc3RhYW5kZSBjb2RlIGFsbGUgZ2VtaWRkZWxkZSBjb250cmFzdGVuIGEuZC5oLnYuIGhldCBtb2RlbCBtZXQgaW50ZXJhY3RpZS4KCmBgYHtyfQpjb250cmFzdHMgPC0gYygKICAicG9pc29uSUkgKyAxLzQqcG9pc29uSUk6dHJlYXRCICsgMS80KnBvaXNvbklJOnRyZWF0QyArIDEvNCpwb2lzb25JSTp0cmVhdEQgPSAwIiwKICAicG9pc29uSUlJICsgMS80KnBvaXNvbklJSTp0cmVhdEIgKyAxLzQqcG9pc29uSUlJOnRyZWF0QyArIDEvNCpwb2lzb25JSUk6dHJlYXREPSAwIiwKICAicG9pc29uSUlJICsgMS80KnBvaXNvbklJSTp0cmVhdEIgKyAxLzQqcG9pc29uSUlJOnRyZWF0QyArIDEvNCpwb2lzb25JSUk6dHJlYXREIC0gcG9pc29uSUkgLSAxLzQqcG9pc29uSUk6dHJlYXRCIC0gMS80KnBvaXNvbklJOnRyZWF0QyAtIDEvNCpwb2lzb25JSTp0cmVhdEQgPSAwIiwKICAidHJlYXRCICsgMS8zKnBvaXNvbklJOnRyZWF0QiArIDEvMypwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0QyArIDEvMypwb2lzb25JSTp0cmVhdEMgKyAxLzMqcG9pc29uSUlJOnRyZWF0QyA9IDAiLAogICJ0cmVhdEQgKyAxLzMqcG9pc29uSUk6dHJlYXREICsgMS8zKnBvaXNvbklJSTp0cmVhdEQgPSAwIiwKICAidHJlYXRDICsgMS8zKnBvaXNvbklJOnRyZWF0QyArIDEvMypwb2lzb25JSUk6dHJlYXRDIC0gdHJlYXRCIC0gMS8zKnBvaXNvbklJOnRyZWF0QiAtIDEvMypwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0RCArIDEvMypwb2lzb25JSTp0cmVhdEQgKyAxLzMqcG9pc29uSUlJOnRyZWF0RCAgLSB0cmVhdEIgLSAxLzMqcG9pc29uSUk6dHJlYXRCIC0gMS8zKnBvaXNvbklJSTp0cmVhdEIgPSAwIiwKICAidHJlYXREICsgMS8zKnBvaXNvbklJOnRyZWF0RCArIDEvMypwb2lzb25JSUk6dHJlYXREICAtIHRyZWF0QyAtIDEvMypwb2lzb25JSTp0cmVhdEMgLSAxLzMqcG9pc29uSUlJOnRyZWF0QyA9IDAiKSAKCgpjb21wYXJpc29uc0ludDIgPC0gZ2xodChyYXRzMywgbGluZmN0ID0gY29udHJhc3RzCikKcGxvdChjb21wYXJpc29uc0ludDIseWF4dD0ibm9uZSIpCmNvbnRyYXN0TmFtZXMgPC0gYygiSUktSSIsIklJSS1JIiwiSUlJLUlJIiwiQi1BIiwiQy1BIiwiRC1BIiwiQy1CIiwiRC1CIiwiRC1DIikKYXhpcygyLGF0PWMobGVuZ3RoKGNvbnRyYXN0TmFtZXMpOjEpLCBsYWJlbHM9Y29udHJhc3ROYW1lcyxsYXM9MikKYGBgCgpEZSBnZXNjaGF0dGUgZWZmZWN0Z3Jvb3R0ZXMgemlqbiBpbmRlcmRhYWQgZXhhY3QgZ2VsaWprIGFscyBiaWogaGV0IG1vZGVsIHpvbmRlciBpbnRlcmFjdGllIG9tZGF0IGhldCBleHBlcmltZW50IGdlYmFsYW5jZWVyZCBpcy4gCgpEZSBzdGFuZGFhcmQgZXJyb3JzIHZlcnNjaGlsbGVuIHdlbCBsaWNodGplcy4gCkRhdCBpcyBoZXQgZ2V2b2xnIHZhbiBkZSBlcnJvcnMgZGllIHZlcnNjaGlsbGVuIHR1c3NlbiBiZWlkZW4gbW9kZWxsZW4gYWxzb29rIGhldCBhYW50YWwgdnJpamhlaWRzZ3JhZGVuIHZhbiBkZSBlcnJvcnMgKG4tcCkuIAoKYGBge3J9CmRhdGEuZnJhbWUoQWRkaXRpdmVfY29lZj1zdW1tYXJ5KGNvbXBhcmlzb25zKSR0ZXN0JGNvZWYsQWRkaXRpdmVfc2U9c3VtbWFyeShjb21wYXJpc29ucykkdGVzdCRzaWdtYSxJbnRfY29lZj1zdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRjb2VmLGludF9zZT1zdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRzaWdtYSkgJT4lIHJvdW5kKDMpCmBgYAoKIyBDb25jbHVzaWUKCjxpZnJhbWUgd2lkdGg9IjU2MCIgaGVpZ2h0PSIzMTUiIHNyYz0iaHR0cHM6Ly93d3cueW91dHViZS5jb20vZW1iZWQvOTVEdnpMRmUzeWsKIiBmcmFtZWJvcmRlcj0iMCIgc3R5bGU9ImRpc3BsYXk6IGJsb2NrOyBtYXJnaW46IGF1dG87IiBhbGxvdz0iYXV0b3BsYXk7IGVuY3J5cHRlZC1tZWRpYSIgYWxsb3dmdWxsc2NyZWVuPjwvaWZyYW1lPgoKRXIgaXMgZWVuIGV4dHJlZW0gc2lnbmlmaWNhbnQgZWZmZWN0IHZhbiBoZXQgdHlwZSBnaWYgZW4gZGUgYmVoYW5kZWxpbmcgb3AgZGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gYmlqIHJhdHRlbiAocCA8PCAwLjAwMSkuCgpEZSBpbnRlcmFjdGllIHR1c3NlbiBnaWYgZW4gYmVoYW5kZWxpbmcgaXMgbmlldCBzaWduaWZpY2FudCAocCA9IGByICBBbm92YShyYXRzMyx0eXBlPSJJSUkiKVsicG9pc29uOnRyZWF0IiwiUHIoPkYpIl0gJT4lIHJvdW5kKDMpYCkuIAoKRGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gaXMgZ2VtaWRkZWxkIGByIGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSSIsMV0gJT4lIHJvdW5kKDIpYGgkXnstMX0kICBlbiBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iSUlJLUlJIiwxXSAlPiUgcm91bmQoMilgaCReey0xfSQgaG9nZXIgdm9vciByYXR0ZW4gZGllIGJsb290Z2VzdGVsZCB3b3JkZW4gYWFuIGdpZiBJSUkgZGFuIGFhbiByZXNwZWN0aWV2ZWxpamsgZ2lmIEkgZW4gSUkgKGJlaWRlIHAgPDwgMC4wMDEsIDk1JSBCSSBJSUktSTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSSIsLTFdLDIpLGNvbGxhcHNlPSIsICIpYF1oJF57LTF9JCwgOTUlIEJJIElJSS1JSTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSUkiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQpCkRlIGdlbWlkZGVsZGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gd2FzIG5pZXQgc2lnbmlmaWNhbnQgdmVyc2NoaWxsZW5kIHR1c3NlbiByYXR0ZW4gZGllIHdlcmRlbiBibG9vdGdlc3RlbGQgYWFuIGdpZiBJIGVuIGdpZiBJSSAocD1gciByb3VuZChzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJJSS1JIl0sMylgKS4KCkRlIHNuZWxoZWlkIHZhbiBzdGVydmVuIGlzIGdlbWlkZGVsZCBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iQi1BIiwxXSAlPiUgcm91bmQoMikgJT4lIGFic2BoJF57LTF9JCBlbiBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iRC1BIiwxXSAlPiUgcm91bmQoMiklPiUgYWJzYGgkXnstMX0kIGhvZ2VyIG5hIGJlaGFuZGVsaW5nIEEgZGFuIG5hIGJlaGFuZGVsaW5nIEIgZW4gRCAocCA8PCAwLjAwMSwgOTUlIEJJIEItQTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJCLUEiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQsIDk1JSBCSSBELUE6IFtgciBwYXN0ZShyb3VuZChjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iRC1BIiwtMV0sMiksY29sbGFwc2U9IiwgIilgXWgkXnstMX0kKS4gCkRlIHNuZWxoZWlkIHZhbiBzdGVydmVuIGlzIGdlbWlkZGVsZCBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iQy1CIiwxXSAlPiUgcm91bmQoMilgaCReey0xfSQgZW4gYHIgY29uZmludChjb21wYXJpc29uc0ludDIpJGNvbmZpbnRbY29udHJhc3ROYW1lcz09IkQtQyIsMV0gJT4lIHJvdW5kKDIpICU+JSBhYnNgaCReey0xfSQgaG9nZXIgbmEgYmVoYW5kZWxpbmcgQyBkYW4gcmVzcGVjdGlldmVsaWprIG5hIGJlaGFuZGVsaW5nIEIgZW4gRCAoQy1COiBwIDw8IDAuMDAxLCA5NSUgQ0kgW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJDLUIiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQgLCBELUM6IHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJELUMiXSAlPiUgcm91bmQoMylgLCA5NSUgQ0kgW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJELUMiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQpLiAKRGUgZ2VtaWRkZWxkZSBzbmVsaGVpZCB2YW4gc3RlcnZlbiBpcyBuaWV0IHNpZ25pZmljYW50IHZlcnNjaGlsbGVuZCB0dXNzZW4gcmF0dGVuIGJlaGFuZGVsZCBtZXQgYmVoYW5kZWxpbmcgQyB2cyBBLCBlbiBEIHZzIEIgKHAtIHdhYXJkZW4gcmVzcGVjdGlldmVsaWprIHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJDLUEiXSAlPiUgcm91bmQoMylgIGVuIHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJELUIiXSAlPiUgcm91bmQoMylgKS4KCkFsbGUgcC13YWFyZGVuIHdlcmRlbiBnZWNvcnJpZ2VlcmQgdm9vciBtZWVydm91ZGlnIHRlc3Rlbi4g</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("10-MultipleRegression-FactorialDesigns.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

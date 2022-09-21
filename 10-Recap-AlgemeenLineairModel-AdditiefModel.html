@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>10. Recap: Algemeen Lineair Model - Additief Model</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">10. Recap: Algemeen Lineair Model -
+Additief Model</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="dataset---onderzoeksvraag---design" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Dataset -
+Onderzoeksvraag - Design?</h1>
+<ul>
+<li><p>Prostaatkanker case studie</p></li>
+<li><p>Associatie tussen prostaat specifiek antigen concentratie en
+andere predictoren</p></li>
+<li><p>Type response?</p></li>
+<li><p>Type predictoren?</p></li>
+</ul>
+</div>
+<div id="data-exploratie" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data-exploratie</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> prostate <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">svi =</span> <span class="fu">as.factor</span>(svi))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>prostate <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>pgg45)  <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-AdditiefModel_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ul>
+<li>Schatting voor parameter <span
+class="math inline">\(\beta_v\)</span> mogelijks geen zuiver effect van
+tumor volume.</li>
+<li>Zelfs als lcavol niet is geassocieerd met het lpsa, dan nog kunnen
+patiënten met een groter tumor volume een hoger lpsa hebben omdat ze
+bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status 1).
+<span class="math inline">\(\rightarrow\)</span> Confounding.</li>
+<li>Door de svi status in het model op te nemen corrigeren we voor de
+mogelijkse confounding.</li>
+</ul>
+</div>
+<div
+id="vertalen-van-onderzoeksvraag-naar-populatie-parameters-effectgrootte"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Vertalen van
+onderzoeksvraag naar populatie parameters: effectgrootte</h1>
+<p><span class="math display">\[\text{E}\left(Y\vert X_v, X_w,
+X_s\right) = \beta_0 + \beta_v X_v + \beta_w X_w + \beta_s
+X_s\]</span></p>
+<ul>
+<li><p>Associatie van predictoren met log PSA: hellingen van het
+model</p></li>
+<li><p>Meer accurate predicties door meerdere predictoren simultaan in
+rekening te brengen</p></li>
+<li><p>Interpretatie?</p>
+<ul>
+<li><p>verschil in gemiddelde uitkomst tussen subjecten die in één
+eenheid van log tumor volume (<span class="math inline">\(X_v\)</span>)
+verschillen, maar dezelfde waarde hebben voor de overige verklarende
+variabelen (<span class="math inline">\(X_w\)</span> en <span
+class="math inline">\(X_s\)</span>) in het model.</p></li>
+<li><p>Associatie tussen log PSA en de predictor log tumor volume
+waarbij gecorrigeerd wordt voor de overige predictoren, hier dus
+associatie van log PSA en het log tumor volume na correctie voor log
+prostaatgewicht en svi-status.</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="schatten-van-effectgrootte-a.d.h.v.-steekproef"
+class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Schatten van
+effectgrootte a.d.h.v. steekproef</h1>
+<ul>
+<li>Kleinste kwadratentechniek</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lmV <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa<span class="sc">~</span>lcavol, prostate)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmV)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = lpsa ~ lcavol, data = prostate)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.67624 -0.41648  0.09859  0.50709  1.89672 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.50730    0.12194   12.36   &lt;2e-16 ***
+lcavol       0.71932    0.06819   10.55   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.7875 on 95 degrees of freedom
+Multiple R-squared:  0.5394,    Adjusted R-squared:  0.5346 
+F-statistic: 111.3 on 1 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lmVWS <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa<span class="sc">~</span>lcavol <span class="sc">+</span> lweight <span class="sc">+</span> svi, prostate)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = lpsa ~ lcavol + lweight + svi, data = prostate)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.72966 -0.45767  0.02814  0.46404  1.57012 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.26807    0.54350  -0.493  0.62301    
+lcavol       0.55164    0.07467   7.388  6.3e-11 ***
+lweight      0.50854    0.15017   3.386  0.00104 ** 
+sviinvasion  0.66616    0.20978   3.176  0.00203 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.7168 on 93 degrees of freedom
+Multiple R-squared:  0.6264,    Adjusted R-squared:  0.6144 
+F-statistic: 51.99 on 3 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>De parameter bij lcavol geeft nu aan dat patiënten met een
+tumorvolume dat 1% hoger ligt, maar eenzelfde prostaat gewicht en svi
+status hebben, een prostaat antigeen concentratie zullen hebben dat
+gemiddeld slechts 0.55% hoger ligt.</p>
+<p>De reden dat we eerder een verschil van meer dan 0.72% vonden, kan
+worden verklaard doordat patiënten met een verschil in tumorvolume vaak
+ook verschillen in prostaat gewicht en svi status en omdat prostaat
+gewicht en svi mogelijks ook een associatie vertonen met log PSA</p>
+<p><img src="10-Recap-AlgemeenLineairModel-AdditiefModel_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inferentie" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Inferentie</h1>
+<ul>
+<li><p>Kunnen we hetgeen we zien in de steekproef vertalen naar de
+populatie toe?</p></li>
+<li><p>Hiervoor moeten we rekening houden dat we maar een heel klein
+deel van de populatie hebben kunnen bemonsteren.</p></li>
+<li><p>Gevens, statistieken en conclusies zijn stochastisch. Ze variëren
+van steekproef tot steekproef.</p></li>
+<li><p>We moeten die variabiliteit in kunnen schatten o.b.v. één enkele
+steekproef!</p></li>
+</ul>
+<div id="aannames" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Aannames?</h2>
+<div id="representatieve-steekproef" class="section level3"
+number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Representatieve
+steekproef:</h3>
+<p><span class="math inline">\(\hat\beta_j\)</span> is een onvertekende
+schatter van <span class="math inline">\(\beta\)</span> als steekproef
+representatief is</p>
+<p><span class="math display">\[E[\hat \beta_j]=\beta_j\]</span></p>
+</div>
+<div id="normaliteit" class="section level3" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Normaliteit</h3>
+<p><span class="math display">\[Y_{i} \sim N(\mu_i,\sigma^2)\]</span>
+<span class="math display">\[Y_i \sim
+N(\beta_0+\beta_vx_{iv}+\beta_wx_{iw} +
+\beta_sx_{is},\sigma^2)  \longrightarrow \hat \beta_j \sim N(\beta_j,
+\sigma^2_{\hat \beta_j})\]</span></p>
+<p>en lineaire combinaties van de model parameterschatters zijn ook
+normaal verdeeld.</p>
+<p><span class="math display">\[
+\longrightarrow L^T\hat \beta \sim N(L^T\beta,
+\sigma^2_{L^T\hat{\boldsymbol{\beta}}})
+\]</span></p>
+</div>
+<div id="onafhankelijkheid-en-gelijkheid-van-variantie"
+class="section level3" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Onafhankelijkheid
+en gelijkheid van variantie</h3>
+<p><span class="math display">\[\sigma^2_{L^T\hat{\boldsymbol{\beta}}} =
+c_L \sigma^2 \]</span></p>
+<ul>
+<li><span class="math inline">\(\sigma^2?\)</span></li>
+</ul>
+<p><span class="math display">\[\hat \sigma^2 = MSE = \sum\limits_{i=1}
+^ n \frac{(Y_i - \hat Y_i)^2}{n-p}\]</span></p>
+<p><span class="math display">\[SE_{L^T\hat{\boldsymbol{\beta}}} = c_L
+\hat \sigma \]</span></p>
+<ul>
+<li>t statistiek</li>
+</ul>
+<p><span class="math display">\[ T = \frac{L\hat{\boldsymbol{\beta}} -
+L\boldsymbol{\beta}}{\text{SE}_{L\hat{\boldsymbol{\beta}}}}
+\sim t_{n-p}\]</span></p>
+<ul>
+<li><p>BI en T-test <span class="math inline">\(H_0: L\boldsymbol{\beta}
+= 0\)</span> vs <span class="math inline">\(H_1: L\boldsymbol{\beta}
+\neq 0\)</span></p></li>
+<li><p>F statistiek volgt F-verdeling onder de <span
+class="math inline">\(H_0\)</span> <span class="math display">\[ F =
+\frac{MSR_2 - MSR_1}{MSE} \sim F_{p_2 - p_1,n-p_2}\]</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="r---output" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> R - output</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = lpsa ~ lcavol + lweight + svi, data = prostate)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.72966 -0.45767  0.02814  0.46404  1.57012 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.26807    0.54350  -0.493  0.62301    
+lcavol       0.55164    0.07467   7.388  6.3e-11 ***
+lweight      0.50854    0.15017   3.386  0.00104 ** 
+sviinvasion  0.66616    0.20978   3.176  0.00203 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.7168 on 93 degrees of freedom
+Multiple R-squared:  0.6264,    Adjusted R-squared:  0.6144 
+F-statistic: 51.99 on 3 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lmVWS, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.1250021","2":"1","3":"0.2432815","4":"6.230088e-01","_rn_":"(Intercept)"},{"1":"28.0445759","2":"1","3":"54.5808864","4":"6.303883e-11","_rn_":"lcavol"},{"1":"5.8923334","2":"1","3":"11.4677711","4":"1.039115e-03","_rn_":"lweight"},{"1":"5.1813959","2":"1","3":"10.0841312","4":"2.029035e-03","_rn_":"svi"},{"1":"47.7849616","2":"93","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="conclusie" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Conclusie</h1>
+<p>De associaties tussen lpsa <span
+class="math inline">\(\leftrightarrow\)</span> log kanker volume, lpsa
+<span class="math inline">\(\leftrightarrow\)</span> log prostaat
+gewicht en lpsa <span class="math inline">\(\leftrightarrow\)</span>
+status van de zaadblaasjes zijn respectievelijk extreem significant
+(<span class="math inline">\(p&lt;&lt;0.001\)</span>) en sterk
+significant (<span class="math inline">\(p = 0.001\)</span> en <span
+class="math inline">\(p = 0.002\)</span>).</p>
+<ul>
+<li>interpretaties van de hellingen en BI!</li>
+</ul>
+</div>
+<div id="wat-als-aannames-niet-zijn-voldaan" class="section level1"
+number="8">
+<h1><span class="header-section-number">8</span> Wat als aannames niet
+zijn voldaan?</h1>
+<ul>
+<li>Normaliteit en heteroscedasticiteit niet voldaan: transformatie van
+Y</li>
+<li>Lineariteit niet voldaan: transformatie van X of hogere orde termen
+(interacties en machten <span class="math inline">\(X^2, X^3,
+...\)</span>).</li>
+<li>Normaliteit niet voldaan: bij grote steekproeven CLT</li>
+</ul>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAnMTAuIFJlY2FwOiBBbGdlbWVlbiBMaW5lYWlyIE1vZGVsIC0gQWRkaXRpZWYgTW9kZWwnCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHllcwogICAgdGhlbWU6IGNvc21vCiAgICB0b2M6IHllcwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIGhpZ2hsaWdodDogdGFuZ28KICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcGRmX2RvY3VtZW50OgogICAgdG9jOiB0cnVlCiAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAotLS0KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoaW5jbHVkZSA9IFRSVUUsIGNvbW1lbnQgPSBOQSwgZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRSkKbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKCmBgYHtyIGluY2x1ZGU9RkFMU0V9CiNEbyBub3QgcnVuIGR1cmluZyB0aGUgbGVjdHVyZSB3aGVuIHdlIHdvcmsgaW50ZXJhY3RpdmVseQpzZXQuc2VlZCgxMzE0KQpgYGAKCiMgRGF0YXNldCAtIE9uZGVyem9la3N2cmFhZyAtIERlc2lnbj8KCi0gUHJvc3RhYXRrYW5rZXIgY2FzZSBzdHVkaWUKLSBBc3NvY2lhdGllIHR1c3NlbiBwcm9zdGFhdCBzcGVjaWZpZWsgYW50aWdlbiBjb25jZW50cmF0aWUgZW4gYW5kZXJlIHByZWRpY3RvcmVuCgotIFR5cGUgcmVzcG9uc2U/Ci0gVHlwZSBwcmVkaWN0b3Jlbj8KCiMgRGF0YS1leHBsb3JhdGllCgpgYGB7cn0KcHJvc3RhdGUgPC0gcmVhZF9jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0b21pY3Mvc2JjMjAvbWFzdGVyL2RhdGEvcHJvc3RhdGUuY3N2IikKCnByb3N0YXRlIDwtIHByb3N0YXRlICU+JQogIG11dGF0ZShzdmkgPSBhcy5mYWN0b3Ioc3ZpKSkKCmxpYnJhcnkoR0dhbGx5KQpwcm9zdGF0ZSAlPiUKICBkcGx5cjo6c2VsZWN0KC1wZ2c0NSkgICU+JQogIGdncGFpcnMoKQpgYGAKCi0gU2NoYXR0aW5nIHZvb3IgcGFyYW1ldGVyICRcYmV0YV92JCBtb2dlbGlqa3MgZ2VlbiB6dWl2ZXIgZWZmZWN0IHZhbiB0dW1vciB2b2x1bWUuCi0gWmVsZnMgYWxzIGxjYXZvbCBuaWV0IGlzIGdlYXNzb2NpZWVyZCBtZXQgaGV0IGxwc2EsICBkYW4gbm9nIGt1bm5lbiBwYXRpw6tudGVuIG1ldCBlZW4gZ3JvdGVyIHR1bW9yIHZvbHVtZSBlZW4gaG9nZXIgbHBzYSBoZWJiZW4gb21kYXQgemUgYmlqdm9vcmJlZWxkIGVlbiBhYW50YXN0aW5nIHZhbiBkZSB6YWFkYmxhYXNqZXMgaGViYmVuIChzdmkgc3RhdHVzIDEpLgokXHJpZ2h0YXJyb3ckIENvbmZvdW5kaW5nLgotIERvb3IgZGUgc3ZpIHN0YXR1cyBpbiBoZXQgbW9kZWwgb3AgdGUgbmVtZW4gY29ycmlnZXJlbiB3ZSB2b29yIGRlIG1vZ2VsaWprc2UgY29uZm91bmRpbmcuCgojIFZlcnRhbGVuIHZhbiBvbmRlcnpvZWtzdnJhYWcgbmFhciBwb3B1bGF0aWUgcGFyYW1ldGVyczogZWZmZWN0Z3Jvb3R0ZQoKXFtcdGV4dHtFfVxsZWZ0KFlcdmVydCBYX3YsIFhfdywgWF9zXHJpZ2h0KSA9IFxiZXRhXzAgKyBcYmV0YV92IFhfdiArIFxiZXRhX3cgWF93ICsgXGJldGFfcyBYX3NcXQoKCi0gQXNzb2NpYXRpZSB2YW4gcHJlZGljdG9yZW4gbWV0IGxvZyBQU0E6IGhlbGxpbmdlbiB2YW4gaGV0IG1vZGVsCi0gTWVlciBhY2N1cmF0ZSBwcmVkaWN0aWVzIGRvb3IgbWVlcmRlcmUgcHJlZGljdG9yZW4gc2ltdWx0YWFuIGluIHJla2VuaW5nIHRlIGJyZW5nZW4KCgotIEludGVycHJldGF0aWU/CgogIC0gdmVyc2NoaWwgaW4gZ2VtaWRkZWxkZSB1aXRrb21zdCB0dXNzZW4gc3ViamVjdGVuIGRpZSBpbiDDqcOpbiBlZW5oZWlkIHZhbiBsb2cgdHVtb3Igdm9sdW1lICgkWF92JCkgdmVyc2NoaWxsZW4sIG1hYXIgZGV6ZWxmZGUgd2FhcmRlIGhlYmJlbiB2b29yIGRlIG92ZXJpZ2UgdmVya2xhcmVuZGUgdmFyaWFiZWxlbiAoJFhfdyQgZW4gJFhfcyQpIGluIGhldCBtb2RlbC4KCiAgLSBBc3NvY2lhdGllIHR1c3NlbiBsb2cgUFNBIGVuIGRlIHByZWRpY3RvciBsb2cgdHVtb3Igdm9sdW1lIHdhYXJiaWogZ2Vjb3JyaWdlZXJkIHdvcmR0IHZvb3IgZGUgb3ZlcmlnZSBwcmVkaWN0b3JlbiwgIGhpZXIgZHVzIGFzc29jaWF0aWUgdmFuIGxvZyBQU0EgZW4gaGV0IGxvZyB0dW1vciB2b2x1bWUgbmEgY29ycmVjdGllIHZvb3IgbG9nIHByb3N0YWF0Z2V3aWNodCBlbiBzdmktc3RhdHVzLgoKCiMgU2NoYXR0ZW4gdmFuIGVmZmVjdGdyb290dGUgYS5kLmgudi4gc3RlZWtwcm9lZgoKLSBLbGVpbnN0ZSBrd2FkcmF0ZW50ZWNobmllawoKYGBge3J9CmxtViA8LSBsbShscHNhfmxjYXZvbCwgcHJvc3RhdGUpCnN1bW1hcnkobG1WKQpsbVZXUyA8LSBsbShscHNhfmxjYXZvbCArIGx3ZWlnaHQgKyBzdmksIHByb3N0YXRlKQpzdW1tYXJ5KGxtVldTKQpgYGAKCkRlIHBhcmFtZXRlciBiaWogbGNhdm9sIGdlZWZ0IG51IGFhbiBkYXQgcGF0acOrbnRlbiBtZXQgZWVuIHR1bW9ydm9sdW1lIGRhdCAxJSBob2dlciBsaWd0LCBtYWFyIGVlbnplbGZkZSBwcm9zdGFhdCBnZXdpY2h0IGVuIHN2aSBzdGF0dXMgaGViYmVuLCBlZW4gcHJvc3RhYXQgYW50aWdlZW4gY29uY2VudHJhdGllIHp1bGxlbiBoZWJiZW4gZGF0IGdlbWlkZGVsZCBzbGVjaHRzIDAuNTUlIGhvZ2VyIGxpZ3QuCgpEZSByZWRlbiBkYXQgd2UgZWVyZGVyIGVlbiB2ZXJzY2hpbCB2YW4gbWVlciBkYW4gMC43MiUgdm9uZGVuLCBrYW4gd29yZGVuIHZlcmtsYWFyZCBkb29yZGF0IHBhdGnDq250ZW4gbWV0IGVlbiB2ZXJzY2hpbCBpbiB0dW1vcnZvbHVtZSB2YWFrIG9vayB2ZXJzY2hpbGxlbiBpbiBwcm9zdGFhdCBnZXdpY2h0IGVuIHN2aSBzdGF0dXMgZW4gb21kYXQgcHJvc3RhYXQgZ2V3aWNodCBlbiBzdmkgbW9nZWxpamtzIG9vayBlZW4gYXNzb2NpYXRpZSB2ZXJ0b25lbiBtZXQgbG9nIFBTQQoKCmBgYHtyIG91dC53aWR0aD0nODAlJywgZmlnLmFzcD0uOCwgZmlnLmFsaWduPSdjZW50ZXInLCBtZXNzYWdlPUZBTFNFLGVjaG89RkFMU0V9CmxpYnJhcnkocGxvdDNEKQpncmlkLmxpbmVzID0gMTAKeCA8LSBwcm9zdGF0ZSRsY2F2b2wKeSA8LSBwcm9zdGF0ZSRsd2VpZ2h0CnogPC0gcHJvc3RhdGUkbHBzYQpmaXQgPC0gbG0oen54K3krc3ZpLGRhdGE9cHJvc3RhdGUpCngucHJlZCA8LSBzZXEobWluKHgpLCBtYXgoeCksIGxlbmd0aC5vdXQgPSBncmlkLmxpbmVzKQp5LnByZWQgPC0gc2VxKG1pbih5KSwgbWF4KHkpLCBsZW5ndGgub3V0ID0gZ3JpZC5saW5lcykKCiMgZml0dGVkIHBvaW50cyBmb3IgZHJvcGxpbmVzIHRvIHN1cmZhY2UKdGg9MjAKcGg9NQpzY2F0dGVyM0QoeCwgeSwgeiwgcGNoID0gMTYsY29sPWMoImRhcmtibHVlIiwicmVkIilbYXMuZG91YmxlKHByb3N0YXRlJHN2aSldLCBjZXggPSAuNzUsCiAgICB0aGV0YSA9IHRoLCBwaGkgPSBwaCwgdGlja3R5cGUgPSAiZGV0YWlsZWQiLAogICAgeGxhYiA9ICJsY2F2b2wiLCB5bGFiID0gImx3ZWlnaHQiLCB6bGFiID0gImxwc2EiLCAgCiAgIGNvbHZhcj1GQUxTRSxidHkgPSAiZyIpCgpmb3IgKGkgaW4gMTpucm93KHByb3N0YXRlKSkKbGluZXMzRCh4PXJlcChwcm9zdGF0ZSRsY2F2b2xbaV0sMikseT1yZXAocHJvc3RhdGUkbHdlaWdodFtpXSwyKSx6PWMocHJvc3RhdGUkbHBzYVtpXSxsbVZXUyRmaXRbaV0pLGNvbD1jKCJkYXJrYmx1ZSIsInJlZCIpW2FzLmRvdWJsZShwcm9zdGF0ZSRzdmkpW2ldXSxhZGQ9VFJVRSxsdHk9MikKCnoucHJlZDNEIDwtIG91dGVyKHgucHJlZCwgeS5wcmVkLCBmdW5jdGlvbih4LHkpIHtsbVZXUyRjb2VmWzFdK2xtVldTJGNvZWZbMl0qeCtsbVZXUyRjb2VmWzNdKnl9KQp4LnByZWQzRCA8LSBvdXRlcih4LnByZWQseS5wcmVkLGZ1bmN0aW9uKHgseSkgeCkKeS5wcmVkM0QgPC0gb3V0ZXIoeC5wcmVkLHkucHJlZCxmdW5jdGlvbih4LHkpIHkpCnN1cmYzRCh4LnByZWQzRCx5LnByZWQzRCx6LnByZWQzRCxjb2w9ImJsdWUiLGZhY2V0cz1OQSxhZGQ9VFJVRSkKejIucHJlZDNEIDwtIG91dGVyKHgucHJlZCwgeS5wcmVkLCBmdW5jdGlvbih4LHkpIHtsbVZXUyRjb2VmWzFdK2xtVldTJGNvZWZbNF0rbG1WV1MkY29lZlsyXSp4K2xtVldTJGNvZWZbM10qeX0pCnN1cmYzRCh4LnByZWQzRCx5LnByZWQzRCx6Mi5wcmVkM0QsY29sPSJyZWQiLGZhY2V0cz1OQSxhZGQ9VFJVRSkKYGBgCgojIEluZmVyZW50aWUKCi0gS3VubmVuIHdlIGhldGdlZW4gd2UgemllbiBpbiBkZSBzdGVla3Byb2VmIHZlcnRhbGVuIG5hYXIgZGUgcG9wdWxhdGllIHRvZT8KCi0gSGllcnZvb3IgbW9ldGVuIHdlIHJla2VuaW5nIGhvdWRlbiBkYXQgd2UgbWFhciBlZW4gaGVlbCBrbGVpbiBkZWVsIHZhbiBkZSBwb3B1bGF0aWUgaGViYmVuIGt1bm5lbiBiZW1vbnN0ZXJlbi4KCi0gR2V2ZW5zLCBzdGF0aXN0aWVrZW4gZW4gY29uY2x1c2llcyB6aWpuIHN0b2NoYXN0aXNjaC4gWmUgdmFyacOrcmVuIHZhbiBzdGVla3Byb2VmIHRvdCBzdGVla3Byb2VmLgoKLSBXZSBtb2V0ZW4gZGllIHZhcmlhYmlsaXRlaXQgaW4ga3VubmVuIHNjaGF0dGVuIG8uYi52LiDDqcOpbiBlbmtlbGUgc3RlZWtwcm9lZiEKCiMjIEFhbm5hbWVzPwojIyMgUmVwcmVzZW50YXRpZXZlIHN0ZWVrcHJvZWY6CgokXGhhdFxiZXRhX2okIGlzIGVlbiBvbnZlcnRla2VuZGUgc2NoYXR0ZXIgdmFuICRcYmV0YSQgYWxzIHN0ZWVrcHJvZWYgcmVwcmVzZW50YXRpZWYgaXMKClxbRVtcaGF0IFxiZXRhX2pdPVxiZXRhX2pcXQoKIyMjIE5vcm1hbGl0ZWl0CgpcW1lfe2l9IFxzaW0gTihcbXVfaSxcc2lnbWFeMilcXQpcW1lfaSBcc2ltIE4oXGJldGFfMCtcYmV0YV92eF97aXZ9K1xiZXRhX3d4X3tpd30gKyBcYmV0YV9zeF97aXN9LFxzaWdtYV4yKSAgXGxvbmdyaWdodGFycm93IFxoYXQgXGJldGFfaiBcc2ltIE4oXGJldGFfaiwgXHNpZ21hXjJfe1xoYXQgXGJldGFfan0pXF0KCmVuIGxpbmVhaXJlIGNvbWJpbmF0aWVzIHZhbiBkZSBtb2RlbCBwYXJhbWV0ZXJzY2hhdHRlcnMgemlqbiBvb2sgbm9ybWFhbCB2ZXJkZWVsZC4KClxbClxsb25ncmlnaHRhcnJvdyBMXlRcaGF0IFxiZXRhIFxzaW0gTihMXlRcYmV0YSwgXHNpZ21hXjJfe0xeVFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX0pClxdCgojIyMgT25hZmhhbmtlbGlqa2hlaWQgZW4gZ2VsaWpraGVpZCB2YW4gdmFyaWFudGllCgpcW1xzaWdtYV4yX3tMXlRcaGF0e1xib2xkc3ltYm9se1xiZXRhfX19ID0gY19MIFxzaWdtYV4yIFxdCgotICRcc2lnbWFeMj8kCgpcW1xoYXQgXHNpZ21hXjIgPSBNU0UgPSBcc3VtXGxpbWl0c197aT0xfSBeIG4gXGZyYWN7KFlfaSAtIFxoYXQgWV9pKV4yfXtuLXB9XF0KClxbU0Vfe0xeVFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX0gPSBjX0wgXGhhdCBcc2lnbWEgXF0KCi0gdCBzdGF0aXN0aWVrCgpcWyBUID0gXGZyYWN7TFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fSAtIExcYm9sZHN5bWJvbHtcYmV0YX19e1x0ZXh0e1NFfV97TFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX19CiBcc2ltIHRfe24tcH1cXQoKLSBCSSBlbiBULXRlc3QgJEhfMDogTFxib2xkc3ltYm9se1xiZXRhfSA9IDAkIHZzICAkSF8xOiBMXGJvbGRzeW1ib2x7XGJldGF9IFxuZXEgMCQKCi0gRiBzdGF0aXN0aWVrIHZvbGd0IEYtdmVyZGVsaW5nIG9uZGVyIGRlICRIXzAkClxbIEYgPSBcZnJhY3tNU1JfMiAtIE1TUl8xfXtNU0V9IFxzaW0gRl97cF8yIC0gcF8xLG4tcF8yfVxdCgojIFIgLSBvdXRwdXQKCmBgYHtyfQpsaWJyYXJ5KGNhcikKc3VtbWFyeShsbVZXUykKQW5vdmEobG1WV1MsIHR5cGUgPSAiSUlJIikKYGBgCgojIENvbmNsdXNpZQoKRGUgYXNzb2NpYXRpZXMgdHVzc2VuIGxwc2EgJFxsZWZ0cmlnaHRhcnJvdyQgbG9nIGthbmtlciB2b2x1bWUsIGxwc2EgJFxsZWZ0cmlnaHRhcnJvdyQgbG9nIHByb3N0YWF0IGdld2ljaHQgZW4gbHBzYSAkXGxlZnRyaWdodGFycm93JCBzdGF0dXMgdmFuIGRlIHphYWRibGFhc2plcyB6aWpuIHJlc3BlY3RpZXZlbGlqayBleHRyZWVtIHNpZ25pZmljYW50ICgkcDw8MC4wMDEkKSBlbiBzdGVyayBzaWduaWZpY2FudCAoJHAgPSAwLjAwMSQgZW4gJHAgPSAwLjAwMiQpLgoKKyBpbnRlcnByZXRhdGllcyB2YW4gZGUgaGVsbGluZ2VuIGVuIEJJIQoKCiMgV2F0IGFscyBhYW5uYW1lcyBuaWV0IHppam4gdm9sZGFhbj8KCi0gTm9ybWFsaXRlaXQgZW4gaGV0ZXJvc2NlZGFzdGljaXRlaXQgbmlldCB2b2xkYWFuOiB0cmFuc2Zvcm1hdGllIHZhbiBZCi0gTGluZWFyaXRlaXQgbmlldCB2b2xkYWFuOiB0cmFuc2Zvcm1hdGllIHZhbiBYIG9mIGhvZ2VyZSBvcmRlIHRlcm1lbiAoaW50ZXJhY3RpZXMgZW4gbWFjaHRlbiAkWF4yLCBYXjMsIC4uLiQpLgotIE5vcm1hbGl0ZWl0IG5pZXQgdm9sZGFhbjogYmlqIGdyb3RlIHN0ZWVrcHJvZXZlbiBDTFQK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("10-Recap-AlgemeenLineairModel-AdditiefModel.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Algemeen Lineair Model: niet-additief meervoudig lineair regressie model</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Algemeen Lineair Model: niet-additief
+meervoudig lineair regressie model</h1>
+
+</div>
+
+
+<div id="achtergrond" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Achtergrond</h1>
+<p>Resistentie tegen het gif EI-43,064 wordt getest bij 96 vissen
+(dojovissen (0), goudvissen (1) en zebravissen (2)). Elke vis wordt
+apart in een aquarium gestopt die een bepaalde <code>dosis</code> (in
+mg) van het gif bevat. Naast de overlevingstijd in minuten (de uitkomst,
+<code>minsurv</code>) werd ook het <code>gewicht</code> van de vis
+gemeten (in gram). De onderzoekers weten uit vorige experimenten dat de
+overlevingstijd vaak sterk afhangt van het gewicht en dat de resistentie
+dikwijls soortafhankelijk is. De onderzoekers wensen inzicht te krijgen
+in het effect van de dosis en het gewicht van de vis op de
+overlevingstijd en of resistentie tegen het gif verschillend is bij de
+verschillende soorten.</p>
+<div id="laad-de-libraries" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Laad de
+libraries</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;GGally&quot;)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TH.data&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     geyser</code></pre>
+</div>
+</div>
+<div id="data-exploratie" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data-exploratie</h1>
+<p>Lees de dataset poison.dat in via <code>read.table</code>. We zagen
+in de voorgaande practica al dat de overlevingstijd beter op log2-schaal
+wordt gemodelleerd.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>poison <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/statistiekBasisCursusData/master/practicum8/poison.dat&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We vormen de vissoort om in een factor en log2 transformeren de overlevingstijd</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>poison <span class="ot">&lt;-</span> poison <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">soort =</span> <span class="fu">as.factor</span>(soort),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">log2minsurv =</span> <span class="fu">log2</span>(minsurv))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>poison <span class="sc">%&gt;%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  ggpairs</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<ul>
+<li><p>De overlevingstijd lijkt geassocieerd met het gewicht, soort en
+de dosis.</p></li>
+<li><p>We observeren een sterke positieve associatie tussen de
+log2-overlevingstijd en het gewicht.</p></li>
+<li><p>Bij lage gewichten lijkt de log2-overlevingstijd wat af te
+vlakken.</p></li>
+<li><p>Daarnaast zien we ook dat het gewicht niet gelijk verdeeld is
+binnen elke dosis.</p></li>
+<li><p>Er lijkt ook een associatie tussen de gewicht en soort.</p></li>
+</ul>
+<p>We bestuderen de effecten verder:</p>
+<p>Geef een scatterplot voor de log2-overlevingstijd ten opzichte van de
+dosis, voor elke soort apart. Trek ook een best passende rechte door
+elke figuur. Wat kan je opmerken over de log2-overlevingstijd in functie
+van de dosis? Verschilt de invloed van de dosis op de
+log2-overlevingstijd tussen de soorten?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>scatterplot1<span class="ot">&lt;-</span>poison<span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dosis, <span class="at">y=</span>log2minsurv))<span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>soort)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>scatterplot1</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>De plot toont geen sterk verschil van het effect van de dosis op de
+log2-overlevingstijd tussen de verschillende vissoorten. We zullen
+hiervoor tijdens de statistische inferentie een statistische test
+uitvoeren.</p>
+<p>Geef een scatterplot voor de log2-overlevingstijd ten opzichte van
+het gewicht, voor elke soort apart. Trek ook een best passende rechte
+door elke figuur. Wat kan je opmerken over de log2-overlevingstijd in
+functie van het gewicht? Verschilt de invloed van het gewicht op de
+log2-overlevingstijd tussen de soorten?</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>scatterplot2<span class="ot">&lt;-</span>poison<span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>gewicht, <span class="at">y=</span>log2minsurv))<span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>soort)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>scatterplot2</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>De plot suggereert een verschil in het effect van gewicht op de
+log2-overlevingstijd tussen de verschillende vissoorten. Opnieuw zullen
+we via een statistische test nagaan of dit verschil statistisch
+significant is.</p>
+<p>Gezien de onderzoekers op basis van voorgaande studies vermoeden dat
+het effect van de dosis kan variëren van soort tot soort zouden we in de
+modellen interacties moeten voorzien tussen dosis en soort, zodat elke
+soort een verschillende dosisrespons kan tonen. Aangezien we in de data
+ook zien dat de invloed van het gewicht op de log2-overlevingstijd lijkt
+te verschillen tussen de soorten voegen we deze ook toe aan het model.
+Ten slotte voegen we ook de interactie tussen gewicht en dosis toe.</p>
+<p>We bekomen dus het onderstaande model: <span class="math display">\[
+y_i=\beta_0+\beta_d x_{id} + \beta_g x_{ig} +\beta_{sg} x_{isg}
++\beta_{sz} x_{isz} + \beta_{d:sg} x_{id}x_{isg} + \beta_{d:sz}
+x_{id}x_{isz} + \beta_{g:sg} x_{ig}x_{isg} + \beta_{g:sz} x_{ig}x_{isz}
++ \beta_{d:g} x_{id}x_{ig} + \epsilon_i,
+\]</span></p>
+<p>met <span class="math inline">\(y_i\)</span> de log2 overlevingstijd,
+<span class="math inline">\(x_{id}\)</span> de dosis en <span
+class="math inline">\(x_{ig}\)</span> het gewicht van vis <span
+class="math inline">\(i\)</span>. <span
+class="math inline">\(x_{isg}\)</span> is een dummy-variabele die
+aangeeft of vis <span class="math inline">\(i\)</span> een goudvis is en
+<span class="math inline">\(x_{isz}\)</span> een dummy-variabele die
+aangeeft of de vis een zebravis is. De referentieklasse is dus voor de
+soort dojovissen (als <span class="math inline">\(x_{isg}=0\)</span> en
+<span class="math inline">\(x_{isz}=0\)</span>). Verder is <span
+class="math inline">\(\epsilon_i \text{ i.i.d. }
+N(0,\sigma^2)\)</span>.</p>
+<p>Modelleer de log2-overlevingstijd in functie van de soort, de dosis
+en het gewicht van de vis. Neem al de tweeweg-interacties mee in het
+model. Ga de voorwaarden van het lineaire model na.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lmInt <span class="ot">&lt;-</span> <span class="fu">lm</span>(log2minsurv<span class="sc">~</span> soort <span class="sc">+</span> dosis <span class="sc">+</span> gewicht <span class="sc">+</span> soort<span class="sc">:</span>dosis <span class="sc">+</span> soort<span class="sc">:</span>gewicht <span class="sc">+</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              dosis<span class="sc">:</span>gewicht,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> poison)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lmInt)</span></code></pre></div>
+<p><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-5-4.png" width="672" /></p>
+<p>Zijn al de assumpties van het lineaire model voldaan?</p>
+<p>De QQ-plot suggereert mogelijks lichte afwijkingen van normaliteit.
+Er zijn echter veel observaties waardoor we kunnen aannemen dat de
+gemiddelden approximatief normaal verdeeld zullen zijn. Bovendien zijn
+de afwijkingen symmetrisch. Voor symmetrische distributies convergeert
+de verdeling van de parameterschatters sneller naar de normale verdeling
+en kunnen we de centrale limietstelling sneller toepassen.</p>
+<p>Verder tonen we via simulatie aan dat de afwijkingen in de QQ-plot
+vallen binnen hetgene we kunnen verwachten o.b.v. gegevens uit een
+normale verdeling. (Merk op dat orig slaat op de QQ-plot van de residuen
+voor het model met interacties)</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1025</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> <span class="fu">nrow</span>(poison)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(lmInt<span class="sc">$</span>res,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rnorm</span>(nobs<span class="sc">*</span><span class="dv">8</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">sd =</span> <span class="fu">sigma</span>(lmInt)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">rep</span>(</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">c</span>(<span class="st">&quot;orig&quot;</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">paste0</span>(<span class="st">&quot;sim&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)),</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">each =</span> nobs)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> y)) <span class="sc">+</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> label)</span></code></pre></div>
+<p><img src="oefening_vissen_volledig_uitgewerkt_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div
+id="model-opstellen-via-de-conventionele-methode-testen-van-interacties-en-niet-significante-interacties-verwijderen-uit-het-model"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Model opstellen via de
+conventionele methode: testen van interacties en niet-significante
+interacties verwijderen uit het model</h1>
+<p>We testen nu via een anova-analyse met type III kwadratensommen of de
+interactietermen significant zijn. We verwijderen telkens de minst
+significante interactieterm zolang er niet-significante interactietermen
+zijn.</p>
+<p>Merk op dat je nooit een hoofdeffect mag verwijderen zolang er
+interactietermen van dit hoofdeffect in het model zitten.</p>
+<p>Merk verder op dat type III kwadratensommen niet kunnen verkregen
+worden via de standaard anova functie. De Anova functie uit het car
+package laat dat wel toe.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lmInt,<span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.003958460","2":"1","3":"0.02327364","4":"0.87910498","_rn_":"(Intercept)"},{"1":"0.559407871","2":"2","3":"1.64451055","4":"0.19912086","_rn_":"soort"},{"1":"0.008191036","2":"1","3":"0.04815894","4":"0.82681842","_rn_":"dosis"},{"1":"0.663518581","2":"1","3":"3.90113677","4":"0.05146093","_rn_":"gewicht"},{"1":"0.103761525","2":"2","3":"0.30503132","4":"0.73789444","_rn_":"soort:dosis"},{"1":"1.294292109","2":"2","3":"3.80487501","4":"0.02609917","_rn_":"soort:gewicht"},{"1":"0.079294172","2":"1","3":"0.46620761","4":"0.49657224","_rn_":"dosis:gewicht"},{"1":"14.627171858","2":"86","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We zien dat zowel de interactie soort:dosis als dosis:gewicht niet
+significant zijn. We verwijderen eerst de minst significante
+interactieterm, namelijk soort:dosis.</p>
+<p>Dit betekent dat het effect van de dosis op de log2-overlevingstijd
+(de helling) niet significant verschilt tussen de verschillende vissen.
+We voeren opnieuw een anova uit op het model zonder interactieterm
+soort:dosis.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lm_zonder_soort_dosis <span class="ot">&lt;-</span> <span class="fu">lm</span>(log2minsurv<span class="sc">~</span> soort <span class="sc">+</span> dosis <span class="sc">+</span> gewicht <span class="sc">+</span> soort<span class="sc">:</span>gewicht <span class="sc">+</span> dosis<span class="sc">:</span>gewicht ,<span class="at">data =</span> poison)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm_zonder_soort_dosis,<span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.008354347","2":"1","3":"0.04990739","4":"0.82374227","_rn_":"(Intercept)"},{"1":"0.689916191","2":"2","3":"2.06071887","4":"0.13346471","_rn_":"soort"},{"1":"0.007706445","2":"1","3":"0.04603695","4":"0.83060508","_rn_":"dosis"},{"1":"0.870718466","2":"1","3":"5.20151867","4":"0.02498249","_rn_":"gewicht"},{"1":"1.261296008","2":"2","3":"3.76738004","4":"0.02692373","_rn_":"soort:gewicht"},{"1":"0.100136138","2":"1","3":"0.59819564","4":"0.44134000","_rn_":"dosis:gewicht"},{"1":"14.730933383","2":"88","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We zien dat de interactie tussen dosis en gewicht ook niet
+significant is. We verwijderen deze uit het model. Dit betekent dat het
+effect van de dosis (helling) op de log2-overlevingstijd niet
+significant verschilt bij een verschillend gewicht. We voeren opnieuw
+een anova uit op het resterende model.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lm_final <span class="ot">&lt;-</span> <span class="fu">lm</span>(log2minsurv <span class="sc">~</span> soort <span class="sc">+</span> dosis <span class="sc">+</span> gewicht <span class="sc">+</span> soort<span class="sc">:</span>gewicht, <span class="at">data =</span> poison)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm_final,<span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.2031117","2":"1","3":"1.218856","4":"2.725612e-01","_rn_":"(Intercept)"},{"1":"0.6565604","2":"2","3":"1.969982","4":"1.454937e-01","_rn_":"soort"},{"1":"7.9900275","2":"1","3":"47.947483","4":"6.556369e-10","_rn_":"dosis"},{"1":"2.4750082","2":"1","3":"14.852316","4":"2.191038e-04","_rn_":"gewicht"},{"1":"1.2103348","2":"2","3":"3.631559","4":"3.047115e-02","_rn_":"soort:gewicht"},{"1":"14.8310695","2":"89","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We zien dat de interactieterm tussen soort en gewicht significant
+blijft. Dit komt overeen met wat we in de figuren bij de data exploratie
+hebben geobserveerd. Het effect van het gewicht (de helling) op de
+log2-overlevingstijd verschilt dus significant tussen de verschillende
+vissoorten op het 5% significantieniveau. We behouden deze
+interactieterm dus in het model. We bekomen dus het volgende model:</p>
+<p><span class="math display">\[
+y_i=\beta_0+\beta_d x_{id} + \beta_g x_{ig} +\beta_{sg} x_{isg}
++\beta_{sz} x_{isz} + \beta_{g:sg} x_{ig}x_{isg} + \beta_{g:sz}
+x_{ig}x_{isz} + \epsilon_i
+\]</span> Wat equivalent is aan <span class="math display">\[
+y_i=\beta_0 + \beta_{sg} x_{isg} +\beta_{sz} x_{isz} + \beta_d x_{id} +
+(\beta_g +\beta_{g:sg}x_{isg} + \beta_{g:sz}x_{isz})x_{ig}   +
+\epsilon_i
+\]</span></p>
+<p>Dit model zal eigenlijk drie regressievlakken opleveren: 1 voor
+dojovissen, 1 voor goudvissen en 1 voor zebravissen.</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\text{dojovis } (x_{isg}=0\text{ en }x_{isz}=0):&amp;E[y\vert
+\text{dojovis}]=\beta_0 + \beta_d x_{id} + \beta_g x_{ig} \\
+\text{goudvis }  (x_{isg}=1\text{ en }x_{isz}=0):&amp;E[y\vert
+\text{goudvis}]=\beta_0+\beta_{sg}+\beta_d x_{id} +
+(\beta_g+\beta_{g:sg}) x_{ig} \\
+\text{zebravis }  (x_{isg}=0\text{ en }x_{isz}=1):&amp;E[y\vert
+\text{zebravis}]=\beta_0+\beta_{sz}+\beta_d x_{id} +
+(\beta_g+\beta_{g:sz}) x_{ig}\\
+\end{array}
+\]</span></p>
+<ul>
+<li><p>Het hoofdeffect voor soort zorgt dus dat elke soort een
+verschillend intercept van log2-overlevingstijd heeft (<span
+class="math inline">\(\beta_0\)</span>, <span
+class="math inline">\(\beta_0 + \beta_{sg}\)</span>, <span
+class="math inline">\(\beta_0+\beta_{sz}\)</span> voor dojo-, goud- en
+zebravissen, respectievelijk).</p></li>
+<li><p>De interactie tussen soort en gewicht zorgt ervoor dat het
+gewichtseffect (helling) verschillend kan zijn voor elke soort (<span
+class="math inline">\(\beta_g\)</span>, <span
+class="math inline">\(\beta_g+\beta_{g:sg}\)</span>, <span
+class="math inline">\(\beta_g+\beta_{g:sz}\)</span> voor dojo-, goud- en
+zebravissen, respectievelijk).</p></li>
+<li><p>Het dosiseffect (helling) blijft gelijk voor de verschillende
+vissen.</p></li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_final)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log2minsurv ~ soort + dosis + gewicht + soort:gewicht, 
+##     data = poison)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.97719 -0.29105 -0.05937  0.29029  0.92184 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      0.6768     0.6130   1.104 0.272561    
+## soort1          -0.3425     0.8390  -0.408 0.684099    
+## soort2           1.6071     1.0055   1.598 0.113544    
+## dosis           -0.8416     0.1215  -6.924 6.56e-10 ***
+## gewicht          1.0657     0.2765   3.854 0.000219 ***
+## soort1:gewicht   0.4844     0.3807   1.272 0.206550    
+## soort2:gewicht  -0.9648     0.5505  -1.753 0.083108 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.4082 on 89 degrees of freedom
+## Multiple R-squared:  0.7407, Adjusted R-squared:  0.7232 
+## F-statistic: 42.37 on 6 and 89 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="testen-van-hypotheses" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Testen van
+hypotheses</h1>
+<p>Ga met behulp van het opgestelde model volgende onderzoeksvragen na
+voor elke vissoort. Corrigeer hierbij voor multiple testing en
+controleer het experimentgewijs significantieniveau op 5%:</p>
+<ul>
+<li>Is er een associatie tussen dosis en log2-overlevingstijd voor de
+verschillende vissoorten?</li>
+<li>Is er een associatie tussen gewicht en log2-overlevingstijd voor de
+verschillende vissoorten?</li>
+<li>Tussen welke vissoorten is er een verschil in associatie tussen
+dosis en log2-overlevingstijd?</li>
+<li>Tussen welke vissoorten is er een verschil in associatie tussen
+gewicht en log2-overlevingstijd?</li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mcp <span class="ot">&lt;-</span> <span class="fu">glht</span>(lm_final,<span class="at">linfct =</span> <span class="fu">c</span>(<span class="st">&quot;dosis = 0&quot;</span>, </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;gewicht = 0&quot;</span>, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;gewicht + soort1:gewicht = 0&quot;</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;gewicht + soort2:gewicht = 0&quot;</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;soort1:gewicht = 0&quot;</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;soort2:gewicht = 0&quot;</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;soort2:gewicht - soort1:gewicht = 0&quot;</span>))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mcp)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Fit: lm(formula = log2minsurv ~ soort + dosis + gewicht + soort:gewicht, 
+##     data = poison)
+## 
+## Linear Hypotheses:
+##                                      Estimate Std. Error t value Pr(&gt;|t|)    
+## dosis == 0                            -0.8416     0.1215  -6.924  &lt; 0.001 ***
+## gewicht == 0                           1.0657     0.2765   3.854  0.00135 ** 
+## gewicht + soort1:gewicht == 0          1.5501     0.2609   5.940  &lt; 0.001 ***
+## gewicht + soort2:gewicht == 0          0.1009     0.4767   0.212  0.99935    
+## soort1:gewicht == 0                    0.4844     0.3807   1.272  0.64379    
+## soort2:gewicht == 0                   -0.9648     0.5505  -1.753  0.33657    
+## soort2:gewicht - soort1:gewicht == 0  -1.4492     0.5440  -2.664  0.04799 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>confints <span class="ot">&lt;-</span> <span class="fu">confint</span>(mcp)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>confints</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Fit: lm(formula = log2minsurv ~ soort + dosis + gewicht + soort:gewicht, 
+##     data = poison)
+## 
+## Quantile = 2.6488
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##                                      Estimate  lwr       upr      
+## dosis == 0                           -0.841627 -1.163575 -0.519680
+## gewicht == 0                          1.065692  0.333234  1.798150
+## gewicht + soort1:gewicht == 0         1.550072  0.858873  2.241271
+## gewicht + soort2:gewicht == 0         0.100860 -1.161748  1.363468
+## soort1:gewicht == 0                   0.484380 -0.523979  1.492739
+## soort2:gewicht == 0                  -0.964832 -2.422998  0.493334
+## soort2:gewicht - soort1:gewicht == 0 -1.449212 -2.890275 -0.008149</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span>confints<span class="sc">$</span>confint</span></code></pre></div>
+<pre><code>##                                  Estimate       lwr       upr
+## dosis                           0.5580138 0.4464051 0.6975266
+## gewicht                         2.0931741 1.2598347 3.4777404
+## gewicht + soort1:gewicht        2.9283180 1.8136212 4.7281352
+## gewicht + soort2:gewicht        1.0724126 0.4469706 2.5730300
+## soort1:gewicht                  1.3989844 0.6954512 2.8142268
+## soort2:gewicht                  0.5123380 0.1864682 1.4076941
+## soort2:gewicht - soort1:gewicht 0.3662214 0.1348778 0.9943675
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95
+## attr(,&quot;calpha&quot;)
+## [1] 2.648792</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^-</span>confints<span class="sc">$</span>confint</span></code></pre></div>
+<pre><code>##                                  Estimate       lwr       upr
+## dosis                           1.7920704 2.2401178 1.4336372
+## gewicht                         0.4777433 0.7937550 0.2875430
+## gewicht + soort1:gewicht        0.3414930 0.5513831 0.2114999
+## gewicht + soort2:gewicht        0.9324769 2.2372835 0.3886468
+## soort1:gewicht                  0.7148042 1.4379154 0.3553374
+## soort2:gewicht                  1.9518365 5.3628443 0.7103816
+## soort2:gewicht - soort1:gewicht 2.7305889 7.4141194 1.0056644
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95
+## attr(,&quot;calpha&quot;)
+## [1] 2.648792</code></pre>
+</div>
+<div id="conclusie" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusie</h1>
+<p>Er is een extreem significant effect van de dosis op de
+overlevingstijd (p &lt;&lt; 0.001). De overlevingstijd van vissen die
+aan een hogere dosis van het gif worden blootgesteld neemt gemiddeld met
+een factor1.8 af per mg extra gif die wordt toegediend (95% BI [1.4,
+2.2]). Het dosiseffect verschilt niet significant tussen de
+verschillende vissoorten op het 5% significantie-niveau.</p>
+<p>Verder is er een sterk significante associatie is tussen gewicht en
+overlevingstijd bij zowel de dojovissen (contrast: gewicht == 0, p =
+0.001) als de goudvissen (contrast: gewicht + soort1:gewicht == 0, p
+&lt;&lt; 0.001). Voor vissen met een verschillend lichaamsgewicht is de
+overlevingstijd gemiddeld een factor 2.1 en 2.9 per gram lichaamsgewicht
+hoger voor de zwaardere vis bij respectievelijk dojo- en goudvissen (95%
+BI [1.3, 3.5] en [1.8, 4.7], respectievelijk). Voor de zebravissen
+(contrast: gewicht + soort2:gewicht == 0, p = 0.999) is er geen
+significante associatie tussen gewicht en overlevingstijd.</p>
+<p>De associatie van gewicht en de log2-overlevingstijd is significant
+verschillend tussen zebravissen en goudvissen (contrast: soort2:gewicht
+- soort1:gewicht == 0, p= 0.0483). Bij zebravissen stijgt de
+overlevingstijd per gram extra gewicht met een factor 2.7 minder dan bij
+goudvissen (95% BI [1, 7.4]). De associatie van gewicht en de
+log2-overlevingstijd is niet significant verschillend tussen goudvissen
+en dojovissen (contrast: soort1:gewicht == 0, p = 0.64) en tussen
+zebravissen en dojovissen (contrast: soort2:gewicht == 0, p=0.34).</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQWxnZW1lZW4gTGluZWFpciBNb2RlbDogbmlldC1hZGRpdGllZiBtZWVydm91ZGlnIGxpbmVhaXIgcmVncmVzc2llIG1vZGVsIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHllcwogICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKICAgIHRoZW1lOiBjb3NtbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgcGRmX2RvY3VtZW50OgogICAgICB0b2M6IHRydWUKICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAogIHdvcmRfZG9jdW1lbnQ6CiAgICB0b2M6IHllcwotLS0KCiMgQWNodGVyZ3JvbmQKClJlc2lzdGVudGllIHRlZ2VuIGhldCBnaWYgRUktNDMsMDY0IHdvcmR0IGdldGVzdCBiaWogOTYgdmlzc2VuIChkb2pvdmlzc2VuICgwKSwgZ291ZHZpc3NlbiAoMSkgZW4gemVicmF2aXNzZW4gKDIpKS4KRWxrZSB2aXMgd29yZHQgYXBhcnQgaW4gZWVuIGFxdWFyaXVtIGdlc3RvcHQgZGllIGVlbiBiZXBhYWxkZSBgZG9zaXNgIChpbiBtZykgdmFuIGhldCBnaWYgYmV2YXQuCk5hYXN0IGRlIG92ZXJsZXZpbmdzdGlqZCBpbiBtaW51dGVuIChkZSB1aXRrb21zdCwgYG1pbnN1cnZgKSB3ZXJkIG9vayBoZXQgYGdld2ljaHRgIHZhbiBkZSB2aXMgZ2VtZXRlbiAoaW4gZ3JhbSkuCkRlIG9uZGVyem9la2VycyB3ZXRlbiB1aXQgdm9yaWdlIGV4cGVyaW1lbnRlbiBkYXQgZGUgb3ZlcmxldmluZ3N0aWpkIHZhYWsgc3RlcmsgYWZoYW5ndCB2YW4gaGV0IGdld2ljaHQgZW4gZGF0IGRlIHJlc2lzdGVudGllIGRpa3dpamxzIHNvb3J0YWZoYW5rZWxpamsgaXMuCkRlIG9uZGVyem9la2VycyB3ZW5zZW4gaW56aWNodCB0ZSBrcmlqZ2VuIGluIGhldCBlZmZlY3QgdmFuIGRlIGRvc2lzIGVuIGhldCBnZXdpY2h0IHZhbiBkZSB2aXMgb3AgZGUgb3ZlcmxldmluZ3N0aWpkIGVuIG9mIHJlc2lzdGVudGllIHRlZ2VuIGhldCBnaWYgdmVyc2NoaWxsZW5kIGlzIGJpaiBkZSB2ZXJzY2hpbGxlbmRlIHNvb3J0ZW4uCgojIyBMYWFkIGRlIGxpYnJhcmllcwoKYGBge3J9CmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoZ2dwbG90MikKI2luc3RhbGwucGFja2FnZXMoIkdHYWxseSIpCmxpYnJhcnkoR0dhbGx5KQpsaWJyYXJ5KGNhcikKbGlicmFyeShtdWx0Y29tcCkKYGBgCgojIERhdGEtZXhwbG9yYXRpZQoKTGVlcyBkZSBkYXRhc2V0IHBvaXNvbi5kYXQgaW4gdmlhIGByZWFkLnRhYmxlYC4KV2UgemFnZW4gaW4gZGUgdm9vcmdhYW5kZSBwcmFjdGljYSBhbCBkYXQgZGUgb3ZlcmxldmluZ3N0aWpkIGJldGVyIG9wIGxvZzItc2NoYWFsIHdvcmR0IGdlbW9kZWxsZWVyZC4KCmBgYHtyfQpwb2lzb24gPC0gcmVhZC50YWJsZSgiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9zdGF0aXN0aWVrQmFzaXNDdXJzdXNEYXRhL21hc3Rlci9wcmFjdGljdW04L3BvaXNvbi5kYXQiLCBzZXA9IiIsIGhlYWRlciA9IFRSVUUpCgojIFdlIHZvcm1lbiBkZSB2aXNzb29ydCBvbSBpbiBlZW4gZmFjdG9yIGVuIGxvZzIgdHJhbnNmb3JtZXJlbiBkZSBvdmVybGV2aW5nc3RpamQKcG9pc29uIDwtIHBvaXNvbiAlPiUKICBtdXRhdGUoc29vcnQgPSBhcy5mYWN0b3Ioc29vcnQpLAogICAgICAgICBsb2cybWluc3VydiA9IGxvZzIobWluc3VydikpCgpwb2lzb24gJT4lCiAgZ2dwYWlycwpgYGAKCi0gRGUgb3ZlcmxldmluZ3N0aWpkIGxpamt0IGdlYXNzb2NpZWVyZCBtZXQgaGV0IGdld2ljaHQsIHNvb3J0IGVuIGRlIGRvc2lzLgoKLSBXZSBvYnNlcnZlcmVuIGVlbiBzdGVya2UgcG9zaXRpZXZlIGFzc29jaWF0aWUgdHVzc2VuIGRlIGxvZzItb3ZlcmxldmluZ3N0aWpkIGVuIGhldCBnZXdpY2h0LgoKLSBCaWogbGFnZSBnZXdpY2h0ZW4gbGlqa3QgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgd2F0IGFmIHRlIHZsYWtrZW4uCgotIERhYXJuYWFzdCB6aWVuIHdlIG9vayBkYXQgaGV0IGdld2ljaHQgbmlldCBnZWxpamsgdmVyZGVlbGQgaXMgYmlubmVuIGVsa2UgZG9zaXMuCgotIEVyIGxpamt0IG9vayBlZW4gYXNzb2NpYXRpZSB0dXNzZW4gZGUgZ2V3aWNodCBlbiBzb29ydC4KCldlIGJlc3R1ZGVyZW4gZGUgZWZmZWN0ZW4gdmVyZGVyOgoKR2VlZiBlZW4gc2NhdHRlcnBsb3Qgdm9vciBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCB0ZW4gb3B6aWNodGUgdmFuIGRlIGRvc2lzLCB2b29yIGVsa2Ugc29vcnQgYXBhcnQuIFRyZWsgb29rIGVlbiBiZXN0IHBhc3NlbmRlIHJlY2h0ZSBkb29yIGVsa2UgZmlndXVyLiBXYXQga2FuIGplIG9wbWVya2VuIG92ZXIgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgaW4gZnVuY3RpZSB2YW4gZGUgZG9zaXM/IFZlcnNjaGlsdCBkZSBpbnZsb2VkIHZhbiBkZSBkb3NpcyBvcCBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCB0dXNzZW4gZGUgc29vcnRlbj8KCgpgYGB7cn0Kc2NhdHRlcnBsb3QxPC1wb2lzb24lPiUgZ2dwbG90KGFlcyh4PWRvc2lzLCB5PWxvZzJtaW5zdXJ2KSkrCiAgZ2VvbV9wb2ludCgpKwogIHN0YXRfc21vb3RoKG1ldGhvZD0ibG0iKSsKICBmYWNldF93cmFwKH5zb29ydCkKc2NhdHRlcnBsb3QxCmBgYAoKRGUgcGxvdCB0b29udCBnZWVuIHN0ZXJrIHZlcnNjaGlsIHZhbiBoZXQgZWZmZWN0IHZhbiBkZSBkb3NpcyBvcCBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCAgdHVzc2VuIGRlIHZlcnNjaGlsbGVuZGUgdmlzc29vcnRlbi4gV2UgenVsbGVuIGhpZXJ2b29yIHRpamRlbnMgZGUgc3RhdGlzdGlzY2hlIGluZmVyZW50aWUgZWVuIHN0YXRpc3Rpc2NoZSB0ZXN0IHVpdHZvZXJlbi4KCkdlZWYgZWVuIHNjYXR0ZXJwbG90IHZvb3IgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgdGVuIG9wemljaHRlIHZhbiBoZXQgZ2V3aWNodCwgdm9vciBlbGtlIHNvb3J0IGFwYXJ0LiBUcmVrIG9vayBlZW4gYmVzdCBwYXNzZW5kZSByZWNodGUgZG9vciBlbGtlIGZpZ3V1ci4gV2F0IGthbiBqZSBvcG1lcmtlbiBvdmVyIGRlIGxvZzItb3ZlcmxldmluZ3N0aWpkIGluIGZ1bmN0aWUgdmFuIGhldCBnZXdpY2h0PyBWZXJzY2hpbHQgZGUgaW52bG9lZCB2YW4gaGV0IGdld2ljaHQgb3AgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgdHVzc2VuIGRlIHNvb3J0ZW4/CgpgYGB7cn0Kc2NhdHRlcnBsb3QyPC1wb2lzb24lPiUgZ2dwbG90KGFlcyh4PWdld2ljaHQsIHk9bG9nMm1pbnN1cnYpKSsKICBnZW9tX3BvaW50KCkrCiAgc3RhdF9zbW9vdGgobWV0aG9kPSJsbSIpKwogIGZhY2V0X3dyYXAofnNvb3J0KQpzY2F0dGVycGxvdDIKYGBgCgpEZSBwbG90IHN1Z2dlcmVlcnQgZWVuIHZlcnNjaGlsIGluIGhldCBlZmZlY3QgdmFuIGdld2ljaHQgb3AgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgdHVzc2VuIGRlIHZlcnNjaGlsbGVuZGUgdmlzc29vcnRlbi4gT3BuaWV1dyB6dWxsZW4gd2UgdmlhIGVlbiBzdGF0aXN0aXNjaGUgdGVzdCBuYWdhYW4gb2YgZGl0IHZlcnNjaGlsIHN0YXRpc3Rpc2NoIHNpZ25pZmljYW50IGlzLgoKR2V6aWVuIGRlIG9uZGVyem9la2VycyBvcCBiYXNpcyB2YW4gdm9vcmdhYW5kZSBzdHVkaWVzIHZlcm1vZWRlbiBkYXQgaGV0IGVmZmVjdCB2YW4gZGUgZG9zaXMga2FuIHZhcmnDq3JlbiB2YW4gc29vcnQgdG90IHNvb3J0IHpvdWRlbiB3ZSBpbiBkZSBtb2RlbGxlbiBpbnRlcmFjdGllcyBtb2V0ZW4gdm9vcnppZW4gdHVzc2VuIGRvc2lzIGVuIHNvb3J0LCB6b2RhdCBlbGtlIHNvb3J0IGVlbiB2ZXJzY2hpbGxlbmRlIGRvc2lzcmVzcG9ucyBrYW4gdG9uZW4uIEFhbmdlemllbiB3ZSBpbiBkZSBkYXRhIG9vayB6aWVuIGRhdCBkZSBpbnZsb2VkIHZhbiBoZXQgZ2V3aWNodCBvcCBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCBsaWprdCB0ZSB2ZXJzY2hpbGxlbiB0dXNzZW4gZGUgc29vcnRlbiB2b2VnZW4gd2UgZGV6ZSBvb2sgdG9lIGFhbiBoZXQgbW9kZWwuIFRlbiBzbG90dGUgdm9lZ2VuIHdlIG9vayBkZSBpbnRlcmFjdGllIHR1c3NlbiBnZXdpY2h0IGVuIGRvc2lzIHRvZS4gCgpXZSBiZWtvbWVuIGR1cyBoZXQgb25kZXJzdGFhbmRlIG1vZGVsOgokJAp5X2k9XGJldGFfMCtcYmV0YV9kIHhfe2lkfSArIFxiZXRhX2cgeF97aWd9ICtcYmV0YV97c2d9IHhfe2lzZ30gK1xiZXRhX3tzen0geF97aXN6fSArIFxiZXRhX3tkOnNnfSB4X3tpZH14X3tpc2d9ICsgXGJldGFfe2Q6c3p9IHhfe2lkfXhfe2lzen0gKyBcYmV0YV97ZzpzZ30geF97aWd9eF97aXNnfSArIFxiZXRhX3tnOnN6fSB4X3tpZ314X3tpc3p9ICsgXGJldGFfe2Q6Z30geF97aWR9eF97aWd9ICsgXGVwc2lsb25faSwKJCQKCgptZXQgJHlfaSQgZGUgbG9nMiBvdmVybGV2aW5nc3RpamQsICR4X3tpZH0kIGRlIGRvc2lzIGVuICR4X3tpZ30kIGhldCBnZXdpY2h0IHZhbiB2aXMgJGkkLiAkeF97aXNnfSQgaXMgZWVuIGR1bW15LXZhcmlhYmVsZSBkaWUgYWFuZ2VlZnQgb2YgdmlzICRpJCBlZW4gZ291ZHZpcyBpcyBlbiAkeF97aXN6fSQgZWVuIGR1bW15LXZhcmlhYmVsZSBkaWUgYWFuZ2VlZnQgb2YgZGUgdmlzIGVlbiB6ZWJyYXZpcyBpcy4KRGUgcmVmZXJlbnRpZWtsYXNzZSBpcyBkdXMgdm9vciBkZSBzb29ydCBkb2pvdmlzc2VuIChhbHMgICR4X3tpc2d9PTAkIGVuICR4X3tpc3p9PTAkKS4KVmVyZGVyIGlzICRcZXBzaWxvbl9pIFx0ZXh0eyBpLmkuZC4gfSBOKDAsXHNpZ21hXjIpJC4KCgoKCk1vZGVsbGVlciBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCBpbiBmdW5jdGllIHZhbiBkZSBzb29ydCwgZGUgZG9zaXMgZW4gaGV0IGdld2ljaHQgdmFuIGRlIHZpcy4gTmVlbSBhbCBkZSB0d2Vld2VnLWludGVyYWN0aWVzIG1lZSBpbiBoZXQgbW9kZWwuIEdhIGRlIHZvb3J3YWFyZGVuIHZhbiBoZXQgbGluZWFpcmUgbW9kZWwgbmEuCgoKYGBge3J9CgpsbUludCA8LSBsbShsb2cybWluc3Vydn4gc29vcnQgKyBkb3NpcyArIGdld2ljaHQgKyBzb29ydDpkb3NpcyArIHNvb3J0Omdld2ljaHQgKyAKICAgICAgICAgICAgICBkb3NpczpnZXdpY2h0LAogICAgICAgICAgICBkYXRhID0gcG9pc29uKQpwbG90KGxtSW50KQpgYGAKClppam4gYWwgZGUgYXNzdW1wdGllcyB2YW4gaGV0IGxpbmVhaXJlIG1vZGVsIHZvbGRhYW4/CgpEZSBRUS1wbG90IHN1Z2dlcmVlcnQgbW9nZWxpamtzIGxpY2h0ZSBhZndpamtpbmdlbiB2YW4gbm9ybWFsaXRlaXQuIEVyIHppam4gZWNodGVyIHZlZWwgb2JzZXJ2YXRpZXMgd2FhcmRvb3Igd2Uga3VubmVuIGFhbm5lbWVuIGRhdCBkZSBnZW1pZGRlbGRlbiBhcHByb3hpbWF0aWVmIG5vcm1hYWwgdmVyZGVlbGQgenVsbGVuIHppam4uIEJvdmVuZGllbiB6aWpuIGRlIGFmd2lqa2luZ2VuIHN5bW1ldHJpc2NoLiBWb29yIHN5bW1ldHJpc2NoZSBkaXN0cmlidXRpZXMgY29udmVyZ2VlcnQgZGUgdmVyZGVsaW5nIHZhbiBkZSBwYXJhbWV0ZXJzY2hhdHRlcnMgc25lbGxlciBuYWFyIGRlIG5vcm1hbGUgdmVyZGVsaW5nIGVuIGt1bm5lbiB3ZSBkZSBjZW50cmFsZSBsaW1pZXRzdGVsbGluZyBzbmVsbGVyIHRvZXBhc3Nlbi4KClZlcmRlciB0b25lbiB3ZSB2aWEgc2ltdWxhdGllIGFhbiBkYXQgZGUgYWZ3aWpraW5nZW4gaW4gZGUgUVEtcGxvdCB2YWxsZW4gYmlubmVuIGhldGdlbmUgd2Uga3VubmVuIHZlcndhY2h0ZW4gby5iLnYuIGdlZ2V2ZW5zIHVpdCBlZW4gbm9ybWFsZSB2ZXJkZWxpbmcuIChNZXJrIG9wIGRhdCBvcmlnIHNsYWF0IG9wIGRlIFFRLXBsb3QgdmFuIGRlIHJlc2lkdWVuIHZvb3IgaGV0IG1vZGVsIG1ldCBpbnRlcmFjdGllcykKCmBgYHtyfQpzZXQuc2VlZCgxMDI1KQpub2JzIDwtIG5yb3cocG9pc29uKQoKZGF0YS5mcmFtZSgKICB5ID0gYyhsbUludCRyZXMsCiAgICAgICAgcm5vcm0obm9icyo4LAogICAgICAgICAgICAgIHNkID0gc2lnbWEobG1JbnQpCiAgICAgICAgICAgICApCiAgICAgICksCiAgbGFiZWwgPSByZXAoCiAgICAgICAgICAgICAgYygib3JpZyIsCiAgICAgICAgICAgICAgICBwYXN0ZTAoInNpbSIsMTo4KSksCiAgICAgICAgICAgICAgZWFjaCA9IG5vYnMpKSAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZSA9IHkpKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKSArCiAgZmFjZXRfd3JhcCh+IGxhYmVsKQpgYGAKCiMgTW9kZWwgb3BzdGVsbGVuIHZpYSBkZSBjb252ZW50aW9uZWxlIG1ldGhvZGU6IHRlc3RlbiB2YW4gaW50ZXJhY3RpZXMgZW4gbmlldC1zaWduaWZpY2FudGUgaW50ZXJhY3RpZXMgdmVyd2lqZGVyZW4gdWl0IGhldCBtb2RlbAoKV2UgdGVzdGVuIG51IHZpYSBlZW4gYW5vdmEtYW5hbHlzZSBtZXQgdHlwZSBJSUkga3dhZHJhdGVuc29tbWVuIG9mIGRlIGludGVyYWN0aWV0ZXJtZW4gc2lnbmlmaWNhbnQgemlqbi4gV2UgdmVyd2lqZGVyZW4gdGVsa2VucyBkZSBtaW5zdCBzaWduaWZpY2FudGUgaW50ZXJhY3RpZXRlcm0gem9sYW5nIGVyIG5pZXQtc2lnbmlmaWNhbnRlIGludGVyYWN0aWV0ZXJtZW4gemlqbi4gCgpNZXJrIG9wIGRhdCBqZSBub29pdCBlZW4gaG9vZmRlZmZlY3QgbWFnIHZlcndpamRlcmVuIHpvbGFuZyBlciBpbnRlcmFjdGlldGVybWVuIHZhbiBkaXQgaG9vZmRlZmZlY3QgaW4gaGV0IG1vZGVsIHppdHRlbi4gCgpNZXJrIHZlcmRlciBvcCBkYXQgdHlwZSBJSUkga3dhZHJhdGVuc29tbWVuIG5pZXQga3VubmVuIHZlcmtyZWdlbiB3b3JkZW4gdmlhIGRlIHN0YW5kYWFyZCBhbm92YSBmdW5jdGllLiBEZSBBbm92YSBmdW5jdGllIHVpdCBoZXQgY2FyIHBhY2thZ2UgbGFhdCBkYXQgd2VsIHRvZS4KCmBgYHtyfQpBbm92YShsbUludCx0eXBlPSJJSUkiKQpgYGAKCldlIHppZW4gZGF0IHpvd2VsIGRlIGludGVyYWN0aWUgc29vcnQ6ZG9zaXMgYWxzIGRvc2lzOmdld2ljaHQgbmlldCBzaWduaWZpY2FudCB6aWpuLiBXZSB2ZXJ3aWpkZXJlbiBlZXJzdCBkZSBtaW5zdCBzaWduaWZpY2FudGUgaW50ZXJhY3RpZXRlcm0sIG5hbWVsaWprIHNvb3J0OmRvc2lzLiAKCkRpdCBiZXRla2VudCBkYXQgaGV0IGVmZmVjdCB2YW4gZGUgZG9zaXMgb3AgZGUgbG9nMi1vdmVybGV2aW5nc3RpamQgKGRlIGhlbGxpbmcpIG5pZXQgc2lnbmlmaWNhbnQgdmVyc2NoaWx0IHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIHZpc3Nlbi4gV2Ugdm9lcmVuIG9wbmlldXcgZWVuIGFub3ZhIHVpdCBvcCBoZXQgbW9kZWwgem9uZGVyIGludGVyYWN0aWV0ZXJtIHNvb3J0OmRvc2lzLgoKYGBge3J9CmxtX3pvbmRlcl9zb29ydF9kb3NpcyA8LSBsbShsb2cybWluc3Vydn4gc29vcnQgKyBkb3NpcyArIGdld2ljaHQgKyBzb29ydDpnZXdpY2h0ICsgZG9zaXM6Z2V3aWNodCAsZGF0YSA9IHBvaXNvbikKQW5vdmEobG1fem9uZGVyX3Nvb3J0X2Rvc2lzLHR5cGU9IklJSSIpCmBgYAoKV2UgemllbiBkYXQgZGUgaW50ZXJhY3RpZSB0dXNzZW4gZG9zaXMgZW4gZ2V3aWNodCBvb2sgbmlldCBzaWduaWZpY2FudCBpcy4gV2UgdmVyd2lqZGVyZW4gZGV6ZSB1aXQgaGV0IG1vZGVsLiBEaXQgYmV0ZWtlbnQgZGF0IGhldCBlZmZlY3QgdmFuIGRlIGRvc2lzIChoZWxsaW5nKSBvcCBkZSBsb2cyLW92ZXJsZXZpbmdzdGlqZCBuaWV0IHNpZ25pZmljYW50IHZlcnNjaGlsdCBiaWogZWVuIHZlcnNjaGlsbGVuZCBnZXdpY2h0LiBXZSB2b2VyZW4gb3BuaWV1dyBlZW4gYW5vdmEgdWl0IG9wIGhldCByZXN0ZXJlbmRlIG1vZGVsLgoKYGBge3J9CmxtX2ZpbmFsIDwtIGxtKGxvZzJtaW5zdXJ2IH4gc29vcnQgKyBkb3NpcyArIGdld2ljaHQgKyBzb29ydDpnZXdpY2h0LCBkYXRhID0gcG9pc29uKQpBbm92YShsbV9maW5hbCx0eXBlPSJJSUkiKQpgYGAKCgpXZSB6aWVuIGRhdCBkZSBpbnRlcmFjdGlldGVybSB0dXNzZW4gc29vcnQgZW4gZ2V3aWNodCBzaWduaWZpY2FudCBibGlqZnQuIERpdCBrb210IG92ZXJlZW4gbWV0IHdhdCB3ZSBpbiBkZSBmaWd1cmVuIGJpaiBkZSBkYXRhIGV4cGxvcmF0aWUgaGViYmVuIGdlb2JzZXJ2ZWVyZC4gSGV0IGVmZmVjdCB2YW4gaGV0IGdld2ljaHQgKGRlIGhlbGxpbmcpIG9wIGRlIGxvZzItb3ZlcmxldmluZ3N0aWpkIHZlcnNjaGlsdCBkdXMgc2lnbmlmaWNhbnQgdHVzc2VuIGRlIHZlcnNjaGlsbGVuZGUgdmlzc29vcnRlbiBvcCBoZXQgNSUgc2lnbmlmaWNhbnRpZW5pdmVhdS4gV2UgYmVob3VkZW4gZGV6ZSBpbnRlcmFjdGlldGVybSBkdXMgaW4gaGV0IG1vZGVsLiBXZSBiZWtvbWVuIGR1cyBoZXQgdm9sZ2VuZGUgbW9kZWw6CgokJAp5X2k9XGJldGFfMCtcYmV0YV9kIHhfe2lkfSArIFxiZXRhX2cgeF97aWd9ICtcYmV0YV97c2d9IHhfe2lzZ30gK1xiZXRhX3tzen0geF97aXN6fSArIFxiZXRhX3tnOnNnfSB4X3tpZ314X3tpc2d9ICsgXGJldGFfe2c6c3p9IHhfe2lnfXhfe2lzen0gKyBcZXBzaWxvbl9pCiQkCldhdCBlcXVpdmFsZW50IGlzIGFhbgokJAp5X2k9XGJldGFfMCArIFxiZXRhX3tzZ30geF97aXNnfSArXGJldGFfe3N6fSB4X3tpc3p9ICsgXGJldGFfZCB4X3tpZH0gKyAoXGJldGFfZyArXGJldGFfe2c6c2d9eF97aXNnfSArIFxiZXRhX3tnOnN6fXhfe2lzen0peF97aWd9ICAgKyBcZXBzaWxvbl9pCiQkCgpEaXQgbW9kZWwgemFsIGVpZ2VubGlqayBkcmllIHJlZ3Jlc3NpZXZsYWtrZW4gb3BsZXZlcmVuOiAxIHZvb3IgZG9qb3Zpc3NlbiwgMSB2b29yIGdvdWR2aXNzZW4gZW4gMSB2b29yIHplYnJhdmlzc2VuLgoKJCQKXGJlZ2lue2FycmF5fXtsbH0KXHRleHR7ZG9qb3ZpcyB9ICh4X3tpc2d9PTBcdGV4dHsgZW4gfXhfe2lzen09MCk6JkVbeVx2ZXJ0IFx0ZXh0e2Rvam92aXN9XT1cYmV0YV8wICsgXGJldGFfZCB4X3tpZH0gKyBcYmV0YV9nIHhfe2lnfSBcXApcdGV4dHtnb3VkdmlzIH0gICh4X3tpc2d9PTFcdGV4dHsgZW4gfXhfe2lzen09MCk6JkVbeVx2ZXJ0IFx0ZXh0e2dvdWR2aXN9XT1cYmV0YV8wK1xiZXRhX3tzZ30rXGJldGFfZCB4X3tpZH0gKyAoXGJldGFfZytcYmV0YV97ZzpzZ30pIHhfe2lnfSBcXApcdGV4dHt6ZWJyYXZpcyB9ICAoeF97aXNnfT0wXHRleHR7IGVuIH14X3tpc3p9PTEpOiZFW3lcdmVydCBcdGV4dHt6ZWJyYXZpc31dPVxiZXRhXzArXGJldGFfe3N6fStcYmV0YV9kIHhfe2lkfSArIChcYmV0YV9nK1xiZXRhX3tnOnN6fSkgeF97aWd9XFwKXGVuZHthcnJheX0KJCQKCgoKLSBIZXQgaG9vZmRlZmZlY3Qgdm9vciBzb29ydCB6b3JndCBkdXMgZGF0IGVsa2Ugc29vcnQgZWVuIHZlcnNjaGlsbGVuZCBpbnRlcmNlcHQgdmFuIGxvZzItb3ZlcmxldmluZ3N0aWpkIGhlZWZ0ICgkXGJldGFfMCQsICRcYmV0YV8wICsgXGJldGFfe3NnfSQsICRcYmV0YV8wK1xiZXRhX3tzen0kIHZvb3IgZG9qby0sIGdvdWQtIGVuIHplYnJhdmlzc2VuLCByZXNwZWN0aWV2ZWxpamspLgoKLSBEZSBpbnRlcmFjdGllIHR1c3NlbiBzb29ydCBlbiBnZXdpY2h0IHpvcmd0IGVydm9vciBkYXQgaGV0IGdld2ljaHRzZWZmZWN0IChoZWxsaW5nKSB2ZXJzY2hpbGxlbmQga2FuIHppam4gdm9vciBlbGtlIHNvb3J0ICgkXGJldGFfZyQsICRcYmV0YV9nK1xiZXRhX3tnOnNnfSQsICRcYmV0YV9nK1xiZXRhX3tnOnN6fSQgdm9vciBkb2pvLSwgZ291ZC0gZW4gemVicmF2aXNzZW4sIHJlc3BlY3RpZXZlbGlqaykuIAoKLSBIZXQgZG9zaXNlZmZlY3QgKGhlbGxpbmcpIGJsaWpmdCBnZWxpamsgdm9vciBkZSB2ZXJzY2hpbGxlbmRlIHZpc3Nlbi4KCgpgYGB7cn0Kc3VtbWFyeShsbV9maW5hbCkKYGBgCgojIFRlc3RlbiB2YW4gaHlwb3RoZXNlcwoKR2EgbWV0IGJlaHVscCB2YW4gaGV0IG9wZ2VzdGVsZGUgbW9kZWwgdm9sZ2VuZGUgb25kZXJ6b2Vrc3ZyYWdlbiBuYSB2b29yIGVsa2Ugdmlzc29vcnQuIENvcnJpZ2VlciBoaWVyYmlqIHZvb3IgbXVsdGlwbGUgdGVzdGluZyBlbiBjb250cm9sZWVyIGhldCBleHBlcmltZW50Z2V3aWpzIHNpZ25pZmljYW50aWVuaXZlYXUgb3AgNSU6CgotIElzIGVyIGVlbiBhc3NvY2lhdGllIHR1c3NlbiBkb3NpcyBlbiBsb2cyLW92ZXJsZXZpbmdzdGlqZCB2b29yIGRlIHZlcnNjaGlsbGVuZGUgdmlzc29vcnRlbj8KLSBJcyBlciBlZW4gYXNzb2NpYXRpZSB0dXNzZW4gZ2V3aWNodCBlbiBsb2cyLW92ZXJsZXZpbmdzdGlqZCB2b29yIGRlIHZlcnNjaGlsbGVuZGUgdmlzc29vcnRlbj8KLSBUdXNzZW4gd2Vsa2Ugdmlzc29vcnRlbiBpcyBlciBlZW4gdmVyc2NoaWwgaW4gYXNzb2NpYXRpZSB0dXNzZW4gZG9zaXMgZW4gbG9nMi1vdmVybGV2aW5nc3RpamQ/Ci0gVHVzc2VuIHdlbGtlIHZpc3Nvb3J0ZW4gaXMgZXIgZWVuIHZlcnNjaGlsIGluIGFzc29jaWF0aWUgdHVzc2VuIGdld2ljaHQgZW4gbG9nMi1vdmVybGV2aW5nc3RpamQ/CgpgYGB7cn0KbWNwIDwtIGdsaHQobG1fZmluYWwsbGluZmN0ID0gYygiZG9zaXMgPSAwIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImdld2ljaHQgPSAwIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImdld2ljaHQgKyBzb29ydDE6Z2V3aWNodCA9IDAiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJnZXdpY2h0ICsgc29vcnQyOmdld2ljaHQgPSAwIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAic29vcnQxOmdld2ljaHQgPSAwIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAic29vcnQyOmdld2ljaHQgPSAwIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAic29vcnQyOmdld2ljaHQgLSBzb29ydDE6Z2V3aWNodCA9IDAiKSkKc3VtbWFyeShtY3ApCmBgYAoKYGBge3J9CmNvbmZpbnRzIDwtIGNvbmZpbnQobWNwKQpjb25maW50cwoyXmNvbmZpbnRzJGNvbmZpbnQKMl4tY29uZmludHMkY29uZmludApgYGAKCgojIENvbmNsdXNpZQoKRXIgaXMgZWVuIGV4dHJlZW0gc2lnbmlmaWNhbnQgZWZmZWN0IHZhbiBkZSBkb3NpcyBvcCBkZSBvdmVybGV2aW5nc3RpamQgKHAgPDwgMC4wMDEpLgpEZSBvdmVybGV2aW5nc3RpamQgdmFuIHZpc3NlbiBkaWUgYWFuIGVlbiBob2dlcmUgZG9zaXMgdmFuIGhldCBnaWYgd29yZGVuIGJsb290Z2VzdGVsZCBuZWVtdCBnZW1pZGRlbGQgbWV0IGVlbiBmYWN0b3JgciAyXmFicyhjb25maW50cyRjb25maW50WyJkb3NpcyIsMV0pICAlPiUgcm91bmQoLiwxKWAgYWYgcGVyIG1nIGV4dHJhIGdpZiBkaWUgd29yZHQgdG9lZ2VkaWVuZCAoOTUlIEJJIFtgciAyXmFicyhjb25maW50cyRjb25maW50WyJkb3NpcyIsLTFdKSAgJT4lIHJvdW5kKC4sMSklPiUgc29ydGBdKS4gIEhldCBkb3Npc2VmZmVjdCB2ZXJzY2hpbHQgbmlldCBzaWduaWZpY2FudCB0dXNzZW4gZGUgdmVyc2NoaWxsZW5kZSB2aXNzb29ydGVuIG9wIGhldCA1JSBzaWduaWZpY2FudGllLW5pdmVhdS4gCgpWZXJkZXIgaXMgZXIgZWVuIHN0ZXJrIHNpZ25pZmljYW50ZSBhc3NvY2lhdGllIGlzIHR1c3NlbiBnZXdpY2h0IGVuIG92ZXJsZXZpbmdzdGlqZCBiaWogem93ZWwgZGUgZG9qb3Zpc3NlbiAoY29udHJhc3Q6IGdld2ljaHQgPT0gMCwgcCA9IDAuMDAxKSBhbHMgZGUgZ291ZHZpc3NlbiAoY29udHJhc3Q6IGdld2ljaHQgKyBzb29ydDE6Z2V3aWNodCA9PSAwLCBwIDw8IDAuMDAxKS4gVm9vciB2aXNzZW4gbWV0IGVlbiB2ZXJzY2hpbGxlbmQgbGljaGFhbXNnZXdpY2h0IGlzIGRlIG92ZXJsZXZpbmdzdGlqZCBnZW1pZGRlbGQgZWVuIGZhY3RvciBgciAyXmFicyhjb25maW50cyRjb25maW50WyJnZXdpY2h0IiwxXSkgICU+JSByb3VuZCguLDEpYCBlbiBgciAyXmFicyhjb25maW50cyRjb25maW50WyJnZXdpY2h0ICsgc29vcnQxOmdld2ljaHQiLDFdKSAgJT4lIHJvdW5kKC4sMSlgIHBlciBncmFtIGxpY2hhYW1zZ2V3aWNodCBob2dlciB2b29yIGRlIHp3YWFyZGVyZSB2aXMgYmlqIHJlc3BlY3RpZXZlbGlqayBkb2pvLSBlbiBnb3Vkdmlzc2VuICg5NSUgQkkgW2ByIDJeYWJzKGNvbmZpbnRzJGNvbmZpbnRbImdld2ljaHQiLC0xXSkgICU+JSByb3VuZCguLDEpJT4lIHNvcnRgXSBlbiBbYHIgMl5hYnMoY29uZmludHMkY29uZmludFsiZ2V3aWNodCArIHNvb3J0MTpnZXdpY2h0IiwtMV0pICAlPiUgcm91bmQoLiwxKSU+JSBzb3J0YF0sIHJlc3BlY3RpZXZlbGlqaykuIApWb29yIGRlIHplYnJhdmlzc2VuIChjb250cmFzdDogZ2V3aWNodCArIHNvb3J0MjpnZXdpY2h0ID09IDAsIHAgPSAwLjk5OSkgaXMgZXIgZ2VlbiBzaWduaWZpY2FudGUgYXNzb2NpYXRpZSB0dXNzZW4gZ2V3aWNodCBlbiBvdmVybGV2aW5nc3RpamQuCgpEZSBhc3NvY2lhdGllIHZhbiBnZXdpY2h0IGVuIGRlIGxvZzItb3ZlcmxldmluZ3N0aWpkIGlzIHNpZ25pZmljYW50IHZlcnNjaGlsbGVuZCB0dXNzZW4gemVicmF2aXNzZW4gZW4gZ291ZHZpc3NlbiAoY29udHJhc3Q6IHNvb3J0MjpnZXdpY2h0IC0gc29vcnQxOmdld2ljaHQgPT0gMCwgcD0gMC4wNDgzKS4gQmlqIHplYnJhdmlzc2VuIHN0aWpndCBkZSBvdmVybGV2aW5nc3RpamQgcGVyIGdyYW0gZXh0cmEgZ2V3aWNodCBtZXQgZWVuIGZhY3RvciBgciAyXmFicyhjb25maW50cyRjb25maW50WyJzb29ydDI6Z2V3aWNodCAtIHNvb3J0MTpnZXdpY2h0IiwxXSkgICU+JSByb3VuZCguLDEpYCBtaW5kZXIgZGFuIGJpaiBnb3Vkdmlzc2VuICg5NSUgQkkgW2ByIDJeYWJzKGNvbmZpbnRzJGNvbmZpbnRbInNvb3J0MjpnZXdpY2h0IC0gc29vcnQxOmdld2ljaHQiLC0xXSkgICU+JSByb3VuZCguLDEpJT4lIHNvcnRgXSkuIApEZSBhc3NvY2lhdGllIHZhbiBnZXdpY2h0IGVuIGRlIGxvZzItb3ZlcmxldmluZ3N0aWpkIGlzIG5pZXQgc2lnbmlmaWNhbnQgdmVyc2NoaWxsZW5kIHR1c3NlbiBnb3Vkdmlzc2VuIGVuIGRvam92aXNzZW4gKGNvbnRyYXN0OiBzb29ydDE6Z2V3aWNodCA9PSAwLCBwID0gMC42NCkgZW4gdHVzc2VuIHplYnJhdmlzc2VuIGVuIGRvam92aXNzZW4gKGNvbnRyYXN0OiBzb29ydDI6Z2V3aWNodCA9PSAwLCBwPTAuMzQpLiAK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("oefening_vissen_volledig_uitgewerkt.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

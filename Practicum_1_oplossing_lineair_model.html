@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Alexandre Segers &amp; Lieven Clement" />
+
+
+<title>Practicum 1: Oefening 4</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practicum 1: Oefening 4</h1>
+<h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div id="invloed-concentratie-op-reactiesnelheid" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Invloed concentratie op
+reactiesnelheid</h1>
+<p>De reactiesnelheid van een proces met een enzyme als katalysator
+wordt opgemeten door het aantal radioactieve reactieproducten te tellen
+in functie van de substraatconcentratie. Dat wordt gedaan voor een
+reactiemengsel met Puromycine en zonder Puromycine.</p>
+<p>We willen nagaan of er een lineair verband is tussen de gemiddelde
+reactiesnelheid en de substraatconcentratie voor zowel de groep die
+behandeld is met Puromycine als voor de controlegroep zonder Puromicine.
+Aangezien we de data zouden moeten analyseren met een meervoudige
+lineaire regressiemodel die het effect van de concentratie en de
+behandeling kan modelleren, beperken we ons voorlopig tot de data van de
+groep die behandeld is met Puromycine.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.1
+## ✔ readr   2.1.2     ✔ forcats 0.5.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Puromycin)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Puromycin <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state<span class="sc">==</span><span class="st">&quot;treated&quot;</span>)</span></code></pre></div>
+</div>
+<div id="data-exploratie" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data exploratie</h1>
+<p>We plotten de reactiesnelheid tegenover de concentratie om de data te
+exploreren.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Puromycin  <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>conc,<span class="at">y=</span>rate)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="co"># fit een kromme door de punten (rode lijn)</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>,<span class="at">col=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># fit een rechte door de punten aan de hand van de kleinstekwadratenmethode</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Reactiesnelheid (counts/min)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Substraatconcentratie (ppm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Het ziet ernaar uit dat de data geen lineaire trend volgt. We gaan nu
+het verband na log-transformatie van de substraatconcentratie. Gezien de
+substraat concentratie in ppm is gemeten zullen we een log<span
+class="math inline">\(_{10}\)</span> transformatie gebruiken (een waarde
+van -2,-1,0 op log schaal is dan 0.01ppm, 0.1 ppm, 1 ppm).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Puromycin  <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>conc <span class="sc">%&gt;%</span> log10,<span class="at">y=</span>rate)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="co"># fit een kromme door de punten (rode lijn)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>,<span class="at">col=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span> <span class="co"># fit een rechte door de punten aan de hand van de kleinstekwadratenmethode</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Reactiesnelheid (counts/min)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;log10(Substraatconcentratie (ppm))&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Het verband tussen de reactiesnelheid en het logaritme van de
+substraatconcentratie lijkt lineair. We zullen de reactiesnelheid dus
+verder modelleren in functie van de log<span
+class="math inline">\(_{10}\)</span>-substraatconcentratie.</p>
+</div>
+<div id="enkelvoudige-lineaire-regressie" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Enkelvoudige lineaire
+regressie</h1>
+<p>Enkelvoudige lineaire regressie is een regressie waarbij een
+variabele gemodelleerd wordt in functie van slechts 1 variabele. De
+verwachtte reactiesnelheid wordt dus <span class="math inline">\(E[Y_i]
+= \beta_0 + \beta_1X_i\)</span>. In dit geval is <span
+class="math inline">\(Y\)</span> de reactiesnelheid en <span
+class="math inline">\(X\)</span> de log10-substraatconcentratie.</p>
+<p>Het model wordt dan als volgt: <span
+class="math inline">\(reactiesnelheid_i = \beta_0 + \beta_1
+log_{10}(concentratie_i) + \epsilon_i\)</span></p>
+<p>met <span class="math inline">\(\beta_0\)</span> het (werkelijke)
+<strong>intercept</strong>, <span class="math inline">\(\beta_1\)</span>
+de (werkelijke) <strong>helling</strong> of meer specifiek het
+(werkelijk) <strong>effect van log10(concentratie) op de gemiddelde
+reactiesnelheid</strong>. Deze parameters gaan we schatten.</p>
+<p><span class="math inline">\(\epsilon_i\)</span> is een foutterm
+(“error term”), waarbij <span class="math inline">\(\epsilon_i\)</span>
+i.i.d. normaal verdeeld zijn met gemiddelde 0 en (constante) variantie
+<span class="math inline">\(\sigma^2\)</span>.</p>
+<div id="assumpties" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Assumpties</h2>
+<p>Voordat we conclusies kunnen trekken uit het lineaire regressiemodel
+moeten we nagaan of er aan de assumpties voldaan zijn. Voor de lineaire
+regressie zijn dat volgende assumpties:</p>
+<ol style="list-style-type: decimal">
+<li>Onafhankelijke gegevens</li>
+<li>Lineariteit tussen respons en predictor (impliceert dat residuen
+rond nul verdeeld zijn, zonder merkbaar resterend patroon tussen de
+residuen en de geschatte respons variabele)</li>
+<li>Normaal verdeelde residuen</li>
+<li>Gelijke variantie (homoscedasticiteit)</li>
+</ol>
+<p>Onafhankelijke gegevens moeten we veronderstellen uit het
+experimenteel design. De andere assumpties moeten we controleren.</p>
+<div
+id="lineariteit-tussen-reactiesnelheid-en-log_10substraatconcentratie"
+class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Lineariteit tussen
+reactiesnelheid en log<span
+class="math inline">\(_{10}\)</span>(substraatconcentratie):</h3>
+<p>Zoals hierboven besproken lijkt het dat er een lineaire trend is
+tussen reactiesnelheid en log<span
+class="math inline">\(_{10}\)</span>(substraatconcentratie) in het
+volledige bereik van de data.</p>
+<p>De lineariteitsassumptie impliceert dat de residuen willekeurig rond
+nul verdeeld zijn, onafhankelijk van waar we ons op de rechte bevinden.
+Dit kunnen we weergeven door een lineair model te fitten op de data en
+de residuen met een smoother weer te geven in functie van de gefitte
+responswaarden.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate<span class="sc">~</span><span class="fu">log10</span>(conc),<span class="at">data =</span> Puromycin) </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = rate ~ log10(conc), data = Puromycin)
+## 
+## Coefficients:
+## (Intercept)  log10(conc)  
+##      209.19        85.45</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model,<span class="at">which=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Er lijken kleine afwijkingen te zijn bij de residuen van hogere
+gefitted waarden. Er zijn echter niet zoveel observaties opgenomen in de
+studie en de smoother geeft sowieso onnauwkeurig schattingen op de
+eindpunten van het bereik.</p>
+<p>Om na te gaan of de afwijkingen die we zien inderdaad plaucibel zijn
+en kunnen worden veroorzaakt door random variabiliteit kunnen we gebruik
+maken van simulaties waaruit we de data genereren onder de voorwaarden
+van het lineaire model.</p>
+<p>We simuleren 9 datasets met hetzelfde aantal observaties,
+predictorwaarden, intercept, helling en standaarddeviatie. We fitten de
+modellen en maken de residuplot.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1031</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> coefficients</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> sigma </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>simModels <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> <span class="fu">pull</span>(<span class="st">&quot;conc&quot;</span>) <span class="sc">%&gt;%</span> log10</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  nobs <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> nrow</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> betas[<span class="dv">1</span>] <span class="sc">+</span> betas[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(nobs, <span class="at">sd =</span> sigma)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  simModels[[i]] <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(simModels[[i]], <span class="at">which =</span> <span class="dv">1</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="normaal-verdeelde-residuen" class="section level3"
+number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Normaal verdeelde
+residuen</h3>
+<p>We gaan via een qq-plot na of de residuen normaal verdeeld zijn.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model,<span class="at">which=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>We zien dat er geen systematische afwijkingen zijn van normaliteit,
+en kunnen veronderstellen dat de kleine afwijkingen door toevallige
+steekproefvariabiliteit komen.</p>
+</div>
+<div id="gelijke-variantie-homoscedasticiteit" class="section level3"
+number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Gelijke variantie
+(homoscedasticiteit)</h3>
+<p>Bij lineaire regressie wil de assumptie van gelijkheid van variantie
+zeggen dat de variantie van de residuen rond de regressierechte
+hetzelfde is voor elke waarde van de predictor (predictorpatroon).</p>
+<p>We kunnen dit opnieuw nagaan met de residu-plot. De spreiding van de
+residuen zou min of meer gelijk moeten zijn voor elke gefitte
+waarde.</p>
+<p>Een andere plot die we hiervoor kunnen gebruiken is een plot waar we
+de vierkantswortel van de absolute waarde van de gestandaardiseerde
+residuen plotten in functie van de gefitte waarden. Als we hier een
+smoother door trekken, zou de smoother een horizontaal verloop moeten
+hebben. Indien er afwijkingen zouden zijn, bv. er is een systematische
+trend waarbij de gestandaardiseerde residuen hoger/lager worden naarmate
+de <em>fitted values</em> hoger/lager worden, dan betekent het dat de
+variantie van de residuen hoger/lager wordt naarmate de geschatte
+respons hoger/lager wordt.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model,<span class="at">which=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Hier zien we kleine afwijkingen van een horizontale lijn bij de
+uiterste waarden. Via simulatie zien we opnieuw dat deze afwijkingen
+plaucibel zijn in een experiment met ons design wanneer alle aannames
+geldig zijn.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(simModels[[i]], <span class="at">which =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_lineair_model_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>We kunnen dus veronderstellen dus dat de varianties gelijk zijn.</p>
+</div>
+</div>
+<div id="nul--en-alternatieve-hypothese" class="section level2"
+number="3.2">
+<h2><span class="header-section-number">3.2</span> Nul- en alternatieve
+hypothese:</h2>
+<p>We willen weten of er een lineaire associatie is tussen de
+reactiesnelheid en de log<span class="math inline">\(_{10}\)</span>
+getransformeerde concentratie.</p>
+<p>De nul- en alternatieve hypothese van het lineair model worden
+dus:</p>
+<p><span class="math inline">\(H_0\)</span>: <span
+class="math inline">\(\beta_1 = 0\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: <span
+class="math inline">\(\beta_1 \ne 0\)</span></p>
+<p>Met andere woorden stelt de nulhypothese dat er geen associatie is
+tussen de reactiesnelheid en de log<span
+class="math inline">\(_{10}\)</span> concentratie, terwijl de
+alternatieve hypothese stelt dat er juist wel een associatie is.</p>
+</div>
+<div
+id="fit-het-lineair-model-en-bespreek-beide-parameters-ga-na-of-de-nulhypothese-verworpen-wordt-en-maak-een-interpretatie-van-het-betrouwbaarheidsinterval."
+class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Fit het lineair model
+en bespreek beide parameters, ga na of de nulhypothese verworpen wordt
+en maak een interpretatie van het betrouwbaarheidsinterval.</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summaryModel <span class="ot">&lt;-</span> <span class="fu">summary</span>(model)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>summaryModel</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = rate ~ log10(conc), data = Puromycin)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17.0176  -6.2455   0.6039   7.4262  13.3228 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  209.194      5.045   41.47 1.59e-12 ***
+## log10(conc)   85.450      5.133   16.65 1.28e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.37 on 10 degrees of freedom
+## Multiple R-squared:  0.9652, Adjusted R-squared:  0.9617 
+## F-statistic: 277.1 on 1 and 10 DF,  p-value: 1.28e-08</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>confintModel <span class="ot">&lt;-</span> <span class="fu">confint</span>(model)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>confintModel</span></code></pre></div>
+<pre><code>##                 2.5 %    97.5 %
+## (Intercept) 197.95335 220.43564
+## log10(conc)  74.01255  96.88732</code></pre>
+<div id="conclusie" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Conclusie</h3>
+<p>Er is een extreem significante lineaire associatie tussen de
+substraatconcentratie op logschaal en de reactiesnelheid (p &lt;&lt;
+0.001). Wanneer we de reactie laten doorgaan bij een
+substraatconcentratie die 10 keer hoger is, is de reactiesnelheid
+gemiddeld met 85.4 counts/min hoger (95% betrouwbaarheidsinterval [74,
+96.9] counts/min).</p>
+</div>
+<div id="interpretatie" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Interpretatie</h3>
+<ol style="list-style-type: decimal">
+<li><p>Het intercept is de geschatte gemiddelde reactiesnelheid bij een
+log<span class="math inline">\(_{10}\)</span>-concentratie van 0/een
+substraat concentratie van 1 ppm en is gelijk aan 209.2
+counts/min.</p></li>
+<li><p>Helling</p></li>
+</ol>
+<ul>
+<li><p>Log schaal: Wanneer we de reactie laten doorgaan bij een
+substraatconcentratie die 1 eenheid op log<span
+class="math inline">\(_{10}\)</span> schaal hoger is, is de
+reactiesnelheid gemiddeld met 85.4 counts/min hoger.</p></li>
+<li><p>Originele schaal: Wanneer we de reactie laten doorgaan bij een
+substraatconcentratie die 10 keer hoger is, is de reactiesnelheid
+gemiddeld met 85.4 counts/min hoger.</p></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>95% betrouwbaarheidsinterval: We hebben dus geschat dat het
+werkelijke verschil in reactiesnelheid tussen twee reacties die doorgaan
+onder een substraatconcentratie die een factor 10 verschillen met 95%
+kans ligt tussen [74, 96.9] counts/min; merk op dat de reactie sneller
+doorgaat in de reactie met de hoogste substraatconcentratie.</li>
+</ol>
+</div>
+</div>
+<div
+id="schat-de-gemiddelde-reactiesnelheid-bij-een-substraat-concentratie-van-0.2ppm-en-geef-een-bijhorend-95-betrouwbaarheidsinterval."
+class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Schat de gemiddelde
+reactiesnelheid bij een substraat concentratie van 0.2ppm en geef een
+bijhorend 95%-betrouwbaarheidsinterval.</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata=</span><span class="fu">data.frame</span>(<span class="at">conc=</span><span class="fl">0.2</span>), <span class="at">interval=</span><span class="st">&quot;confidence&quot;</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pred</span></code></pre></div>
+<pre><code>##        fit      lwr      upr
+## 1 149.4676 142.7162 156.2189</code></pre>
+<p>De geschatte gemiddelde reactiesnelheid bij een substraatconcentratie
+van 10 ppm is 149.5 counts/min (95% betrouwbaarheidsinterval [142.7,
+156.2] counts/min).</p>
+</div>
+</div>
+<div id="algemene-conclusie" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Algemene conclusie</h1>
+<p>Er is een extreem significante lineaire associatie tussen de
+substraatconcentratie op logschaal en de reactiesnelheid (p &lt;&lt;
+0.001). Wanneer we de reactie laten doorgaan bij een
+substraatconcentratie die 10 keer hoger is, is de reactiesnelheid
+gemiddeld met 85.4 counts/min hoger (95% betrouwbaarheidsinterval [74,
+96.9] counts/min).</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IE9lZmVuaW5nIDQiCmF1dGhvcjogIkFsZXhhbmRyZSBTZWdlcnMgJiBMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogICAgaHRtbF9kb2N1bWVudDoKICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQogICAgICB0aGVtZTogY29zbW8KICAgICAgdG9jOiB0cnVlCiAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgcGRmX2RvY3VtZW50OgogICAgICB0b2M6IHRydWUKICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleApsaW5rY29sb3I6IGJsdWUKdXJsY29sb3I6IGJsdWUKY2l0ZWNvbG9yOiBibHVlCgotLS0KCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkKYGBgCgojIEludmxvZWQgY29uY2VudHJhdGllIG9wIHJlYWN0aWVzbmVsaGVpZCAKCkRlIHJlYWN0aWVzbmVsaGVpZCB2YW4gZWVuIHByb2NlcyBtZXQgZWVuIGVuenltZSBhbHMga2F0YWx5c2F0b3Igd29yZHQgb3BnZW1ldGVuIGRvb3IgaGV0IGFhbnRhbCByYWRpb2FjdGlldmUgcmVhY3RpZXByb2R1Y3RlbiB0ZSB0ZWxsZW4gaW4gZnVuY3RpZSB2YW4gZGUgc3Vic3RyYWF0Y29uY2VudHJhdGllLiBEYXQgd29yZHQgZ2VkYWFuIHZvb3IgZWVuIHJlYWN0aWVtZW5nc2VsIG1ldCBQdXJvbXljaW5lIGVuIHpvbmRlciBQdXJvbXljaW5lLgoKV2Ugd2lsbGVuIG5hZ2FhbiBvZiBlciBlZW4gbGluZWFpciB2ZXJiYW5kIGlzIHR1c3NlbiBkZSBnZW1pZGRlbGRlIHJlYWN0aWVzbmVsaGVpZCBlbiBkZSBzdWJzdHJhYXRjb25jZW50cmF0aWUgdm9vciB6b3dlbCBkZSBncm9lcCBkaWUgYmVoYW5kZWxkIGlzIG1ldCBQdXJvbXljaW5lIGFscyB2b29yIGRlIGNvbnRyb2xlZ3JvZXAgem9uZGVyIFB1cm9taWNpbmUuIEFhbmdlemllbiB3ZSBkZSBkYXRhIHpvdWRlbiBtb2V0ZW4gYW5hbHlzZXJlbiBtZXQgZWVuIG1lZXJ2b3VkaWdlIGxpbmVhaXJlIHJlZ3Jlc3NpZW1vZGVsIGRpZSBoZXQgZWZmZWN0IHZhbiBkZSBjb25jZW50cmF0aWUgZW4gZGUgYmVoYW5kZWxpbmcga2FuIG1vZGVsbGVyZW4sIGJlcGVya2VuIHdlIG9ucyB2b29ybG9waWcgdG90IGRlIGRhdGEgdmFuIGRlIGdyb2VwIGRpZSBiZWhhbmRlbGQgaXMgbWV0IFB1cm9teWNpbmUuCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dwbG90MikKYGBgCgpgYGB7cn0KZGF0YShQdXJvbXljaW4pClB1cm9teWNpbiA8LSBQdXJvbXljaW4gJT4lIGZpbHRlcihzdGF0ZT09InRyZWF0ZWQiKQoKYGBgCgojIERhdGEgZXhwbG9yYXRpZQoKV2UgcGxvdHRlbiBkZSByZWFjdGllc25lbGhlaWQgdGVnZW5vdmVyIGRlIGNvbmNlbnRyYXRpZSBvbSBkZSBkYXRhIHRlIGV4cGxvcmVyZW4uCmBgYHtyfQpQdXJvbXljaW4gICU+JQogIGdncGxvdChhZXMoeD1jb25jLHk9cmF0ZSkpICsKICBnZW9tX3BvaW50KCkgKyAKICBzdGF0X3Ntb290aChtZXRob2QgPSAibG9lc3MiLGNvbD0icmVkIikgKyAjIGZpdCBlZW4ga3JvbW1lIGRvb3IgZGUgcHVudGVuIChyb2RlIGxpam4pCiAgc3RhdF9zbW9vdGgobWV0aG9kPSdsbScsY29sPSJibGFjayIpICsgIyBmaXQgZWVuIHJlY2h0ZSBkb29yIGRlIHB1bnRlbiBhYW4gZGUgaGFuZCB2YW4gZGUga2xlaW5zdGVrd2FkcmF0ZW5tZXRob2RlCiAgeWxhYigiUmVhY3RpZXNuZWxoZWlkIChjb3VudHMvbWluKSIpICsKICB4bGFiKCJTdWJzdHJhYXRjb25jZW50cmF0aWUgKHBwbSkiKSArCiAgdGhlbWVfYncoKQpgYGAKCkhldCB6aWV0IGVybmFhciB1aXQgZGF0IGRlIGRhdGEgZ2VlbiBsaW5lYWlyZSB0cmVuZCB2b2xndC4gV2UgZ2FhbiBudSBoZXQgdmVyYmFuZCBuYSBsb2ctdHJhbnNmb3JtYXRpZSB2YW4gZGUgc3Vic3RyYWF0Y29uY2VudHJhdGllLiBHZXppZW4gZGUgc3Vic3RyYWF0IGNvbmNlbnRyYXRpZSBpbiBwcG0gaXMgZ2VtZXRlbiB6dWxsZW4gd2UgZWVuIGxvZyRfezEwfSQgdHJhbnNmb3JtYXRpZSBnZWJydWlrZW4gKGVlbiB3YWFyZGUgdmFuIC0yLC0xLDAgb3AgbG9nIHNjaGFhbCBpcyBkYW4gMC4wMXBwbSwgMC4xIHBwbSwgMSBwcG0pLiAKCgpgYGB7cn0KUHVyb215Y2luICAlPiUKICBnZ3Bsb3QoYWVzKHg9Y29uYyAlPiUgbG9nMTAseT1yYXRlKSkgKwogIGdlb21fcG9pbnQoKSArIAogIHN0YXRfc21vb3RoKG1ldGhvZCA9ICJsb2VzcyIsY29sPSJyZWQiKSArICMgZml0IGVlbiBrcm9tbWUgZG9vciBkZSBwdW50ZW4gKHJvZGUgbGlqbikKICBzdGF0X3Ntb290aChtZXRob2Q9J2xtJyxjb2w9ImJsYWNrIikgKyAjIGZpdCBlZW4gcmVjaHRlIGRvb3IgZGUgcHVudGVuIGFhbiBkZSBoYW5kIHZhbiBkZSBrbGVpbnN0ZWt3YWRyYXRlbm1ldGhvZGUKICB5bGFiKCJSZWFjdGllc25lbGhlaWQgKGNvdW50cy9taW4pIikgKwogIHhsYWIoImxvZzEwKFN1YnN0cmFhdGNvbmNlbnRyYXRpZSAocHBtKSkiKSArCiAgdGhlbWVfYncoKQpgYGAKCkhldCB2ZXJiYW5kIHR1c3NlbiBkZSByZWFjdGllc25lbGhlaWQgZW4gaGV0IGxvZ2FyaXRtZSB2YW4gZGUgc3Vic3RyYWF0Y29uY2VudHJhdGllIGxpamt0IGxpbmVhaXIuIFdlIHp1bGxlbiBkZSByZWFjdGllc25lbGhlaWQgZHVzIHZlcmRlciBtb2RlbGxlcmVuIGluIGZ1bmN0aWUgdmFuIGRlIGxvZyRfezEwfSQtc3Vic3RyYWF0Y29uY2VudHJhdGllLgoKIyBFbmtlbHZvdWRpZ2UgbGluZWFpcmUgcmVncmVzc2llCgpFbmtlbHZvdWRpZ2UgbGluZWFpcmUgcmVncmVzc2llIGlzIGVlbiByZWdyZXNzaWUgd2FhcmJpaiBlZW4gdmFyaWFiZWxlIGdlbW9kZWxsZWVyZCB3b3JkdCBpbiBmdW5jdGllIHZhbiBzbGVjaHRzIDEgdmFyaWFiZWxlLiBEZSB2ZXJ3YWNodHRlIHJlYWN0aWVzbmVsaGVpZCB3b3JkdCBkdXMgJEVbWV9pXSA9IFxiZXRhXzAgKyBcYmV0YV8xWF9pJC4gSW4gZGl0IGdldmFsIGlzICRZJCBkZSByZWFjdGllc25lbGhlaWQgZW4gJFgkIGRlIGxvZzEwLXN1YnN0cmFhdGNvbmNlbnRyYXRpZS4KCkhldCBtb2RlbCB3b3JkdCBkYW4gYWxzIHZvbGd0OgokcmVhY3RpZXNuZWxoZWlkX2kgPSBcYmV0YV8wICsgXGJldGFfMSBsb2dfezEwfShjb25jZW50cmF0aWVfaSkgKyBcZXBzaWxvbl9pJAoKbWV0ICRcYmV0YV8wJCBoZXQgKHdlcmtlbGlqa2UpICoqaW50ZXJjZXB0KiosICRcYmV0YV8xJCBkZSAod2Vya2VsaWprZSkgKipoZWxsaW5nKiogb2YgbWVlciBzcGVjaWZpZWsgaGV0ICh3ZXJrZWxpamspICoqZWZmZWN0IHZhbiBsb2cxMChjb25jZW50cmF0aWUpIG9wIGRlIGdlbWlkZGVsZGUgcmVhY3RpZXNuZWxoZWlkKiouIERlemUgcGFyYW1ldGVycyBnYWFuIHdlIHNjaGF0dGVuLgoKJFxlcHNpbG9uX2kkIGlzIGVlbiBmb3V0dGVybSAoImVycm9yIHRlcm0iKSwgd2FhcmJpaiAkXGVwc2lsb25faSQgaS5pLmQuIG5vcm1hYWwgdmVyZGVlbGQgemlqbiBtZXQgZ2VtaWRkZWxkZSAwIGVuIChjb25zdGFudGUpIHZhcmlhbnRpZSAkXHNpZ21hXjIkLgoKIyMgQXNzdW1wdGllcwoKVm9vcmRhdCB3ZSBjb25jbHVzaWVzIGt1bm5lbiB0cmVra2VuIHVpdCBoZXQgbGluZWFpcmUgcmVncmVzc2llbW9kZWwgbW9ldGVuIHdlIG5hZ2FhbiBvZiBlciBhYW4gZGUgYXNzdW1wdGllcyB2b2xkYWFuIHppam4uIFZvb3IgZGUgbGluZWFpcmUgcmVncmVzc2llIHppam4gZGF0IHZvbGdlbmRlIGFzc3VtcHRpZXM6CgogMS4gT25hZmhhbmtlbGlqa2UgZ2VnZXZlbnMKIDIuIExpbmVhcml0ZWl0IHR1c3NlbiByZXNwb25zIGVuIHByZWRpY3RvciAoaW1wbGljZWVydCBkYXQgcmVzaWR1ZW4gcm9uZCBudWwgdmVyZGVlbGQgemlqbiwgem9uZGVyIG1lcmtiYWFyIHJlc3RlcmVuZCBwYXRyb29uIHR1c3NlbiBkZSByZXNpZHVlbiBlbiBkZSBnZXNjaGF0dGUgcmVzcG9ucyB2YXJpYWJlbGUpCiAzLiBOb3JtYWFsIHZlcmRlZWxkZSByZXNpZHVlbgogNC4gR2VsaWprZSB2YXJpYW50aWUgKGhvbW9zY2VkYXN0aWNpdGVpdCkKIAogT25hZmhhbmtlbGlqa2UgZ2VnZXZlbnMgbW9ldGVuIHdlIHZlcm9uZGVyc3RlbGxlbiB1aXQgaGV0IGV4cGVyaW1lbnRlZWwgZGVzaWduLiBEZSBhbmRlcmUgYXNzdW1wdGllcyBtb2V0ZW4gd2UgY29udHJvbGVyZW4uCiAKIyMjIExpbmVhcml0ZWl0IHR1c3NlbiByZWFjdGllc25lbGhlaWQgZW4gbG9nJF97MTB9JChzdWJzdHJhYXRjb25jZW50cmF0aWUpOgoKWm9hbHMgaGllcmJvdmVuIGJlc3Byb2tlbiBsaWprdCBoZXQgZGF0IGVyIGVlbiBsaW5lYWlyZSB0cmVuZCBpcyB0dXNzZW4gcmVhY3RpZXNuZWxoZWlkIGVuIGxvZyRfezEwfSQoc3Vic3RyYWF0Y29uY2VudHJhdGllKSBpbiBoZXQgdm9sbGVkaWdlIGJlcmVpayB2YW4gZGUgZGF0YS4gCgpEZSBsaW5lYXJpdGVpdHNhc3N1bXB0aWUgaW1wbGljZWVydCBkYXQgZGUgcmVzaWR1ZW4gd2lsbGVrZXVyaWcgcm9uZCBudWwgdmVyZGVlbGQgemlqbiwgb25hZmhhbmtlbGlqayB2YW4gd2FhciB3ZSBvbnMgb3AgZGUgcmVjaHRlIGJldmluZGVuLiBEaXQga3VubmVuIHdlIHdlZXJnZXZlbiBkb29yIGVlbiBsaW5lYWlyIG1vZGVsIHRlIGZpdHRlbiBvcCBkZSBkYXRhIGVuIGRlIHJlc2lkdWVuIG1ldCBlZW4gc21vb3RoZXIgd2VlciB0ZSBnZXZlbiBpbiBmdW5jdGllIHZhbiBkZSBnZWZpdHRlIHJlc3BvbnN3YWFyZGVuLiAKCmBgYHtyfQptb2RlbCA8LSBsbShyYXRlfmxvZzEwKGNvbmMpLGRhdGEgPSBQdXJvbXljaW4pIAptb2RlbApwbG90KG1vZGVsLHdoaWNoPTEpCmBgYCAKCkVyIGxpamtlbiBrbGVpbmUgYWZ3aWpraW5nZW4gdGUgemlqbiBiaWogZGUgcmVzaWR1ZW4gdmFuIGhvZ2VyZSBnZWZpdHRlZCB3YWFyZGVuLiBFciB6aWpuIGVjaHRlciBuaWV0IHpvdmVlbCBvYnNlcnZhdGllcyBvcGdlbm9tZW4gaW4gZGUgc3R1ZGllIGVuIGRlIHNtb290aGVyIGdlZWZ0IHNvd2llc28gb25uYXV3a2V1cmlnIHNjaGF0dGluZ2VuIG9wIGRlIGVpbmRwdW50ZW4gdmFuIGhldCBiZXJlaWsuIAoKT20gbmEgdGUgZ2FhbiBvZiBkZSBhZndpamtpbmdlbiBkaWUgd2UgemllbiBpbmRlcmRhYWQgcGxhdWNpYmVsIHppam4gZW4ga3VubmVuIHdvcmRlbiB2ZXJvb3J6YWFrdCBkb29yIHJhbmRvbSB2YXJpYWJpbGl0ZWl0IGt1bm5lbiB3ZSBnZWJydWlrIG1ha2VuIHZhbiBzaW11bGF0aWVzIHdhYXJ1aXQgd2UgZGUgZGF0YSBnZW5lcmVyZW4gb25kZXIgZGUgdm9vcndhYXJkZW4gdmFuIGhldCBsaW5lYWlyZSBtb2RlbC4gCgpXZSBzaW11bGVyZW4gOSBkYXRhc2V0cyBtZXQgaGV0emVsZmRlIGFhbnRhbCBvYnNlcnZhdGllcywgcHJlZGljdG9yd2FhcmRlbiwgaW50ZXJjZXB0LCBoZWxsaW5nIGVuIHN0YW5kYWFyZGRldmlhdGllLiAKV2UgZml0dGVuIGRlIG1vZGVsbGVuIGVuIG1ha2VuIGRlIHJlc2lkdXBsb3QuIAoKYGBge3J9CnNldC5zZWVkKDEwMzEpCmJldGFzIDwtIG1vZGVsICU+JSBjb2VmZmljaWVudHMKc2lnbWEgPC0gbW9kZWwgJT4lIHNpZ21hIAoKc2ltTW9kZWxzIDwtIGxpc3QoKQoKcGFyKG1mcm93PWMoMywzKSkKZm9yIChpIGluIDE6OSkKewogIHggPC0gUHVyb215Y2luICU+JSBwdWxsKCJjb25jIikgJT4lIGxvZzEwCiAgbm9icyA8LSBQdXJvbXljaW4gJT4lIG5yb3cKICB5IDwtIGJldGFzWzFdICsgYmV0YXNbMl0gKiB4ICsgcm5vcm0obm9icywgc2QgPSBzaWdtYSkKICBzaW1Nb2RlbHNbW2ldXSA8LSBsbSh5fngpCiAgcGxvdChzaW1Nb2RlbHNbW2ldXSwgd2hpY2ggPSAxKQp9CmBgYAoKIyMjIE5vcm1hYWwgdmVyZGVlbGRlIHJlc2lkdWVuCgpXZSBnYWFuIHZpYSBlZW4gcXEtcGxvdCBuYSBvZiBkZSByZXNpZHVlbiBub3JtYWFsIHZlcmRlZWxkIHppam4uCgpgYGB7cn0KcGxvdChtb2RlbCx3aGljaD0yKQpgYGAKCldlIHppZW4gZGF0IGVyIGdlZW4gc3lzdGVtYXRpc2NoZSBhZndpamtpbmdlbiB6aWpuIHZhbiBub3JtYWxpdGVpdCwgZW4ga3VubmVuIHZlcm9uZGVyc3RlbGxlbiBkYXQgZGUga2xlaW5lIGFmd2lqa2luZ2VuIGRvb3IgdG9ldmFsbGlnZSBzdGVla3Byb2VmdmFyaWFiaWxpdGVpdCBrb21lbi4KCiMjIyBHZWxpamtlIHZhcmlhbnRpZSAoaG9tb3NjZWRhc3RpY2l0ZWl0KQoKQmlqIGxpbmVhaXJlIHJlZ3Jlc3NpZSB3aWwgZGUgYXNzdW1wdGllIHZhbiBnZWxpamtoZWlkIHZhbiB2YXJpYW50aWUgemVnZ2VuIGRhdCBkZSB2YXJpYW50aWUgdmFuIGRlIHJlc2lkdWVuIHJvbmQgZGUgcmVncmVzc2llcmVjaHRlIGhldHplbGZkZSBpcyB2b29yIGVsa2Ugd2FhcmRlIHZhbiBkZSBwcmVkaWN0b3IgKHByZWRpY3RvcnBhdHJvb24pLiAKCldlIGt1bm5lbiBkaXQgb3BuaWV1dyBuYWdhYW4gbWV0IGRlIHJlc2lkdS1wbG90LiBEZSBzcHJlaWRpbmcgdmFuIGRlIHJlc2lkdWVuIHpvdSBtaW4gb2YgbWVlciBnZWxpamsgbW9ldGVuIHppam4gdm9vciBlbGtlIGdlZml0dGUgd2FhcmRlLiAKCkVlbiBhbmRlcmUgcGxvdCBkaWUgd2UgaGllcnZvb3Iga3VubmVuIGdlYnJ1aWtlbiBpcyBlZW4gcGxvdCB3YWFyIHdlIGRlIHZpZXJrYW50c3dvcnRlbCB2YW4gZGUgYWJzb2x1dGUgd2FhcmRlIHZhbiBkZSBnZXN0YW5kYWFyZGlzZWVyZGUgcmVzaWR1ZW4gcGxvdHRlbiBpbiBmdW5jdGllIHZhbiBkZSBnZWZpdHRlIHdhYXJkZW4uIEFscyB3ZSBoaWVyIGVlbiBzbW9vdGhlciBkb29yIHRyZWtrZW4sIHpvdSBkZSBzbW9vdGhlciBlZW4gaG9yaXpvbnRhYWwgdmVybG9vcCBtb2V0ZW4gaGViYmVuLiBJbmRpZW4gZXIgYWZ3aWpraW5nZW4gem91ZGVuIHppam4sIGJ2LiBlciBpcyBlZW4gc3lzdGVtYXRpc2NoZSB0cmVuZCB3YWFyYmlqIGRlIGdlc3RhbmRhYXJkaXNlZXJkZSByZXNpZHVlbiBob2dlci9sYWdlciB3b3JkZW4gbmFhcm1hdGUgZGUgKmZpdHRlZCB2YWx1ZXMqIGhvZ2VyL2xhZ2VyIHdvcmRlbiwgZGFuIGJldGVrZW50IGhldCBkYXQgZGUgdmFyaWFudGllIHZhbiBkZSByZXNpZHVlbiBob2dlci9sYWdlciB3b3JkdCBuYWFybWF0ZSBkZSBnZXNjaGF0dGUgcmVzcG9ucyBob2dlci9sYWdlciB3b3JkdC4KCmBgYHtyfQpwbG90KG1vZGVsLHdoaWNoPTMpCmBgYAoKSGllciB6aWVuIHdlIGtsZWluZSBhZndpamtpbmdlbiB2YW4gZWVuIGhvcml6b250YWxlIGxpam4gYmlqIGRlIHVpdGVyc3RlIHdhYXJkZW4uIFZpYSBzaW11bGF0aWUgemllbiB3ZSBvcG5pZXV3IGRhdCBkZXplIGFmd2lqa2luZ2VuIHBsYXVjaWJlbCB6aWpuIGluIGVlbiBleHBlcmltZW50IG1ldCBvbnMgZGVzaWduIHdhbm5lZXIgYWxsZSBhYW5uYW1lcyBnZWxkaWcgemlqbi4gCgpgYGB7cn0KcGFyKG1mcm93ID0gYygzLDMpKQpmb3IgKGkgaW4gMTo5KQogIHBsb3Qoc2ltTW9kZWxzW1tpXV0sIHdoaWNoID0gMykKYGBgCgpXZSBrdW5uZW4gZHVzIHZlcm9uZGVyc3RlbGxlbiBkdXMgZGF0IGRlIHZhcmlhbnRpZXMgZ2VsaWprIHppam4uCgoKCgojIyBOdWwtIGVuIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2U6CgpXZSB3aWxsZW4gd2V0ZW4gb2YgZXIgZWVuIGxpbmVhaXJlIGFzc29jaWF0aWUgaXMgdHVzc2VuIGRlIHJlYWN0aWVzbmVsaGVpZCBlbiBkZSBsb2ckX3sxMH0kIGdldHJhbnNmb3JtZWVyZGUgY29uY2VudHJhdGllLiAKCkRlIG51bC0gZW4gYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSB2YW4gaGV0IGxpbmVhaXIgbW9kZWwgd29yZGVuIGR1czoKCiRIXzAkOiAkXGJldGFfMSA9IDAkCiAKJEhfQSQ6ICRcYmV0YV8xIFxuZSAwJCAKCk1ldCBhbmRlcmUgd29vcmRlbiBzdGVsdCBkZSBudWxoeXBvdGhlc2UgZGF0IGVyIGdlZW4gYXNzb2NpYXRpZSBpcyB0dXNzZW4gZGUgcmVhY3RpZXNuZWxoZWlkIGVuIGRlIGxvZyRfezEwfSQgY29uY2VudHJhdGllLCB0ZXJ3aWpsIGRlIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2Ugc3RlbHQgZGF0IGVyIGp1aXN0IHdlbCBlZW4gYXNzb2NpYXRpZSBpcy4KCiMjIEZpdCBoZXQgbGluZWFpciBtb2RlbCBlbiBiZXNwcmVlayBiZWlkZSBwYXJhbWV0ZXJzLCBnYSBuYSBvZiBkZSBudWxoeXBvdGhlc2UgdmVyd29ycGVuIHdvcmR0IGVuIG1hYWsgZWVuIGludGVycHJldGF0aWUgdmFuIGhldCBiZXRyb3V3YmFhcmhlaWRzaW50ZXJ2YWwuCgpgYGB7cn0Kc3VtbWFyeU1vZGVsIDwtIHN1bW1hcnkobW9kZWwpCnN1bW1hcnlNb2RlbAoKYGBgCgpgYGB7cn0KY29uZmludE1vZGVsIDwtIGNvbmZpbnQobW9kZWwpCmNvbmZpbnRNb2RlbApgYGAKCiMjIyBDb25jbHVzaWUgCgpFciBpcyBlZW4gZXh0cmVlbSBzaWduaWZpY2FudGUgbGluZWFpcmUgYXNzb2NpYXRpZSB0dXNzZW4gZGUgc3Vic3RyYWF0Y29uY2VudHJhdGllIG9wIGxvZ3NjaGFhbCBlbiBkZSByZWFjdGllc25lbGhlaWQgKHAgPDwgMC4wMDEpLiBXYW5uZWVyIHdlIGRlIHJlYWN0aWUgbGF0ZW4gZG9vcmdhYW4gYmlqIGVlbiBzdWJzdHJhYXRjb25jZW50cmF0aWUgZGllIDEwIGtlZXIgaG9nZXIgaXMsIGlzICBkZSByZWFjdGllc25lbGhlaWQgZ2VtaWRkZWxkIG1ldCBgciByb3VuZChtb2RlbCRjb2VmWzJdLDEpYCBjb3VudHMvbWluIGhvZ2VyICg5NSUgYmV0cm91d2JhYXJoZWlkc2ludGVydmFsIFtgciByb3VuZChjb25maW50TW9kZWxbMl0sMSlgLCBgciByb3VuZChjb25maW50TW9kZWxbNF0sMSlgXSBjb3VudHMvbWluKS4gCgoKIyMjIEludGVycHJldGF0aWUgCgoxLiBIZXQgaW50ZXJjZXB0IGlzIGRlIGdlc2NoYXR0ZSBnZW1pZGRlbGRlIHJlYWN0aWVzbmVsaGVpZCBiaWogZWVuIGxvZyRfezEwfSQtY29uY2VudHJhdGllIHZhbiAwL2VlbiBzdWJzdHJhYXQgY29uY2VudHJhdGllIHZhbiAxIHBwbSBlbiBpcyBnZWxpamsgYWFuIGByIHJvdW5kKG1vZGVsJGNvZWZmaWNpZW50c1sxXSwxKWAgY291bnRzL21pbi4KCjIuIEhlbGxpbmcKICAKICAtIExvZyBzY2hhYWw6ICBXYW5uZWVyIHdlIGRlIHJlYWN0aWUgbGF0ZW4gZG9vcmdhYW4gYmlqIGVlbiBzdWJzdHJhYXRjb25jZW50cmF0aWUgZGllIDEgZWVuaGVpZCBvcCBsb2ckX3sxMH0kIHNjaGFhbCBob2dlciBpcywgaXMgIGRlIHJlYWN0aWVzbmVsaGVpZCBnZW1pZGRlbGQgbWV0IGByIHJvdW5kKG1vZGVsJGNvZWZbMl0sMSlgIGNvdW50cy9taW4gaG9nZXIuCiAgCiAgLSBPcmlnaW5lbGUgc2NoYWFsOiBXYW5uZWVyIHdlIGRlIHJlYWN0aWUgbGF0ZW4gZG9vcmdhYW4gYmlqIGVlbiBzdWJzdHJhYXRjb25jZW50cmF0aWUgZGllIDEwIGtlZXIgaG9nZXIgaXMsIGlzICBkZSByZWFjdGllc25lbGhlaWQgZ2VtaWRkZWxkIG1ldCBgciByb3VuZChtb2RlbCRjb2VmWzJdLDEpYCBjb3VudHMvbWluIGhvZ2VyLgoKMy4gOTUlIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbDogV2UgaGViYmVuIGR1cyBnZXNjaGF0IGRhdCBoZXQgd2Vya2VsaWprZSB2ZXJzY2hpbCBpbiByZWFjdGllc25lbGhlaWQgdHVzc2VuIHR3ZWUgcmVhY3RpZXMgZGllIGRvb3JnYWFuIG9uZGVyIGVlbiBzdWJzdHJhYXRjb25jZW50cmF0aWUgZGllIGVlbiBmYWN0b3IgMTAgdmVyc2NoaWxsZW4gbWV0IDk1JSBrYW5zIGxpZ3QgdHVzc2VuICBbYHIgcm91bmQoY29uZmludE1vZGVsWzJdLDEpYCwgYHIgcm91bmQoY29uZmludE1vZGVsWzRdLDEpYF0gY291bnRzL21pbjsgbWVyayBvcCBkYXQgZGUgcmVhY3RpZSBzbmVsbGVyIGRvb3JnYWF0IGluIGRlIHJlYWN0aWUgbWV0IGRlIGhvb2dzdGUgc3Vic3RyYWF0Y29uY2VudHJhdGllLiAKIAojIyBTY2hhdCBkZSBnZW1pZGRlbGRlIHJlYWN0aWVzbmVsaGVpZCBiaWogZWVuIHN1YnN0cmFhdCBjb25jZW50cmF0aWUgdmFuIDAuMnBwbSBlbiBnZWVmIGVlbiBiaWpob3JlbmQgOTUlLWJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbC4KCmBgYHtyfQpwcmVkIDwtIHByZWRpY3QobW9kZWwsIG5ld2RhdGE9ZGF0YS5mcmFtZShjb25jPTAuMiksIGludGVydmFsPSJjb25maWRlbmNlIikKcHJlZApgYGAKCkRlIGdlc2NoYXR0ZSBnZW1pZGRlbGRlIHJlYWN0aWVzbmVsaGVpZCBiaWogZWVuIHN1YnN0cmFhdGNvbmNlbnRyYXRpZSB2YW4gMTAgcHBtICBpcyBgciByb3VuZChwcmVkWzFdLDEpYCBjb3VudHMvbWluICg5NSUgYmV0cm91d2JhYXJoZWlkc2ludGVydmFsIFtgciByb3VuZChwcmVkWzI6M10sMSlgXSBjb3VudHMvbWluKS4KCiMgQWxnZW1lbmUgY29uY2x1c2llCgpFciBpcyBlZW4gZXh0cmVlbSBzaWduaWZpY2FudGUgbGluZWFpcmUgYXNzb2NpYXRpZSB0dXNzZW4gZGUgc3Vic3RyYWF0Y29uY2VudHJhdGllIG9wIGxvZ3NjaGFhbCBlbiBkZSByZWFjdGllc25lbGhlaWQgKHAgPDwgMC4wMDEpLiBXYW5uZWVyIHdlIGRlIHJlYWN0aWUgbGF0ZW4gZG9vcmdhYW4gYmlqIGVlbiBzdWJzdHJhYXRjb25jZW50cmF0aWUgZGllIDEwIGtlZXIgaG9nZXIgaXMsIGlzICBkZSByZWFjdGllc25lbGhlaWQgZ2VtaWRkZWxkIG1ldCBgciByb3VuZChtb2RlbCRjb2VmWzJdLDEpYCBjb3VudHMvbWluIGhvZ2VyICg5NSUgYmV0cm91d2JhYXJoZWlkc2ludGVydmFsIFtgciByb3VuZChjb25maW50TW9kZWxbMl0sMSlgLCBgciByb3VuZChjb25maW50TW9kZWxbNF0sMSlgXSBjb3VudHMvbWluKS4gCgoKCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Practicum_1_oplossing_lineair_model.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

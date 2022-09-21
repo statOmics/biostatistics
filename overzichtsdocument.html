@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>Overzichtsdocument voor examen Biostatistiek: Partim Univariate Statistiek</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Overzichtsdocument voor examen
+Biostatistiek: Partim Univariate Statistiek</h1>
+<h4 class="author">Lieven Clement</h4>
+
+</div>
+
+
+<div id="algemeen-lineair-model" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Algemeen Lineair
+model</h1>
+<div id="data" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Data</h2>
+<ul>
+<li><p>Prostaatkanker case studie</p></li>
+<li><p>Associatie tussen log prostaat specifiek antigen (lpsa)
+concentratie en log cancer volume (v), log gewicht (w) en status van de
+zaadblaasjes (s).</p></li>
+<li><p>Schatting voor parameter <span
+class="math inline">\(\beta_v\)</span> mogelijks geen zuiver effect van
+tumor volume.</p></li>
+<li><p>Zelfs als lcavol niet is geassocieerd met het lpsa, dan nog
+kunnen patiënten met een groter tumor volume een hoger lpsa hebben omdat
+ze bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status
+1). <span class="math inline">\(\rightarrow\)</span>
+Confounding.</p></li>
+<li><p>Door de svi status in het model op te nemen corrigeren we voor de
+mogelijkse confounding.</p></li>
+</ul>
+</div>
+<div
+id="vertalen-van-onderzoeksvraag-naar-populatie-parameters-effectgrootte"
+class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Vertalen van
+onderzoeksvraag naar populatie parameters: effectgrootte</h2>
+<p><span class="math display">\[\text{E}\left(Y\vert X_v, X_w,
+X_s\right) = \beta_0 + \beta_v X_v + \beta_w X_w + \beta_s
+X_s\]</span></p>
+<ul>
+<li><p>Associatie van predictoren met log PSA: hellingen van het
+model</p></li>
+<li><p>Meer accurate predicties door meerdere predictoren simultaan in
+rekening te brengen</p></li>
+<li><p>Interpretatie?</p>
+<ul>
+<li><p>verschil in gemiddelde uitkomst tussen subjecten die in één
+eenheid van log tumor volume (<span class="math inline">\(X_v\)</span>)
+verschillen, maar dezelfde waarde hebben voor de overige verklarende
+variabelen (<span class="math inline">\(X_w\)</span> en <span
+class="math inline">\(X_s\)</span>) in het model.</p></li>
+<li><p>Associatie tussen log PSA en de predictor log tumor volume
+waarbij gecorrigeerd wordt voor de overige predictoren, hier dus
+associatie van log PSA en het log tumor volume na correctie voor log
+prostaatgewicht en svi-status.</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="schatten-van-effectgrootte-a.d.h.v.-steekproef"
+class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Schatten van
+effectgrootte a.d.h.v. steekproef</h2>
+<ul>
+<li>Kleinste kwadratentechniek</li>
+</ul>
+</div>
+<div id="inferentie" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Inferentie</h2>
+<div id="aannames" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Aannames?</h3>
+<ul>
+<li>Representatieve steekproef:</li>
+</ul>
+<p><span class="math inline">\(\hat\beta_j\)</span> is een onvertekende
+schatter van <span class="math inline">\(\beta\)</span> als steekproef
+representatief is</p>
+<p><span class="math display">\[E[\hat \beta_j]=\beta_j\]</span></p>
+<ul>
+<li>Normaliteit</li>
+</ul>
+<p><span class="math display">\[Y_{i} \sim N(\mu_i,\sigma^2)\]</span>
+<span class="math display">\[Y_i \sim
+N(\beta_0+\beta_vx_{iv}+\beta_wx_{iw} +
+\beta_sx_{is},\sigma^2)  \longrightarrow \hat \beta_j \sim N(\beta_j,
+\sigma^2_{\hat \beta_j})\]</span></p>
+<ul>
+<li>lineaire combinaties van de model parameterschatters zijn ook
+normaal verdeeld.</li>
+</ul>
+<p><span class="math display">\[
+\longrightarrow L^T\hat \beta \sim N(L^T\beta,
+\sigma^2_{L^T\hat{\boldsymbol{\beta}}})
+\]</span></p>
+<ul>
+<li>Onafhankelijkheid en gelijkheid van variantie</li>
+</ul>
+<p><span class="math display">\[\sigma^2_{L^T\hat{\boldsymbol{\beta}}} =
+c_L \sigma^2 \]</span></p>
+<ul>
+<li><span class="math inline">\(\sigma^2?\)</span></li>
+</ul>
+<p><span class="math display">\[\hat \sigma^2 = MSE = \sum\limits_{i=1}
+^ n \frac{(Y_i - \hat Y_i)^2}{n-p}\]</span></p>
+<p><span class="math display">\[SE_{L^T\hat{\boldsymbol{\beta}}} = c_L
+\hat \sigma \]</span></p>
+<ul>
+<li>t statistiek</li>
+</ul>
+<p><span class="math display">\[ T = \frac{L\hat{\boldsymbol{\beta}} -
+L\boldsymbol{\beta}}{\text{SE}_{L\hat{\boldsymbol{\beta}}}}
+\sim t_{n-p}\]</span></p>
+<ul>
+<li><p>BI en T-test <span class="math inline">\(H_0: L\boldsymbol{\beta}
+= 0\)</span> vs <span class="math inline">\(H_1: L\boldsymbol{\beta}
+\neq 0\)</span></p></li>
+<li><p>F statistiek volgt F-verdeling onder de <span
+class="math inline">\(H_0\)</span> <span class="math display">\[ F =
+\frac{MSR_2 - MSR_1}{MSE} \sim F_{p_2 - p_1,n-p_2}\]</span></p></li>
+</ul>
+</div>
+</div>
+<div id="wat-als-aannames-niet-zijn-voldaan" class="section level2"
+number="1.5">
+<h2><span class="header-section-number">1.5</span> Wat als aannames niet
+zijn voldaan?</h2>
+<ul>
+<li>Normaliteit en heteroscedasticiteit niet voldaan: transformatie van
+Y</li>
+<li>Lineariteit niet voldaan: transformatie van X of hogere orde termen
+(interacties en machten <span class="math inline">\(X^2, X^3,
+...\)</span>).</li>
+<li>Normaliteit niet voldaan: bij grote steekproeven CLT</li>
+</ul>
+</div>
+<div id="model-met-interacties" class="section level2" number="1.6">
+<h2><span class="header-section-number">1.6</span> Model met
+interacties</h2>
+<ul>
+<li><p>Effect modificatie!</p></li>
+<li><p><strong>Associatie van een predictor en de respons
+variabele</strong> hangt van de waarde van een <strong>andere
+predictor</strong>.</p></li>
+</ul>
+<div
+id="interactie-tussen-continue-predictor-variabele-en-een-categorische-predictor"
+class="section level3" number="1.6.1">
+<h3><span class="header-section-number">1.6.1</span> Interactie tussen
+continue predictor variabele en een categorische predictor?</h3>
+<p>Om deze <strong>interactie</strong> of
+<strong>effectmodificatie</strong> tussen variabelen <span
+class="math inline">\(X_v\)</span> en <span
+class="math inline">\(X_s\)</span>, en <span
+class="math inline">\(X_w\)</span> en <span
+class="math inline">\(X_s\)</span> statistisch te modelleren, kan men de
+producten van beide variabelen in kwestie aan het model toevoegen</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} +
+\beta_{vs} x_{iv}x_{is} + \beta_{ws} x_{iw}x_{is}  +\epsilon_i
+\]</span></p>
+<p>Deze termen kwantificeren de <em>interactie-effecten</em> van
+respectievelijk de predictoren <span class="math inline">\(x_v\)</span>
+en <span class="math inline">\(x_s\)</span>, en, <span
+class="math inline">\(x_v\)</span> en <span
+class="math inline">\(x_s\)</span> op de gemiddelde uitkomst.</p>
+<p>In dit model worden de termen <span
+class="math inline">\(\beta_vx_{iv}\)</span>, <span
+class="math inline">\(\beta_wx_{iw}\)</span> en <span
+class="math inline">\(\beta_s x_{is}\)</span> de <em>hoofdeffecten</em>
+van de predictoren <span class="math inline">\(x_v\)</span>, <span
+class="math inline">\(x_w\)</span> en <span
+class="math inline">\(x_s\)</span> genoemd.</p>
+<p>Omdat <span class="math inline">\(X_S\)</span> een dummy variabele
+is, verkrijgen we verschillende regressievlakken:</p>
+<ol style="list-style-type: decimal">
+<li><p>Model voor <span class="math inline">\(X_s=0\)</span>: <span
+class="math display">\[Y=\beta_0+\beta_vX_v+\beta_wX_w +
+\epsilon\]</span> waar de hoofdeffecten de hellingen voor lcavol en
+lweight zijn</p></li>
+<li><p>en het model voor <span class="math inline">\(X_s=1\)</span>:
+<span class="math display">\[\begin{array}{lcl}
+Y&amp;=&amp;\beta_0+\beta_vX_v+\beta_s+\beta_wX_w+\beta_{vs}X_v +
+\beta_{ws}X_w +\epsilon\\
+  &amp;=&amp;
+(\beta_0+\beta_s)+(\beta_v+\beta_{vs})X_v+(\beta_w+\beta_{ws})X_w+\epsilon
+  \end{array}\]</span> met intercept <span
+class="math inline">\(\beta_0+\beta_s\)</span> en hellingen <span
+class="math inline">\(\beta_v+\beta_{vs}\)</span> en <span
+class="math inline">\(\beta_w+\beta_{ws}\)</span></p></li>
+</ol>
+<ul>
+<li>De helling voor lcavol en lweight hangt af van de status van de
+zaadblaasjes!</li>
+</ul>
+</div>
+<div id="interactie-tussen-continue-predictoren" class="section level3"
+number="1.6.2">
+<h3><span class="header-section-number">1.6.2</span> Interactie tussen
+continue predictoren?</h3>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} +
+\beta_{vw} x_{iv}x_{iw} +\epsilon_i
+\]</span></p>
+<p>Deze term kwantificeert het <em>interactie-effect</em> van de
+predictoren <span class="math inline">\(x_v\)</span> en <span
+class="math inline">\(x_w\)</span> op de gemiddelde uitkomst.</p>
+<p>Het effect van een verschil in 1 eenheid in <span
+class="math inline">\(X_v\)</span> op de gemiddelde uitkomst bedraagt
+nu:</p>
+<p><span class="math display">\[
+\begin{array}{l}
+E(Y | X_v=x_v +1, X_w=x_w, X_s=x_s) - E(Y | X_v=x_v, X_w=x_w, X_s=x_s)
+\\
+\quad = \left[\beta_0 + \beta_v (x_{v}+1) + \beta_w x_w +\beta_s x_{s} +
+\beta_{vw} (x_{v}+1) x_w \right] - \left[\beta_0 + \beta_v x_{v} +
+\beta_w x_w  + \beta_s x_{s} + \beta_{vw} (x_{v}) x_w \right]\\
+\quad = \beta_v +  \beta_{vw} x_w
+\end{array}
+\]</span></p>
+<ul>
+<li><p>De helling voor lcavol hangt m.a.w. af van het log gewicht van de
+prostaat!</p></li>
+<li><p>We kunnen hetzelfde doen voor lweight. Helling voor lweight hangt
+af van het log volume van de tumor!</p></li>
+</ul>
+</div>
+</div>
+<div id="anova-tabel-en-aanvullende-kwadratensommen"
+class="section level2" number="1.7">
+<h2><span class="header-section-number">1.7</span> Anova tabel en
+aanvullende kwadratensommen?</h2>
+<p>Beschouw de volgende twee <strong>geneste</strong> regressiemodellen
+voor predictoren <span class="math inline">\(x_1, \ldots,
+x_{p-k}\)</span> en <span class="math inline">\(x_1, \ldots,
+x_{p-1}\)</span>: <span class="math display">\[
+  Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-k} x_{ip-k}  +
+\epsilon_i,
+\]</span> met <span class="math inline">\(\epsilon_i\text{ iid }
+N(0,\sigma_1^{2})\)</span>, en <span class="math display">\[
+Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-1} x_{ip-1}  + \epsilon_i,
+\]</span> met <span class="math inline">\(\epsilon_i\text{ iid }
+N(0,\sigma_2^{2})\)</span>.</p>
+<p>Voor het eerste (gereduceerde) model geldt de decompositie <span
+class="math display">\[
+  \text{SSTot} = \text{SSR}_1 + \text{SSE}_1
+\]</span> en voor het tweede (niet-gereduceerde) model <span
+class="math display">\[
+  \text{SSTot} = \text{SSR}_2 + \text{SSE}_2
+\]</span> (SSTot is uiteraard dezelfde in beide modellen omdat dit niet
+afhangt van het regressiemodel).</p>
+<p><span class="math display">\[
+  \text{SSTot} = \text{SSR}_{2 \mid 1} + \text{SSR}_1 + \text{SSE}_2
+\]</span></p>
+<p><span class="math display">\[
+F = \frac{\text{SSR}_{2 \mid 1}}{\text{SSE}_2}
+\]</span></p>
+<ul>
+<li>Testen voor alle niveaus van een factor simultaan: omnibus
+test.</li>
+<li>Testen voor totale effect van een predictor: hoofdeffecten +
+interacties</li>
+<li>…</li>
+</ul>
+</div>
+<div id="diagnostiek" class="section level2" number="1.8">
+<h2><span class="header-section-number">1.8</span> Diagnostiek</h2>
+<div id="multicollineariteit" class="section level3" number="1.8.1">
+<h3><span class="header-section-number">1.8.1</span>
+Multicollineariteit</h3>
+<p><span
+class="math display">\[\textrm{VIF}_j=\left(1-R_j^2\right)^{-1}\]</span></p>
+</div>
+<div id="invloedrijke-observaties" class="section level3"
+number="1.8.2">
+<h3><span class="header-section-number">1.8.2</span> Invloedrijke
+Observaties</h3>
+<ol style="list-style-type: decimal">
+<li>Cooks distance</li>
+</ol>
+<p><span
+class="math display">\[D_i=\frac{\sum_{j=1}^n(\hat{Y}_j-\hat{Y}_{j(i)})^2}{p\textrm{MSE}}\]</span></p>
+<ul>
+<li>Extreme Cook’s distance als het het 50% percentiel van de <span
+class="math inline">\(F_{p,n-p}\)</span>-verdeling overschrijdt.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>DFBETAS</li>
+</ol>
+<p><span
+class="math display">\[\textrm{DFBETAS}_{j(i)}=\frac{\hat{\beta}_{j}-\hat{\beta}_{j(i)}}{\textrm{SD}(\hat{\beta}_{j})}\]</span></p>
+<ul>
+<li>DFBETAS extreem is wanneer ze 1 overschrijdt in kleine tot
+middelgrote datasets en <span class="math inline">\(2/\sqrt{n}\)</span>
+in grote datasets</li>
+</ul>
+</div>
+</div>
+<div id="contrasten" class="section level2" number="1.9">
+<h2><span class="header-section-number">1.9</span> Contrasten</h2>
+<div id="bloeddruk-voorbeeld" class="section level3" number="1.9.1">
+<h3><span class="header-section-number">1.9.1</span> Bloeddruk
+voorbeeld</h3>
+<div id="remediering-heteroscedasticiteit" class="section level4"
+number="1.9.1.1">
+<h4><span class="header-section-number">1.9.1.1</span> Remediering
+heteroscedasticiteit</h4>
+<p>Illustratie: Bij grote steekproeven kunnen we corrigeren voor
+heteroscedasticiteit.</p>
+<pre><code>mSd &lt;- lm(mBp1$res %&gt;% abs ~ mBp1$fitted)</code></pre>
+<p>We schatten het model nu opnieuw:</p>
+<pre><code>mBp3 &lt;- lm(BPSysAve ~ Age*Gender, bpData, w = 1/mSd$fitted^2)</code></pre>
+</div>
+<div id="besluitvorming" class="section level4" number="1.9.1.2">
+<h4><span class="header-section-number">1.9.1.2</span>
+Besluitvorming</h4>
+<p>De onderzoeksvragen vertalen zich in de volgende nullhypotheses:</p>
+<ol style="list-style-type: decimal">
+<li><p>Associatie tussen bloeddruk en leeftijd bij de vrouwen? <span
+class="math display">\[H_0: \beta_\text{Age} = 0 \text{ vs } H_1:
+\beta_\text{Age} \neq 0 \]</span></p></li>
+<li><p>Associatie tussen bloeddruk en leeftijd bij de mannen? <span
+class="math display">\[H_0: \beta_\text{Age} +
+\beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age} +
+\beta_\text{Age:Gendermale} \neq 0 \]</span></p></li>
+<li><p>Is de Associatie tussen bloeddruk en leeftijd verschillend bij
+mannen en vrouwen? <span class="math display">\[H_0:
+\beta_\text{Age:Gendermale} = 0 \text{ vs } H_1:
+\beta_\text{Age:Gendermale} \neq 0 \]</span></p></li>
+</ol>
+<ul>
+<li><p>We kunnen onderzoeksvraag 1 en 3 onmiddelijk toetsen o.b.v. de
+model output.</p></li>
+<li><p>Onderzoeksvraag 2 is echter een lineaire combinatie van twee
+parameters.</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{array}{lcl}
+L \boldsymbol{\beta} &amp;=&amp; 0\\\\
+\left[\begin{array}{cccc} 0 &amp;0&amp; 1&amp; 1\end{array}
+\right]\left[\begin{array}{c}\beta_0\\
+\beta_g\\
+\beta_a\\
+\beta_{a:g}\end{array}
+\right] &amp;=&amp;  0\\\\
+0\beta_0 + 0 \beta_g + 1 \beta_a + 1\beta_{a:g} &amp;=&amp; 0\\\\
+\beta_a + \beta_{a:g} &amp;=&amp;0
+\end{array}
+\]</span></p>
+<ul>
+<li>Bovendien is er ook het probleem dat we meerdere toetsen nodig
+hebben om de associaties te bestuderen.</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>We toetsen eerste de omnibus hypothese dat er geen associatie is
+tussen leeftijd en de bloeddruk.</li>
+</ol>
+<p><span class="math display">\[
+H_0: \beta_\text{Age} = \beta_\text{Age} + \beta_\text{Age:Gendermale} =
+\beta_\text{Age:Gendermale} = 0
+\]</span></p>
+<ul>
+<li><p>Dat vereenvoudigt zich tot het toetsen dat <span
+class="math display">\[
+H_0: \beta_\text{Age} = \beta_\text{Age:Gendermale} = 0
+\]</span></p></li>
+<li><p>Wat we kunnen evalueren door twee modellen te vergelijken. Een
+model met enkel het gender effect en volledige model met Gender, Age en
+Gender x Age interactie.</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Als we deze hypothese kunnen verwerpen voeren we posthoc analyses
+uit voor elk van de 3 contrasten.</li>
+</ol>
+<p>De posthoc testen kunnen we opnieuw uitvoeren a.d.h.v. het multcomp
+pakket.</p>
+<pre><code>bpPosthoc &lt;- glht(mBp3, linfct=c(
+  &quot;Age = 0&quot;,
+  &quot;Age + Age:Gendermale = 0&quot;,
+  &quot;Age:Gendermale = 0&quot;)
+  )
+bpPosthoc %&gt;% summary
+
+bpPosthocBI &lt;- bpPosthoc %&gt;% confint
+bpPosthocBI</code></pre>
+</div>
+</div>
+<div
+id="testosteron-concentratie-bij-volwassen-mannen-in-de-nhanes-studie"
+class="section level3" number="1.9.2">
+<h3><span class="header-section-number">1.9.2</span> Testosteron
+concentratie bij volwassen mannen in de NHANES studie</h3>
+<p>Veronderstel dat we wensen te bestuderen of er een associatie is
+leeftijd en gewicht van volwassen mannen in de Amerikaanse populatie op
+de de testosteron concentratie.</p>
+<pre><code>modTes &lt;- lm(formula = Testosterone ~ Age * Weight, data = NHANES %&gt;% 
+    filter(Age &gt; 18 &amp; Gender == &quot;male&quot; &amp; !is.na(Testosterone) &amp;!is.na(Weight) &amp; !is.na(Age)))</code></pre>
+<ul>
+<li><p>Er is geen significante interactie. Het aanvaarden van de
+nulhypothese is een zwakke conclusie. Daarom kunnen we opteren om de
+interactie in het model te laten.</p></li>
+<li><p>Merk op dat de hoofdeffecten geen zinvolle interpretatie
+hebben!</p></li>
+<li><p>Omdat er geen significante interactie is, is het zinvol om een
+uitspraak te doen over de associatie van gewicht en testosteron, en
+leeftijd en testosteron.</p></li>
+</ul>
+<p>We kunnen hierover een uitspraak doen door te marginaliseren over
+alle leeftijden (gewichten) van de mannen in het experiment.</p>
+<p><span class="math display">\[
+\frac{\sum\limits_{i=1}^n (\beta_a + \beta_{w:a} X_{w})}{n}= \beta_a
++\beta_{w:a} \bar{X}_w
+\]</span></p>
+<p><span class="math display">\[
+\frac{\sum\limits_{i=1}^n (\beta_w + \beta_{w:a} X_{a})}{n}= \beta_w
++\beta_{w:a} \bar{X}_a
+\]</span></p>
+</div>
+</div>
+<div id="factoriële-proeven" class="section level2" number="1.10">
+<h2><span class="header-section-number">1.10</span> Factoriële
+proeven</h2>
+<div id="data-1" class="section level3" number="1.10.1">
+<h3><span class="header-section-number">1.10.1</span> Data</h3>
+<p>48 ratten werden at random toegewezen aan</p>
+<ul>
+<li>3 giffen (I,II,III) and</li>
+<li>4 behandelingen (A,B,C,D),</li>
+</ul>
+<p>en,</p>
+<ul>
+<li>de overlevingstijd werd opgemeten (eenheid: 10 h)</li>
+</ul>
+<p>We modelleren de “snelheid van sterven” met een hoofdeffect voor gif
+en behandeling en een gif <span class="math inline">\(\times\)</span>
+behandeling interactie.</p>
+<p><span class="math display">\[
+\begin{array}{lcl}
+y_i &amp;=&amp; \beta_0  + \\
+&amp;&amp;\beta_{II} x_{iII} + \beta_{III} x_{iIII} + \\
+&amp;&amp; \beta_{B} x_{iB}  + \beta_{C} x_{iC} + \beta_{D} x_{iD} + \\
+&amp;&amp;\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  +
+\beta_{II:D}x_{iII}x_{iD} + \\
+&amp;&amp;\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  +
+\beta_{III:D}x_{iIII}x_{iD} +
+\epsilon_i
+\end{array}
+\]</span></p>
+<p>met <span class="math inline">\(i = 1, \ldots, n\)</span>, <span
+class="math inline">\(n=48\)</span>, en, <span
+class="math inline">\(x_{iII}\)</span>, <span
+class="math inline">\(x_{iIII}\)</span>, <span
+class="math inline">\(x_{iB}\)</span>, <span
+class="math inline">\(x_{iC}\)</span> en <span
+class="math inline">\(x_{iD}\)</span> dummy variabelen voor
+respectievelijk gif II, III, behandeling B, C, en D.</p>
+<p>##$ Inferentie</p>
+<p>Een interactie tussen gif en behandeling impliceert dat we het effect
+van het type gif afzonderlijk moeten bestuderen voor elke
+behandeling:</p>
+<ol style="list-style-type: decimal">
+<li>Voor behandeling A moeten we dan volgende nulhypotheses
+toetsen:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0: \beta_{II}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0: \beta_{III}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}-\beta_{II}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Voor behandeling B:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:B}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Voor behandeling C:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:C}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Voor behandeling D:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:D}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0\)</span></li>
+</ul>
+<p>Hetzelfde geldt wanneer we het effect van de behandeling
+bestuderen:</p>
+<ol style="list-style-type: decimal">
+<li>Voor gif I toetsen we dan nulhypothese</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0: \beta_{B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0: \beta_{C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0: \beta_{D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}-\beta_{B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{C}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Gif II</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{II:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Gif III</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{III:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0\)</span></li>
+</ul>
+<p>In onze studie was de interactie echter niet significant.</p>
+<ul>
+<li>Coventioneel Analyse met additief model zonder interactie</li>
+<li>Alternatief: Analyse met model met interactie waarbij we</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te
+middelen over alle behandelingen (A, B, C, en D), en,</li>
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten
+door ze uit te middelen over alle giffen (I, II, III).</li>
+</ol>
+<p>Dat zou ons gelijkaardige schattingen van de effectgroottes moeten
+geven als deze voor het additieve model waarbij we de interactie term
+uit het model hadden geweerd.</p>
+<p>B.v. voor gif III vs gif II zou dat in volgende contrast
+resulteren:</p>
+<ul>
+<li>III-II: <span class="math display">\[H_0:
+\begin{array}{l}
+\frac{\beta_{III}-\beta_{II}}{4} + \\
+\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} +
+\\
+\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} -
+\beta_{II:C}}{4} + \\
+\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} -
+\beta_{II:D}}{4}=0
+\end{array}
+\]</span> <span class="math display">\[
+H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4}
+\times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
+-\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4}
+\times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
+\]</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="power-steekproefgrootte-en-andere-design-aspecten."
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Power,
+steekproefgrootte en andere design aspecten.</h1>
+<div id="variantie-schatter" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Variantie
+schatter?</h2>
+<p><span class="math display">\[
+\begin{array}{ccl}
+\hat{\boldsymbol{\Sigma}}_{\hat{\boldsymbol{\beta}}}
+=(\mathbf{X}^T\mathbf{X})^{-1}\sigma^2
+\end{array}
+\]</span></p>
+<p>De onzekerheid op model parameters hangt dus af van de residuele
+variabiliteit en het de proefopzet!</p>
+<ul>
+<li><p>Hoe groter <span
+class="math inline">\(\mathbf{X}^T\mathbf{X}\)</span> hoe meer
+informatie het experiment zal hebben over de model parameters en hoe
+kleiner hun variantie en standaard errors!</p></li>
+<li><p>Factoriële designs?</p></li>
+<li><p>Designs with continue predictoren?</p></li>
+</ul>
+<hr />
+<p>De effectgrootte van interesse is typisch een lineaire combinatie van
+de model parameters,<br />
+<span class="math display">\[
+l_0 \times \beta_0 + l_1 \times \beta_1 + ... + l_{p-1} \times
+\beta_{p-1} = \mathbf{L}^T\boldsymbol{\beta}
+\]</span></p>
+<p>De nulhypothese van onze test kan dan worden geschreven als</p>
+<p><span class="math display">\[
+H_0: \mathbf{L}^T\boldsymbol{\beta} = 0
+\]</span></p>
+<p>vs de alternatieve hypothese</p>
+<p><span class="math display">\[
+H_0: \mathbf{L}^T\boldsymbol{\beta} \neq 0
+\]</span></p>
+<p>En het bewijs in het experiment tegen <span
+class="math inline">\(H_0\)</span> kan worden gekwantificeerd met de
+t-test statistiek:</p>
+<p><span class="math display">\[
+t=\frac{\mathbf{L}^T\hat{\boldsymbol{\beta}} -
+0}{\text{se}_{\mathbf{L}^T\hat{\boldsymbol{\beta}}}}
+\]</span> die een t-distributie volgt met n-p vrijheidsgraden onder de
+nul hypothese als alle aannames van het model geldig zijn.</p>
+<p>De kracht van de toets is dan</p>
+<p><span class="math display">\[P(p &lt; 0.05 | H_1)\]</span> en hangt
+af van</p>
+<ul>
+<li>de werkelijke effectgrootte in de populatie <span
+class="math inline">\(\mathbf{L}^T\boldsymbol{\beta}\)</span>.</li>
+<li>Het aantal observaties: SE en df van t-test.</li>
+<li>Keuze van de designpunten</li>
+<li>Keuze van significantie-niveau <span
+class="math inline">\(\alpha\)</span>.</li>
+</ul>
+<p>We kunnen de power schatten met simulaties als</p>
+<ol style="list-style-type: decimal">
+<li><p>voldaan is aan de aannamens van het model ==&gt; piloot
+experiment</p></li>
+<li><p>standaard deviatie is gekend ==&gt; piloot experiment</p></li>
+<li><p>de echte effectgrootte in de populatie ==&gt; die is ongekend
+daarom moet een minimale effectgrootte worden gespecifieerd die we
+wensen op te pikken in het nieuwe experiment.</p></li>
+<li><p>steekproef is gespecifieerd ==&gt; Keuze van grootte van de
+steekproef en designpunten</p></li>
+</ol>
+</div>
+</div>
+<div id="randomized-complete-block-design-rcb" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Randomized complete
+block design (RCB)</h1>
+<ul>
+<li>Observaties ingedeeld in blokken</li>
+<li>In elk blok wordt elke behandeling geëvalueerd.<br />
+</li>
+<li>RBC beperkt de randomisatie: de behandelingen worden binnen blokken
+gerandomiseerd.</li>
+<li>In de analyse moet voor blokken worden gecorrigeerd</li>
+<li>Een gepaard design is het meest eenvoudige RCB: met blokgrootte
+2.</li>
+<li>Effecten kunnen binnen block worden geschat:</li>
+<li>In muisvoorbeeld waarin proteine expressie (variable
+<code>intensity</code>) in verschillende celtypes (variabele
+<code>celltype</code>) wordt gemeten voor elke muis (variable
+<code>mouse</code> is block)</li>
+</ul>
+<pre><code>lm(intensity~celltype + mouse)</code></pre>
+<p>De winst in power van een randomized complete block design is dus een
+afweging tussen de variabiliteit die kan worden verklaart met het
+blokeffect en het verlies in vrijheidsgraden.</p>
+<p>Als je je de formule voor de variantie covariantie matrix van de
+parameter schatters bijhaalt zien we <span class="math display">\[
+\hat{\boldsymbol{\Sigma}}^2_{\hat{\boldsymbol{\beta}}}
+=\left(\mathbf{X}^T\mathbf{X}\right)^{-1}\hat\sigma^2
+\]</span></p>
+<p>dat het RCB een impact heeft op</p>
+<ul>
+<li><span
+class="math inline">\(\left(\mathbf{X}^T\mathbf{X}\right)^{-1}\)</span>
+alsook op</li>
+<li><span class="math inline">\(\hat\sigma^2\)</span> van de
+residuen!</li>
+</ul>
+<p><span class="math inline">\(\rightarrow\)</span> We kunnen de
+variantie in de expressie tussen de proefdieren/blokken isoleren uit
+onze analyse!</p>
+<p><span class="math inline">\(\rightarrow\)</span> Dat reduceert de
+variantie van de residuen en leidt tot een toename in power als de
+variabiliteit tussen muizen/blokken groot is.</p>
+<p>Merk op dat,</p>
+<p><span class="math display">\[
+\hat\sigma^2 = \frac{\text{SSE}}{n-p} = \frac{SSTot - SSM - SSCT}{n-p}
+\]</span></p>
+<ul>
+<li>Blokken is dus nuttig als de reductie in SSE groot is in
+vergelijking met het verlies in vrijheidsgraden.</li>
+<li>Dus als SSM een groot deel in van de totale variabiliteit kan
+verklaren.</li>
+</ul>
+<p>Verder heeft het verlies in vrijheidsgraden ook een impact op de
+t-verdeling die zal worden gebruikt voor inferentie, die hierdoor
+bredere staarten zal hebben.</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAnT3ZlcnppY2h0c2RvY3VtZW50IHZvb3IgZXhhbWVuIEJpb3N0YXRpc3RpZWs6IFBhcnRpbSBVbml2YXJpYXRlIFN0YXRpc3RpZWsnCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IgpkYXRlOiAiIgpvdXRwdXQ6CiAgcGRmX2RvY3VtZW50OgogICAgICAgIG51bWJlcl9zZWN0aW9uczogeWVzCgotLS0KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoaW5jbHVkZSA9IFRSVUUsIGNvbW1lbnQgPSBOQSwgZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRSkKbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKIyBBbGdlbWVlbiBMaW5lYWlyIG1vZGVsCgojIyBEYXRhCgotIFByb3N0YWF0a2Fua2VyIGNhc2Ugc3R1ZGllCi0gQXNzb2NpYXRpZSB0dXNzZW4gbG9nIHByb3N0YWF0IHNwZWNpZmllayBhbnRpZ2VuIChscHNhKSBjb25jZW50cmF0aWUgZW4gbG9nIGNhbmNlciB2b2x1bWUgKHYpLCBsb2cgZ2V3aWNodCAodykgZW4gc3RhdHVzIHZhbiBkZSB6YWFkYmxhYXNqZXMgKHMpLiAKCi0gU2NoYXR0aW5nIHZvb3IgcGFyYW1ldGVyICRcYmV0YV92JCBtb2dlbGlqa3MgZ2VlbiB6dWl2ZXIgZWZmZWN0IHZhbiB0dW1vciB2b2x1bWUuCi0gWmVsZnMgYWxzIGxjYXZvbCBuaWV0IGlzIGdlYXNzb2NpZWVyZCBtZXQgaGV0IGxwc2EsICBkYW4gbm9nIGt1bm5lbiBwYXRpw6tudGVuIG1ldCBlZW4gZ3JvdGVyIHR1bW9yIHZvbHVtZSBlZW4gaG9nZXIgbHBzYSBoZWJiZW4gb21kYXQgemUgYmlqdm9vcmJlZWxkIGVlbiBhYW50YXN0aW5nIHZhbiBkZSB6YWFkYmxhYXNqZXMgaGViYmVuIChzdmkgc3RhdHVzIDEpLgokXHJpZ2h0YXJyb3ckIENvbmZvdW5kaW5nLgotIERvb3IgZGUgc3ZpIHN0YXR1cyBpbiBoZXQgbW9kZWwgb3AgdGUgbmVtZW4gY29ycmlnZXJlbiB3ZSB2b29yIGRlIG1vZ2VsaWprc2UgY29uZm91bmRpbmcuCgojIyBWZXJ0YWxlbiB2YW4gb25kZXJ6b2Vrc3ZyYWFnIG5hYXIgcG9wdWxhdGllIHBhcmFtZXRlcnM6IGVmZmVjdGdyb290dGUKClxbXHRleHR7RX1cbGVmdChZXHZlcnQgWF92LCBYX3csIFhfc1xyaWdodCkgPSBcYmV0YV8wICsgXGJldGFfdiBYX3YgKyBcYmV0YV93IFhfdyArIFxiZXRhX3MgWF9zXF0KCgotIEFzc29jaWF0aWUgdmFuIHByZWRpY3RvcmVuIG1ldCBsb2cgUFNBOiBoZWxsaW5nZW4gdmFuIGhldCBtb2RlbAotIE1lZXIgYWNjdXJhdGUgcHJlZGljdGllcyBkb29yIG1lZXJkZXJlIHByZWRpY3RvcmVuIHNpbXVsdGFhbiBpbiByZWtlbmluZyB0ZSBicmVuZ2VuCgoKLSBJbnRlcnByZXRhdGllPwoKICAtIHZlcnNjaGlsIGluIGdlbWlkZGVsZGUgdWl0a29tc3QgdHVzc2VuIHN1YmplY3RlbiBkaWUgaW4gw6nDqW4gZWVuaGVpZCB2YW4gbG9nIHR1bW9yIHZvbHVtZSAoJFhfdiQpIHZlcnNjaGlsbGVuLCBtYWFyIGRlemVsZmRlIHdhYXJkZSBoZWJiZW4gdm9vciBkZSBvdmVyaWdlIHZlcmtsYXJlbmRlIHZhcmlhYmVsZW4gKCRYX3ckIGVuICRYX3MkKSBpbiBoZXQgbW9kZWwuCgogIC0gQXNzb2NpYXRpZSB0dXNzZW4gbG9nIFBTQSBlbiBkZSBwcmVkaWN0b3IgbG9nIHR1bW9yIHZvbHVtZSB3YWFyYmlqIGdlY29ycmlnZWVyZCB3b3JkdCB2b29yIGRlIG92ZXJpZ2UgcHJlZGljdG9yZW4sICBoaWVyIGR1cyBhc3NvY2lhdGllIHZhbiBsb2cgUFNBIGVuIGhldCBsb2cgdHVtb3Igdm9sdW1lIG5hIGNvcnJlY3RpZSB2b29yIGxvZyBwcm9zdGFhdGdld2ljaHQgZW4gc3ZpLXN0YXR1cy4KCgojIyBTY2hhdHRlbiB2YW4gZWZmZWN0Z3Jvb3R0ZSBhLmQuaC52LiBzdGVla3Byb2VmCgotIEtsZWluc3RlIGt3YWRyYXRlbnRlY2huaWVrCgojIyBJbmZlcmVudGllCgojIyMgQWFubmFtZXM/CgotIFJlcHJlc2VudGF0aWV2ZSBzdGVla3Byb2VmOgoKJFxoYXRcYmV0YV9qJCBpcyBlZW4gb252ZXJ0ZWtlbmRlIHNjaGF0dGVyIHZhbiAkXGJldGEkIGFscyBzdGVla3Byb2VmIHJlcHJlc2VudGF0aWVmIGlzCgpcW0VbXGhhdCBcYmV0YV9qXT1cYmV0YV9qXF0KCi0gTm9ybWFsaXRlaXQKClxbWV97aX0gXHNpbSBOKFxtdV9pLFxzaWdtYV4yKVxdClxbWV9pIFxzaW0gTihcYmV0YV8wK1xiZXRhX3Z4X3tpdn0rXGJldGFfd3hfe2l3fSArIFxiZXRhX3N4X3tpc30sXHNpZ21hXjIpICBcbG9uZ3JpZ2h0YXJyb3cgXGhhdCBcYmV0YV9qIFxzaW0gTihcYmV0YV9qLCBcc2lnbWFeMl97XGhhdCBcYmV0YV9qfSlcXQoKLSBsaW5lYWlyZSBjb21iaW5hdGllcyB2YW4gZGUgbW9kZWwgcGFyYW1ldGVyc2NoYXR0ZXJzIHppam4gb29rIG5vcm1hYWwgdmVyZGVlbGQuCgpcWwpcbG9uZ3JpZ2h0YXJyb3cgTF5UXGhhdCBcYmV0YSBcc2ltIE4oTF5UXGJldGEsIFxzaWdtYV4yX3tMXlRcaGF0e1xib2xkc3ltYm9se1xiZXRhfX19KQpcXQoKCi0gT25hZmhhbmtlbGlqa2hlaWQgZW4gZ2VsaWpraGVpZCB2YW4gdmFyaWFudGllCgpcW1xzaWdtYV4yX3tMXlRcaGF0e1xib2xkc3ltYm9se1xiZXRhfX19ID0gY19MIFxzaWdtYV4yIFxdCgotICRcc2lnbWFeMj8kCgpcW1xoYXQgXHNpZ21hXjIgPSBNU0UgPSBcc3VtXGxpbWl0c197aT0xfSBeIG4gXGZyYWN7KFlfaSAtIFxoYXQgWV9pKV4yfXtuLXB9XF0KClxbU0Vfe0xeVFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX0gPSBjX0wgXGhhdCBcc2lnbWEgXF0KCi0gdCBzdGF0aXN0aWVrCgpcWyBUID0gXGZyYWN7TFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fSAtIExcYm9sZHN5bWJvbHtcYmV0YX19e1x0ZXh0e1NFfV97TFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX19CiBcc2ltIHRfe24tcH1cXQoKLSBCSSBlbiBULXRlc3QgJEhfMDogTFxib2xkc3ltYm9se1xiZXRhfSA9IDAkIHZzICAkSF8xOiBMXGJvbGRzeW1ib2x7XGJldGF9IFxuZXEgMCQKCi0gRiBzdGF0aXN0aWVrIHZvbGd0IEYtdmVyZGVsaW5nIG9uZGVyIGRlICRIXzAkClxbIEYgPSBcZnJhY3tNU1JfMiAtIE1TUl8xfXtNU0V9IFxzaW0gRl97cF8yIC0gcF8xLG4tcF8yfVxdCgoKIyMgV2F0IGFscyBhYW5uYW1lcyBuaWV0IHppam4gdm9sZGFhbj8KCi0gTm9ybWFsaXRlaXQgZW4gaGV0ZXJvc2NlZGFzdGljaXRlaXQgbmlldCB2b2xkYWFuOiB0cmFuc2Zvcm1hdGllIHZhbiBZCi0gTGluZWFyaXRlaXQgbmlldCB2b2xkYWFuOiB0cmFuc2Zvcm1hdGllIHZhbiBYIG9mIGhvZ2VyZSBvcmRlIHRlcm1lbiAoaW50ZXJhY3RpZXMgZW4gbWFjaHRlbiAkWF4yLCBYXjMsIC4uLiQpLgotIE5vcm1hbGl0ZWl0IG5pZXQgdm9sZGFhbjogYmlqIGdyb3RlIHN0ZWVrcHJvZXZlbiBDTFQKCgoKIyMgTW9kZWwgbWV0IGludGVyYWN0aWVzCgotIEVmZmVjdCBtb2RpZmljYXRpZSEKCi0gKipBc3NvY2lhdGllIHZhbiBlZW4gcHJlZGljdG9yIGVuIGRlIHJlc3BvbnMgdmFyaWFiZWxlKiogaGFuZ3QgdmFuIGRlIHdhYXJkZSB2YW4gZWVuICoqYW5kZXJlIHByZWRpY3RvcioqLgoKIyMjIEludGVyYWN0aWUgdHVzc2VuIGNvbnRpbnVlIHByZWRpY3RvciB2YXJpYWJlbGUgZW4gZWVuIGNhdGVnb3Jpc2NoZSBwcmVkaWN0b3I/CgpPbSBkZXplICoqaW50ZXJhY3RpZSoqIG9mICoqZWZmZWN0bW9kaWZpY2F0aWUqKiB0dXNzZW4gdmFyaWFiZWxlbiAkWF92JCBlbiAkWF9zJCwgZW4gJFhfdyQgZW4gJFhfcyQgc3RhdGlzdGlzY2ggdGUgbW9kZWxsZXJlbiwga2FuIG1lbiBkZSBwcm9kdWN0ZW4gdmFuIGJlaWRlIHZhcmlhYmVsZW4gaW4ga3dlc3RpZSBhYW4gaGV0IG1vZGVsIHRvZXZvZWdlbgoKJCQKWV9pID0gXGJldGFfMCArIFxiZXRhX3YgeF97aXZ9ICsgXGJldGFfdyB4X3tpd30gK1xiZXRhX3MgeF97aXN9ICsgXGJldGFfe3ZzfSB4X3tpdn14X3tpc30gKyBcYmV0YV97d3N9IHhfe2l3fXhfe2lzfSAgK1xlcHNpbG9uX2kKJCQKCkRlemUgdGVybWVuIGt3YW50aWZpY2VyZW4gZGUgKmludGVyYWN0aWUtZWZmZWN0ZW4qIHZhbiByZXNwZWN0aWV2ZWxpamsgZGUgcHJlZGljdG9yZW4gJHhfdiQgZW4gJHhfcyQsIGVuLCAkeF92JCBlbiAkeF9zJCBvcCBkZSBnZW1pZGRlbGRlIHVpdGtvbXN0LgoKSW4gZGl0IG1vZGVsIHdvcmRlbiBkZSB0ZXJtZW4gJFxiZXRhX3Z4X3tpdn0kLCAkXGJldGFfd3hfe2l3fSQgZW4gJFxiZXRhX3MgeF97aXN9JCBkZSAqaG9vZmRlZmZlY3RlbiogdmFuIGRlIHByZWRpY3RvcmVuICR4X3YkLCAkeF93JCBlbiAkeF9zJCBnZW5vZW1kLgoKT21kYXQgJFhfUyQgZWVuIGR1bW15IHZhcmlhYmVsZSBpcywgdmVya3JpamdlbiB3ZSB2ZXJzY2hpbGxlbmRlIHJlZ3Jlc3NpZXZsYWtrZW46CgoxLiBNb2RlbCB2b29yICRYX3M9MCQ6ICQkWT1cYmV0YV8wK1xiZXRhX3ZYX3YrXGJldGFfd1hfdyArIFxlcHNpbG9uJCQgd2FhciBkZSBob29mZGVmZmVjdGVuIGRlIGhlbGxpbmdlbiB2b29yIGxjYXZvbCBlbiBsd2VpZ2h0IHppam4KCjIuIGVuIGhldCBtb2RlbCB2b29yICRYX3M9MSQ6CiAgICQkXGJlZ2lue2FycmF5fXtsY2x9CiAgIFkmPSZcYmV0YV8wK1xiZXRhX3ZYX3YrXGJldGFfcytcYmV0YV93WF93K1xiZXRhX3t2c31YX3YgKyBcYmV0YV97d3N9WF93ICtcZXBzaWxvblxcCiAgJj0mIChcYmV0YV8wK1xiZXRhX3MpKyhcYmV0YV92K1xiZXRhX3t2c30pWF92KyhcYmV0YV93K1xiZXRhX3t3c30pWF93K1xlcHNpbG9uCiAgXGVuZHthcnJheX0kJAptZXQgaW50ZXJjZXB0ICRcYmV0YV8wK1xiZXRhX3MkIGVuIGhlbGxpbmdlbiAkXGJldGFfditcYmV0YV97dnN9JCBlbiAkXGJldGFfdytcYmV0YV97d3N9JAoKLSBEZSBoZWxsaW5nIHZvb3IgbGNhdm9sIGVuIGx3ZWlnaHQgaGFuZ3QgYWYgdmFuIGRlIHN0YXR1cyB2YW4gZGUgemFhZGJsYWFzamVzIQoKIyMjIEludGVyYWN0aWUgdHVzc2VuIGNvbnRpbnVlIHByZWRpY3RvcmVuPwoKCiQkCllfaSA9IFxiZXRhXzAgKyBcYmV0YV92IHhfe2l2fSArIFxiZXRhX3cgeF97aXd9ICtcYmV0YV9zIHhfe2lzfSArIFxiZXRhX3t2d30geF97aXZ9eF97aXd9ICtcZXBzaWxvbl9pCiQkCgpEZXplIHRlcm0ga3dhbnRpZmljZWVydCBoZXQgKmludGVyYWN0aWUtZWZmZWN0KiB2YW4gZGUgcHJlZGljdG9yZW4gJHhfdiQgZW4gJHhfdyQgb3AgZGUgZ2VtaWRkZWxkZSB1aXRrb21zdC4KCkhldCBlZmZlY3QgdmFuIGVlbiB2ZXJzY2hpbCBpbiAxIGVlbmhlaWQgaW4gJFhfdiQgb3AgZGUgZ2VtaWRkZWxkZSB1aXRrb21zdCBiZWRyYWFndCBudToKCiQkClxiZWdpbnthcnJheX17bH0KRShZIHwgWF92PXhfdiArMSwgWF93PXhfdywgWF9zPXhfcykgLSBFKFkgfCBYX3Y9eF92LCBYX3c9eF93LCBYX3M9eF9zKSBcXApccXVhZCA9IFxsZWZ0W1xiZXRhXzAgKyBcYmV0YV92ICh4X3t2fSsxKSArIFxiZXRhX3cgeF93ICtcYmV0YV9zIHhfe3N9ICsgXGJldGFfe3Z3fSAoeF97dn0rMSkgeF93IFxyaWdodF0gLSBcbGVmdFtcYmV0YV8wICsgXGJldGFfdiB4X3t2fSArIFxiZXRhX3cgeF93ICArIFxiZXRhX3MgeF97c30gKyBcYmV0YV97dnd9ICh4X3t2fSkgeF93IFxyaWdodF1cXApccXVhZCA9IFxiZXRhX3YgKyAgXGJldGFfe3Z3fSB4X3cKIFxlbmR7YXJyYXl9CiAkJAoKLSBEZSBoZWxsaW5nIHZvb3IgbGNhdm9sIGhhbmd0IG0uYS53LiBhZiB2YW4gaGV0IGxvZyBnZXdpY2h0IHZhbiBkZSBwcm9zdGFhdCEKCi0gV2Uga3VubmVuIGhldHplbGZkZSBkb2VuIHZvb3IgbHdlaWdodC4gSGVsbGluZyB2b29yIGx3ZWlnaHQgaGFuZ3QgYWYgdmFuIGhldCBsb2cgdm9sdW1lIHZhbiBkZSB0dW1vciEgIAoKCiMjIEFub3ZhIHRhYmVsIGVuIGFhbnZ1bGxlbmRlIGt3YWRyYXRlbnNvbW1lbj8KCkJlc2Nob3V3IGRlIHZvbGdlbmRlIHR3ZWUgKipnZW5lc3RlKiogcmVncmVzc2llbW9kZWxsZW4gdm9vciBwcmVkaWN0b3JlbiAkeF8xLCBcbGRvdHMsIHhfe3Ata30kIGVuICR4XzEsIFxsZG90cywgeF97cC0xfSQ6CiQkCiAgWV9pID0gXGJldGFfMCtcYmV0YV8xIHhfe2kxfSArIC4uLiArIFxiZXRhX3twLWt9IHhfe2lwLWt9ICArIFxlcHNpbG9uX2ksCiQkCm1ldCAkXGVwc2lsb25faVx0ZXh0eyBpaWQgfSBOKDAsXHNpZ21hXzFeezJ9KSQsIGVuCiQkCllfaSA9IFxiZXRhXzArXGJldGFfMSB4X3tpMX0gKyAuLi4gKyBcYmV0YV97cC0xfSB4X3tpcC0xfSAgKyBcZXBzaWxvbl9pLAokJAptZXQgJFxlcHNpbG9uX2lcdGV4dHsgaWlkIH0gTigwLFxzaWdtYV8yXnsyfSkkLgoKVm9vciBoZXQgZWVyc3RlIChnZXJlZHVjZWVyZGUpIG1vZGVsIGdlbGR0IGRlIGRlY29tcG9zaXRpZQpcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fMSArIFx0ZXh0e1NTRX1fMQpcXQplbiB2b29yIGhldCB0d2VlZGUgKG5pZXQtZ2VyZWR1Y2VlcmRlKSBtb2RlbApcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fMiArIFx0ZXh0e1NTRX1fMgpcXQooU1NUb3QgaXMgdWl0ZXJhYXJkIGRlemVsZmRlIGluIGJlaWRlIG1vZGVsbGVuIG9tZGF0IGRpdCBuaWV0IGFmaGFuZ3QgdmFuIGhldCByZWdyZXNzaWVtb2RlbCkuCgpcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fezIgXG1pZCAxfSArIFx0ZXh0e1NTUn1fMSArIFx0ZXh0e1NTRX1fMgpcXQoKXFsKRiA9IFxmcmFje1x0ZXh0e1NTUn1fezIgXG1pZCAxfX17XHRleHR7U1NFfV8yfQpcXQoKLSBUZXN0ZW4gdm9vciBhbGxlIG5pdmVhdXMgdmFuIGVlbiBmYWN0b3Igc2ltdWx0YWFuOiBvbW5pYnVzIHRlc3QuCi0gVGVzdGVuIHZvb3IgdG90YWxlIGVmZmVjdCB2YW4gZWVuIHByZWRpY3RvcjogaG9vZmRlZmZlY3RlbiArIGludGVyYWN0aWVzCi0gLi4uCgojIyBEaWFnbm9zdGllawoKIyMjIE11bHRpY29sbGluZWFyaXRlaXQKClxbXHRleHRybXtWSUZ9X2o9XGxlZnQoMS1SX2peMlxyaWdodCleey0xfVxdCgoKIyMjIEludmxvZWRyaWprZSBPYnNlcnZhdGllcwoKMS4gQ29va3MgZGlzdGFuY2UKClxbRF9pPVxmcmFje1xzdW1fe2o9MX1ebihcaGF0e1l9X2otXGhhdHtZfV97aihpKX0pXjJ9e3BcdGV4dHJte01TRX19XF0KCi0gRXh0cmVtZSBDb29rJ3MgZGlzdGFuY2UgYWxzIGhldCBoZXQgNTBcJSBwZXJjZW50aWVsIHZhbiBkZSAkRl97cCxuLXB9JC12ZXJkZWxpbmcgb3ZlcnNjaHJpamR0LgoKMi4gREZCRVRBUwoKJCRcdGV4dHJte0RGQkVUQVN9X3tqKGkpfT1cZnJhY3tcaGF0e1xiZXRhfV97an0tXGhhdHtcYmV0YX1fe2ooaSl9fXtcdGV4dHJte1NEfShcaGF0e1xiZXRhfV97an0pfSQkCgotICBERkJFVEFTIGV4dHJlZW0gaXMgd2FubmVlciB6ZSAxIG92ZXJzY2hyaWpkdCBpbiBrbGVpbmUgdG90IG1pZGRlbGdyb3RlIGRhdGFzZXRzIGVuICQyL1xzcXJ0e259JCBpbiBncm90ZSBkYXRhc2V0cwoKIyMgQ29udHJhc3RlbgoKIyMjIEJsb2VkZHJ1ayB2b29yYmVlbGQKIyMjIyBSZW1lZGllcmluZyBoZXRlcm9zY2VkYXN0aWNpdGVpdAoKSWxsdXN0cmF0aWU6IEJpaiBncm90ZSBzdGVla3Byb2V2ZW4ga3VubmVuIHdlIGNvcnJpZ2VyZW4gdm9vciBoZXRlcm9zY2VkYXN0aWNpdGVpdC4KCmBgYAptU2QgPC0gbG0obUJwMSRyZXMgJT4lIGFicyB+IG1CcDEkZml0dGVkKQpgYGAKCldlIHNjaGF0dGVuIGhldCBtb2RlbCBudSBvcG5pZXV3OgoKYGBgCm1CcDMgPC0gbG0oQlBTeXNBdmUgfiBBZ2UqR2VuZGVyLCBicERhdGEsIHcgPSAxL21TZCRmaXR0ZWReMikKYGBgCgojIyMjIEJlc2x1aXR2b3JtaW5nCgoKRGUgb25kZXJ6b2Vrc3ZyYWdlbiB2ZXJ0YWxlbiB6aWNoIGluIGRlIHZvbGdlbmRlIG51bGxoeXBvdGhlc2VzOgoKMS4gQXNzb2NpYXRpZSB0dXNzZW4gYmxvZWRkcnVrIGVuIGxlZWZ0aWpkIGJpaiBkZSB2cm91d2VuPyBcW0hfMDogXGJldGFfXHRleHR7QWdlfSA9IDAgXHRleHR7IHZzIH0gSF8xOiBcYmV0YV9cdGV4dHtBZ2V9IFxuZXEgMCBcXQoKMi4gQXNzb2NpYXRpZSB0dXNzZW4gYmxvZWRkcnVrIGVuIGxlZWZ0aWpkIGJpaiBkZSBtYW5uZW4/IFxbSF8wOiBcYmV0YV9cdGV4dHtBZ2V9ICsgXGJldGFfXHRleHR7QWdlOkdlbmRlcm1hbGV9ID0gMCBcdGV4dHsgdnMgfSBIXzE6IFxiZXRhX1x0ZXh0e0FnZX0gKyBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gXG5lcSAwIFxdCgozLiBJcyBkZSBBc3NvY2lhdGllIHR1c3NlbiBibG9lZGRydWsgZW4gbGVlZnRpamQgdmVyc2NoaWxsZW5kIGJpaiBtYW5uZW4gZW4gdnJvdXdlbj8gXFtIXzA6IFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IDAgXHRleHR7IHZzIH0gSF8xOiBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gXG5lcSAwIFxdCgoKLSBXZSBrdW5uZW4gb25kZXJ6b2Vrc3ZyYWFnIDEgZW4gMyBvbm1pZGRlbGlqayB0b2V0c2VuIG8uYi52LiBkZSBtb2RlbCBvdXRwdXQuCgotIE9uZGVyem9la3N2cmFhZyAyIGlzIGVjaHRlciBlZW4gbGluZWFpcmUgY29tYmluYXRpZSB2YW4gdHdlZSBwYXJhbWV0ZXJzLgoKXFsKXGJlZ2lue2FycmF5fXtsY2x9CkwgXGJvbGRzeW1ib2x7XGJldGF9ICY9JiAwXFxcXApcbGVmdFtcYmVnaW57YXJyYXl9e2NjY2N9IDAgJjAmIDEmIDFcZW5ke2FycmF5fSBccmlnaHRdXGxlZnRbXGJlZ2lue2FycmF5fXtjfVxiZXRhXzBcXApcYmV0YV9nXFwKXGJldGFfYVxcClxiZXRhX3thOmd9XGVuZHthcnJheX0KXHJpZ2h0XSAmPSYgIDBcXFxcCjBcYmV0YV8wICsgMCBcYmV0YV9nICsgMSBcYmV0YV9hICsgMVxiZXRhX3thOmd9ICY9JiAwXFxcXApcYmV0YV9hICsgXGJldGFfe2E6Z30gJj0mMApcZW5ke2FycmF5fQpcXQoKLSBCb3ZlbmRpZW4gaXMgZXIgb29rIGhldCBwcm9ibGVlbSBkYXQgd2UgbWVlcmRlcmUgdG9ldHNlbiBub2RpZyBoZWJiZW4gb20gZGUgYXNzb2NpYXRpZXMgdGUgYmVzdHVkZXJlbi4KCgoxLiAgV2UgdG9ldHNlbiBlZXJzdGUgZGUgb21uaWJ1cyBoeXBvdGhlc2UgZGF0IGVyIGdlZW4gYXNzb2NpYXRpZSBpcyB0dXNzZW4gbGVlZnRpamQgZW4gZGUgYmxvZWRkcnVrLgoKJCQKSF8wOiBcYmV0YV9cdGV4dHtBZ2V9ID0gXGJldGFfXHRleHR7QWdlfSArIFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IDAKJCQKCiAgLSBEYXQgdmVyZWVudm91ZGlndCB6aWNoIHRvdCBoZXQgdG9ldHNlbiBkYXQKJCQgCiAgICBIXzA6IFxiZXRhX1x0ZXh0e0FnZX0gPSBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gPSAwCiQkCiAgICAKICAtIFdhdCB3ZSBrdW5uZW4gZXZhbHVlcmVuIGRvb3IgdHdlZSBtb2RlbGxlbiB0ZSB2ZXJnZWxpamtlbi4gRWVuIG1vZGVsIG1ldCBlbmtlbCBoZXQgZ2VuZGVyIGVmZmVjdCBlbiB2b2xsZWRpZ2UgbW9kZWwgbWV0IEdlbmRlciwgQWdlIGVuIEdlbmRlciB4IEFnZSBpbnRlcmFjdGllLgoKMi4gQWxzIHdlIGRlemUgaHlwb3RoZXNlIGt1bm5lbiB2ZXJ3ZXJwZW4gdm9lcmVuIHdlIHBvc3Rob2MgYW5hbHlzZXMgdWl0IHZvb3IgZWxrIHZhbiBkZSAzIGNvbnRyYXN0ZW4uCgogIApEZSBwb3N0aG9jIHRlc3RlbiBrdW5uZW4gd2Ugb3BuaWV1dyB1aXR2b2VyZW4gYS5kLmgudi4gaGV0IG11bHRjb21wIHBha2tldC4KCmBgYApicFBvc3Rob2MgPC0gZ2xodChtQnAzLCBsaW5mY3Q9YygKICAiQWdlID0gMCIsCiAgIkFnZSArIEFnZTpHZW5kZXJtYWxlID0gMCIsCiAgIkFnZTpHZW5kZXJtYWxlID0gMCIpCiAgKQpicFBvc3Rob2MgJT4lIHN1bW1hcnkKCmJwUG9zdGhvY0JJIDwtIGJwUG9zdGhvYyAlPiUgY29uZmludApicFBvc3Rob2NCSQpgYGAKCgoKIyMjIFRlc3Rvc3Rlcm9uIGNvbmNlbnRyYXRpZSBiaWogdm9sd2Fzc2VuIG1hbm5lbiBpbiBkZSBOSEFORVMgc3R1ZGllCgpWZXJvbmRlcnN0ZWwgZGF0IHdlIHdlbnNlbiB0ZSBiZXN0dWRlcmVuIG9mIGVyIGVlbiBhc3NvY2lhdGllIGlzIGxlZWZ0aWpkIGVuIGdld2ljaHQgdmFuIHZvbHdhc3NlbiBtYW5uZW4gaW4gZGUgQW1lcmlrYWFuc2UgcG9wdWxhdGllIG9wIGRlIGRlIHRlc3Rvc3Rlcm9uIGNvbmNlbnRyYXRpZS4gCgpgYGAKbW9kVGVzIDwtIGxtKGZvcm11bGEgPSBUZXN0b3N0ZXJvbmUgfiBBZ2UgKiBXZWlnaHQsIGRhdGEgPSBOSEFORVMgJT4lIAogICAgZmlsdGVyKEFnZSA+IDE4ICYgR2VuZGVyID09ICJtYWxlIiAmICFpcy5uYShUZXN0b3N0ZXJvbmUpICYhaXMubmEoV2VpZ2h0KSAmICFpcy5uYShBZ2UpKSkKYGBgCgotIEVyIGlzIGdlZW4gc2lnbmlmaWNhbnRlIGludGVyYWN0aWUuIEhldCBhYW52YWFyZGVuIHZhbiBkZSBudWxoeXBvdGhlc2UgaXMgZWVuIHp3YWtrZSBjb25jbHVzaWUuCkRhYXJvbSBrdW5uZW4gd2Ugb3B0ZXJlbiBvbSBkZSBpbnRlcmFjdGllIGluIGhldCBtb2RlbCB0ZSBsYXRlbi4KCi0gTWVyayBvcCBkYXQgZGUgaG9vZmRlZmZlY3RlbiBnZWVuIHppbnZvbGxlIGludGVycHJldGF0aWUgaGViYmVuIQoKLSBPbWRhdCBlciBnZWVuIHNpZ25pZmljYW50ZSBpbnRlcmFjdGllIGlzLCBpcyBoZXQgemludm9sIG9tIGVlbiB1aXRzcHJhYWsgdGUgZG9lbiBvdmVyIGRlIGFzc29jaWF0aWUgdmFuIGdld2ljaHQgZW4gdGVzdG9zdGVyb24sIGVuIGxlZWZ0aWpkIGVuIHRlc3Rvc3Rlcm9uLgoKV2Uga3VubmVuIGhpZXJvdmVyIGVlbiB1aXRzcHJhYWsgZG9lbiBkb29yIHRlIG1hcmdpbmFsaXNlcmVuIG92ZXIgYWxsZSBsZWVmdGlqZGVuIChnZXdpY2h0ZW4pIHZhbiBkZSBtYW5uZW4gaW4gaGV0IGV4cGVyaW1lbnQuCgokJApcZnJhY3tcc3VtXGxpbWl0c197aT0xfV5uIChcYmV0YV9hICsgXGJldGFfe3c6YX0gWF97d30pfXtufT0gXGJldGFfYSArXGJldGFfe3c6YX0gXGJhcntYfV93CiQkCgokJApcZnJhY3tcc3VtXGxpbWl0c197aT0xfV5uIChcYmV0YV93ICsgXGJldGFfe3c6YX0gWF97YX0pfXtufT0gXGJldGFfdyArXGJldGFfe3c6YX0gXGJhcntYfV9hCiQkCgojIyBGYWN0b3Jpw6tsZSBwcm9ldmVuIAoKIyMjIERhdGEgCgoKNDggcmF0dGVuIHdlcmRlbiBhdCByYW5kb20gdG9lZ2V3ZXplbiBhYW4KCi0gMyBnaWZmZW4gKEksSUksSUlJKSBhbmQgCi0gNCBiZWhhbmRlbGluZ2VuIChBLEIsQyxEKSwgCgplbiwgCgotIGRlIG92ZXJsZXZpbmdzdGlqZCB3ZXJkIG9wZ2VtZXRlbiAoZWVuaGVpZDogMTAgaCkKCgpXZSBtb2RlbGxlcmVuIGRlICJzbmVsaGVpZCB2YW4gc3RlcnZlbiIgbWV0IGVlbiBob29mZGVmZmVjdCB2b29yIGdpZiBlbiBiZWhhbmRlbGluZyBlbiBlZW4gZ2lmICRcdGltZXMkIGJlaGFuZGVsaW5nIGludGVyYWN0aWUuIAoKJCQKXGJlZ2lue2FycmF5fXtsY2x9CnlfaSAmPSYgXGJldGFfMCAgKyBcXAomJlxiZXRhX3tJSX0geF97aUlJfSArIFxiZXRhX3tJSUl9IHhfe2lJSUl9ICsgXFwKJiYgXGJldGFfe0J9IHhfe2lCfSAgKyBcYmV0YV97Q30geF97aUN9ICsgXGJldGFfe0R9IHhfe2lEfSArIFxcCiYmXGJldGFfe0lJOkJ9eF97aUlJfXhfe2lCfSArIFxiZXRhX3tJSTpDfXhfe2lJSX14X3tpQ30gICsgXGJldGFfe0lJOkR9eF97aUlJfXhfe2lEfSArIFxcCiYmXGJldGFfe0lJSTpCfXhfe2lJSUl9eF97aUJ9ICsgXGJldGFfe0lJSTpDfXhfe2lJSUl9eF97aUN9ICArIFxiZXRhX3tJSUk6RH14X3tpSUlJfXhfe2lEfSArClxlcHNpbG9uX2kKXGVuZHthcnJheX0KJCQKCm1ldCAkaSA9IDEsIFxsZG90cywgbiQsICRuPTQ4JCwgZW4sICR4X3tpSUl9JCwgJHhfe2lJSUl9JCwgJHhfe2lCfSQsICR4X3tpQ30kIGVuICR4X3tpRH0kIGR1bW15IHZhcmlhYmVsZW4gdm9vciByZXNwZWN0aWV2ZWxpamsgZ2lmIElJLCBJSUksIGJlaGFuZGVsaW5nIEIsIEMsIGVuIEQuCgojIyQgSW5mZXJlbnRpZQoKCkVlbiBpbnRlcmFjdGllIHR1c3NlbiBnaWYgZW4gYmVoYW5kZWxpbmcgaW1wbGljZWVydCBkYXQgd2UgaGV0IGVmZmVjdCB2YW4gaGV0IHR5cGUgZ2lmIGFmem9uZGVybGlqayBtb2V0ZW4gYmVzdHVkZXJlbiB2b29yIGVsa2UgYmVoYW5kZWxpbmc6IAoKMS4gVm9vciBiZWhhbmRlbGluZyBBIG1vZXRlbiB3ZSBkYW4gdm9sZ2VuZGUgbnVsaHlwb3RoZXNlcyB0b2V0c2VuOgoKLSBJSS1JOiAkSF8wOiBcYmV0YV97SUl9PTAkCi0gSUlJLUk6ICRIXzA6IFxiZXRhX3tJSUl9PTAkCi0gSUlJLUlJOiAkSF8wOiBcYmV0YV97SUlJfS1cYmV0YV97SUl9PTAkCgoyLiBWb29yIGJlaGFuZGVsaW5nIEI6CgotIElJLUk6ICRIXzA6IFxiZXRhX3tJSX0rXGJldGFfe0lJOkJ9PTAkCi0gSUlJLUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6Qn09MCQKLSBJSUktSUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6Qn0tXGJldGFfe0lJfS1cYmV0YV97SUk6Qn09MCQKCjMuIFZvb3IgYmVoYW5kZWxpbmcgQzoKCi0gSUktSTogJEhfMDogXGJldGFfe0lJfStcYmV0YV97SUk6Q309MCQKLSBJSUktSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpDfT0wJAotIElJSS1JSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpDfS1cYmV0YV97SUl9LVxiZXRhX3tJSTpDfT0wJAoKNC4gVm9vciBiZWhhbmRlbGluZyBEOgoKLSBJSS1JOiAkSF8wOiBcYmV0YV97SUl9K1xiZXRhX3tJSTpEfT0wJAotIElJSS1JOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkR9PTAkCi0gSUlJLUlJOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkR9LVxiZXRhX3tJSX0tXGJldGFfe0lJOkR9PTAkCgpIZXR6ZWxmZGUgZ2VsZHQgd2FubmVlciB3ZSBoZXQgZWZmZWN0IHZhbiBkZSBiZWhhbmRlbGluZyBiZXN0dWRlcmVuOiAKCjEuIFZvb3IgZ2lmIEkgdG9ldHNlbiB3ZSBkYW4gbnVsaHlwb3RoZXNlCgotIEItQTogJEhfMDogXGJldGFfe0J9PTAkCi0gQy1BOiAkSF8wOiBcYmV0YV97Q309MCQKLSBELUE6ICRIXzA6IFxiZXRhX3tEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9LVxiZXRhX3tCfT0wJAotIEQtQjogJEhfMDogXGJldGFfe0R9LVxiZXRhX3tCfT0wJAotIEQtQzogJEhfMDogXGJldGFfe0R9LVxiZXRhX3tDfT0wJAoKMi4gR2lmIElJCgotIEItQTogJEhfMDogXGJldGFfe0J9K1xiZXRhX3tJSTpCfT0wJAotIEMtQTogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSTpDfT0wJAotIEQtQTogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSTpEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSTpDfS1cYmV0YV97Qn0tXGJldGFfe0lJOkJ9PTAkCi0gRC1COiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJOkR9LVxiZXRhX3tCfS1cYmV0YV97SUk6Qn09MCQKLSBELUM6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUk6RH0tXGJldGFfe0N9LVxiZXRhX3tJSTpDfT0wJAoKMy4gR2lmIElJSQoKLSBCLUE6ICRIXzA6IFxiZXRhX3tCfStcYmV0YV97SUlJOkJ9PTAkCi0gQy1BOiAkSF8wOiBcYmV0YV97Q30rXGJldGFfe0lJSTpDfT0wJAotIEQtQTogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSTpEfT0wJAotIEMtQjogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSUk6Q30tXGJldGFfe0J9LVxiZXRhX3tJSUk6Qn09MCQKLSBELUI6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUlJOkR9LVxiZXRhX3tCfS1cYmV0YV97SUlJOkJ9PTAkCi0gRC1DOiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJSTpEfS1cYmV0YV97Q30tXGJldGFfe0lJSTpDfT0wJAoKSW4gb256ZSBzdHVkaWUgd2FzIGRlIGludGVyYWN0aWUgZWNodGVyIG5pZXQgc2lnbmlmaWNhbnQuIAoKLSBDb3ZlbnRpb25lZWwgQW5hbHlzZSBtZXQgYWRkaXRpZWYgbW9kZWwgem9uZGVyIGludGVyYWN0aWUgCi0gQWx0ZXJuYXRpZWY6IEFuYWx5c2UgbWV0IG1vZGVsIG1ldCBpbnRlcmFjdGllIHdhYXJiaWogd2UgCgoxLiBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGdpZmZlbiAoSUktSSwgSUlJLUkgZW4gSUlJLSBJSSkgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGJlaGFuZGVsaW5nZW4gKEEsIEIsIEMsIGVuIEQpLCBlbiwgCjIuICBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGJlaGFuZGVsaW5nZW4gKEItQSwgQy1BLCBELUEsIEMtQiwgRC1CIGVuIEQtQykgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGdpZmZlbiAoSSwgSUksIElJSSkuIAoKRGF0IHpvdSBvbnMgZ2VsaWprYWFyZGlnZSBzY2hhdHRpbmdlbiB2YW4gZGUgZWZmZWN0Z3Jvb3R0ZXMgbW9ldGVuIGdldmVuIGFscyBkZXplIHZvb3IgaGV0IGFkZGl0aWV2ZSBtb2RlbCB3YWFyYmlqIHdlIGRlIGludGVyYWN0aWUgdGVybSB1aXQgaGV0IG1vZGVsIGhhZGRlbiBnZXdlZXJkLiAKCgpCLnYuIHZvb3IgZ2lmIElJSSB2cyBnaWYgSUkgem91IGRhdCBpbiB2b2xnZW5kZSBjb250cmFzdCByZXN1bHRlcmVuOiAKCi0gSUlJLUlJOiAKJCRIXzA6IApcYmVnaW57YXJyYXl9e2x9ClxmcmFje1xiZXRhX3tJSUl9LVxiZXRhX3tJSX19ezR9ICsgXFwKXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkJ9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Qn19ezR9ICsgXFwKXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkN9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Q319ezR9ICsgXFwKXHF1YWQgXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkR9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6RH19ezR9PTAKXGVuZHthcnJheX0KJCQKJCQKSF8wOlxiZXRhX3tJSUl9ICsgXGZyYWN7MX17NH0gXHRpbWVzIFxiZXRhX3tJSUk6Qn0gKyAgXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJSTpDfSArICBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUlJOkR9Ci1cYmV0YV97SUl9IC0gXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJOkJ9IC0gIFxmcmFjezF9ezR9IFx0aW1lc1xiZXRhX3tJSTpDfSAgLSBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUk6RH09MAokJAoKCiMgUG93ZXIsIHN0ZWVrcHJvZWZncm9vdHRlIGVuIGFuZGVyZSBkZXNpZ24gYXNwZWN0ZW4uIAoKCiMjIFZhcmlhbnRpZSBzY2hhdHRlcj8KXFsKXGJlZ2lue2FycmF5fXtjY2x9ClxoYXR7XGJvbGRzeW1ib2x7XFNpZ21hfX1fe1xoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX0KPShcbWF0aGJme1h9XlRcbWF0aGJme1h9KV57LTF9XHNpZ21hXjIKXGVuZHthcnJheX0KXF0KCkRlIG9uemVrZXJoZWlkIG9wIG1vZGVsIHBhcmFtZXRlcnMgaGFuZ3QgZHVzIGFmIHZhbiBkZSByZXNpZHVlbGUgdmFyaWFiaWxpdGVpdCBlbiBoZXQgZGUgcHJvZWZvcHpldCEKCi0gSG9lIGdyb3RlciAkXG1hdGhiZntYfV5UXG1hdGhiZntYfSQgaG9lIG1lZXIgaW5mb3JtYXRpZSBoZXQgZXhwZXJpbWVudCB6YWwgaGViYmVuIG92ZXIgZGUgbW9kZWwgcGFyYW1ldGVycyBlbiBob2Uga2xlaW5lciBodW4gdmFyaWFudGllIGVuIHN0YW5kYWFyZCBlcnJvcnMhIAoKLSBGYWN0b3Jpw6tsZSBkZXNpZ25zPyAKLSBEZXNpZ25zIHdpdGggY29udGludWUgcHJlZGljdG9yZW4/IAoKLS0tCgpEZSBlZmZlY3Rncm9vdHRlIHZhbiBpbnRlcmVzc2UgaXMgdHlwaXNjaCBlZW4gbGluZWFpcmUgY29tYmluYXRpZSB2YW4gZGUgbW9kZWwgcGFyYW1ldGVycywgIAokJApsXzAgXHRpbWVzIFxiZXRhXzAgKyBsXzEgXHRpbWVzIFxiZXRhXzEgKyAuLi4gKyBsX3twLTF9IFx0aW1lcyBcYmV0YV97cC0xfSA9IFxtYXRoYmZ7TH1eVFxib2xkc3ltYm9se1xiZXRhfQokJCAKCkRlIG51bGh5cG90aGVzZSB2YW4gb256ZSB0ZXN0IGthbiBkYW4gd29yZGVuIGdlc2NocmV2ZW4gYWxzIAoKCiQkCkhfMDogXG1hdGhiZntMfV5UXGJvbGRzeW1ib2x7XGJldGF9ID0gMCAKJCQgCgp2cyBkZSBhbHRlcm5hdGlldmUgaHlwb3RoZXNlIAoKJCQKSF8wOiBcbWF0aGJme0x9XlRcYm9sZHN5bWJvbHtcYmV0YX0gXG5lcSAwIAokJAoKRW4gaGV0IGJld2lqcyBpbiBoZXQgZXhwZXJpbWVudCB0ZWdlbiAkSF8wJCBrYW4gd29yZGVuIGdla3dhbnRpZmljZWVyZCBtZXQgZGUgdC10ZXN0IHN0YXRpc3RpZWs6IAoKJCQKdD1cZnJhY3tcbWF0aGJme0x9XlRcaGF0e1xib2xkc3ltYm9se1xiZXRhfX0gLSAwfXtcdGV4dHtzZX1fe1xtYXRoYmZ7TH1eVFxoYXR7XGJvbGRzeW1ib2x7XGJldGF9fX19CiQkCmRpZSBlZW4gdC1kaXN0cmlidXRpZSB2b2xndCBtZXQgbi1wIHZyaWpoZWlkc2dyYWRlbiBvbmRlciBkZSBudWwgaHlwb3RoZXNlIGFscyBhbGxlIGFhbm5hbWVzIHZhbiBoZXQgbW9kZWwgZ2VsZGlnIHppam4uCgpEZSBrcmFjaHQgdmFuIGRlIHRvZXRzIGlzIGRhbgoKJCRQKHAgPCAwLjA1IHwgSF8xKSQkCmVuIGhhbmd0IGFmIHZhbiAKCi0gZGUgd2Vya2VsaWprZSBlZmZlY3Rncm9vdHRlIGluIGRlIHBvcHVsYXRpZSAkXG1hdGhiZntMfV5UXGJvbGRzeW1ib2x7XGJldGF9JC4KLSBIZXQgYWFudGFsIG9ic2VydmF0aWVzOiBTRSBlbiBkZiB2YW4gdC10ZXN0LgotIEtldXplIHZhbiBkZSBkZXNpZ25wdW50ZW4KLSBLZXV6ZSB2YW4gc2lnbmlmaWNhbnRpZS1uaXZlYXUgJFxhbHBoYSQuIAoKV2Uga3VubmVuIGRlIHBvd2VyIHNjaGF0dGVuIG1ldCBzaW11bGF0aWVzIGFscwoKMS4gdm9sZGFhbiBpcyBhYW4gZGUgIGFhbm5hbWVucyB2YW4gaGV0IG1vZGVsID09PiBwaWxvb3QgZXhwZXJpbWVudAoKMi4gc3RhbmRhYXJkIGRldmlhdGllIGlzIGdla2VuZCA9PT4gcGlsb290IGV4cGVyaW1lbnQKCjMuIGRlIGVjaHRlIGVmZmVjdGdyb290dGUgaW4gZGUgcG9wdWxhdGllID09PiBkaWUgaXMgb25nZWtlbmQgZGFhcm9tIG1vZXQgZWVuIG1pbmltYWxlIGVmZmVjdGdyb290dGUgd29yZGVuIGdlc3BlY2lmaWVlcmQgZGllIHdlIHdlbnNlbiBvcCB0ZSBwaWtrZW4gaW4gaGV0IG5pZXV3ZSBleHBlcmltZW50LiAKCjQuIHN0ZWVrcHJvZWYgaXMgZ2VzcGVjaWZpZWVyZCA9PT4gS2V1emUgdmFuIGdyb290dGUgdmFuIGRlIHN0ZWVrcHJvZWYgZW4gZGVzaWducHVudGVuCgojIFJhbmRvbWl6ZWQgY29tcGxldGUgYmxvY2sgZGVzaWduIChSQ0IpCgotIE9ic2VydmF0aWVzIGluZ2VkZWVsZCBpbiBibG9ra2VuCi0gSW4gZWxrIGJsb2sgd29yZHQgZWxrZSBiZWhhbmRlbGluZyBnZcOrdmFsdWVlcmQuICAKLSBSQkMgYmVwZXJrdCBkZSByYW5kb21pc2F0aWU6IGRlIGJlaGFuZGVsaW5nZW4gd29yZGVuIGJpbm5lbiBibG9ra2VuIGdlcmFuZG9taXNlZXJkLgotIEluIGRlIGFuYWx5c2UgbW9ldCB2b29yIGJsb2trZW4gd29yZGVuIGdlY29ycmlnZWVyZAotIEVlbiBnZXBhYXJkIGRlc2lnbiBpcyBoZXQgbWVlc3QgZWVudm91ZGlnZSBSQ0I6IG1ldCBibG9rZ3Jvb3R0ZSAyLgotIEVmZmVjdGVuIGt1bm5lbiBiaW5uZW4gYmxvY2sgd29yZGVuIGdlc2NoYXQ6Ci0gSW4gbXVpc3Zvb3JiZWVsZCB3YWFyaW4gcHJvdGVpbmUgZXhwcmVzc2llICh2YXJpYWJsZSBgaW50ZW5zaXR5YCkgaW4gdmVyc2NoaWxsZW5kZSBjZWx0eXBlcyAodmFyaWFiZWxlIGBjZWxsdHlwZWApIHdvcmR0IGdlbWV0ZW4gdm9vciBlbGtlIG11aXMgKHZhcmlhYmxlIGBtb3VzZWAgaXMgYmxvY2spCgpgYGAKbG0oaW50ZW5zaXR5fmNlbGx0eXBlICsgbW91c2UpCmBgYAoKRGUgd2luc3QgaW4gcG93ZXIgdmFuIGVlbiByYW5kb21pemVkIGNvbXBsZXRlIGJsb2NrIGRlc2lnbiBpcyBkdXMgZWVuIGFmd2VnaW5nIHR1c3NlbiBkZSB2YXJpYWJpbGl0ZWl0IGRpZSBrYW4gd29yZGVuIHZlcmtsYWFydCBtZXQgaGV0IGJsb2tlZmZlY3QgZW4gaGV0IHZlcmxpZXMgaW4gdnJpamhlaWRzZ3JhZGVuLiAKCkFscyBqZSBqZSBkZSBmb3JtdWxlIHZvb3IgZGUgdmFyaWFudGllIGNvdmFyaWFudGllIG1hdHJpeCB2YW4gZGUgcGFyYW1ldGVyIHNjaGF0dGVycyBiaWpoYWFsdCB6aWVuIHdlCiQkClxoYXR7XGJvbGRzeW1ib2x7XFNpZ21hfX1eMl97XGhhdHtcYm9sZHN5bWJvbHtcYmV0YX19fQo9XGxlZnQoXG1hdGhiZntYfV5UXG1hdGhiZntYfVxyaWdodCleey0xfVxoYXRcc2lnbWFeMgokJAoKZGF0IGhldCBSQ0IgZWVuIGltcGFjdCBoZWVmdCBvcCAKCi0gJFxsZWZ0KFxtYXRoYmZ7WH1eVFxtYXRoYmZ7WH1ccmlnaHQpXnstMX0kIGFsc29vayBvcAotICAkXGhhdFxzaWdtYV4yJCB2YW4gZGUgcmVzaWR1ZW4hCgokXHJpZ2h0YXJyb3ckIFdlIGt1bm5lbiBkZSB2YXJpYW50aWUgaW4gZGUgZXhwcmVzc2llIHR1c3NlbiBkZSBwcm9lZmRpZXJlbi9ibG9ra2VuIGlzb2xlcmVuIHVpdCBvbnplIGFuYWx5c2UhIAoKJFxyaWdodGFycm93JCBEYXQgcmVkdWNlZXJ0IGRlIHZhcmlhbnRpZSB2YW4gZGUgcmVzaWR1ZW4gZW4gbGVpZHQgdG90IGVlbiB0b2VuYW1lIGluIHBvd2VyIGFscyBkZSB2YXJpYWJpbGl0ZWl0IHR1c3NlbiBtdWl6ZW4vYmxva2tlbiBncm9vdCBpcy4gCgpNZXJrIG9wIGRhdCwgCgokJApcaGF0XHNpZ21hXjIgPSBcZnJhY3tcdGV4dHtTU0V9fXtuLXB9ID0gXGZyYWN7U1NUb3QgLSBTU00gLSBTU0NUfXtuLXB9IAokJCAKCi0gQmxva2tlbiBpcyBkdXMgbnV0dGlnIGFscyBkZSByZWR1Y3RpZSBpbiBTU0UgZ3Jvb3QgaXMgaW4gdmVyZ2VsaWpraW5nIG1ldCBoZXQgdmVybGllcyBpbiB2cmlqaGVpZHNncmFkZW4uIAotIER1cyBhbHMgU1NNIGVlbiBncm9vdCBkZWVsIGluIHZhbiBkZSB0b3RhbGUgdmFyaWFiaWxpdGVpdCBrYW4gdmVya2xhcmVuLiAKClZlcmRlciBoZWVmdCBoZXQgdmVybGllcyBpbiB2cmlqaGVpZHNncmFkZW4gb29rIGVlbiBpbXBhY3Qgb3AgZGUgdC12ZXJkZWxpbmcgZGllIHphbCB3b3JkZW4gZ2VicnVpa3Qgdm9vciBpbmZlcmVudGllLCBkaWUgaGllcmRvb3IgYnJlZGVyZSBzdGFhcnRlbiB6YWwgaGViYmVuLiAK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("overzichtsdocument.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>10. Recap: Algemeen Lineair Model - Interacties - Diagnostiek - Contrasten - Dactoriële proeven</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing two-sample t-test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing niet-parametrische test</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineaire regressie</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen Lineair model: Oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank_sol.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats_02.html">Practicum 5: Experimenteel design II: oplossing blocking oefening 3</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1_opgave.html">Examenvoorbeeld: Opgave oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2_opgave.html">Examenvoorbeeld: Opgave oefening 2</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_1.html">Examenvoorbeeld: Oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Examenvoorbeeld_oefening_2.html">Examenvoorbeeld: Oplossing oefening 2</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">10. Recap: Algemeen Lineair Model -
+Interacties - Diagnostiek - Contrasten - Dactoriële proeven</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="model-met-interacties" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Model met
+interacties</h1>
+<ul>
+<li><p>Effect modificatie!</p></li>
+<li><p><strong>Associatie van een predictor en de respons
+variabele</strong> hangt van de waarde van een <strong>andere
+predictor</strong>.</p></li>
+</ul>
+<div
+id="interactie-tussen-continue-predictor-variabele-en-een-categorische-predictor"
+class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Interactie tussen
+continue predictor variabele en een categorische predictor?</h2>
+<p>Om deze <strong>interactie</strong> of
+<strong>effectmodificatie</strong> tussen variabelen <span
+class="math inline">\(X_v\)</span> en <span
+class="math inline">\(X_s\)</span>, en <span
+class="math inline">\(X_w\)</span> en <span
+class="math inline">\(X_s\)</span> statistisch te modelleren, kan men de
+producten van beide variabelen in kwestie aan het model toevoegen</p>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} +
+\beta_{vs} x_{iv}x_{is} + \beta_{ws} x_{iw}x_{is}  +\epsilon_i
+\]</span></p>
+<p>Deze termen kwantificeren de <em>interactie-effecten</em> van
+respectievelijk de predictoren <span class="math inline">\(x_v\)</span>
+en <span class="math inline">\(x_s\)</span>, en, <span
+class="math inline">\(x_v\)</span> en <span
+class="math inline">\(x_s\)</span> op de gemiddelde uitkomst.</p>
+<p>In dit model worden de termen <span
+class="math inline">\(\beta_vx_{iv}\)</span>, <span
+class="math inline">\(\beta_wx_{iw}\)</span> en <span
+class="math inline">\(\beta_s x_{is}\)</span> de <em>hoofdeffecten</em>
+van de predictoren <span class="math inline">\(x_v\)</span>, <span
+class="math inline">\(x_w\)</span> en <span
+class="math inline">\(x_s\)</span> genoemd.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lmVWS_IntVS_WS <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  lpsa <span class="sc">~</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    lcavol <span class="sc">+</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    lweight <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    svi <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    svi<span class="sc">:</span>lcavol <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    svi<span class="sc">:</span>lweight,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> prostate)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS_IntVS_WS)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = lpsa ~ lcavol + lweight + svi + svi:lcavol + svi:lweight, 
+##     data = prostate)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.50902 -0.44807  0.06455  0.45657  1.54354 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         -0.52642    0.56793  -0.927 0.356422    
+## lcavol               0.54060    0.07821   6.912 6.38e-10 ***
+## lweight              0.58292    0.15699   3.713 0.000353 ***
+## sviinvasion          3.43653    1.93954   1.772 0.079771 .  
+## lcavol:sviinvasion   0.13467    0.25550   0.527 0.599410    
+## lweight:sviinvasion -0.82740    0.52224  -1.584 0.116592    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.7147 on 91 degrees of freedom
+## Multiple R-squared:  0.6367, Adjusted R-squared:  0.6167 
+## F-statistic: 31.89 on 5 and 91 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Omdat <span class="math inline">\(X_S\)</span> een dummy variabele
+is, verkrijgen we verschillende regressievlakken:</p>
+<ol style="list-style-type: decimal">
+<li><p>Model voor <span class="math inline">\(X_s=0\)</span>: <span
+class="math display">\[Y=\beta_0+\beta_vX_v+\beta_wX_w +
+\epsilon\]</span> waar de hoofdeffecten de hellingen voor lcavol en
+lweight zijn</p></li>
+<li><p>en het model voor <span class="math inline">\(X_s=1\)</span>:
+<span class="math display">\[\begin{array}{lcl}
+Y&amp;=&amp;\beta_0+\beta_vX_v+\beta_s+\beta_wX_w+\beta_{vs}X_v +
+\beta_{ws}X_w +\epsilon\\
+  &amp;=&amp;
+(\beta_0+\beta_s)+(\beta_v+\beta_{vs})X_v+(\beta_w+\beta_{ws})X_w+\epsilon
+  \end{array}\]</span> met intercept <span
+class="math inline">\(\beta_0+\beta_s\)</span> en hellingen <span
+class="math inline">\(\beta_v+\beta_{vs}\)</span> en <span
+class="math inline">\(\beta_w+\beta_{ws}\)</span></p></li>
+</ol>
+<ul>
+<li>De helling voor lcavol en lweight hangt af van de status van de
+zaadblaasjes!</li>
+</ul>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-3-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="interactie-tussen-continue-predictoren" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Interactie tussen
+continue predictoren?</h2>
+<p><span class="math display">\[
+Y_i = \beta_0 + \beta_v x_{iv} + \beta_w x_{iw} +\beta_s x_{is} +
+\beta_{vw} x_{iv}x_{iw} +\epsilon_i
+\]</span></p>
+<p>Deze term kwantificeert het <em>interactie-effect</em> van de
+predictoren <span class="math inline">\(x_v\)</span> en <span
+class="math inline">\(x_w\)</span> op de gemiddelde uitkomst.</p>
+<hr />
+<p>Het effect van een verschil in 1 eenheid in <span
+class="math inline">\(X_v\)</span> op de gemiddelde uitkomst bedraagt
+nu:</p>
+<p><span class="math display">\[
+\begin{array}{l}
+E(Y | X_v=x_v +1, X_w=x_w, X_s=x_s) - E(Y | X_v=x_v, X_w=x_w, X_s=x_s)
+\\
+\quad = \left[\beta_0 + \beta_v (x_{v}+1) + \beta_w x_w +\beta_s x_{s} +
+\beta_{vw} (x_{v}+1) x_w \right] - \left[\beta_0 + \beta_v x_{v} +
+\beta_w x_w  + \beta_s x_{s} + \beta_{vw} (x_{v}) x_w \right]\\
+\quad = \beta_v +  \beta_{vw} x_w
+\end{array}
+\]</span></p>
+<ul>
+<li><p>De helling voor lcavol hangt m.a.w. af van het log gewicht van de
+prostaat!</p></li>
+<li><p>We kunnen hetzelfde doen voor lweight. Helling voor lweight hangt
+af van het log volume van de tumor!</p></li>
+</ul>
+<hr />
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lmVWS_IntVW <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  lpsa <span class="sc">~</span> lcavol <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    lweight <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    svi <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    lcavol<span class="sc">:</span>lweight,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  prostate)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS_IntVW)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = lpsa ~ lcavol + lweight + svi + lcavol:lweight, 
+##     data = prostate)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.65886 -0.44673  0.02082  0.50244  1.57457 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)     -0.6430     0.7030  -0.915  0.36278   
+## lcavol           1.0046     0.5427   1.851  0.06734 . 
+## lweight          0.6146     0.1961   3.134  0.00232 **
+## sviinvasion      0.6859     0.2114   3.244  0.00164 **
+## lcavol:lweight  -0.1246     0.1478  -0.843  0.40156   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.7179 on 92 degrees of freedom
+## Multiple R-squared:  0.6293, Adjusted R-squared:  0.6132 
+## F-statistic: 39.05 on 4 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="anova-tabel-en-aanvullende-kwadratensommen"
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Anova tabel en
+aanvullende kwadratensommen?</h1>
+<p>Beschouw de volgende twee <strong>geneste</strong> regressiemodellen
+voor predictoren <span class="math inline">\(x_1, \ldots,
+x_{p-k}\)</span> en <span class="math inline">\(x_1, \ldots,
+x_{p-1}\)</span>: <span class="math display">\[
+  Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-k} x_{ip-k}  +
+\epsilon_i,
+\]</span> met <span class="math inline">\(\epsilon_i\text{ iid }
+N(0,\sigma_1^{2})\)</span>, en <span class="math display">\[
+Y_i = \beta_0+\beta_1 x_{i1} + ... + \beta_{p-1} x_{ip-1}  + \epsilon_i,
+\]</span> met <span class="math inline">\(\epsilon_i\text{ iid }
+N(0,\sigma_2^{2})\)</span>.</p>
+<p>Voor het eerste (gereduceerde) model geldt de decompositie <span
+class="math display">\[
+  \text{SSTot} = \text{SSR}_1 + \text{SSE}_1
+\]</span> en voor het tweede (niet-gereduceerde) model <span
+class="math display">\[
+  \text{SSTot} = \text{SSR}_2 + \text{SSE}_2
+\]</span> (SSTot is uiteraard dezelfde in beide modellen omdat dit niet
+afhangt van het regressiemodel).</p>
+<p><span class="math display">\[
+  \text{SSTot} = \text{SSR}_{2 \mid 1} + \text{SSR}_1 + \text{SSE}_2
+\]</span></p>
+<p><span class="math display">\[
+F = \frac{\text{SSR}_{2 \mid 1}}{\text{SSE}_2}
+\]</span></p>
+<ul>
+<li>Testen voor alle niveaus van een factor simultaan: omnibus
+test.</li>
+<li>Testen voor totale effect van een predictor: hoofdeffecten +
+interacties</li>
+<li>…</li>
+</ul>
+</div>
+<div id="diagnostiek" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Diagnostiek</h1>
+<div id="multicollineariteit" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span>
+Multicollineariteit</h2>
+<p><span
+class="math display">\[\textrm{VIF}_j=\left(1-R_j^2\right)^{-1}\]</span></p>
+<div id="body-fat-voorbeeld" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Body fat
+voorbeeld</h3>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre><code>## 
+## Call:
+## lm(formula = Body_fat ~ Triceps + Thigh + Midarm, data = bodyfat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.7263 -1.6111  0.3923  1.4656  4.1277 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)  117.085     99.782   1.173    0.258
+## Triceps        4.334      3.016   1.437    0.170
+## Thigh         -2.857      2.582  -1.106    0.285
+## Midarm        -2.186      1.595  -1.370    0.190
+## 
+## Residual standard error: 2.48 on 16 degrees of freedom
+## Multiple R-squared:  0.8014, Adjusted R-squared:  0.7641 
+## F-statistic: 21.52 on 3 and 16 DF,  p-value: 7.343e-06</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(lmFat)</span></code></pre></div>
+<pre><code>##  Triceps    Thigh   Midarm 
+## 708.8429 564.3434 104.6060</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Midarm ~ Triceps + Thigh, data = bodyfat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.58200 -0.30625  0.02592  0.29526  0.56102 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 62.33083    1.23934   50.29   &lt;2e-16 ***
+## Triceps      1.88089    0.04498   41.82   &lt;2e-16 ***
+## Thigh       -1.60850    0.04316  -37.26   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.377 on 17 degrees of freedom
+## Multiple R-squared:  0.9904, Adjusted R-squared:  0.9893 
+## F-statistic: 880.7 on 2 and 17 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div id="invloedrijke-observaties" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Invloedrijke
+Observaties</h2>
+<div id="exploratief" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Exploratief</h3>
+<ul>
+<li><em>Studentized residu’s</em> om outliers op te sporen</li>
+<li><em>leverage (invloed, hefboom)</em> om observaties met extreem
+covariaatpatroon op te sporen</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lmVWS,<span class="dv">5</span>)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="cooks-distance" class="section level3" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Cooks distance</h3>
+<p><span
+class="math display">\[D_i=\frac{\sum_{j=1}^n(\hat{Y}_j-\hat{Y}_{j(i)})^2}{p\textrm{MSE}}\]</span></p>
+<ul>
+<li>Extreme Cook’s distance als het het 50% percentiel van de <span
+class="math inline">\(F_{p,n-p}\)</span>-verdeling overschrijdt.</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lmVWS,<span class="dv">4</span>)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="dfbetas" class="section level3" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> DFBETAS</h3>
+<p><span
+class="math display">\[\textrm{DFBETAS}_{j(i)}=\frac{\hat{\beta}_{j}-\hat{\beta}_{j(i)}}{\textrm{SD}(\hat{\beta}_{j})}\]</span>
+- DFBETAS extreem is wanneer ze 1 overschrijdt in kleine tot middelgrote
+datasets en <span class="math inline">\(2/\sqrt{n}\)</span> in grote
+datasets</p>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="contrasten" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Contrasten</h1>
+<div id="bloeddruk-voorbeeld" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Bloeddruk
+voorbeeld</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NHANES)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bpData <span class="ot">&lt;-</span> NHANES <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  Race1 <span class="sc">==</span><span class="st">&quot;White&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    Age <span class="sc">&gt;=</span> <span class="dv">18</span> <span class="sc">&amp;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(BPSysAve)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>mBp1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BPSysAve <span class="sc">~</span> Age<span class="sc">*</span>Gender, bpData)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mBp1)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div id="remediering-heteroscedasticiteit" class="section level3"
+number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Remediering
+heteroscedasticiteit</h3>
+<p>Illustratie: Bij grote steekproeven kunnen we corrigeren voor
+heteroscedasticiteit.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mSd <span class="ot">&lt;-</span> <span class="fu">lm</span>(mBp1<span class="sc">$</span>res <span class="sc">%&gt;%</span> abs <span class="sc">~</span> mBp1<span class="sc">$</span>fitted)</span></code></pre></div>
+<p>We schatten het model nu opnieuw:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mBp3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BPSysAve <span class="sc">~</span> Age<span class="sc">*</span>Gender, bpData, <span class="at">w =</span> <span class="dv">1</span><span class="sc">/</span>mSd<span class="sc">$</span>fitted<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+</div>
+<div id="besluitvorming" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Besluitvorming</h3>
+<p>De onderzoeksvragen vertalen zich in de volgende nullhypotheses:</p>
+<ol style="list-style-type: decimal">
+<li><p>Associatie tussen bloeddruk en leeftijd bij de vrouwen? <span
+class="math display">\[H_0: \beta_\text{Age} = 0 \text{ vs } H_1:
+\beta_\text{Age} \neq 0 \]</span></p></li>
+<li><p>Associatie tussen bloeddruk en leeftijd bij de mannen? <span
+class="math display">\[H_0: \beta_\text{Age} +
+\beta_\text{Age:Gendermale} = 0 \text{ vs } H_1: \beta_\text{Age} +
+\beta_\text{Age:Gendermale} \neq 0 \]</span></p></li>
+<li><p>Is de Associatie tussen bloeddruk en leeftijd verschillend bij
+mannen en vrouwen? <span class="math display">\[H_0:
+\beta_\text{Age:Gendermale} = 0 \text{ vs } H_1:
+\beta_\text{Age:Gendermale} \neq 0 \]</span></p></li>
+</ol>
+<ul>
+<li><p>We kunnen onderzoeksvraag 1 en 3 onmiddelijk toetsen o.b.v. de
+model output.</p></li>
+<li><p>Onderzoeksvraag 2 is echter een lineaire combinatie van twee
+parameters.</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{array}{lcl}
+L \boldsymbol{\beta} &amp;=&amp; 0\\\\
+\left[\begin{array}{cccc} 0 &amp;0&amp; 1&amp; 1\end{array}
+\right]\left[\begin{array}{c}\beta_0\\
+\beta_g\\
+\beta_a\\
+\beta_{a:g}\end{array}
+\right] &amp;=&amp;  0\\\\
+0\beta_0 + 0 \beta_g + 1 \beta_a + 1\beta_{a:g} &amp;=&amp; 0\\\\
+\beta_a + \beta_{a:g} &amp;=&amp;0
+\end{array}
+\]</span></p>
+<ul>
+<li>Bovendien is er ook het probleem dat we meerdere toetsen nodig
+hebben om de associaties te bestuderen.</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>We toetsen eerste de omnibus hypothese dat er geen associatie is
+tussen leeftijd en de bloeddruk.</li>
+</ol>
+<p><span class="math display">\[
+H_0: \beta_\text{Age} = \beta_\text{Age} + \beta_\text{Age:Gendermale} =
+\beta_\text{Age:Gendermale} = 0
+\]</span></p>
+<ul>
+<li><p>Dat vereenvoudigt zich tot het toetsen dat <span
+class="math display">\[
+H_0: \beta_\text{Age} = \beta_\text{Age:Gendermale} = 0
+\]</span></p></li>
+<li><p>Wat we kunnen evalueren door twee modellen te vergelijken. Een
+model met enkel het gender effect en volledige model met Gender, Age en
+Gender x Age interactie.</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Als we deze hypothese kunnen verwerpen voeren we posthoc analyses
+uit voor elk van de 3 contrasten.</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mBp0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(BPSysAve <span class="sc">~</span> Gender, bpData, <span class="at">w =</span> <span class="dv">1</span><span class="sc">/</span>mSd<span class="sc">$</span>fitted<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mBp0, mBp3)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"4830","2":"10164.867","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"4828","2":"8387.529","3":"2","4":"1777.339","5":"511.5327","6":"3.228369e-202","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>De posthoc testen kunnen we opnieuw uitvoeren a.d.h.v. het multcomp
+pakket.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>bpPosthoc <span class="ot">&lt;-</span> <span class="fu">glht</span>(mBp3, <span class="at">linfct=</span><span class="fu">c</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Age = 0&quot;</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Age + Age:Gendermale = 0&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Age:Gendermale = 0&quot;</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>bpPosthoc <span class="sc">%&gt;%</span> summary</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Fit: lm(formula = BPSysAve ~ Age * Gender, data = bpData, weights = 1/mSd$fitted^2)
+## 
+## Linear Hypotheses:
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## Age == 0                   0.43999    0.01511  29.127   &lt;1e-10 ***
+## Age + Age:Gendermale == 0  0.24840    0.01879  13.217   &lt;1e-10 ***
+## Age:Gendermale == 0       -0.19159    0.02411  -7.946   &lt;1e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>bpPosthocBI <span class="ot">&lt;-</span> bpPosthoc <span class="sc">%&gt;%</span> confint</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>bpPosthocBI</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Fit: lm(formula = BPSysAve ~ Age * Gender, data = bpData, weights = 1/mSd$fitted^2)
+## 
+## Quantile = 2.3163
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##                           Estimate lwr     upr    
+## Age == 0                   0.4400   0.4050  0.4750
+## Age + Age:Gendermale == 0  0.2484   0.2049  0.2919
+## Age:Gendermale == 0       -0.1916  -0.2474 -0.1357</code></pre>
+</div>
+<div id="conclusie" class="section level3" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Conclusie</h3>
+<p>We kunnen besluiten dat er een extreem significante associatie is
+tussen leeftijd en de bloeddruk (p &lt;&lt; 0.001). De bloeddruk bij
+twee vrouwen die in leeftijd verschillen is gemiddeld 0.44 mm Hg hoger
+per jaar leeftijdsverschil bij de oudste vrouw en dat verschil is
+extreem significant (p &lt;&lt; 0.001, 95% BI [0.4, 0.47]). De bloeddruk
+bij mannen die in leeftijd verschillen is gemiddeld 0.25 mm Hg hoger per
+jaar leeftijdsverschil bij de oudere man. (p &lt;&lt; 0.001, 95% BI
+[0.2, 0.29]). Het gemiddelde bloeddrukverschil tussen personen in
+leeftijd verschillen is gemiddeld 0.19 mm Hg/jaar lager bij mannen dan
+vrouwen (p &lt;&lt; 0.001, 95% BI [-0.25, -0.14]).</p>
+</div>
+</div>
+<div id="marginale-effecten" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Marginale
+effecten</h2>
+<p>Wat doen we als interacties niet significant zijn?</p>
+<ul>
+<li>Conventionele aanpak: interacties uit model halen</li>
+<li>Daarna schatten we de hoofdeffecten met vereenvoudigd model</li>
+</ul>
+<p>Merk op dat</p>
+<ol style="list-style-type: decimal">
+<li>We bij complexe modellen veel testen uitvoeren om tot het
+vereenvoudigt model te komen.</li>
+<li>Het aanvaarden van de nulhypotheses een zwakke conclusie is en dat
+er typisch weinig power is om een interactie op te pikken. Het is dus
+mogelijk dat het model zonder interacties toch het foutieve model
+is.</li>
+<li>Bij high troughput experimenten gaan we typisch inferentie doen voor
+alle genen/proteinen die we meten (vb. 40000 genen of 1000den
+proteïnen). Door grote correctie voor multiple testing kunnen we
+interactie termen niet weglaten want daar weten we zeker dat de power om
+interacties op te pikken zeer laag.</li>
+</ol>
+<p>Omwille van deze redenen kunnen we ook de interacties in het model
+laten en inferentie doen over de marginale effecten.</p>
+<ul>
+<li><p>De effecten waarbij we uitmiddelen over alle predictorwaarden van
+de andere predictoren.</p></li>
+<li><p>In een gerandomiseerde observationele studie zullen we zo dus de
+assocatie schatten voor de gemiddelde patiënt in de populatie.</p></li>
+<li><p>Zie oefeningen: vissen en kpna2</p></li>
+</ul>
+<div
+id="testosteron-concentratie-bij-volwassen-mannen-in-de-nhanes-studie"
+class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Testosteron
+concentratie bij volwassen mannen in de NHANES studie</h3>
+<p>Veronderstel dat we wensen te bestuderen of er een associatie is
+leeftijd en gewicht van volwassen mannen in de Amerikaanse populatie op
+de de testosteron concentratie.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modTes <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> Testosterone <span class="sc">~</span> Age <span class="sc">*</span> Weight, <span class="at">data =</span> NHANES <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span> <span class="st">&quot;male&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Testosterone) <span class="sc">&amp;!</span><span class="fu">is.na</span>(Weight) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Age)))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modTes)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-18-2.png" width="672" /><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-18-3.png" width="672" /><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-18-4.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modTes)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Testosterone ~ Age * Weight, data = NHANES %&gt;% filter(Age &gt; 
+##     18 &amp; Gender == &quot;male&quot; &amp; !is.na(Testosterone) &amp; !is.na(Weight) &amp; 
+##     !is.na(Age)))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -443.32 -117.40  -14.48   92.81 1454.01 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 733.876732  54.785206  13.396  &lt; 2e-16 ***
+## Age          -1.272290   1.160246  -1.097    0.273    
+## Weight       -3.143425   0.629743  -4.992  6.6e-07 ***
+## Age:Weight    0.003199   0.013342   0.240    0.811    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 167.4 on 1699 degrees of freedom
+## Multiple R-squared:  0.1158, Adjusted R-squared:  0.1143 
+## F-statistic: 74.19 on 3 and 1699 DF,  p-value: &lt; 2.2e-16</code></pre>
+<ul>
+<li><p>Er is geen significante interactie. Het aanvaarden van de
+nulhypothese is een zwakke conclusie. Daarom kunnen we opteren om de
+interactie in het model te laten.</p></li>
+<li><p>Merk op dat de hoofdeffecten geen zinvolle interpretatie
+hebben!</p></li>
+<li><p>Omdat er geen significante interactie is, is het zinvol om een
+uitspraak te doen over de associatie van gewicht en testosteron, en
+leeftijd en testosteron.</p></li>
+</ul>
+<p>We kunnen hierover een uitspraak doen door te marginaliseren over
+alle leeftijden (gewichten) van de mannen in het experiment.</p>
+<p><span class="math display">\[
+\frac{\sum\limits_{i=1}^n (\beta_a + \beta_{w:a} X_{w})}{n}= \beta_a
++\beta_{w:a} \bar{X}_w
+\]</span></p>
+<p><span class="math display">\[
+\frac{\sum\limits_{i=1}^n (\beta_w + \beta_{w:a} X_{a})}{n}= \beta_w
++\beta_{w:a} \bar{X}_a
+\]</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>NHANES <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span> <span class="st">&quot;male&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Testosterone) <span class="sc">&amp;!</span><span class="fu">is.na</span>(Weight) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Age))  <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Weight) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">%&gt;%</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(.,<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 88.9</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>NHANES <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span> <span class="st">&quot;male&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Testosterone) <span class="sc">&amp;!</span><span class="fu">is.na</span>(Weight) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Age))  <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Age) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">%&gt;%</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(.,<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 46.4</code></pre>
+<p>We evalueren nu het contrast voor de marginale effecten:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>marginalEffects <span class="ot">&lt;-</span> <span class="fu">glht</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  modTes, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">linfct =</span> <span class="fu">c</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Age +88.9*Age:Weight= 0&quot;</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Weight +46.4*Age:Weight= 0&quot;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(marginalEffects)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Fit: lm(formula = Testosterone ~ Age * Weight, data = NHANES %&gt;% filter(Age &gt; 
+##     18 &amp; Gender == &quot;male&quot; &amp; !is.na(Testosterone) &amp; !is.na(Weight) &amp; 
+##     !is.na(Age)))
+## 
+## Linear Hypotheses:
+##                                 Estimate Std. Error t value Pr(&gt;|t|)    
+## Age + 88.9 * Age:Weight == 0     -0.9879     0.2487  -3.973 0.000148 ***
+## Weight + 46.4 * Age:Weight == 0  -2.9950     0.2131 -14.055  &lt; 1e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(marginalEffects)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Fit: lm(formula = Testosterone ~ Age * Weight, data = NHANES %&gt;% filter(Age &gt; 
+##     18 &amp; Gender == &quot;male&quot; &amp; !is.na(Testosterone) &amp; !is.na(Weight) &amp; 
+##     !is.na(Age)))
+## 
+## Quantile = 2.2383
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##                                 Estimate lwr     upr    
+## Age + 88.9 * Age:Weight == 0    -0.9879  -1.5446 -0.4313
+## Weight + 46.4 * Age:Weight == 0 -2.9950  -3.4720 -2.5180</code></pre>
+<p>Dit heeft een interpretatie van het gemiddelde leeftijds- en de
+gemiddelde gewichtsassociatie in de populatie.</p>
+<p>Volgens de conventionele aanpak hadden we de interactie uit het model
+verwijderd.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>modAddTes <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> Testosterone <span class="sc">~</span> Age <span class="sc">+</span> Weight, <span class="at">data =</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    NHANES <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span> <span class="st">&quot;male&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Testosterone) <span class="sc">&amp;!</span><span class="fu">is.na</span>(Weight) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Age)))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modAddTes)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Testosterone ~ Age + Weight, data = NHANES %&gt;% filter(Age &gt; 
+##     18 &amp; Gender == &quot;male&quot; &amp; !is.na(Testosterone) &amp; !is.na(Weight) &amp; 
+##     !is.na(Age)))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -442.64 -118.06  -14.12   92.67 1455.21 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 721.8444    21.9582  32.874  &lt; 2e-16 ***
+## Age          -1.0003     0.2432  -4.113 4.08e-05 ***
+## Weight       -3.0012     0.2115 -14.193  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 167.3 on 1700 degrees of freedom
+## Multiple R-squared:  0.1158, Adjusted R-squared:  0.1148 
+## F-statistic: 111.3 on 2 and 1700 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Merk op dat de schattingen uit het additief model lichtjes
+verschillend zijn omdat de data niet gebalanceerd zijn, we hebben niet
+dezelfde gewichten voor alle leeftijden en niet dezelfde leeftijden voor
+alle gewichten.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>NHANES <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> Gender <span class="sc">==</span> <span class="st">&quot;male&quot;</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Testosterone) <span class="sc">&amp;!</span><span class="fu">is.na</span>(Weight) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Age)) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Age,Weight)) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="factoriële-proeven" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Factoriële proeven</h1>
+<div id="data" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Data</h2>
+<p>48 ratten werden at random toegewezen aan</p>
+<ul>
+<li>3 giffen (I,II,III) and</li>
+<li>4 behandelingen (A,B,C,D),</li>
+</ul>
+<p>en,</p>
+<ul>
+<li>de overlevingstijd werd opgemeten (eenheid: 10 h)</li>
+</ul>
+<p>We transformeren de data eerst naar uren</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rats,<span class="at">package =</span> <span class="st">&quot;faraway&quot;</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>rats <span class="ot">&lt;-</span> rats <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time=</span>time <span class="sc">*</span> <span class="dv">10</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span> </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span>time)) <span class="sc">+</span> </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;time (h)&quot;</span>)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span><span class="dv">1</span><span class="sc">/</span>time)) <span class="sc">+</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span> </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span> (<span class="st">&quot;rate of dying (1/h)&quot;</span>)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rats3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="dv">1</span><span class="sc">/</span>time<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span></code></pre></div>
+<p>We modelleren de “snelheid van sterven” met een hoofdeffect voor gif
+en behandeling en een gif <span class="math inline">\(\times\)</span>
+behandeling interactie.</p>
+<p><span class="math display">\[
+\begin{array}{lcl}
+y_i &amp;=&amp; \beta_0  + \\
+&amp;&amp;\beta_{II} x_{iII} + \beta_{III} x_{iIII} + \\
+&amp;&amp; \beta_{B} x_{iB}  + \beta_{C} x_{iC} + \beta_{D} x_{iD} + \\
+&amp;&amp;\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  +
+\beta_{II:D}x_{iII}x_{iD} + \\
+&amp;&amp;\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  +
+\beta_{III:D}x_{iIII}x_{iD} +
+\epsilon_i
+\end{array}
+\]</span></p>
+<p>met <span class="math inline">\(i = 1, \ldots, n\)</span>, <span
+class="math inline">\(n=48\)</span>, en, <span
+class="math inline">\(x_{iII}\)</span>, <span
+class="math inline">\(x_{iIII}\)</span>, <span
+class="math inline">\(x_{iB}\)</span>, <span
+class="math inline">\(x_{iC}\)</span> en <span
+class="math inline">\(x_{iD}\)</span> dummy variabelen voor
+respectievelijk gif II, III, behandeling B, C, en D.</p>
+</div>
+<div id="inferentie" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Inferentie</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(rats,<span class="sc">~</span>poison<span class="sc">*</span>treat)<span class="sc">$</span>plot</span></code></pre></div>
+<pre><code>## [[1]]</code></pre>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Een interactie tussen gif en behandeling impliceert dat we het effect
+van het type gif afzonderlijk moeten bestuderen voor elke
+behandeling:</p>
+<ol style="list-style-type: decimal">
+<li>Voor behandeling A moeten we dan volgende nulhypotheses
+toetsen:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0: \beta_{II}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0: \beta_{III}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}-\beta_{II}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Voor behandeling B:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:B}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Voor behandeling C:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:C}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Voor behandeling D:</li>
+</ol>
+<ul>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:D}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0\)</span></li>
+</ul>
+<p>Hetzelfde geldt wanneer we het effect van de behandeling
+bestuderen:</p>
+<ol style="list-style-type: decimal">
+<li>Voor gif I toetsen we dan nulhypothese</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0: \beta_{B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0: \beta_{C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0: \beta_{D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}-\beta_{B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{C}=0\)</span></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Gif II</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{II:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0\)</span></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Gif III</li>
+</ol>
+<ul>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{III:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0\)</span></li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(rats3, <span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.24738304","2":"1","3":"103.039498","4":"4.158034e-12","_rn_":"(Intercept)"},{"1":"0.11103531","2":"2","3":"23.124105","4":"3.476712e-07","_rn_":"poison"},{"1":"0.03572343","2":"3","3":"4.959818","4":"5.535116e-03","_rn_":"treat"},{"1":"0.01570772","2":"6","3":"1.090425","4":"3.867329e-01","_rn_":"poison:treat"},{"1":"0.08643083","2":"36","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>In onze studie was de interactie echter niet significant. Het effect
+van het gif (II-I, III-I en III- II) verandert dus niet significant
+volgens de behandeling (A, B, C, en D) en vice versa. Voor onze dataset
+lijkt het dus zinvol om</p>
+<ol style="list-style-type: decimal">
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te
+middelen over alle behandelingen (A, B, C, en D), en,</li>
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten
+door ze uit te middelen over alle giffen (I, II, III).</li>
+</ol>
+<p>Dat zou ons gelijkaardige schattingen van de effectgroottes moeten
+geven als deze voor het additieve model waarbij we de interactie term
+uit het model hadden geweerd.</p>
+<p>B.v. voor gif III vs gif II zou dat in volgende contrast
+resulteren:</p>
+<ul>
+<li>III-II: <span class="math display">\[H_0:
+\begin{array}{l}
+\frac{\beta_{III}-\beta_{II}}{4} + \\
+\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} +
+\\
+\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} -
+\beta_{II:C}}{4} + \\
+\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} -
+\beta_{II:D}}{4}=0
+\end{array}
+\]</span> <span class="math display">\[
+H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4}
+\times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
+-\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4}
+\times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
+\]</span></li>
+</ul>
+<p>We schatten met onderstaande code alle gemiddelde contrasten a.d.h.v.
+het model met interactie.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + 1/4*poisonII:treatB + 1/4*poisonII:treatC + 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD= 0&quot;</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD - poisonII - 1/4*poisonII:treatB - 1/4*poisonII:treatC - 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + 1/3*poisonII:treatB + 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatC - 1/3*poisonII:treatC - 1/3*poisonIII:treatC = 0&quot;</span>) </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>comparisonsInt2 <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats3, <span class="at">linfct =</span> contrasts</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisonsInt2,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="10-Recap-AlgemeenLineairModel-OverigeConcepten_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="conclusie-1" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Conclusie</h2>
+<p>Er is een extreem significant effect van het type gif en de
+behandeling op de snelheid van sterven bij ratten (p &lt;&lt;
+0.001).</p>
+<p>De interactie tussen gif en behandeling is niet significant (p =
+0.387).</p>
+<p>De snelheid van sterven is gemiddeld 0.2h<span
+class="math inline">\(^{-1}\)</span> en 0.15h<span
+class="math inline">\(^{-1}\)</span> hoger voor ratten die blootgesteld
+worden aan gif III dan aan respectievelijk gif I en II (beide p &lt;&lt;
+0.001, 95% BI III-I: [0.15, 0.25]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI III-II: [0.1, 0.2]h<span
+class="math inline">\(^{-1}\)</span>) De gemiddelde snelheid van sterven
+was niet significant verschillend tussen ratten die werden blootgesteld
+aan gif I en gif II (p=0.074).</p>
+<p>De snelheid van sterven is gemiddeld 0.17h<span
+class="math inline">\(^{-1}\)</span> en 0.14h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling A dan na
+behandeling B en D (p &lt;&lt; 0.001, 95% BI B-A: [-0.22, -0.11]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI D-A: [-0.19, -0.08]h<span
+class="math inline">\(^{-1}\)</span>). De snelheid van sterven is
+gemiddeld 0.11h<span class="math inline">\(^{-1}\)</span> en 0.08h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling C dan
+respectievelijk na behandeling B en D (C-B: p &lt;&lt; 0.001, 95% CI
+[0.05, 0.17]h<span class="math inline">\(^{-1}\)</span> , D-C: p =
+0.003, 95% CI [-0.14, -0.02]h<span
+class="math inline">\(^{-1}\)</span>). De gemiddelde snelheid van
+sterven is niet significant verschillend tussen ratten behandeld met
+behandeling C vs A, en D vs B (p- waarden respectievelijk p = 0.051 en p
+= 0.61).</p>
+<p>Alle p-waarden werden gecorrigeerd voor meervoudig testen.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMTAuIFJlY2FwOiBBbGdlbWVlbiBMaW5lYWlyIE1vZGVsIC0gSW50ZXJhY3RpZXMgLSBEaWFnbm9zdGllayAtIENvbnRyYXN0ZW4gLSBEYWN0b3Jpw6tsZSBwcm9ldmVuIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogICAgaHRtbF9kb2N1bWVudDoKICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQogICAgICB0aGVtZTogY29zbW8KICAgICAgdG9jOiB0cnVlCiAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgcGRmX2RvY3VtZW50OgogICAgICB0b2M6IHRydWUKICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAotLS0KCmBgYHtyIGVjaG89RkFMU0UsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KG11bHRjb21wKQpsaWJyYXJ5KEdHYWxseSkKbGlicmFyeShjYXIpCnByb3N0YXRlIDwtIHJlYWRfY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdG9taWNzL3NiYzIwL21hc3Rlci9kYXRhL3Byb3N0YXRlLmNzdiIpCnByb3N0YXRlJHN2aSA8LSBhcy5mYWN0b3IocHJvc3RhdGUkc3ZpKQpsbVZXUyA8LSBsbShscHNhfmxjYXZvbCArIGx3ZWlnaHQgKyBzdmksIHByb3N0YXRlKQpgYGAKCiMgTW9kZWwgbWV0IGludGVyYWN0aWVzCgotIEVmZmVjdCBtb2RpZmljYXRpZSEKCi0gKipBc3NvY2lhdGllIHZhbiBlZW4gcHJlZGljdG9yIGVuIGRlIHJlc3BvbnMgdmFyaWFiZWxlKiogaGFuZ3QgdmFuIGRlIHdhYXJkZSB2YW4gZWVuICoqYW5kZXJlIHByZWRpY3RvcioqLgoKIyMgSW50ZXJhY3RpZSB0dXNzZW4gY29udGludWUgcHJlZGljdG9yIHZhcmlhYmVsZSBlbiBlZW4gY2F0ZWdvcmlzY2hlIHByZWRpY3Rvcj8KCk9tIGRlemUgKippbnRlcmFjdGllKiogb2YgKiplZmZlY3Rtb2RpZmljYXRpZSoqIHR1c3NlbiB2YXJpYWJlbGVuICRYX3YkIGVuICRYX3MkLCBlbiAkWF93JCBlbiAkWF9zJCBzdGF0aXN0aXNjaCB0ZSBtb2RlbGxlcmVuLCBrYW4gbWVuIGRlIHByb2R1Y3RlbiB2YW4gYmVpZGUgdmFyaWFiZWxlbiBpbiBrd2VzdGllIGFhbiBoZXQgbW9kZWwgdG9ldm9lZ2VuCgokJApZX2kgPSBcYmV0YV8wICsgXGJldGFfdiB4X3tpdn0gKyBcYmV0YV93IHhfe2l3fSArXGJldGFfcyB4X3tpc30gKyBcYmV0YV97dnN9IHhfe2l2fXhfe2lzfSArIFxiZXRhX3t3c30geF97aXd9eF97aXN9ICArXGVwc2lsb25faQokJAoKRGV6ZSB0ZXJtZW4ga3dhbnRpZmljZXJlbiBkZSAqaW50ZXJhY3RpZS1lZmZlY3RlbiogdmFuIHJlc3BlY3RpZXZlbGlqayBkZSBwcmVkaWN0b3JlbiAkeF92JCBlbiAkeF9zJCwgZW4sICR4X3YkIGVuICR4X3MkIG9wIGRlIGdlbWlkZGVsZGUgdWl0a29tc3QuCgpJbiBkaXQgbW9kZWwgd29yZGVuIGRlIHRlcm1lbiAkXGJldGFfdnhfe2l2fSQsICRcYmV0YV93eF97aXd9JCBlbiAkXGJldGFfcyB4X3tpc30kIGRlICpob29mZGVmZmVjdGVuKiB2YW4gZGUgcHJlZGljdG9yZW4gJHhfdiQsICR4X3ckIGVuICR4X3MkIGdlbm9lbWQuCgpgYGB7cn0KbG1WV1NfSW50VlNfV1MgPC0gbG0oCiAgbHBzYSB+CiAgICBsY2F2b2wgKwogICAgbHdlaWdodCArCiAgICBzdmkgKwogICAgc3ZpOmxjYXZvbCArCiAgICBzdmk6bHdlaWdodCwKICBkYXRhID0gcHJvc3RhdGUpCgpzdW1tYXJ5KGxtVldTX0ludFZTX1dTKQpgYGAKCgpPbWRhdCAkWF9TJCBlZW4gZHVtbXkgdmFyaWFiZWxlIGlzLCB2ZXJrcmlqZ2VuIHdlIHZlcnNjaGlsbGVuZGUgcmVncmVzc2lldmxha2tlbjoKCjEuIE1vZGVsIHZvb3IgJFhfcz0wJDogJCRZPVxiZXRhXzArXGJldGFfdlhfditcYmV0YV93WF93ICsgXGVwc2lsb24kJCB3YWFyIGRlIGhvb2ZkZWZmZWN0ZW4gZGUgaGVsbGluZ2VuIHZvb3IgbGNhdm9sIGVuIGx3ZWlnaHQgemlqbgoKMi4gZW4gaGV0IG1vZGVsIHZvb3IgJFhfcz0xJDoKICAgJCRcYmVnaW57YXJyYXl9e2xjbH0KICAgWSY9JlxiZXRhXzArXGJldGFfdlhfditcYmV0YV9zK1xiZXRhX3dYX3crXGJldGFfe3ZzfVhfdiArIFxiZXRhX3t3c31YX3cgK1xlcHNpbG9uXFwKICAmPSYgKFxiZXRhXzArXGJldGFfcykrKFxiZXRhX3YrXGJldGFfe3ZzfSlYX3YrKFxiZXRhX3crXGJldGFfe3dzfSlYX3crXGVwc2lsb24KICBcZW5ke2FycmF5fSQkCm1ldCBpbnRlcmNlcHQgJFxiZXRhXzArXGJldGFfcyQgZW4gaGVsbGluZ2VuICRcYmV0YV92K1xiZXRhX3t2c30kIGVuICRcYmV0YV93K1xiZXRhX3t3c30kCgotIERlIGhlbGxpbmcgdm9vciBsY2F2b2wgZW4gbHdlaWdodCBoYW5ndCBhZiB2YW4gZGUgc3RhdHVzIHZhbiBkZSB6YWFkYmxhYXNqZXMhCgpgYGB7ciBvdXQud2lkdGg9JzEwMCUnLCBmaWcuYXNwPS44LCBmaWcuYWxpZ249J2NlbnRlcicsIG1lc3NhZ2U9RkFMU0UsZWNobz1GQUxTRX0KcGFyKG1mcm93PWMoMSwyKSkKbGlicmFyeShwbG90M0QpCmdyaWQubGluZXMgPSAxMAp4PC1wcm9zdGF0ZSRsY2F2b2wKeTwtcHJvc3RhdGUkbHdlaWdodAp6PC1wcm9zdGF0ZSRscHNhCmZpdDwtbG0oen54K3krc3ZpLGRhdGE9cHJvc3RhdGUpCngucHJlZCA8LSBzZXEobWluKHgpLCBtYXgoeCksIGxlbmd0aC5vdXQgPSBncmlkLmxpbmVzKQp5LnByZWQgPC0gc2VxKG1pbih5KSwgbWF4KHkpLCBsZW5ndGgub3V0ID0gZ3JpZC5saW5lcykKCiMgZml0dGVkIHBvaW50cyBmb3IgZHJvcGxpbmVzIHRvIHN1cmZhY2UKdGg9LTI1CnBoPTUKc2NhdHRlcjNEKHgsIHksIHosIHBjaCA9IDE2LGNvbD1jKCJkYXJrYmx1ZSIsInJlZCIpW2FzLmRvdWJsZShwcm9zdGF0ZSRzdmkpXSwgY2V4ID0gLjc1LAogICAgdGhldGEgPSB0aCwgcGhpID0gcGgsIHRpY2t0eXBlID0gImRldGFpbGVkIiwKICAgIHhsYWIgPSAibGNhdm9sIiwgeWxhYiA9ICJsd2VpZ2h0IiwgemxhYiA9ICJscHNhIiwgIAogICBjb2x2YXI9RkFMU0UsYnR5ID0gImciLG1haW49IkFkZGl0aXZlIG1vZGVsIikKCmZvciAoaSBpbiB3aGljaChwcm9zdGF0ZSRzdmk9PSJoZWFsdGh5IikpCmxpbmVzM0QoeD1yZXAocHJvc3RhdGUkbGNhdm9sW2ldLDIpLHk9cmVwKHByb3N0YXRlJGx3ZWlnaHRbaV0sMiksej1jKHByb3N0YXRlJGxwc2FbaV0sbG1WV1MkZml0W2ldKSxjb2w9YygiZGFya2JsdWUiLCJyZWQiKVthcy5kb3VibGUocHJvc3RhdGUkc3ZpKVtpXV0sYWRkPVRSVUUsbHR5PTIpCgp6LnByZWQzRCA8LSBvdXRlcih4LnByZWQsIHkucHJlZCwgZnVuY3Rpb24oeCx5KSB7bG1WV1MkY29lZlsxXStsbVZXUyRjb2VmWzJdKngrbG1WV1MkY29lZlszXSp5fSkKeC5wcmVkM0QgPC0gb3V0ZXIoeC5wcmVkLHkucHJlZCxmdW5jdGlvbih4LHkpIHgpCnkucHJlZDNEIDwtIG91dGVyKHgucHJlZCx5LnByZWQsZnVuY3Rpb24oeCx5KSB5KQpzdXJmM0QoeC5wcmVkM0QseS5wcmVkM0Qsei5wcmVkM0QsY29sPSJibHVlIixmYWNldHM9TkEsYWRkPVRSVUUpCnoyLnByZWQzRCA8LSBvdXRlcih4LnByZWQsIHkucHJlZCwgZnVuY3Rpb24oeCx5KSB7bG1WV1MkY29lZlsxXStsbVZXUyRjb2VmWzRdK2xtVldTJGNvZWZbMl0qeCtsbVZXUyRjb2VmWzNdKnl9KQpzdXJmM0QoeC5wcmVkM0QseS5wcmVkM0QsejIucHJlZDNELGNvbD0ib3JhbmdlIixmYWNldHM9TkEsYWRkPVRSVUUpCgoKc2NhdHRlcjNEKHgsIHksIHosIHBjaCA9IDE2LGNvbD1jKCJkYXJrYmx1ZSIsInJlZCIpW2FzLmRvdWJsZShwcm9zdGF0ZSRzdmkpXSwgY2V4ID0gLjc1LAogICAgdGhldGEgPSB0aCwgcGhpID0gcGgsIHRpY2t0eXBlID0gImRldGFpbGVkIiwKICAgIHhsYWIgPSAibGNhdm9sIiwgeWxhYiA9ICJsd2VpZ2h0IiwgemxhYiA9ICJscHNhIiwgIAogICBjb2x2YXI9RkFMU0UsYnR5ID0gImciLG1haW49Ik1vZGVsIG1ldCBsY2F2b2w6bHdlaWdodCBpbnRlcmFjdGllIikKCmZvciAoaSBpbiB3aGljaChwcm9zdGF0ZSRzdmk9PSJoZWFsdGh5IikpCmxpbmVzM0QoeD1yZXAocHJvc3RhdGUkbGNhdm9sW2ldLDIpLHk9cmVwKHByb3N0YXRlJGx3ZWlnaHRbaV0sMiksej1jKHByb3N0YXRlJGxwc2FbaV0sbG1WV1NfSW50VlNfV1MkZml0W2ldKSxjb2w9YygiZGFya2JsdWUiLCJyZWQiKVthcy5kb3VibGUocHJvc3RhdGUkc3ZpKVtpXV0sYWRkPVRSVUUsbHR5PTIpCgp6LnByZWQzRCA8LSBvdXRlcih4LnByZWQsIHkucHJlZCwgZnVuY3Rpb24oeCx5KSB7bG1WV1NfSW50VlNfV1MkY29lZlsxXStsbVZXU19JbnRWU19XUyRjb2VmWzJdKngrbG1WV1NfSW50VlNfV1MkY29lZlszXSp5fSkKeC5wcmVkM0QgPC0gb3V0ZXIoeC5wcmVkLHkucHJlZCxmdW5jdGlvbih4LHkpIHgpCnkucHJlZDNEIDwtIG91dGVyKHgucHJlZCx5LnByZWQsZnVuY3Rpb24oeCx5KSB5KQpzdXJmM0QoeC5wcmVkM0QseS5wcmVkM0Qsei5wcmVkM0QsY29sPSJibHVlIixmYWNldHM9TkEsYWRkPVRSVUUpCnoyLnByZWQzRCA8LSBvdXRlcih4LnByZWQsIHkucHJlZCwgZnVuY3Rpb24oeCx5KSB7bG1WV1NfSW50VlNfV1MkY29lZlsxXStsbVZXU19JbnRWU19XUyRjb2VmWzRdK2xtVldTX0ludFZTX1dTJGNvZWZbMl0qeCtsbVZXU19JbnRWU19XUyRjb2VmWzNdKnkrbG1WV1NfSW50VlNfV1MkY29lZls1XSp4K2xtVldTX0ludFZTX1dTJGNvZWZbNl0qeX0pCnN1cmYzRCh4LnByZWQzRCx5LnByZWQzRCx6Mi5wcmVkM0QsY29sPSJvcmFuZ2UiLGZhY2V0cz1OQSxhZGQ9VFJVRSkKYGBgCgoKIyMgSW50ZXJhY3RpZSB0dXNzZW4gY29udGludWUgcHJlZGljdG9yZW4/CgoKJCQKWV9pID0gXGJldGFfMCArIFxiZXRhX3YgeF97aXZ9ICsgXGJldGFfdyB4X3tpd30gK1xiZXRhX3MgeF97aXN9ICsgXGJldGFfe3Z3fSB4X3tpdn14X3tpd30gK1xlcHNpbG9uX2kKJCQKCkRlemUgdGVybSBrd2FudGlmaWNlZXJ0IGhldCAqaW50ZXJhY3RpZS1lZmZlY3QqIHZhbiBkZSBwcmVkaWN0b3JlbiAkeF92JCBlbiAkeF93JCBvcCBkZSBnZW1pZGRlbGRlIHVpdGtvbXN0LgoKLS0tCgpIZXQgZWZmZWN0IHZhbiBlZW4gdmVyc2NoaWwgaW4gMSBlZW5oZWlkIGluICRYX3YkIG9wIGRlIGdlbWlkZGVsZGUgdWl0a29tc3QgYmVkcmFhZ3QgbnU6CgokJApcYmVnaW57YXJyYXl9e2x9CkUoWSB8IFhfdj14X3YgKzEsIFhfdz14X3csIFhfcz14X3MpIC0gRShZIHwgWF92PXhfdiwgWF93PXhfdywgWF9zPXhfcykgXFwKXHF1YWQgPSBcbGVmdFtcYmV0YV8wICsgXGJldGFfdiAoeF97dn0rMSkgKyBcYmV0YV93IHhfdyArXGJldGFfcyB4X3tzfSArIFxiZXRhX3t2d30gKHhfe3Z9KzEpIHhfdyBccmlnaHRdIC0gXGxlZnRbXGJldGFfMCArIFxiZXRhX3YgeF97dn0gKyBcYmV0YV93IHhfdyAgKyBcYmV0YV9zIHhfe3N9ICsgXGJldGFfe3Z3fSAoeF97dn0pIHhfdyBccmlnaHRdXFwKXHF1YWQgPSBcYmV0YV92ICsgIFxiZXRhX3t2d30geF93CiBcZW5ke2FycmF5fQogJCQKCi0gRGUgaGVsbGluZyB2b29yIGxjYXZvbCBoYW5ndCBtLmEudy4gYWYgdmFuIGhldCBsb2cgZ2V3aWNodCB2YW4gZGUgcHJvc3RhYXQhCgotIFdlIGt1bm5lbiBoZXR6ZWxmZGUgZG9lbiB2b29yIGx3ZWlnaHQuIEhlbGxpbmcgdm9vciBsd2VpZ2h0IGhhbmd0IGFmIHZhbiBoZXQgbG9nIHZvbHVtZSB2YW4gZGUgdHVtb3IhICAKCi0tLQoKYGBge3J9CmxtVldTX0ludFZXIDwtIGxtKAogIGxwc2EgfiBsY2F2b2wgKwogICAgbHdlaWdodCArCiAgICBzdmkgKwogICAgbGNhdm9sOmx3ZWlnaHQsCiAgcHJvc3RhdGUpCgpzdW1tYXJ5KGxtVldTX0ludFZXKQpgYGAKCmBgYHtyIG91dC53aWR0aD0nMTAwJScsIGZpZy5hc3A9LjgsIGZpZy5hbGlnbj0nY2VudGVyJywgbWVzc2FnZT1GQUxTRSxlY2hvPUZBTFNFfQpwYXIobWZyb3c9YygxLDIpKQpsaWJyYXJ5KHBsb3QzRCkKZ3JpZC5saW5lcyA9IDEwCng8LXByb3N0YXRlJGxjYXZvbAp5PC1wcm9zdGF0ZSRsd2VpZ2h0Cno8LXByb3N0YXRlJGxwc2EKZml0PC1sbSh6fngreStzdmksZGF0YT1wcm9zdGF0ZSkKeC5wcmVkIDwtIHNlcShtaW4oeCksIG1heCh4KSwgbGVuZ3RoLm91dCA9IGdyaWQubGluZXMpCnkucHJlZCA8LSBzZXEobWluKHkpLCBtYXgoeSksIGxlbmd0aC5vdXQgPSBncmlkLmxpbmVzKQoKIyBmaXR0ZWQgcG9pbnRzIGZvciBkcm9wbGluZXMgdG8gc3VyZmFjZQp0aD0tMjUKcGg9NQpzY2F0dGVyM0QoeCwgeSwgeiwgcGNoID0gMTYsY29sPWMoImRhcmtibHVlIiwicmVkIilbYXMuZG91YmxlKHByb3N0YXRlJHN2aSldLCBjZXggPSAuNzUsCiAgICB0aGV0YSA9IHRoLCBwaGkgPSBwaCwgdGlja3R5cGUgPSAiZGV0YWlsZWQiLAogICAgeGxhYiA9ICJsY2F2b2wiLCB5bGFiID0gImx3ZWlnaHQiLCB6bGFiID0gImxwc2EiLCAgCiAgIGNvbHZhcj1GQUxTRSxidHkgPSAiZyIsbWFpbj0iQWRkaXRpdmUgbW9kZWwiKQoKZm9yIChpIGluIHdoaWNoKHByb3N0YXRlJHN2aT09ImhlYWx0aHkiKSkKbGluZXMzRCh4PXJlcChwcm9zdGF0ZSRsY2F2b2xbaV0sMikseT1yZXAocHJvc3RhdGUkbHdlaWdodFtpXSwyKSx6PWMocHJvc3RhdGUkbHBzYVtpXSxsbVZXUyRmaXRbaV0pLGNvbD1jKCJkYXJrYmx1ZSIsInJlZCIpW2FzLmRvdWJsZShwcm9zdGF0ZSRzdmkpW2ldXSxhZGQ9VFJVRSxsdHk9MikKCnoucHJlZDNEIDwtIG91dGVyKHgucHJlZCwgeS5wcmVkLCBmdW5jdGlvbih4LHkpIHtsbVZXUyRjb2VmWzFdK2xtVldTJGNvZWZbMl0qeCtsbVZXUyRjb2VmWzNdKnl9KQp4LnByZWQzRCA8LSBvdXRlcih4LnByZWQseS5wcmVkLGZ1bmN0aW9uKHgseSkgeCkKeS5wcmVkM0QgPC0gb3V0ZXIoeC5wcmVkLHkucHJlZCxmdW5jdGlvbih4LHkpIHkpCnN1cmYzRCh4LnByZWQzRCx5LnByZWQzRCx6LnByZWQzRCxjb2w9ImJsdWUiLGZhY2V0cz1OQSxhZGQ9VFJVRSkKCgpzY2F0dGVyM0QoeCwgeSwgeiwgcGNoID0gMTYsY29sPWMoImRhcmtibHVlIiwicmVkIilbYXMuZG91YmxlKHByb3N0YXRlJHN2aSldLCBjZXggPSAuNzUsCiAgICB0aGV0YSA9IHRoLCBwaGkgPSBwaCwgdGlja3R5cGUgPSAiZGV0YWlsZWQiLAogICAgeGxhYiA9ICJsY2F2b2wiLCB5bGFiID0gImx3ZWlnaHQiLCB6bGFiID0gImxwc2EiLCAgCiAgIGNvbHZhcj1GQUxTRSxidHkgPSAiZyIsbWFpbj0iTW9kZWwgbWV0IGxjYXZvbDpsd2VpZ2h0IGludGVyYWN0aWUiKQoKZm9yIChpIGluIHdoaWNoKHByb3N0YXRlJHN2aT09ImhlYWx0aHkiKSkKbGluZXMzRCh4PXJlcChwcm9zdGF0ZSRsY2F2b2xbaV0sMikseT1yZXAocHJvc3RhdGUkbHdlaWdodFtpXSwyKSx6PWMocHJvc3RhdGUkbHBzYVtpXSxsbVZXU19JbnRWVyRmaXRbaV0pLGNvbD1jKCJkYXJrYmx1ZSIsInJlZCIpW2FzLmRvdWJsZShwcm9zdGF0ZSRzdmkpW2ldXSxhZGQ9VFJVRSxsdHk9MikKCnoucHJlZDNEIDwtIG91dGVyKHgucHJlZCwgeS5wcmVkLCBmdW5jdGlvbih4LHkpIHtsbVZXU19JbnRWVyRjb2VmWzFdK2xtVldTX0ludFZXJGNvZWZbMl0qeCtsbVZXU19JbnRWVyRjb2VmWzNdKnkrbG1WV1NfSW50VlckY29lZls1XSp4Knl9KQp4LnByZWQzRCA8LSBvdXRlcih4LnByZWQseS5wcmVkLGZ1bmN0aW9uKHgseSkgeCkKeS5wcmVkM0QgPC0gb3V0ZXIoeC5wcmVkLHkucHJlZCxmdW5jdGlvbih4LHkpIHkpCnN1cmYzRCh4LnByZWQzRCx5LnByZWQzRCx6LnByZWQzRCxjb2w9ImJsdWUiLGZhY2V0cz1OQSxhZGQ9VFJVRSkKYGBgCgojIEFub3ZhIHRhYmVsIGVuIGFhbnZ1bGxlbmRlIGt3YWRyYXRlbnNvbW1lbj8KCkJlc2Nob3V3IGRlIHZvbGdlbmRlIHR3ZWUgKipnZW5lc3RlKiogcmVncmVzc2llbW9kZWxsZW4gdm9vciBwcmVkaWN0b3JlbiAkeF8xLCBcbGRvdHMsIHhfe3Ata30kIGVuICR4XzEsIFxsZG90cywgeF97cC0xfSQ6CiQkCiAgWV9pID0gXGJldGFfMCtcYmV0YV8xIHhfe2kxfSArIC4uLiArIFxiZXRhX3twLWt9IHhfe2lwLWt9ICArIFxlcHNpbG9uX2ksCiQkCm1ldCAkXGVwc2lsb25faVx0ZXh0eyBpaWQgfSBOKDAsXHNpZ21hXzFeezJ9KSQsIGVuCiQkCllfaSA9IFxiZXRhXzArXGJldGFfMSB4X3tpMX0gKyAuLi4gKyBcYmV0YV97cC0xfSB4X3tpcC0xfSAgKyBcZXBzaWxvbl9pLAokJAptZXQgJFxlcHNpbG9uX2lcdGV4dHsgaWlkIH0gTigwLFxzaWdtYV8yXnsyfSkkLgoKVm9vciBoZXQgZWVyc3RlIChnZXJlZHVjZWVyZGUpIG1vZGVsIGdlbGR0IGRlIGRlY29tcG9zaXRpZQpcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fMSArIFx0ZXh0e1NTRX1fMQpcXQplbiB2b29yIGhldCB0d2VlZGUgKG5pZXQtZ2VyZWR1Y2VlcmRlKSBtb2RlbApcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fMiArIFx0ZXh0e1NTRX1fMgpcXQooU1NUb3QgaXMgdWl0ZXJhYXJkIGRlemVsZmRlIGluIGJlaWRlIG1vZGVsbGVuIG9tZGF0IGRpdCBuaWV0IGFmaGFuZ3QgdmFuIGhldCByZWdyZXNzaWVtb2RlbCkuCgpcWwogIFx0ZXh0e1NTVG90fSA9IFx0ZXh0e1NTUn1fezIgXG1pZCAxfSArIFx0ZXh0e1NTUn1fMSArIFx0ZXh0e1NTRX1fMgpcXQoKXFsKRiA9IFxmcmFje1x0ZXh0e1NTUn1fezIgXG1pZCAxfX17XHRleHR7U1NFfV8yfQpcXQoKLSBUZXN0ZW4gdm9vciBhbGxlIG5pdmVhdXMgdmFuIGVlbiBmYWN0b3Igc2ltdWx0YWFuOiBvbW5pYnVzIHRlc3QuCi0gVGVzdGVuIHZvb3IgdG90YWxlIGVmZmVjdCB2YW4gZWVuIHByZWRpY3RvcjogaG9vZmRlZmZlY3RlbiArIGludGVyYWN0aWVzCi0gLi4uCgojIERpYWdub3N0aWVrCgojIyBNdWx0aWNvbGxpbmVhcml0ZWl0CgpcW1x0ZXh0cm17VklGfV9qPVxsZWZ0KDEtUl9qXjJccmlnaHQpXnstMX1cXQoKIyMjIEJvZHkgZmF0IHZvb3JiZWVsZAoKYGBge3Igb3V0LndpZHRoPSc5MCUnLCBmaWcuYXNwPS44LCBmaWcuYWxpZ249J2NlbnRlcicsIG1lc3NhZ2U9RkFMU0UsZWNobz1GQUxTRX0KYm9keWZhdCA8LSByZWFkX2RlbGltKCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdG9taWNzL3NiYzIwL21hc3Rlci9kYXRhL2JvZHlmYXQudHh0IixkZWxpbT0iICIpCmJvZHlmYXQgJT4lIGdncGFpcnMoKQpgYGAKCmBgYHtyIGVjaG89RkFMU0V9CmxtRmF0IDwtIGxtKAogIEJvZHlfZmF0IH4KICAgIFRyaWNlcHMgKwogICAgVGhpZ2ggKwogICAgTWlkYXJtLAogIGRhdGEgPSBib2R5ZmF0KQoKc3VtbWFyeShsbUZhdCkKYGBgCgpgYGB7cn0KdmlmKGxtRmF0KQpgYGAKCgpgYGB7ciBlY2hvPUZBTFNFfQpsbU1pZGFybSA8LSBsbSgKICBNaWRhcm0gfgogICAgVHJpY2VwcyArCiAgICBUaGlnaCwKICAgIGRhdGEgPSBib2R5ZmF0KQoKc3VtbWFyeShsbU1pZGFybSkKYGBgCgojIyBJbnZsb2Vkcmlqa2UgT2JzZXJ2YXRpZXMKCiMjIyBFeHBsb3JhdGllZgoKLSAqU3R1ZGVudGl6ZWQgcmVzaWR1J3MqIG9tIG91dGxpZXJzIG9wIHRlIHNwb3JlbgotICpsZXZlcmFnZSAoaW52bG9lZCwgaGVmYm9vbSkqIG9tIG9ic2VydmF0aWVzIG1ldCBleHRyZWVtIGNvdmFyaWFhdHBhdHJvb24gb3AgdGUgc3BvcmVuCgpgYGB7cn0KcGxvdChsbVZXUyw1KQpgYGAKCiMjIyBDb29rcyBkaXN0YW5jZQoKXFtEX2k9XGZyYWN7XHN1bV97aj0xfV5uKFxoYXR7WX1fai1caGF0e1l9X3tqKGkpfSleMn17cFx0ZXh0cm17TVNFfX1cXQoKLSBFeHRyZW1lIENvb2sncyBkaXN0YW5jZSBhbHMgaGV0IGhldCA1MFwlIHBlcmNlbnRpZWwgdmFuIGRlICRGX3twLG4tcH0kLXZlcmRlbGluZyBvdmVyc2NocmlqZHQuCgpgYGB7cn0KcGxvdChsbVZXUyw0KQpgYGAKCiMjIyBERkJFVEFTCgokJFx0ZXh0cm17REZCRVRBU31fe2ooaSl9PVxmcmFje1xoYXR7XGJldGF9X3tqfS1caGF0e1xiZXRhfV97aihpKX19e1x0ZXh0cm17U0R9KFxoYXR7XGJldGF9X3tqfSl9JCQKLSAgREZCRVRBUyBleHRyZWVtIGlzIHdhbm5lZXIgemUgMSBvdmVyc2NocmlqZHQgaW4ga2xlaW5lIHRvdCBtaWRkZWxncm90ZSBkYXRhc2V0cyBlbiAkMi9cc3FydHtufSQgaW4gZ3JvdGUgZGF0YXNldHMKCmBgYHtyIG91dC53aWR0aD0nOTAlJywgZmlnLmFzcD0uOCwgZmlnLmFsaWduPSdjZW50ZXInLCBtZXNzYWdlPUZBTFNFLCBlY2hvPUZBTFNFfQpwYXIobWZyb3c9YygyLDIpKQpkZmJldGFzUGxvdHMobG1WV1MpCmBgYAoKCiMgQ29udHJhc3RlbgoKIyMgQmxvZWRkcnVrIHZvb3JiZWVsZAoKYGBge3J9CmxpYnJhcnkoTkhBTkVTKQpicERhdGEgPC0gTkhBTkVTICU+JQpmaWx0ZXIoCiAgUmFjZTEgPT0iV2hpdGUiICYKICAgIEFnZSA+PSAxOCAmCiAgICAhaXMubmEoQlBTeXNBdmUpCiAgICApCgptQnAxIDwtIGxtKEJQU3lzQXZlIH4gQWdlKkdlbmRlciwgYnBEYXRhKQpwYXIobWZyb3cgPSBjKDIsMikpCnBsb3QobUJwMSkKYGBgCgojIyMgUmVtZWRpZXJpbmcgaGV0ZXJvc2NlZGFzdGljaXRlaXQKCklsbHVzdHJhdGllOiBCaWogZ3JvdGUgc3RlZWtwcm9ldmVuIGt1bm5lbiB3ZSBjb3JyaWdlcmVuIHZvb3IgaGV0ZXJvc2NlZGFzdGljaXRlaXQuCgpgYGB7cn0KbVNkIDwtIGxtKG1CcDEkcmVzICU+JSBhYnMgfiBtQnAxJGZpdHRlZCkKYGBgCgpXZSBzY2hhdHRlbiBoZXQgbW9kZWwgbnUgb3BuaWV1dzoKCmBgYHtyfQptQnAzIDwtIGxtKEJQU3lzQXZlIH4gQWdlKkdlbmRlciwgYnBEYXRhLCB3ID0gMS9tU2QkZml0dGVkXjIpCmBgYAoKIyMjIEJlc2x1aXR2b3JtaW5nCgoKRGUgb25kZXJ6b2Vrc3ZyYWdlbiB2ZXJ0YWxlbiB6aWNoIGluIGRlIHZvbGdlbmRlIG51bGxoeXBvdGhlc2VzOgoKMS4gQXNzb2NpYXRpZSB0dXNzZW4gYmxvZWRkcnVrIGVuIGxlZWZ0aWpkIGJpaiBkZSB2cm91d2VuPyBcW0hfMDogXGJldGFfXHRleHR7QWdlfSA9IDAgXHRleHR7IHZzIH0gSF8xOiBcYmV0YV9cdGV4dHtBZ2V9IFxuZXEgMCBcXQoKMi4gQXNzb2NpYXRpZSB0dXNzZW4gYmxvZWRkcnVrIGVuIGxlZWZ0aWpkIGJpaiBkZSBtYW5uZW4/IFxbSF8wOiBcYmV0YV9cdGV4dHtBZ2V9ICsgXGJldGFfXHRleHR7QWdlOkdlbmRlcm1hbGV9ID0gMCBcdGV4dHsgdnMgfSBIXzE6IFxiZXRhX1x0ZXh0e0FnZX0gKyBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gXG5lcSAwIFxdCgozLiBJcyBkZSBBc3NvY2lhdGllIHR1c3NlbiBibG9lZGRydWsgZW4gbGVlZnRpamQgdmVyc2NoaWxsZW5kIGJpaiBtYW5uZW4gZW4gdnJvdXdlbj8gXFtIXzA6IFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IDAgXHRleHR7IHZzIH0gSF8xOiBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gXG5lcSAwIFxdCgoKLSBXZSBrdW5uZW4gb25kZXJ6b2Vrc3ZyYWFnIDEgZW4gMyBvbm1pZGRlbGlqayB0b2V0c2VuIG8uYi52LiBkZSBtb2RlbCBvdXRwdXQuCgotIE9uZGVyem9la3N2cmFhZyAyIGlzIGVjaHRlciBlZW4gbGluZWFpcmUgY29tYmluYXRpZSB2YW4gdHdlZSBwYXJhbWV0ZXJzLgoKXFsKXGJlZ2lue2FycmF5fXtsY2x9CkwgXGJvbGRzeW1ib2x7XGJldGF9ICY9JiAwXFxcXApcbGVmdFtcYmVnaW57YXJyYXl9e2NjY2N9IDAgJjAmIDEmIDFcZW5ke2FycmF5fSBccmlnaHRdXGxlZnRbXGJlZ2lue2FycmF5fXtjfVxiZXRhXzBcXApcYmV0YV9nXFwKXGJldGFfYVxcClxiZXRhX3thOmd9XGVuZHthcnJheX0KXHJpZ2h0XSAmPSYgIDBcXFxcCjBcYmV0YV8wICsgMCBcYmV0YV9nICsgMSBcYmV0YV9hICsgMVxiZXRhX3thOmd9ICY9JiAwXFxcXApcYmV0YV9hICsgXGJldGFfe2E6Z30gJj0mMApcZW5ke2FycmF5fQpcXQoKLSBCb3ZlbmRpZW4gaXMgZXIgb29rIGhldCBwcm9ibGVlbSBkYXQgd2UgbWVlcmRlcmUgdG9ldHNlbiBub2RpZyBoZWJiZW4gb20gZGUgYXNzb2NpYXRpZXMgdGUgYmVzdHVkZXJlbi4KCgoxLiAgV2UgdG9ldHNlbiBlZXJzdGUgZGUgb21uaWJ1cyBoeXBvdGhlc2UgZGF0IGVyIGdlZW4gYXNzb2NpYXRpZSBpcyB0dXNzZW4gbGVlZnRpamQgZW4gZGUgYmxvZWRkcnVrLgoKJCQKSF8wOiBcYmV0YV9cdGV4dHtBZ2V9ID0gXGJldGFfXHRleHR7QWdlfSArIFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IFxiZXRhX1x0ZXh0e0FnZTpHZW5kZXJtYWxlfSA9IDAKJCQKCiAgLSBEYXQgdmVyZWVudm91ZGlndCB6aWNoIHRvdCBoZXQgdG9ldHNlbiBkYXQKJCQgCiAgICBIXzA6IFxiZXRhX1x0ZXh0e0FnZX0gPSBcYmV0YV9cdGV4dHtBZ2U6R2VuZGVybWFsZX0gPSAwCiQkCiAgICAKICAtIFdhdCB3ZSBrdW5uZW4gZXZhbHVlcmVuIGRvb3IgdHdlZSBtb2RlbGxlbiB0ZSB2ZXJnZWxpamtlbi4gRWVuIG1vZGVsIG1ldCBlbmtlbCBoZXQgZ2VuZGVyIGVmZmVjdCBlbiB2b2xsZWRpZ2UgbW9kZWwgbWV0IEdlbmRlciwgQWdlIGVuIEdlbmRlciB4IEFnZSBpbnRlcmFjdGllLgoKMi4gQWxzIHdlIGRlemUgaHlwb3RoZXNlIGt1bm5lbiB2ZXJ3ZXJwZW4gdm9lcmVuIHdlIHBvc3Rob2MgYW5hbHlzZXMgdWl0IHZvb3IgZWxrIHZhbiBkZSAzIGNvbnRyYXN0ZW4uCgoKYGBge3J9Cm1CcDAgPC0gbG0oQlBTeXNBdmUgfiBHZW5kZXIsIGJwRGF0YSwgdyA9IDEvbVNkJGZpdHRlZF4yKQphbm92YShtQnAwLCBtQnAzKQpgYGAgIAoKRGUgcG9zdGhvYyB0ZXN0ZW4ga3VubmVuIHdlIG9wbmlldXcgdWl0dm9lcmVuIGEuZC5oLnYuIGhldCBtdWx0Y29tcCBwYWtrZXQuCgpgYGB7cn0KYnBQb3N0aG9jIDwtIGdsaHQobUJwMywgbGluZmN0PWMoCiAgIkFnZSA9IDAiLAogICJBZ2UgKyBBZ2U6R2VuZGVybWFsZSA9IDAiLAogICJBZ2U6R2VuZGVybWFsZSA9IDAiKQogICkKYnBQb3N0aG9jICU+JSBzdW1tYXJ5CgpicFBvc3Rob2NCSSA8LSBicFBvc3Rob2MgJT4lIGNvbmZpbnQKYnBQb3N0aG9jQkkKYGBgCgojIyMgQ29uY2x1c2llCgpXZSBrdW5uZW4gYmVzbHVpdGVuIGRhdCBlciBlZW4gZXh0cmVlbSBzaWduaWZpY2FudGUgYXNzb2NpYXRpZSBpcyB0dXNzZW4gbGVlZnRpamQgZW4gZGUgYmxvZWRkcnVrIChwIDw8IDAuMDAxKS4KRGUgYmxvZWRkcnVrIGJpaiB0d2VlIHZyb3V3ZW4gZGllIGluIGxlZWZ0aWpkIHZlcnNjaGlsbGVuIGlzIGdlbWlkZGVsZCBgciByb3VuZChicFBvc3Rob2NCSSRjb25maW50WzEsMV0sMilgIG1tIEhnIGhvZ2VyIHBlciBqYWFyIGxlZWZ0aWpkc3ZlcnNjaGlsIGJpaiBkZSBvdWRzdGUgdnJvdXcgZW4gZGF0IHZlcnNjaGlsIGlzIGV4dHJlZW0gc2lnbmlmaWNhbnQgKHAgPDwgMC4wMDEsIDk1JSBCSSBbYHIgcGFzdGUocm91bmQoYnBQb3N0aG9jQkkkY29uZmludFsxLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdKS4KRGUgYmxvZWRkcnVrIGJpaiBtYW5uZW4gZGllIGluIGxlZWZ0aWpkIHZlcnNjaGlsbGVuIGlzIGdlbWlkZGVsZCBgciByb3VuZChicFBvc3Rob2NCSSRjb25maW50WzIsMV0sMilgIG1tIEhnIGhvZ2VyIHBlciBqYWFyIGxlZWZ0aWpkc3ZlcnNjaGlsIGJpaiBkZSBvdWRlcmUgbWFuLiAocCA8PCAwLjAwMSwgOTUlIEJJIFtgciBwYXN0ZShyb3VuZChicFBvc3Rob2NCSSRjb25maW50WzIsLTFdLDIpLGNvbGxhcHNlPSIsICIpYF0pLgpIZXQgZ2VtaWRkZWxkZSBibG9lZGRydWt2ZXJzY2hpbCB0dXNzZW4gcGVyc29uZW4gaW4gbGVlZnRpamQgdmVyc2NoaWxsZW4gaXMgZ2VtaWRkZWxkIGByIGFicyhyb3VuZChicFBvc3Rob2NCSSRjb25maW50WzMsMV0sMikpYCBtbSBIZy9qYWFyIGxhZ2VyIGJpaiBtYW5uZW4gZGFuIHZyb3V3ZW4gKHAgPDwgMC4wMDEsIDk1JSBCSSBbYHIgcGFzdGUocm91bmQoYnBQb3N0aG9jQkkkY29uZmludFszLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdKS4gIAoKIyMgTWFyZ2luYWxlIGVmZmVjdGVuCgpXYXQgZG9lbiB3ZSBhbHMgaW50ZXJhY3RpZXMgbmlldCBzaWduaWZpY2FudCB6aWpuPwoKLSBDb252ZW50aW9uZWxlIGFhbnBhazogaW50ZXJhY3RpZXMgdWl0IG1vZGVsIGhhbGVuCi0gRGFhcm5hIHNjaGF0dGVuIHdlIGRlIGhvb2ZkZWZmZWN0ZW4gbWV0IHZlcmVlbnZvdWRpZ2QgbW9kZWwKCk1lcmsgb3AgZGF0CgoxLiBXZSBiaWogY29tcGxleGUgbW9kZWxsZW4gdmVlbCB0ZXN0ZW4gdWl0dm9lcmVuIG9tIHRvdCBoZXQgdmVyZWVudm91ZGlndCBtb2RlbCB0ZSBrb21lbi4KMi4gSGV0IGFhbnZhYXJkZW4gdmFuIGRlIG51bGh5cG90aGVzZXMgZWVuIHp3YWtrZSBjb25jbHVzaWUgaXMgZW4gZGF0IGVyIHR5cGlzY2ggd2VpbmlnIHBvd2VyIGlzIG9tIGVlbiBpbnRlcmFjdGllIG9wIHRlIHBpa2tlbi4gSGV0IGlzIGR1cyBtb2dlbGlqayBkYXQgaGV0IG1vZGVsIHpvbmRlciBpbnRlcmFjdGllcyB0b2NoIGhldCBmb3V0aWV2ZSBtb2RlbCBpcy4KMy4gQmlqIGhpZ2ggdHJvdWdocHV0IGV4cGVyaW1lbnRlbiBnYWFuIHdlIHR5cGlzY2ggaW5mZXJlbnRpZSBkb2VuIHZvb3IgYWxsZSBnZW5lbi9wcm90ZWluZW4gZGllIHdlIG1ldGVuICh2Yi4gNDAwMDAgZ2VuZW4gb2YgMTAwMGRlbiBwcm90ZcOvbmVuKS4gRG9vciBncm90ZSBjb3JyZWN0aWUgdm9vciBtdWx0aXBsZSB0ZXN0aW5nIGt1bm5lbiB3ZSBpbnRlcmFjdGllIHRlcm1lbiBuaWV0IHdlZ2xhdGVuIHdhbnQgZGFhciB3ZXRlbiB3ZSB6ZWtlciBkYXQgZGUgcG93ZXIgb20gaW50ZXJhY3RpZXMgb3AgdGUgcGlra2VuIHplZXIgbGFhZy4KCk9td2lsbGUgdmFuIGRlemUgcmVkZW5lbiBrdW5uZW4gd2Ugb29rIGRlIGludGVyYWN0aWVzIGluIGhldCBtb2RlbCBsYXRlbiBlbiBpbmZlcmVudGllIGRvZW4gb3ZlciBkZSBtYXJnaW5hbGUgZWZmZWN0ZW4uCgotIERlIGVmZmVjdGVuIHdhYXJiaWogd2UgdWl0bWlkZGVsZW4gb3ZlciBhbGxlIHByZWRpY3RvcndhYXJkZW4gdmFuIGRlIGFuZGVyZSBwcmVkaWN0b3Jlbi4KLSBJbiBlZW4gZ2VyYW5kb21pc2VlcmRlIG9ic2VydmF0aW9uZWxlIHN0dWRpZSB6dWxsZW4gd2Ugem8gZHVzIGRlIGFzc29jYXRpZSBzY2hhdHRlbiB2b29yIGRlIGdlbWlkZGVsZGUgcGF0acOrbnQgaW4gZGUgcG9wdWxhdGllLgoKLSBaaWUgb2VmZW5pbmdlbjogdmlzc2VuIGVuIGtwbmEyCgoKIyMjIFRlc3Rvc3Rlcm9uIGNvbmNlbnRyYXRpZSBiaWogdm9sd2Fzc2VuIG1hbm5lbiBpbiBkZSBOSEFORVMgc3R1ZGllCgpWZXJvbmRlcnN0ZWwgZGF0IHdlIHdlbnNlbiB0ZSBiZXN0dWRlcmVuIG9mIGVyIGVlbiBhc3NvY2lhdGllIGlzIGxlZWZ0aWpkIGVuIGdld2ljaHQgdmFuIHZvbHdhc3NlbiBtYW5uZW4gaW4gZGUgQW1lcmlrYWFuc2UgcG9wdWxhdGllIG9wIGRlIGRlIHRlc3Rvc3Rlcm9uIGNvbmNlbnRyYXRpZS4gCgpgYGB7cn0KbW9kVGVzIDwtIGxtKGZvcm11bGEgPSBUZXN0b3N0ZXJvbmUgfiBBZ2UgKiBXZWlnaHQsIGRhdGEgPSBOSEFORVMgJT4lIAogICAgZmlsdGVyKEFnZSA+IDE4ICYgR2VuZGVyID09ICJtYWxlIiAmICFpcy5uYShUZXN0b3N0ZXJvbmUpICYhaXMubmEoV2VpZ2h0KSAmICFpcy5uYShBZ2UpKSkKcGxvdChtb2RUZXMpCmBgYAoKYGBge3J9CnN1bW1hcnkobW9kVGVzKQpgYGAKCi0gRXIgaXMgZ2VlbiBzaWduaWZpY2FudGUgaW50ZXJhY3RpZS4gSGV0IGFhbnZhYXJkZW4gdmFuIGRlIG51bGh5cG90aGVzZSBpcyBlZW4gendha2tlIGNvbmNsdXNpZS4KRGFhcm9tIGt1bm5lbiB3ZSBvcHRlcmVuIG9tIGRlIGludGVyYWN0aWUgaW4gaGV0IG1vZGVsIHRlIGxhdGVuLgoKLSBNZXJrIG9wIGRhdCBkZSBob29mZGVmZmVjdGVuIGdlZW4gemludm9sbGUgaW50ZXJwcmV0YXRpZSBoZWJiZW4hCgotIE9tZGF0IGVyIGdlZW4gc2lnbmlmaWNhbnRlIGludGVyYWN0aWUgaXMsIGlzIGhldCB6aW52b2wgb20gZWVuIHVpdHNwcmFhayB0ZSBkb2VuIG92ZXIgZGUgYXNzb2NpYXRpZSB2YW4gZ2V3aWNodCBlbiB0ZXN0b3N0ZXJvbiwgZW4gbGVlZnRpamQgZW4gdGVzdG9zdGVyb24uCgpXZSBrdW5uZW4gaGllcm92ZXIgZWVuIHVpdHNwcmFhayBkb2VuIGRvb3IgdGUgbWFyZ2luYWxpc2VyZW4gb3ZlciBhbGxlIGxlZWZ0aWpkZW4gKGdld2ljaHRlbikgdmFuIGRlIG1hbm5lbiBpbiBoZXQgZXhwZXJpbWVudC4KCiQkClxmcmFje1xzdW1cbGltaXRzX3tpPTF9Xm4gKFxiZXRhX2EgKyBcYmV0YV97dzphfSBYX3t3fSl9e259PSBcYmV0YV9hICtcYmV0YV97dzphfSBcYmFye1h9X3cKJCQKCiQkClxmcmFje1xzdW1cbGltaXRzX3tpPTF9Xm4gKFxiZXRhX3cgKyBcYmV0YV97dzphfSBYX3thfSl9e259PSBcYmV0YV93ICtcYmV0YV97dzphfSBcYmFye1h9X2EKJCQKCgoKCmBgYHtyfQpOSEFORVMgJT4lIAogIGZpbHRlcihBZ2UgPiAxOCAmIEdlbmRlciA9PSAibWFsZSIgJiAhaXMubmEoVGVzdG9zdGVyb25lKSAmIWlzLm5hKFdlaWdodCkgJiAhaXMubmEoQWdlKSkgICU+JSAKICBwdWxsKFdlaWdodCkgJT4lCiAgbWVhbiAlPiUgCiAgcm91bmQoLiwxKQpgYGAKCmBgYHtyfQpOSEFORVMgJT4lIAogIGZpbHRlcihBZ2UgPiAxOCAmIEdlbmRlciA9PSAibWFsZSIgJiAhaXMubmEoVGVzdG9zdGVyb25lKSAmIWlzLm5hKFdlaWdodCkgJiAhaXMubmEoQWdlKSkgICU+JSAKICBwdWxsKEFnZSkgJT4lCiAgbWVhbiAlPiUgCiAgcm91bmQoLiwxKQpgYGAKCldlIGV2YWx1ZXJlbiBudSBoZXQgY29udHJhc3Qgdm9vciBkZSBtYXJnaW5hbGUgZWZmZWN0ZW46CgpgYGB7cn0KbWFyZ2luYWxFZmZlY3RzIDwtIGdsaHQoCiAgbW9kVGVzLCAKICBsaW5mY3QgPSBjKAogICAgIkFnZSArODguOSpBZ2U6V2VpZ2h0PSAwIiwKICAgICJXZWlnaHQgKzQ2LjQqQWdlOldlaWdodD0gMCIKICAgICkKICApCnN1bW1hcnkobWFyZ2luYWxFZmZlY3RzKQpjb25maW50KG1hcmdpbmFsRWZmZWN0cykKYGBgCgoKRGl0IGhlZWZ0IGVlbiBpbnRlcnByZXRhdGllIHZhbiBoZXQgZ2VtaWRkZWxkZSBsZWVmdGlqZHMtIGVuIGRlIGdlbWlkZGVsZGUgZ2V3aWNodHNhc3NvY2lhdGllIGluIGRlIHBvcHVsYXRpZS4gCgpWb2xnZW5zIGRlIGNvbnZlbnRpb25lbGUgYWFucGFrIGhhZGRlbiB3ZSBkZSBpbnRlcmFjdGllIHVpdCBoZXQgbW9kZWwgdmVyd2lqZGVyZC4gCgpgYGB7cn0KbW9kQWRkVGVzIDwtIGxtKGZvcm11bGEgPSBUZXN0b3N0ZXJvbmUgfiBBZ2UgKyBXZWlnaHQsIGRhdGEgPSAKICAgIE5IQU5FUyAlPiUgCiAgICBmaWx0ZXIoQWdlID4gMTggJiBHZW5kZXIgPT0gIm1hbGUiICYgIWlzLm5hKFRlc3Rvc3Rlcm9uZSkgJiFpcy5uYShXZWlnaHQpICYgIWlzLm5hKEFnZSkpKQpzdW1tYXJ5KG1vZEFkZFRlcykKYGBgCgpNZXJrIG9wIGRhdCBkZSBzY2hhdHRpbmdlbiB1aXQgaGV0IGFkZGl0aWVmIG1vZGVsIGxpY2h0amVzIHZlcnNjaGlsbGVuZCB6aWpuIG9tZGF0IGRlIGRhdGEgbmlldCBnZWJhbGFuY2VlcmQgemlqbiwgd2UgaGViYmVuIG5pZXQgZGV6ZWxmZGUgZ2V3aWNodGVuIHZvb3IgYWxsZSBsZWVmdGlqZGVuIGVuIG5pZXQgZGV6ZWxmZGUgbGVlZnRpamRlbiB2b29yIGFsbGUgZ2V3aWNodGVuLgoKYGBge3J9Ck5IQU5FUyAlPiUgCiAgICBmaWx0ZXIoQWdlID4gMTggJiBHZW5kZXIgPT0gIm1hbGUiICYgIWlzLm5hKFRlc3Rvc3Rlcm9uZSkgJiFpcy5uYShXZWlnaHQpICYgIWlzLm5hKEFnZSkpICU+JSAKICBnZ3Bsb3QoYWVzKEFnZSxXZWlnaHQpKSArCiAgZ2VvbV9wb2ludCgpCmBgYAoKIyBGYWN0b3Jpw6tsZSBwcm9ldmVuIAoKIyMgRGF0YSAKCgo0OCByYXR0ZW4gd2VyZGVuIGF0IHJhbmRvbSB0b2VnZXdlemVuIGFhbgoKLSAzIGdpZmZlbiAoSSxJSSxJSUkpIGFuZCAKLSA0IGJlaGFuZGVsaW5nZW4gKEEsQixDLEQpLCAKCmVuLCAKCi0gZGUgb3ZlcmxldmluZ3N0aWpkIHdlcmQgb3BnZW1ldGVuIChlZW5oZWlkOiAxMCBoKQoKV2UgdHJhbnNmb3JtZXJlbiBkZSBkYXRhIGVlcnN0IG5hYXIgdXJlbgoKYGBge3J9CmRhdGEocmF0cyxwYWNrYWdlID0gImZhcmF3YXkiKQoKcmF0cyA8LSByYXRzICU+JSAKICBtdXRhdGUodGltZT10aW1lICogMTApCgpyYXRzICU+JSAKICBnZ3BhaXJzKCkKYGBgCgpgYGB7cn0KcmF0cyAlPiUKICBnZ3Bsb3QoYWVzKHg9dHJlYXQseT10aW1lKSkgKyAKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZT1OQSkgKyAKICBnZW9tX2ppdHRlcigpICsKICBmYWNldF93cmFwKH5wb2lzb24pICsKICB5bGFiKCJ0aW1lIChoKSIpCmBgYAoKYGBge3J9CnJhdHMgJT4lCiAgZ2dwbG90KGFlcyh4PXRyZWF0LHk9MS90aW1lKSkgKyAKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZT1OQSkgKyAKICBnZW9tX2ppdHRlcigpICsKICBmYWNldF93cmFwKH5wb2lzb24pICsgCiAgeWxhYiAoInJhdGUgb2YgZHlpbmcgKDEvaCkiKQoKcmF0czMgPC0gbG0oMS90aW1lfnBvaXNvbip0cmVhdCwgcmF0cykKYGBgCgpXZSBtb2RlbGxlcmVuIGRlICJzbmVsaGVpZCB2YW4gc3RlcnZlbiIgbWV0IGVlbiBob29mZGVmZmVjdCB2b29yIGdpZiBlbiBiZWhhbmRlbGluZyBlbiBlZW4gZ2lmICRcdGltZXMkIGJlaGFuZGVsaW5nIGludGVyYWN0aWUuIAoKJCQKXGJlZ2lue2FycmF5fXtsY2x9CnlfaSAmPSYgXGJldGFfMCAgKyBcXAomJlxiZXRhX3tJSX0geF97aUlJfSArIFxiZXRhX3tJSUl9IHhfe2lJSUl9ICsgXFwKJiYgXGJldGFfe0J9IHhfe2lCfSAgKyBcYmV0YV97Q30geF97aUN9ICsgXGJldGFfe0R9IHhfe2lEfSArIFxcCiYmXGJldGFfe0lJOkJ9eF97aUlJfXhfe2lCfSArIFxiZXRhX3tJSTpDfXhfe2lJSX14X3tpQ30gICsgXGJldGFfe0lJOkR9eF97aUlJfXhfe2lEfSArIFxcCiYmXGJldGFfe0lJSTpCfXhfe2lJSUl9eF97aUJ9ICsgXGJldGFfe0lJSTpDfXhfe2lJSUl9eF97aUN9ICArIFxiZXRhX3tJSUk6RH14X3tpSUlJfXhfe2lEfSArClxlcHNpbG9uX2kKXGVuZHthcnJheX0KJCQKCm1ldCAkaSA9IDEsIFxsZG90cywgbiQsICRuPTQ4JCwgZW4sICR4X3tpSUl9JCwgJHhfe2lJSUl9JCwgJHhfe2lCfSQsICR4X3tpQ30kIGVuICR4X3tpRH0kIGR1bW15IHZhcmlhYmVsZW4gdm9vciByZXNwZWN0aWV2ZWxpamsgZ2lmIElJLCBJSUksIGJlaGFuZGVsaW5nIEIsIEMsIGVuIEQuCgojIyBJbmZlcmVudGllCgoKYGBge3J9IApFeHBsb3JlTW9kZWxNYXRyaXg6OlZpc3VhbGl6ZURlc2lnbihyYXRzLH5wb2lzb24qdHJlYXQpJHBsb3QKYGBgCgpFZW4gaW50ZXJhY3RpZSB0dXNzZW4gZ2lmIGVuIGJlaGFuZGVsaW5nIGltcGxpY2VlcnQgZGF0IHdlIGhldCBlZmZlY3QgdmFuIGhldCB0eXBlIGdpZiBhZnpvbmRlcmxpamsgbW9ldGVuIGJlc3R1ZGVyZW4gdm9vciBlbGtlIGJlaGFuZGVsaW5nOiAKCjEuIFZvb3IgYmVoYW5kZWxpbmcgQSBtb2V0ZW4gd2UgZGFuIHZvbGdlbmRlIG51bGh5cG90aGVzZXMgdG9ldHNlbjoKCi0gSUktSTogJEhfMDogXGJldGFfe0lJfT0wJAotIElJSS1JOiAkSF8wOiBcYmV0YV97SUlJfT0wJAotIElJSS1JSTogJEhfMDogXGJldGFfe0lJSX0tXGJldGFfe0lJfT0wJAoKMi4gVm9vciBiZWhhbmRlbGluZyBCOgoKLSBJSS1JOiAkSF8wOiBcYmV0YV97SUl9K1xiZXRhX3tJSTpCfT0wJAotIElJSS1JOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkJ9PTAkCi0gSUlJLUlJOiAkSF8wOiBcYmV0YV97SUlJfStcYmV0YV97SUlJOkJ9LVxiZXRhX3tJSX0tXGJldGFfe0lJOkJ9PTAkCgozLiBWb29yIGJlaGFuZGVsaW5nIEM6CgotIElJLUk6ICRIXzA6IFxiZXRhX3tJSX0rXGJldGFfe0lJOkN9PTAkCi0gSUlJLUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6Q309MCQKLSBJSUktSUk6ICRIXzA6IFxiZXRhX3tJSUl9K1xiZXRhX3tJSUk6Q30tXGJldGFfe0lJfS1cYmV0YV97SUk6Q309MCQKCjQuIFZvb3IgYmVoYW5kZWxpbmcgRDoKCi0gSUktSTogJEhfMDogXGJldGFfe0lJfStcYmV0YV97SUk6RH09MCQKLSBJSUktSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpEfT0wJAotIElJSS1JSTogJEhfMDogXGJldGFfe0lJSX0rXGJldGFfe0lJSTpEfS1cYmV0YV97SUl9LVxiZXRhX3tJSTpEfT0wJAoKSGV0emVsZmRlIGdlbGR0IHdhbm5lZXIgd2UgaGV0IGVmZmVjdCB2YW4gZGUgYmVoYW5kZWxpbmcgYmVzdHVkZXJlbjogCgoxLiBWb29yIGdpZiBJIHRvZXRzZW4gd2UgZGFuIG51bGh5cG90aGVzZQoKLSBCLUE6ICRIXzA6IFxiZXRhX3tCfT0wJAotIEMtQTogJEhfMDogXGJldGFfe0N9PTAkCi0gRC1BOiAkSF8wOiBcYmV0YV97RH09MCQKLSBDLUI6ICRIXzA6IFxiZXRhX3tDfS1cYmV0YV97Qn09MCQKLSBELUI6ICRIXzA6IFxiZXRhX3tEfS1cYmV0YV97Qn09MCQKLSBELUM6ICRIXzA6IFxiZXRhX3tEfS1cYmV0YV97Q309MCQKCjIuIEdpZiBJSQoKLSBCLUE6ICRIXzA6IFxiZXRhX3tCfStcYmV0YV97SUk6Qn09MCQKLSBDLUE6ICRIXzA6IFxiZXRhX3tDfStcYmV0YV97SUk6Q309MCQKLSBELUE6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUk6RH09MCQKLSBDLUI6ICRIXzA6IFxiZXRhX3tDfStcYmV0YV97SUk6Q30tXGJldGFfe0J9LVxiZXRhX3tJSTpCfT0wJAotIEQtQjogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSTpEfS1cYmV0YV97Qn0tXGJldGFfe0lJOkJ9PTAkCi0gRC1DOiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJOkR9LVxiZXRhX3tDfS1cYmV0YV97SUk6Q309MCQKCjMuIEdpZiBJSUkKCi0gQi1BOiAkSF8wOiBcYmV0YV97Qn0rXGJldGFfe0lJSTpCfT0wJAotIEMtQTogJEhfMDogXGJldGFfe0N9K1xiZXRhX3tJSUk6Q309MCQKLSBELUE6ICRIXzA6IFxiZXRhX3tEfStcYmV0YV97SUk6RH09MCQKLSBDLUI6ICRIXzA6IFxiZXRhX3tDfStcYmV0YV97SUlJOkN9LVxiZXRhX3tCfS1cYmV0YV97SUlJOkJ9PTAkCi0gRC1COiAkSF8wOiBcYmV0YV97RH0rXGJldGFfe0lJSTpEfS1cYmV0YV97Qn0tXGJldGFfe0lJSTpCfT0wJAotIEQtQzogJEhfMDogXGJldGFfe0R9K1xiZXRhX3tJSUk6RH0tXGJldGFfe0N9LVxiZXRhX3tJSUk6Q309MCQKCgpgYGB7cn0KbGlicmFyeShjYXIpCkFub3ZhKHJhdHMzLCB0eXBlPSJJSUkiKQpgYGAKCkluIG9uemUgc3R1ZGllIHdhcyBkZSBpbnRlcmFjdGllIGVjaHRlciBuaWV0IHNpZ25pZmljYW50LiBIZXQgZWZmZWN0IHZhbiBoZXQgZ2lmIChJSS1JLCBJSUktSSBlbiBJSUktIElJKSB2ZXJhbmRlcnQgZHVzIG5pZXQgc2lnbmlmaWNhbnQgdm9sZ2VucyBkZSBiZWhhbmRlbGluZyAoQSwgQiwgQywgZW4gRCkgZW4gdmljZSB2ZXJzYS4gVm9vciBvbnplIGRhdGFzZXQgbGlqa3QgaGV0IGR1cyB6aW52b2wgb20gCgoxLiBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGdpZmZlbiAoSUktSSwgSUlJLUkgZW4gSUlJLSBJSSkgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGJlaGFuZGVsaW5nZW4gKEEsIEIsIEMsIGVuIEQpLCBlbiwgCjIuICBkZSBlZmZlY3Rncm9vdHRlIHZvb3IgZGUgcGFpcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHR1c3NlbiBkZSB2ZXJzY2hpbGxlbmRlIGJlaGFuZGVsaW5nZW4gKEItQSwgQy1BLCBELUEsIEMtQiwgRC1CIGVuIEQtQykgdGUgc2NoYXR0ZW4gZG9vciB6ZSB1aXQgdGUgbWlkZGVsZW4gb3ZlciBhbGxlIGdpZmZlbiAoSSwgSUksIElJSSkuIAoKRGF0IHpvdSBvbnMgZ2VsaWprYWFyZGlnZSBzY2hhdHRpbmdlbiB2YW4gZGUgZWZmZWN0Z3Jvb3R0ZXMgbW9ldGVuIGdldmVuIGFscyBkZXplIHZvb3IgaGV0IGFkZGl0aWV2ZSBtb2RlbCB3YWFyYmlqIHdlIGRlIGludGVyYWN0aWUgdGVybSB1aXQgaGV0IG1vZGVsIGhhZGRlbiBnZXdlZXJkLiAKCgpCLnYuIHZvb3IgZ2lmIElJSSB2cyBnaWYgSUkgem91IGRhdCBpbiB2b2xnZW5kZSBjb250cmFzdCByZXN1bHRlcmVuOiAKCi0gSUlJLUlJOiAKJCRIXzA6IApcYmVnaW57YXJyYXl9e2x9ClxmcmFje1xiZXRhX3tJSUl9LVxiZXRhX3tJSX19ezR9ICsgXFwKXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkJ9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Qn19ezR9ICsgXFwKXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkN9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6Q319ezR9ICsgXFwKXHF1YWQgXHF1YWQgXHF1YWQgXGZyYWN7XGJldGFfe0lJSX0gKyBcYmV0YV97SUlJOkR9LVxiZXRhX3tJSX0gLSBcYmV0YV97SUk6RH19ezR9PTAKXGVuZHthcnJheX0KJCQKJCQKSF8wOlxiZXRhX3tJSUl9ICsgXGZyYWN7MX17NH0gXHRpbWVzIFxiZXRhX3tJSUk6Qn0gKyAgXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJSTpDfSArICBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUlJOkR9Ci1cYmV0YV97SUl9IC0gXGZyYWN7MX17NH0gXHRpbWVzXGJldGFfe0lJOkJ9IC0gIFxmcmFjezF9ezR9IFx0aW1lc1xiZXRhX3tJSTpDfSAgLSBcZnJhY3sxfXs0fSBcdGltZXNcYmV0YV97SUk6RH09MAokJAoKV2Ugc2NoYXR0ZW4gbWV0IG9uZGVyc3RhYW5kZSBjb2RlIGFsbGUgZ2VtaWRkZWxkZSBjb250cmFzdGVuIGEuZC5oLnYuIGhldCBtb2RlbCBtZXQgaW50ZXJhY3RpZS4KCmBgYHtyfQpjb250cmFzdHMgPC0gYygKICAicG9pc29uSUkgKyAxLzQqcG9pc29uSUk6dHJlYXRCICsgMS80KnBvaXNvbklJOnRyZWF0QyArIDEvNCpwb2lzb25JSTp0cmVhdEQgPSAwIiwKICAicG9pc29uSUlJICsgMS80KnBvaXNvbklJSTp0cmVhdEIgKyAxLzQqcG9pc29uSUlJOnRyZWF0QyArIDEvNCpwb2lzb25JSUk6dHJlYXREPSAwIiwKICAicG9pc29uSUlJICsgMS80KnBvaXNvbklJSTp0cmVhdEIgKyAxLzQqcG9pc29uSUlJOnRyZWF0QyArIDEvNCpwb2lzb25JSUk6dHJlYXREIC0gcG9pc29uSUkgLSAxLzQqcG9pc29uSUk6dHJlYXRCIC0gMS80KnBvaXNvbklJOnRyZWF0QyAtIDEvNCpwb2lzb25JSTp0cmVhdEQgPSAwIiwKICAidHJlYXRCICsgMS8zKnBvaXNvbklJOnRyZWF0QiArIDEvMypwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0QyArIDEvMypwb2lzb25JSTp0cmVhdEMgKyAxLzMqcG9pc29uSUlJOnRyZWF0QyA9IDAiLAogICJ0cmVhdEQgKyAxLzMqcG9pc29uSUk6dHJlYXREICsgMS8zKnBvaXNvbklJSTp0cmVhdEQgPSAwIiwKICAidHJlYXRDICsgMS8zKnBvaXNvbklJOnRyZWF0QyArIDEvMypwb2lzb25JSUk6dHJlYXRDIC0gdHJlYXRCIC0gMS8zKnBvaXNvbklJOnRyZWF0QiAtIDEvMypwb2lzb25JSUk6dHJlYXRCID0gMCIsCiAgInRyZWF0RCArIDEvMypwb2lzb25JSTp0cmVhdEQgKyAxLzMqcG9pc29uSUlJOnRyZWF0RCAgLSB0cmVhdEIgLSAxLzMqcG9pc29uSUk6dHJlYXRCIC0gMS8zKnBvaXNvbklJSTp0cmVhdEIgPSAwIiwKICAidHJlYXREICsgMS8zKnBvaXNvbklJOnRyZWF0RCArIDEvMypwb2lzb25JSUk6dHJlYXREICAtIHRyZWF0QyAtIDEvMypwb2lzb25JSTp0cmVhdEMgLSAxLzMqcG9pc29uSUlJOnRyZWF0QyA9IDAiKSAKCgpjb21wYXJpc29uc0ludDIgPC0gZ2xodChyYXRzMywgbGluZmN0ID0gY29udHJhc3RzCikKcGxvdChjb21wYXJpc29uc0ludDIseWF4dD0ibm9uZSIpCmNvbnRyYXN0TmFtZXMgPC0gYygiSUktSSIsIklJSS1JIiwiSUlJLUlJIiwiQi1BIiwiQy1BIiwiRC1BIiwiQy1CIiwiRC1CIiwiRC1DIikKYXhpcygyLGF0PWMobGVuZ3RoKGNvbnRyYXN0TmFtZXMpOjEpLCBsYWJlbHM9Y29udHJhc3ROYW1lcyxsYXM9MikKYGBgCgoKIyMgQ29uY2x1c2llIAoKRXIgaXMgZWVuIGV4dHJlZW0gc2lnbmlmaWNhbnQgZWZmZWN0IHZhbiBoZXQgdHlwZSBnaWYgZW4gZGUgYmVoYW5kZWxpbmcgb3AgZGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gYmlqIHJhdHRlbiAocCA8PCAwLjAwMSkuCgpEZSBpbnRlcmFjdGllIHR1c3NlbiBnaWYgZW4gYmVoYW5kZWxpbmcgaXMgbmlldCBzaWduaWZpY2FudCAocCA9IGByICBBbm92YShyYXRzMyx0eXBlPSJJSUkiKVsicG9pc29uOnRyZWF0IiwiUHIoPkYpIl0gJT4lIHJvdW5kKDMpYCkuIAoKRGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gaXMgZ2VtaWRkZWxkIGByIGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSSIsMV0gJT4lIHJvdW5kKDIpYGgkXnstMX0kICBlbiBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iSUlJLUlJIiwxXSAlPiUgcm91bmQoMilgaCReey0xfSQgaG9nZXIgdm9vciByYXR0ZW4gZGllIGJsb290Z2VzdGVsZCB3b3JkZW4gYWFuIGdpZiBJSUkgZGFuIGFhbiByZXNwZWN0aWV2ZWxpamsgZ2lmIEkgZW4gSUkgKGJlaWRlIHAgPDwgMC4wMDEsIDk1JSBCSSBJSUktSTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSSIsLTFdLDIpLGNvbGxhcHNlPSIsICIpYF1oJF57LTF9JCwgOTUlIEJJIElJSS1JSTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJJSUktSUkiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQpCkRlIGdlbWlkZGVsZGUgc25lbGhlaWQgdmFuIHN0ZXJ2ZW4gd2FzIG5pZXQgc2lnbmlmaWNhbnQgdmVyc2NoaWxsZW5kIHR1c3NlbiByYXR0ZW4gZGllIHdlcmRlbiBibG9vdGdlc3RlbGQgYWFuIGdpZiBJIGVuIGdpZiBJSSAocD1gciByb3VuZChzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJJSS1JIl0sMylgKS4KCkRlIHNuZWxoZWlkIHZhbiBzdGVydmVuIGlzIGdlbWlkZGVsZCBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iQi1BIiwxXSAlPiUgcm91bmQoMikgJT4lIGFic2BoJF57LTF9JCBlbiBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iRC1BIiwxXSAlPiUgcm91bmQoMiklPiUgYWJzYGgkXnstMX0kIGhvZ2VyIG5hIGJlaGFuZGVsaW5nIEEgZGFuIG5hIGJlaGFuZGVsaW5nIEIgZW4gRCAocCA8PCAwLjAwMSwgOTUlIEJJIEItQTogW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJCLUEiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQsIDk1JSBCSSBELUE6IFtgciBwYXN0ZShyb3VuZChjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iRC1BIiwtMV0sMiksY29sbGFwc2U9IiwgIilgXWgkXnstMX0kKS4gCkRlIHNuZWxoZWlkIHZhbiBzdGVydmVuIGlzIGdlbWlkZGVsZCBgciBjb25maW50KGNvbXBhcmlzb25zSW50MikkY29uZmludFtjb250cmFzdE5hbWVzPT0iQy1CIiwxXSAlPiUgcm91bmQoMilgaCReey0xfSQgZW4gYHIgY29uZmludChjb21wYXJpc29uc0ludDIpJGNvbmZpbnRbY29udHJhc3ROYW1lcz09IkQtQyIsMV0gJT4lIHJvdW5kKDIpICU+JSBhYnNgaCReey0xfSQgaG9nZXIgbmEgYmVoYW5kZWxpbmcgQyBkYW4gcmVzcGVjdGlldmVsaWprIG5hIGJlaGFuZGVsaW5nIEIgZW4gRCAoQy1COiBwIDw8IDAuMDAxLCA5NSUgQ0kgW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJDLUIiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQgLCBELUM6IHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJELUMiXSAlPiUgcm91bmQoMylgLCA5NSUgQ0kgW2ByIHBhc3RlKHJvdW5kKGNvbmZpbnQoY29tcGFyaXNvbnNJbnQyKSRjb25maW50W2NvbnRyYXN0TmFtZXM9PSJELUMiLC0xXSwyKSxjb2xsYXBzZT0iLCAiKWBdaCReey0xfSQpLiAKRGUgZ2VtaWRkZWxkZSBzbmVsaGVpZCB2YW4gc3RlcnZlbiBpcyBuaWV0IHNpZ25pZmljYW50IHZlcnNjaGlsbGVuZCB0dXNzZW4gcmF0dGVuIGJlaGFuZGVsZCBtZXQgYmVoYW5kZWxpbmcgQyB2cyBBLCBlbiBEIHZzIEIgKHAtIHdhYXJkZW4gcmVzcGVjdGlldmVsaWprIHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJDLUEiXSAlPiUgcm91bmQoMylgIGVuIHAgPSBgciBzdW1tYXJ5KGNvbXBhcmlzb25zSW50MikkdGVzdCRwdmFsdWVzW2NvbnRyYXN0TmFtZXM9PSJELUIiXSAlPiUgcm91bmQoMylgKS4KCkFsbGUgcC13YWFyZGVuIHdlcmRlbiBnZWNvcnJpZ2VlcmQgdm9vciBtZWVydm91ZGlnIHRlc3Rlbi4gCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("10-Recap-AlgemeenLineairModel-OverigeConcepten.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
