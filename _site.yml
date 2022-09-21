@@ -1,0 +1,56 @@
+name: "Biostatistiek 2022 (biostatistics)"
+navbar:
+  title: "Biostatistiek"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Hoorcolleges"
+      icon: fa-chalkboard-teacher
+      menu:
+        - text: "Introductie"
+          href: introduction.html
+        - text: "Algemeen Lineair Model"
+          href: 10-MultipleRegression.html
+        - text: "Factoriële Designs"
+          href: 10-MultipleRegression-FactorialDesigns.html
+        - text: "Experimental Design I"
+          href: experimentalDesignI.html
+        - text: "Experimental Design II"
+          href:  experimentalDesignII.html 
+    - text: "Labs"
+      icon: fa-laptop
+      menu:
+        - text: "Practicum 1: Voorbeeld two-sample t-test"
+          href: ttest_example.html
+        - text: "Practicum 1: Voorbeeld anova"
+          href: anova_example.html
+        - text: "Practicum 1: Voorbereiding 1"
+          href: Practicum_1_Voorbereiding_1.html
+        - text: "Practicum 1: Voorbereiding 2"
+          href: Practicum_1_Voorbereiding_2.html
+        - text: "Practicum 1: Voorbereiding 3"
+          href: Practicum_1_Voorbereiding_3.html
+        - text: "Practicum 1: Oefening lineair model"
+          href: Practicum_1_oefening_4.html
+
+
+  right:
+    - icon: fab fa-github
+      href: https://github.com/statOmics/biostatistics21
+    - text: "statOmics"
+      href: http://statomics.github.io/
+output:
+  html_document:
+      code_download: true
+      df_print: paged
+      theme: flatly
+      highligt: tango
+      toc: true
+      toc_float: true
+      number_sections: true
+      code_folding: show
+      include:
+        after_body: footer.html
+      css: style.css
+new_session: true
+exclude: ["renv.lock"]
