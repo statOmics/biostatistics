@@ -1,5 +1,5 @@
 ---
-title: "Biostatistics 2022: partim Univariate Statistics"
+title: "Biostatistiek 2022: partim Univariate Statistiek"
 output:
     html_document:
         code_download: false
@@ -56,7 +56,7 @@ text(8.5,5,"SCHATTEN &\nINFERENTIE (3)",col="black",cex=1.2)
 text(7.5,.5,"DATA EXPLORATIE &\nBESCHRIJVENDE STATISTIEK (2)",col="black",cex=1.2)
 ```
 
-## Course Description
+## Situering
 
 Deze cursus bouwt verder op de basis cursus statistiek die werd gedoceerd in 2de bachelor biologie aan de Universiteit Gent. 
 De cursus focust op essentiële statistische concepten en methoden om inzicht te verwerven uit empirische data uit de levenswetenschappen. 
