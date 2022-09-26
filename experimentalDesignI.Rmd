@@ -532,7 +532,7 @@ for (i in 1:nrow(power))
 ```{r}
 power %>% 
   ggplot(aes(x=n,y=power,col=b1%>%as.factor)) +
-  geom_line() + theme_ap(family="")
+  geom_line()
 ```
 
 Merk op dat de power curves wat schokkerig zijn omdat we maar een beperkt aantal steekproefgroottes en een beperkt aantal simulaties uitvoerden. 
