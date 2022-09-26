@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>Experimenteel Design II: Randomized Complete Block Designs en Pseudo-replicatie</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Experimenteel Design II: Randomized Complete Block Designs en Pseudo-replicatie</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   1.4.0     ✔ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div id="randomized-complete-block-designs" class="section level1">
+<h1><span class="header-section-number">1</span> Randomized complete block designs</h1>
+<p><span class="math display">\[\sigma^2= \sigma^2_{bio}+\sigma^2_\text{lab} +\sigma^2_\text{extraction} + \sigma^2_\text{run} + \ldots\]</span></p>
+<ul>
+<li>Biologisch: fluctuaties in proteïne niveau tussen muizen, fluctaties in proteïne concentratie tussen cellen, …</li>
+<li>Technisch: kooi-effect, lab effect, week effect, plasma extractie, MS-run, …</li>
+</ul>
+</div>
+<div id="nature-methods-points-of-significance---blocking" class="section level1">
+<h1><span class="header-section-number">2</span> Nature methods: Points of significance - Blocking</h1>
+<p><a href="https://www.nature.com/articles/nmeth.3005.pdf">https://www.nature.com/articles/nmeth.3005.pdf</a></p>
+<ul>
+<li><p>Oneway anova is een speciaal geval van een “completely randomized design” (CRD):</p>
+<ul>
+<li>experimentele eenheden zijn at random getrokken uit de populatie.</li>
+<li>behandelingen worden at random toegewezen aan de experimentele eenheden</li>
+<li>Elke experimentele eenheid krijgt 1 behandeling en wordt 1 keer gemeten.</li>
+</ul></li>
+<li><p>In een blokdesign zijn de blokken blokken die at random worden gesampled uit de populatie van alle mogelijke blokken.</p>
+<ul>
+<li>De “randomized complete block design” (RCB) beperkt de randomisatie: de behandelingen worden binnen de blokken gerandomiseerd.</li>
+<li>het kan niet als een one-way anova worden geanalyseerd.</li>
+<li>Een gepaard design is het meest eenvoudige RCB: met blokgrootte 2.</li>
+<li>Binnen block effecten kunnen worden geschat met de lm functie in R.</li>
+</ul></li>
+</ul>
+</div>
+<div id="muis-voorbeeld" class="section level1">
+<h1><span class="header-section-number">3</span> Muis voorbeeld</h1>
+<div id="intro" class="section level2">
+<h2><span class="header-section-number">3.1</span> Intro</h2>
+<p><img src="https://raw.githubusercontent.com/statOmics/PSLS21/master/figures/mouseTcell_RCB_design.png" width="50%" /></p>
+<p>Duguet et al. (2017) MCP 16(8):1416-1432. doi: 10.1074/mcp.m116.062745</p>
+<ul>
+<li>Alle behandelingen (hier celtypes) van interesse zijn binnen blok!<br />
+</li>
+<li>We kunnen het effect schatten van de behandeling binnen blok!</li>
+</ul>
+<p>We focussen op één proteïne</p>
+<ul>
+<li>De gemeten intensiteiten zijn reeds log2 getransformeerd. Verschillen in de intensiteiten kunnen dus als log2 FC (fold changes) worden geïnterpreteerd.</li>
+<li>P16045 or Galectin-1.</li>
+<li>Functie: “Lectin that binds beta-galactoside and a wide array of complex carbohydmousees. Plays a role in regulating apoptosis, cell proliferation and cell differentiation. Inhibits CD45 protein phosphatase activity and therefore the dephosphorylation of Lyn kinase. Strong inducer of T-cell apoptosis.” (source: <a href="https://www.uniprot.org/uniprot/P16045">uniprot</a>)</li>
+</ul>
+</div>
+<div id="data-exploratie" class="section level2">
+<h2><span class="header-section-number">3.2</span> Data Exploratie</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>mouse &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/mouseP16045.txt&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   celltype = col_character(),
+##   mouse = col_character(),
+##   intensity = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mouse</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["celltype"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mouse"],"name":[2],"type":["chr"],"align":["left"]},{"label":["intensity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Tcon","2":"m1","3":"9.467"},{"1":"Tcon","2":"m2","3":"10.022"},{"1":"Tcon","2":"m3","3":"10.604"},{"1":"Tcon","2":"m4","3":"10.328"},{"1":"Tcon","2":"m5","3":"9.929"},{"1":"Tcon","2":"m6","3":"11.237"},{"1":"Tcon","2":"m7","3":"11.709"},{"1":"Treg","2":"m1","3":"10.470"},{"1":"Treg","2":"m2","3":"10.926"},{"1":"Treg","2":"m3","3":"11.384"},{"1":"Treg","2":"m4","3":"11.318"},{"1":"Treg","2":"m5","3":"11.584"},{"1":"Treg","2":"m6","3":"12.911"},{"1":"Treg","2":"m7","3":"13.123"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mouse, <span class="dt">y=</span> intensity, <span class="dt">col=</span>celltype)) <span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>mouse <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> celltype, <span class="dt">y=</span> intensity)) <span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="kw">aes</span>(<span class="dt">col=</span>celltype),<span class="dt">outlier.shape =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> mouse)) <span class="op">+</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">col=</span>celltype))</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>De plots tonen evidentie voor</p>
+<ul>
+<li>opregulatie van proteïne expressie in regulatorische T-cells en</li>
+<li>veel variabiliteit in de expressie tussen de proefdieren!</li>
+</ul>
+</div>
+<div id="gepaarde-analyse" class="section level2">
+<h2><span class="header-section-number">3.3</span> Gepaarde analyse</h2>
+<p>Het is een gepaard design, het meest eenvoudige RCB.</p>
+<p>In de H5 van de basiscursus statistiek zouden we de data analyseren door gebruikt te maken van het verschil in expressie tussen de celtypes.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mouseWide &lt;-<span class="st"> </span>mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">spread</span>(celltype,intensity) <span class="op">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">delta =</span> Treg <span class="op">-</span><span class="st"> </span>Tcon)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>mouseWide</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mouse"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Tcon"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Treg"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["delta"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"m1","2":"9.467","3":"10.470","4":"1.003"},{"1":"m2","2":"10.022","3":"10.926","4":"0.904"},{"1":"m3","2":"10.604","3":"11.384","4":"0.780"},{"1":"m4","2":"10.328","3":"11.318","4":"0.990"},{"1":"m5","2":"9.929","3":"11.584","4":"1.655"},{"1":"m6","2":"11.237","3":"12.911","4":"1.674"},{"1":"m7","2":"11.709","3":"13.123","4":"1.414"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="data-exploratie-1" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Data exploratie</h3>
+<ul>
+<li>Boxplot van de verschillen</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>mouseWide <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="st">&quot;&quot;</span>,<span class="dt">y=</span>delta)) <span class="op">+</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape =</span> <span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<ul>
+<li>Summary statistics</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>deltaSum &lt;-<span class="st"> </span>mouseWide <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">summarize_at</span>(<span class="st">&quot;delta&quot;</span>, </span>
+<span id="cb12-3"><a href="#cb12-3"></a>               <span class="kw">list</span>(</span>
+<span id="cb12-4"><a href="#cb12-4"></a>                    <span class="dt">mean =</span> <span class="op">~</span><span class="st"> </span><span class="kw">mean</span>(.,<span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb12-5"><a href="#cb12-5"></a>                    <span class="dt">sd =</span> <span class="op">~</span><span class="st"> </span><span class="kw">sd</span>(.,<span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb12-6"><a href="#cb12-6"></a>                    <span class="dt">n =</span> <span class="op">~</span><span class="st"> </span><span class="kw">is.na</span>(.) <span class="op">%&gt;%</span><span class="st"> `</span><span class="dt">!</span><span class="st">`</span> <span class="op">%&gt;%</span><span class="st"> </span>sum</span>
+<span id="cb12-7"><a href="#cb12-7"></a>                   )</span>
+<span id="cb12-8"><a href="#cb12-8"></a>               ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">se =</span> sd<span class="op">/</span><span class="kw">sqrt</span>(n))</span>
+<span id="cb12-10"><a href="#cb12-10"></a>deltaSum</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["se"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.202857","2":"0.3706672","3":"7","4":"0.140099"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Merk op, dat de intensiteitsdata niet onafhankelijk zijn omdat we de expressie hebben gemeten in twee celtypes van hetzelfde proefdier.</p>
+<ul>
+<li>Covariantie en correlatie van de expressie in beide celtypes</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">cor</span>(mouseWide[,<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>)])</span></code></pre></div>
+<pre><code>##         Tcon    Treg
+## Tcon 1.00000 0.93874
+## Treg 0.93874 1.00000</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">var</span>(mouseWide[,<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>)])</span></code></pre></div>
+<pre><code>##           Tcon      Treg
+## Tcon 0.6101531 0.7245316
+## Treg 0.7245316 0.9763042</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">var</span>(mouseWide[,<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>)]) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span>diag <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span>sqrt</span></code></pre></div>
+<pre><code>##      Tcon      Treg 
+## 0.7811230 0.9880811</code></pre>
+<ul>
+<li><p>Er is inderdaad een grote correlatie in de expressie voor het proteïne in conventionele and regulatorische T-cellen.</p></li>
+<li><p>Standarddeviatie van verschil?</p></li>
+</ul>
+<p><span class="math display">\[
+\begin{array}{lcl}
+\text{sd}_{ax_r + bx_c} &amp;=&amp; \sqrt{a^2\hat \sigma_r^2 + b^2 \hat \sigma_c^2 + 2ab \hat\sigma_{r,c}} \\
+\text{sd}_{x_r - x_c} &amp;=&amp;\sqrt{1^2\hat \sigma_r^2 + (-1)^2 \hat \sigma_c^2 + 2 \times 1
+\times -1 
+\times \hat\sigma_{r,c}}\\
+&amp;=&amp;\sqrt{\hat \sigma_r^2 + \hat \sigma_c^2 - 2 \times \hat\sigma_{r,c}}
+\end{array}
+\]</span></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>sdDelta2 &lt;-<span class="st"> </span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>) <span class="op">%*%</span><span class="st"> </span><span class="kw">var</span>(mouseWide[,<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>)]) <span class="op">%*%</span><span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span>sqrt</span>
+<span id="cb19-3"><a href="#cb19-3"></a>sdDelta2</span></code></pre></div>
+<pre><code>##           [,1]
+## [1,] 0.3706672</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>seDeltaBar &lt;-<span class="st"> </span>sdDelta2 <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(deltaSum<span class="op">$</span>n)</span>
+<span id="cb21-2"><a href="#cb21-2"></a>seDeltaBar</span></code></pre></div>
+<pre><code>##          [,1]
+## [1,] 0.140099</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>deltaSum</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["se"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.202857","2":"0.3706672","3":"7","4":"0.140099"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>De standarddeviatie van het verschil is veel kleiner door de sterke correlatie in expressie in beide celtypes.</li>
+<li>Merk op, dat het gepaarde design ons toelaat om de log2 FC te berekenen tussen beide celtypes voor elk proefdier.</li>
+</ul>
+</div>
+</div>
+<div id="rcb-analyse" class="section level2">
+<h2><span class="header-section-number">3.4</span> RCB analyse</h2>
+<p>We kunnen de data ook analyseren met een lineair model met</p>
+<ul>
+<li>een hoofdeffect voor celtype en</li>
+<li>een hoofdeffect voor de blokfactor muis</li>
+</ul>
+<p>Omdat we de expressie in elk celtype hebben gemeten kunnen we dus het gemiddelde effect schatten voor elke muis.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>lmRCB &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">~</span><span class="st"> </span>celltype <span class="op">+</span><span class="st"> </span>mouse, mouse)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="kw">plot</span>(lmRCB, <span class="dt">which =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-11-1.png" width="672" /><img src="experimentalDesignII_files/figure-html/unnamed-chunk-11-2.png" width="672" /><img src="experimentalDesignII_files/figure-html/unnamed-chunk-11-3.png" width="672" /></p>
+<p>Als je twijfelt of voldaan is aan de aannames van het model is het nuttig om gebruikt te maken van simulaties waarbij we data simuleren uit een model waar alle aannames zijn voldaan.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>design &lt;-<span class="st">  </span><span class="kw">model.matrix</span>(intensity <span class="op">~</span><span class="st"> </span>celltype <span class="op">+</span><span class="st"> </span>mouse, mouse) </span>
+<span id="cb25-2"><a href="#cb25-2"></a>sigmaMouse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)[<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Sum Sq&quot;</span>]<span class="op">/</span>car<span class="op">::</span><span class="kw">Anova</span>(lmRCB, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)[<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Df&quot;</span>]) </span>
+<span id="cb25-3"><a href="#cb25-3"></a>betas &lt;-<span class="st"> </span>lmRCB<span class="op">$</span>coefficients</span>
+<span id="cb25-4"><a href="#cb25-4"></a>nMouse &lt;-<span class="st"> </span>mouse<span class="op">$</span>mouse <span class="op">%&gt;%</span><span class="st"> </span>unique <span class="op">%&gt;%</span><span class="st"> </span>length</span>
+<span id="cb25-5"><a href="#cb25-5"></a></span>
+<span id="cb25-6"><a href="#cb25-6"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">9</span>)</span>
+<span id="cb25-8"><a href="#cb25-8"></a>{</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    mouseEffect &lt;-<span class="st"> </span><span class="kw">rnorm</span>(nMouse, <span class="dt">sd =</span> sigmaMouse)</span>
+<span id="cb25-10"><a href="#cb25-10"></a>    betasMouse &lt;-<span class="st"> </span>mouseEffect[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>mouseEffect[<span class="dv">1</span>]</span>
+<span id="cb25-11"><a href="#cb25-11"></a>    betas[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)] &lt;-<span class="st"> </span>betasMouse </span>
+<span id="cb25-12"><a href="#cb25-12"></a>    ysim &lt;-<span class="st"> </span>design <span class="op">%*%</span><span class="st"> </span>betas  <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(design),<span class="dt">sd=</span><span class="kw">sigma</span>(lmRCB))</span>
+<span id="cb25-13"><a href="#cb25-13"></a>    <span class="kw">plot</span>(<span class="kw">lm</span>(ysim <span class="op">~</span><span class="st"> </span><span class="dv">-1</span> <span class="op">+</span><span class="st"> </span>design), <span class="dt">which =</span> <span class="dv">1</span>) </span>
+<span id="cb25-14"><a href="#cb25-14"></a>}</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>De deviaties die we in de residuplot zien voor ons experiment zijn vergelijkbaar met afwijkingen die we kunnen observeren uit gesimuleerde data uit een gelijkaardige proef waarbij aan alle aannames van het model is voldaan.</p>
+<div id="inferentie" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Inferentie</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>anovaRCB &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(lmRCB, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">summary</span>(lmRCB)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensity ~ celltype + mouse, data = mouse)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.2356 -0.1387  0.0000  0.1387  0.2356 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    9.3671     0.1981  47.277 6.00e-09 ***
+## celltypeTreg   1.2029     0.1401   8.586 0.000137 ***
+## mousem2        0.5055     0.2621   1.929 0.102036    
+## mousem3        1.0255     0.2621   3.913 0.007869 ** 
+## mousem4        0.8545     0.2621   3.260 0.017245 *  
+## mousem5        0.7880     0.2621   3.006 0.023809 *  
+## mousem6        2.1055     0.2621   8.033 0.000199 ***
+## mousem7        2.4475     0.2621   9.338 8.55e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2621 on 6 degrees of freedom
+## Multiple R-squared:  0.9717, Adjusted R-squared:  0.9388 
+## F-statistic: 29.47 on 7 and 6 DF,  p-value: 0.000309</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">t.test</span>(mouseWide<span class="op">$</span>delta)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  mouseWide$delta
+## t = 8.5858, df = 6, p-value = 0.0001372
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.8600472 1.5456671
+## sample estimates:
+## mean of x 
+##  1.202857</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>anovaRCB</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"153.5485475","2":"1","3":"2235.15420","4":"6.002402e-09","_rn_":"(Intercept)"},{"1":"5.0640286","2":"1","3":"73.71535","4":"1.371937e-04","_rn_":"celltype"},{"1":"9.1065619","2":"6","3":"22.09352","4":"7.601249e-04","_rn_":"mouse"},{"1":"0.4121824","2":"6","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Merk op dat</p>
+<ol style="list-style-type: decimal">
+<li><p>de puntschatter, se, t-test statistiek en p-waarde voor het celtype effect exact overeenkomt met de analyse a.d.h.v. een gepaarde t-test!</p></li>
+<li><p>de anova analyse toont dat we met het model de totale variabiliteit in de expressie opsplitsen in variabiliteit door celtype (CT), variabiliteit tussen muizen (M) en residuele variabiliteit (R) binnen muis die we niet kunnen verklaren met het model:</p></li>
+</ol>
+<p><span class="math display">\[
+\begin{array}{lcl}
+\text{SSTot} &amp;=&amp; \text{SSCT} + \text{SSM} + \text{SSE}\\
+14.6 &amp;=&amp; 5.1 + 9.1 + 0.4
+\end{array}
+\]</span></p>
+<p>Het celtype en muis effect verklaren respectievelijk <span class="math display">\[
+\begin{array}{ll}
+\frac{\text{SSCT}}{\text{SSTot}}\times 100&amp;\frac{\text{SSM}}{\text{SSTot}}\times 100\\\\
+34.7&amp;
+62.4\\
+\end{array}
+\]</span></p>
+<p>percent van de variabiliteit in log2 proteïne-intensiteiten en</p>
+<p><span class="math display">\[ 
+\frac{\text{SSE}}{\text{SSTot}} \times 100 = 2.8
+\]</span> percent kan niet worden verklaard: residuele variabiliteit.</p>
+<p>Merk op, dat</p>
+<ul>
+<li>de variabiliteit tussen muizen de grootste bron van variabiliteit is in de data,</li>
+<li>Deze variabiliteit kunnen we schatten met het RCB design en</li>
+<li>we kunnen deze variabiliteit dus isoleren van de residuele variabiliteit</li>
+<li>Dat leidt tot een veel hogere precisie van de schatter voor de gemiddelde log2 FC tussen regulatorische eb conventionele T-cellen dan wat zou worden verkregen bij een CRD design!</li>
+</ul>
+<p>Merk ook op dat het RCB ook een aantal vrijheidsgraden dient op te offeren om het muiseffect te kunnen schatten, hier 6 DF.</p>
+<p>De winst in power van een RCB is dus een afweging tussen de variabiliteit die kan worden verklaart met het blokeffect en het verlies in vrijheidsgraden.</p>
+<p>Als je je de formule voor de variantie covariantie matrix van de parameter schatters bijhaalt zien we <span class="math display">\[
+\hat{\boldsymbol{\Sigma}}^2_{\hat{\boldsymbol{\beta}}}
+=\left(\mathbf{X}^T\mathbf{X}\right)^{-1}\hat\sigma^2
+\]</span></p>
+<p>dat het RCB een impact heeft op</p>
+<ul>
+<li><span class="math inline">\(\left(\mathbf{X}^T\mathbf{X}\right)^{-1}\)</span> alsook op</li>
+<li><span class="math inline">\(\hat\sigma^2\)</span> van de residuen!</li>
+</ul>
+<p><span class="math inline">\(\rightarrow\)</span> We kunnen de variantie in de expressie tussen de proefdieren/blokken isoleren uit onze analyse!</p>
+<p><span class="math inline">\(\rightarrow\)</span> Dat reduceert de variantie van de residuen en leidt tot een toename in power als de variabiliteit tussen muizen/blokken groot is.</p>
+<p>Merk op dat,</p>
+<p><span class="math display">\[
+\hat\sigma^2 = \frac{\text{SSE}}{n-p} = \frac{SSTot - SSM - SSCT}{n-p} 
+\]</span></p>
+<ul>
+<li>Blokken is dus nuttig als de reductie in SSE groot is in vergelijking met het verlies in vrijheidsgraden.</li>
+<li>Dus als SSM een groot deel in van de totale variabiliteit kan verklaren.</li>
+</ul>
+<p>Verder heeft het verlies in vrijheidsgraden ook een impact op de t-verdeling die zal worden gebruikt voor inferentie, die hierdoor bredere staarten zal hebben.</p>
+</div>
+</div>
+</div>
+<div id="vergelijking-van-de-power-tussen-een-crd-en-rcb" class="section level1">
+<h1><span class="header-section-number">4</span> Vergelijking van de power tussen een CRD en RCB</h1>
+<div id="voorbeelden-van-de-twee-designs" class="section level2">
+<h2><span class="header-section-number">4.1</span> Voorbeelden van de twee designs</h2>
+<p>Hier gaan we de data gebruiken om twee experimenten te simuleren:</p>
+<ul>
+<li><p>een randomized complete block design (RCB) met 3 muizen</p></li>
+<li><p>een completely randomized design (CRD) met 6 muizen maar waarbij we enkel één celtype per muis meten.</p></li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">set.seed</span>(<span class="dv">859</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a>mRcb &lt;-<span class="st"> </span>mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="st">  </span><span class="kw">pull</span>(mouse) <span class="op">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="st">  </span>unique <span class="op">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="st">  </span><span class="kw">sample</span>(<span class="dt">size=</span><span class="dv">3</span>)</span>
+<span id="cb31-6"><a href="#cb31-6"></a></span>
+<span id="cb31-7"><a href="#cb31-7"></a>rcbSmall &lt;-<span class="st"> </span>mouse <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(mouse<span class="op">%in%</span>mRcb)</span>
+<span id="cb31-8"><a href="#cb31-8"></a>rcbSmall</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["celltype"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mouse"],"name":[2],"type":["chr"],"align":["left"]},{"label":["intensity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Tcon","2":"m2","3":"10.022"},{"1":"Tcon","2":"m3","3":"10.604"},{"1":"Tcon","2":"m7","3":"11.709"},{"1":"Treg","2":"m2","3":"10.926"},{"1":"Treg","2":"m3","3":"11.384"},{"1":"Treg","2":"m7","3":"13.123"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>mCrd &lt;-<span class="st"> </span>mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="st">  </span><span class="kw">pull</span>(mouse) <span class="op">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="st">  </span>unique <span class="op">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="st">  </span><span class="kw">sample</span>(<span class="dt">size=</span><span class="dv">6</span>)</span>
+<span id="cb32-5"><a href="#cb32-5"></a></span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a>crdSmall &lt;-<span class="st"> </span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="st">  </span><span class="kw">bind_rows</span>(</span>
+<span id="cb32-9"><a href="#cb32-9"></a>    mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="st">      </span><span class="kw">filter</span>(mouse<span class="op">%in%</span>mCrd[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="st">      </span><span class="kw">filter</span>(celltype<span class="op">==</span><span class="st">&quot;Tcon&quot;</span>),</span>
+<span id="cb32-12"><a href="#cb32-12"></a>    mouse <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-13"><a href="#cb32-13"></a><span class="st">      </span><span class="kw">filter</span>(mouse<span class="op">%in%</span>mCrd[<span class="op">-</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb32-14"><a href="#cb32-14"></a><span class="st">      </span><span class="kw">filter</span>(celltype<span class="op">==</span><span class="st">&quot;Treg&quot;</span>))</span>
+<span id="cb32-15"><a href="#cb32-15"></a>crdSmall</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["celltype"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mouse"],"name":[2],"type":["chr"],"align":["left"]},{"label":["intensity"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Tcon","2":"m2","3":"10.022"},{"1":"Tcon","2":"m4","3":"10.328"},{"1":"Tcon","2":"m6","3":"11.237"},{"1":"Treg","2":"m1","3":"10.470"},{"1":"Treg","2":"m3","3":"11.384"},{"1":"Treg","2":"m7","3":"13.123"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>In beide experimenten dienen we dus 6 massa-spectrometrie runs te doen.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>lmCRDSmall &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">~</span><span class="st"> </span>celltype, crdSmall)</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="kw">summary</span>(lmCRDSmall)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensity ~ celltype, data = crdSmall)
+## 
+## Residuals:
+##      1      2      3      4      5      6 
+## -0.507 -0.201  0.708 -1.189 -0.275  1.464 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   10.5290     0.6077  17.326 6.51e-05 ***
+## celltypeTreg   1.1300     0.8594   1.315    0.259    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.053 on 4 degrees of freedom
+## Multiple R-squared:  0.3018, Adjusted R-squared:  0.1272 
+## F-statistic: 1.729 on 1 and 4 DF,  p-value: 0.2589</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">anova</span>(lmCRDSmall)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1.915350","3":"1.915350","4":"1.728906","5":"0.2588669","_rn_":"celltype"},{"1":"4","2":"4.431356","3":"1.107839","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>lmRCBSmall &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">~</span><span class="st"> </span>celltype <span class="op">+</span><span class="st"> </span>mouse, rcbSmall)</span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="kw">anova</span>(lmRCBSmall)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1.5996007","3":"1.59960067","4":"28.33525","5":"0.03352697","_rn_":"celltype"},{"1":"2","2":"4.0425653","3":"2.02128267","4":"35.80491","5":"0.02717029","_rn_":"mouse"},{"1":"2","2":"0.1129053","3":"0.05645267","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">summary</span>(lmRCBSmall)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensity ~ celltype + mouse, data = rcbSmall)
+## 
+## Residuals:
+##        1        2        3        4        5        6 
+##  0.06433  0.12633 -0.19067 -0.06433 -0.12633  0.19067 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    9.9577     0.1940  51.329 0.000379 ***
+## celltypeTreg   1.0327     0.1940   5.323 0.033527 *  
+## mousem3        0.5200     0.2376   2.189 0.160094    
+## mousem7        1.9420     0.2376   8.173 0.014641 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.2376 on 2 degrees of freedom
+## Multiple R-squared:  0.9804, Adjusted R-squared:  0.951 
+## F-statistic: 33.32 on 3 and 2 DF,  p-value: 0.02928</code></pre>
+<p>Merk op dat</p>
+<ul>
+<li>we de opregulatie van het proteïne in regulatorische T-cellen op kunnen pikken met het RCB maar niet met het CRD.</li>
+<li>de standarderror van de <span class="math inline">\(\log_2\text{FC}_\text{Treg-Tcon}\)</span> schatting is een factor 4.4 kleiner voor het RCB design!</li>
+</ul>
+<p>Een slechte data analyst die in zijn analyse vergeet om rekening te houden met het blokeffect is terug naar af:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>wrongRcb &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">~</span><span class="st"> </span>celltype, rcbSmall)</span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">anova</span>(wrongRcb)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1.599601","3":"1.599601","4":"1.539754","5":"0.2824583","_rn_":"celltype"},{"1":"4","2":"4.155471","3":"1.038868","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">summary</span>(wrongRcb)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensity ~ celltype, data = rcbSmall)
+## 
+## Residuals:
+##       1       2       3       4       5       6 
+## -0.7563 -0.1743  0.9307 -0.8850 -0.4270  1.3120 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   10.7783     0.5885  18.316 5.23e-05 ***
+## celltypeTreg   1.0327     0.8322   1.241    0.282    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.019 on 4 degrees of freedom
+## Multiple R-squared:  0.2779, Adjusted R-squared:  0.09743 
+## F-statistic:  1.54 on 1 and 4 DF,  p-value: 0.2825</code></pre>
+<ul>
+<li><p>In deze analyse wordt de variabiliteit tussen de blokken geabsorbeerd in de variantieschatter voor de residuele variabiliteit.</p></li>
+<li><p>Uiteraard mogen we een RCB design nooit analyseren zonder de blokfactor op te nemen in het model omdat het design een randomisatierestrictie impliceert.</p></li>
+</ul>
+</div>
+<div id="winst-in-power-door-blokking" class="section level2">
+<h2><span class="header-section-number">4.2</span> Winst in power door blokking?</h2>
+<div id="power-voor-completely-randomized-design-crd" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Power voor completely randomized design (CRD)</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>varBetweenPlusWithin &lt;-<span class="st"> </span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Sum Sq&quot;</span>])<span class="op">/</span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Df&quot;</span>])</span>
+<span id="cb42-2"><a href="#cb42-2"></a></span>
+<span id="cb42-3"><a href="#cb42-3"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a>nSim &lt;-<span class="st"> </span><span class="dv">20000</span></span>
+<span id="cb42-5"><a href="#cb42-5"></a>b0 &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb42-6"><a href="#cb42-6"></a>sd &lt;-<span class="st"> </span><span class="kw">sqrt</span>(varBetweenPlusWithin)</span>
+<span id="cb42-7"><a href="#cb42-7"></a>ns &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">7</span>)  </span>
+<span id="cb42-8"><a href="#cb42-8"></a>deltas &lt;-<span class="st"> </span>lmRCB<span class="op">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>]</span>
+<span id="cb42-9"><a href="#cb42-9"></a></span>
+<span id="cb42-10"><a href="#cb42-10"></a>L &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;celltypeTreg&quot;</span>,<span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;(Intercept)&quot;</span>,<span class="st">&quot;celltypeTreg&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = c(&quot;(Intercept)&quot;, :
+## Renaming (Intercept) to Intercept</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>powerFast &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="kw">length</span>(ns)<span class="op">*</span><span class="kw">length</span>(deltas),<span class="dt">ncol=</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="kw">names</span>(powerFast) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;b1&quot;</span>,<span class="st">&quot;n&quot;</span>,<span class="st">&quot;power&quot;</span>)</span>
+<span id="cb44-3"><a href="#cb44-3"></a></span>
+<span id="cb44-4"><a href="#cb44-4"></a>i &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb44-5"><a href="#cb44-5"></a><span class="cf">for</span> (n <span class="cf">in</span> ns)</span>
+<span id="cb44-6"><a href="#cb44-6"></a>{</span>
+<span id="cb44-7"><a href="#cb44-7"></a>  n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st">  </span>n</span>
+<span id="cb44-8"><a href="#cb44-8"></a>  </span>
+<span id="cb44-9"><a href="#cb44-9"></a>  <span class="co">### Simulation</span></span>
+<span id="cb44-10"><a href="#cb44-10"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">celltype =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>),<span class="kw">c</span>(n1,n2)) <span class="op">%&gt;%</span><span class="st"> </span>as.factor)</span>
+<span id="cb44-11"><a href="#cb44-11"></a>  design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>celltype,predictorData)</span>
+<span id="cb44-12"><a href="#cb44-12"></a>  </span>
+<span id="cb44-13"><a href="#cb44-13"></a>  <span class="cf">for</span> (b1 <span class="cf">in</span> deltas)</span>
+<span id="cb44-14"><a href="#cb44-14"></a>  {</span>
+<span id="cb44-15"><a href="#cb44-15"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(predictorData)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
+<span id="cb44-16"><a href="#cb44-16"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(predictorData),nSim)</span>
+<span id="cb44-17"><a href="#cb44-17"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span><span class="kw">c</span>(b0,b1))</span>
+<span id="cb44-18"><a href="#cb44-18"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
+<span id="cb44-19"><a href="#cb44-19"></a>  </span>
+<span id="cb44-20"><a href="#cb44-20"></a>    <span class="co">### Fitting</span></span>
+<span id="cb44-21"><a href="#cb44-21"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
+<span id="cb44-22"><a href="#cb44-22"></a>  </span>
+<span id="cb44-23"><a href="#cb44-23"></a>    <span class="co">### Inference</span></span>
+<span id="cb44-24"><a href="#cb44-24"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(L)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>L)</span>
+<span id="cb44-25"><a href="#cb44-25"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>L</span>
+<span id="cb44-26"><a href="#cb44-26"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
+<span id="cb44-27"><a href="#cb44-27"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
+<span id="cb44-28"><a href="#cb44-28"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb44-29"><a href="#cb44-29"></a>    </span>
+<span id="cb44-30"><a href="#cb44-30"></a>    i &lt;-<span class="st"> </span>i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb44-31"><a href="#cb44-31"></a>    powerFast[i,] &lt;-<span class="st"> </span><span class="kw">c</span>(b1,n,<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
+<span id="cb44-32"><a href="#cb44-32"></a>  }</span>
+<span id="cb44-33"><a href="#cb44-33"></a>}</span>
+<span id="cb44-34"><a href="#cb44-34"></a>powerFast</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["b1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["power"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.202857","2":"3","3":"0.24675"},{"1":"1.202857","2":"7","3":"0.64355"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Omdat we hier een eenvoudige vergelijking tussen twee groepen doen kunnen we de power ook berekenen met de <code>power.t.test</code> functie.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">power.t.test</span>(<span class="dt">n =</span> <span class="dv">3</span>,<span class="dt">delta =</span> lmRCB<span class="op">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>], <span class="dt">sd =</span> <span class="kw">sqrt</span>(varBetweenPlusWithin))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 3
+##           delta = 1.202857
+##              sd = 0.8906339
+##       sig.level = 0.05
+##           power = 0.2477638
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="kw">power.t.test</span>(<span class="dt">n =</span> <span class="dv">7</span>,<span class="dt">delta =</span> lmRCB<span class="op">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>], <span class="dt">sd =</span> <span class="kw">sqrt</span>(varBetweenPlusWithin))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 7
+##           delta = 1.202857
+##              sd = 0.8906339
+##       sig.level = 0.05
+##           power = 0.6411438
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<div id="power-voor-randomized-complete-block-design-rcb" class="section level2">
+<h2><span class="header-section-number">4.3</span> Power voor randomized complete block design (RCB)</h2>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>nSim &lt;-<span class="st"> </span><span class="dv">20000</span></span>
+<span id="cb49-3"><a href="#cb49-3"></a>b0 &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(lmRCB)</span>
+<span id="cb49-5"><a href="#cb49-5"></a>sdMouse&lt;-<span class="st"> </span><span class="kw">sqrt</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB)[<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Sum Sq&quot;</span>]<span class="op">/</span>car<span class="op">::</span><span class="kw">Anova</span>(lmRCB)[<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Df&quot;</span>]) </span>
+<span id="cb49-6"><a href="#cb49-6"></a>ns &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">7</span>)  </span>
+<span id="cb49-7"><a href="#cb49-7"></a>deltas &lt;-<span class="st"> </span>lmRCB<span class="op">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>]</span>
+<span id="cb49-8"><a href="#cb49-8"></a></span>
+<span id="cb49-9"><a href="#cb49-9"></a></span>
+<span id="cb49-10"><a href="#cb49-10"></a>powerFastBlocking &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="kw">length</span>(ns)<span class="op">*</span><span class="kw">length</span>(deltas),<span class="dt">ncol=</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span>
+<span id="cb49-11"><a href="#cb49-11"></a><span class="kw">names</span>(powerFastBlocking) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;b1&quot;</span>,<span class="st">&quot;n&quot;</span>,<span class="st">&quot;power&quot;</span>)</span>
+<span id="cb49-12"><a href="#cb49-12"></a></span>
+<span id="cb49-13"><a href="#cb49-13"></a>i &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb49-14"><a href="#cb49-14"></a><span class="cf">for</span> (n <span class="cf">in</span> ns)</span>
+<span id="cb49-15"><a href="#cb49-15"></a>{</span>
+<span id="cb49-16"><a href="#cb49-16"></a>  </span>
+<span id="cb49-17"><a href="#cb49-17"></a>  <span class="co">### Simulation</span></span>
+<span id="cb49-18"><a href="#cb49-18"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">celltype =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>),<span class="dt">each=</span>n) <span class="op">%&gt;%</span><span class="st"> </span>as.factor, <span class="dt">mouse =</span> <span class="kw">paste0</span>(<span class="st">&quot;m&quot;</span>,<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>n,<span class="dv">2</span>)))</span>
+<span id="cb49-19"><a href="#cb49-19"></a>  design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>celltype <span class="op">+</span><span class="st"> </span>mouse,predictorData)</span>
+<span id="cb49-20"><a href="#cb49-20"></a>  L &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;celltypeTreg&quot;</span>,<span class="dt">levels=</span><span class="kw">colnames</span>(design))</span>
+<span id="cb49-21"><a href="#cb49-21"></a></span>
+<span id="cb49-22"><a href="#cb49-22"></a>  <span class="cf">for</span> (b1 <span class="cf">in</span> deltas)</span>
+<span id="cb49-23"><a href="#cb49-23"></a>  {</span>
+<span id="cb49-24"><a href="#cb49-24"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(predictorData)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
+<span id="cb49-25"><a href="#cb49-25"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(predictorData),nSim)</span>
+<span id="cb49-26"><a href="#cb49-26"></a>    mouseEffect &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">sd =</span> sdMouse)</span>
+<span id="cb49-27"><a href="#cb49-27"></a>    betasMouse &lt;-<span class="st"> </span>mouseEffect[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>mouseEffect[<span class="dv">1</span>]</span>
+<span id="cb49-28"><a href="#cb49-28"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span><span class="kw">c</span>(b0,b1,betasMouse))</span>
+<span id="cb49-29"><a href="#cb49-29"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
+<span id="cb49-30"><a href="#cb49-30"></a>  </span>
+<span id="cb49-31"><a href="#cb49-31"></a>    <span class="co">### Fitting</span></span>
+<span id="cb49-32"><a href="#cb49-32"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
+<span id="cb49-33"><a href="#cb49-33"></a>  </span>
+<span id="cb49-34"><a href="#cb49-34"></a>    <span class="co">### Inference</span></span>
+<span id="cb49-35"><a href="#cb49-35"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(L)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>L)</span>
+<span id="cb49-36"><a href="#cb49-36"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>L</span>
+<span id="cb49-37"><a href="#cb49-37"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
+<span id="cb49-38"><a href="#cb49-38"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
+<span id="cb49-39"><a href="#cb49-39"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb49-40"><a href="#cb49-40"></a>    </span>
+<span id="cb49-41"><a href="#cb49-41"></a>    i &lt;-<span class="st"> </span>i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb49-42"><a href="#cb49-42"></a>    powerFastBlocking[i,] &lt;-<span class="st"> </span><span class="kw">c</span>(b1,n,<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
+<span id="cb49-43"><a href="#cb49-43"></a>  }</span>
+<span id="cb49-44"><a href="#cb49-44"></a>}</span></code></pre></div>
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
+## Renaming (Intercept) to Intercept
+
+## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
+## Renaming (Intercept) to Intercept</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>powerFastBlocking</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["b1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["power"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.202857","2":"3","3":"0.79505"},{"1":"1.202857","2":"7","3":"1.00000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Merk op dat de power veel hoger is voor het RCB zowel voor een design met 6 als 14 massa-spectrometrie runs.</p>
+<p>Omdat het RCB een blokgrootte heeft van 2 (gepaard design) kunnen we de power ook berekenen met de <code>power.t.test function</code> met <code>type = "one.sample"</code> en <code>sd</code> equal de standard deviatie van het verschil.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="kw">power.t.test</span>(<span class="dt">n =</span> <span class="dv">3</span>,<span class="dt">delta =</span> <span class="kw">mean</span>(mouseWide<span class="op">$</span>delta), <span class="dt">sd =</span> <span class="kw">sd</span>(mouseWide<span class="op">$</span>delta))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 3
+##           delta = 1.202857
+##              sd = 0.3706672
+##       sig.level = 0.05
+##           power = 0.8389961
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="kw">power.t.test</span>(<span class="dt">n =</span> <span class="dv">7</span>,<span class="dt">delta =</span> <span class="kw">mean</span>(mouseWide<span class="op">$</span>delta), <span class="dt">sd =</span> <span class="kw">sd</span>(mouseWide<span class="op">$</span>delta))</span></code></pre></div>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 7
+##           delta = 1.202857
+##              sd = 0.3706672
+##       sig.level = 0.05
+##           power = 0.999826
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>Merk op dat de power iets anders is omdat we met de power.t.test functie hebben conditioneerd op de muizen uit het originele experiment terwijl we de in de simulatie-studie hebben gegenereerd door het muiseffect te simuleren uit een normale verdeling.</p>
+</div>
+<div id="impact-van-de-hoeveelheid-variabiliteit-dat-het-blokeffect-verklaart-op-de-power" class="section level2">
+<h2><span class="header-section-number">4.4</span> Impact van de hoeveelheid variabiliteit dat het blokeffect verklaart op de power?</h2>
+<p>We variëren de hoeveelheid variabiliteit die het blokeffect verklaart:<br />
+<span class="math display">\[
+\frac{\sigma^2_\text{between}}{\sigma^2_\text{between}+\sigma^2_\text{within}}=1-\frac{\sigma^2_\text{within}}{\sigma^2_\text{between}+\sigma^2_\text{within}}
+\]</span></p>
+<p>In ons voorbeeld is de ratio in de variabiliteit tussen muizen en de sum van de variabiliteit tussen en binnen muizen. Merk op dat de variantie binnen muizen gelijk is aan de variantie van de errors van het RCB. De ratio voor ons experiment is</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>varBetweenPlusWithin &lt;-<span class="st"> </span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Sum Sq&quot;</span>])<span class="op">/</span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Df&quot;</span>])</span>
+<span id="cb56-2"><a href="#cb56-2"></a>varWithin &lt;-<span class="st"> </span>car<span class="op">::</span><span class="kw">Anova</span>(lmRCB)[<span class="st">&quot;Residuals&quot;</span>,<span class="st">&quot;Sum Sq&quot;</span>]<span class="op">/</span>car<span class="op">::</span><span class="kw">Anova</span>(lmRCB)[<span class="st">&quot;Residuals&quot;</span>,<span class="st">&quot;Df&quot;</span>]</span>
+<span id="cb56-3"><a href="#cb56-3"></a>varBetweenPlusWithin</span></code></pre></div>
+<pre><code>## [1] 0.7932287</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>varWithin</span></code></pre></div>
+<pre><code>## [1] 0.06869707</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a><span class="dv">1</span><span class="op">-</span><span class="st"> </span>varWithin<span class="op">/</span>varBetweenPlusWithin</span></code></pre></div>
+<pre><code>## [1] 0.9133956</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb62-2"><a href="#cb62-2"></a>nSim &lt;-<span class="st"> </span><span class="dv">20000</span></span>
+<span id="cb62-3"><a href="#cb62-3"></a>b0 &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb62-4"><a href="#cb62-4"></a>varBetweenPlusWithin &lt;-<span class="st"> </span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Sum Sq&quot;</span>])<span class="op">/</span><span class="kw">sum</span>(car<span class="op">::</span><span class="kw">Anova</span>(lmRCB,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)[<span class="kw">c</span>(<span class="st">&quot;mouse&quot;</span>,<span class="st">&quot;Residuals&quot;</span>),<span class="st">&quot;Df&quot;</span>])</span>
+<span id="cb62-5"><a href="#cb62-5"></a> </span>
+<span id="cb62-6"><a href="#cb62-6"></a></span>
+<span id="cb62-7"><a href="#cb62-7"></a>ns &lt;-<span class="st">  </span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">7</span>)  </span>
+<span id="cb62-8"><a href="#cb62-8"></a>deltas &lt;-<span class="st"> </span>lmRCB<span class="op">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>]</span>
+<span id="cb62-9"><a href="#cb62-9"></a></span>
+<span id="cb62-10"><a href="#cb62-10"></a>fracVars &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>,.<span class="dv">95</span>,.<span class="dv">05</span>)</span>
+<span id="cb62-11"><a href="#cb62-11"></a></span>
+<span id="cb62-12"><a href="#cb62-12"></a>powerFastBlockingLow &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="kw">length</span>(ns)<span class="op">*</span><span class="kw">length</span>(fracVars),<span class="dt">ncol=</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span>
+<span id="cb62-13"><a href="#cb62-13"></a><span class="kw">names</span>(powerFastBlockingLow) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;fracVars&quot;</span>,<span class="st">&quot;n&quot;</span>,<span class="st">&quot;power&quot;</span>)</span>
+<span id="cb62-14"><a href="#cb62-14"></a></span>
+<span id="cb62-15"><a href="#cb62-15"></a>i &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb62-16"><a href="#cb62-16"></a></span>
+<span id="cb62-17"><a href="#cb62-17"></a></span>
+<span id="cb62-18"><a href="#cb62-18"></a><span class="cf">for</span> (n <span class="cf">in</span> ns)</span>
+<span id="cb62-19"><a href="#cb62-19"></a>{</span>
+<span id="cb62-20"><a href="#cb62-20"></a>  </span>
+<span id="cb62-21"><a href="#cb62-21"></a>  <span class="co">### Simulation</span></span>
+<span id="cb62-22"><a href="#cb62-22"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">celltype =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;Tcon&quot;</span>,<span class="st">&quot;Treg&quot;</span>),<span class="dt">each=</span>n) <span class="op">%&gt;%</span><span class="st"> </span>as.factor, <span class="dt">mouse =</span> <span class="kw">paste0</span>(<span class="st">&quot;m&quot;</span>,<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span>n,<span class="dv">2</span>)))</span>
+<span id="cb62-23"><a href="#cb62-23"></a>  design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>celltype <span class="op">+</span><span class="st"> </span>mouse,predictorData)</span>
+<span id="cb62-24"><a href="#cb62-24"></a>  L &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;celltypeTreg&quot;</span>,<span class="dt">levels=</span><span class="kw">colnames</span>(design))</span>
+<span id="cb62-25"><a href="#cb62-25"></a>  <span class="cf">for</span> (fracVar <span class="cf">in</span> fracVars)</span>
+<span id="cb62-26"><a href="#cb62-26"></a>  {</span>
+<span id="cb62-27"><a href="#cb62-27"></a>  sd &lt;-<span class="st"> </span><span class="kw">sqrt</span>(varBetweenPlusWithin<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>fracVar))</span>
+<span id="cb62-28"><a href="#cb62-28"></a>  sdMouse &lt;-<span class="st"> </span><span class="kw">sqrt</span>(varBetweenPlusWithin<span class="op">*</span>fracVar) </span>
+<span id="cb62-29"><a href="#cb62-29"></a>  <span class="cf">for</span> (b1 <span class="cf">in</span> deltas)</span>
+<span id="cb62-30"><a href="#cb62-30"></a>  {</span>
+<span id="cb62-31"><a href="#cb62-31"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(predictorData)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
+<span id="cb62-32"><a href="#cb62-32"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(predictorData),nSim)</span>
+<span id="cb62-33"><a href="#cb62-33"></a>    mouseEffect &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n, <span class="dt">sd =</span> sdMouse)</span>
+<span id="cb62-34"><a href="#cb62-34"></a>    betasMouse &lt;-<span class="st"> </span>mouseEffect[<span class="op">-</span><span class="dv">1</span>]<span class="op">-</span>mouseEffect[<span class="dv">1</span>]</span>
+<span id="cb62-35"><a href="#cb62-35"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span><span class="kw">c</span>(b0,b1,betasMouse))</span>
+<span id="cb62-36"><a href="#cb62-36"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
+<span id="cb62-37"><a href="#cb62-37"></a>  </span>
+<span id="cb62-38"><a href="#cb62-38"></a>    <span class="co">### Fitting</span></span>
+<span id="cb62-39"><a href="#cb62-39"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
+<span id="cb62-40"><a href="#cb62-40"></a>  </span>
+<span id="cb62-41"><a href="#cb62-41"></a>    <span class="co">### Inference</span></span>
+<span id="cb62-42"><a href="#cb62-42"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(L)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>L)</span>
+<span id="cb62-43"><a href="#cb62-43"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>L</span>
+<span id="cb62-44"><a href="#cb62-44"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
+<span id="cb62-45"><a href="#cb62-45"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
+<span id="cb62-46"><a href="#cb62-46"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
+<span id="cb62-47"><a href="#cb62-47"></a>    </span>
+<span id="cb62-48"><a href="#cb62-48"></a>    i &lt;-<span class="st"> </span>i<span class="op">+</span><span class="dv">1</span></span>
+<span id="cb62-49"><a href="#cb62-49"></a>    powerFastBlockingLow[i,] &lt;-<span class="st"> </span><span class="kw">c</span>(fracVar,n,<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
+<span id="cb62-50"><a href="#cb62-50"></a>  }</span>
+<span id="cb62-51"><a href="#cb62-51"></a>  }</span>
+<span id="cb62-52"><a href="#cb62-52"></a>}</span></code></pre></div>
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
+## Renaming (Intercept) to Intercept
+
+## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
+## Renaming (Intercept) to Intercept</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>powerFastBlockingLow</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["fracVars"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["power"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.00","2":"3","3":"0.16935"},{"1":"0.05","2":"3","3":"0.17575"},{"1":"0.10","2":"3","3":"0.18705"},{"1":"0.15","2":"3","3":"0.19050"},{"1":"0.20","2":"3","3":"0.19445"},{"1":"0.25","2":"3","3":"0.20330"},{"1":"0.30","2":"3","3":"0.20745"},{"1":"0.35","2":"3","3":"0.22805"},{"1":"0.40","2":"3","3":"0.24110"},{"1":"0.45","2":"3","3":"0.26075"},{"1":"0.50","2":"3","3":"0.27305"},{"1":"0.55","2":"3","3":"0.29500"},{"1":"0.60","2":"3","3":"0.31615"},{"1":"0.65","2":"3","3":"0.34370"},{"1":"0.70","2":"3","3":"0.38995"},{"1":"0.75","2":"3","3":"0.44120"},{"1":"0.80","2":"3","3":"0.51210"},{"1":"0.85","2":"3","3":"0.60890"},{"1":"0.90","2":"3","3":"0.75210"},{"1":"0.95","2":"3","3":"0.93550"},{"1":"0.00","2":"7","3":"0.55920"},{"1":"0.05","2":"7","3":"0.58150"},{"1":"0.10","2":"7","3":"0.60545"},{"1":"0.15","2":"7","3":"0.62625"},{"1":"0.20","2":"7","3":"0.65755"},{"1":"0.25","2":"7","3":"0.68370"},{"1":"0.30","2":"7","3":"0.71110"},{"1":"0.35","2":"7","3":"0.73940"},{"1":"0.40","2":"7","3":"0.77070"},{"1":"0.45","2":"7","3":"0.80430"},{"1":"0.50","2":"7","3":"0.85040"},{"1":"0.55","2":"7","3":"0.88100"},{"1":"0.60","2":"7","3":"0.90875"},{"1":"0.65","2":"7","3":"0.94025"},{"1":"0.70","2":"7","3":"0.96775"},{"1":"0.75","2":"7","3":"0.98600"},{"1":"0.80","2":"7","3":"0.99525"},{"1":"0.85","2":"7","3":"0.99955"},{"1":"0.90","2":"7","3":"1.00000"},{"1":"0.95","2":"7","3":"1.00000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>gg_color_hue &lt;-<span class="st"> </span><span class="cf">function</span>(n) {</span>
+<span id="cb65-2"><a href="#cb65-2"></a>  hues =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">15</span>, <span class="dv">375</span>, <span class="dt">length =</span> n <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb65-3"><a href="#cb65-3"></a>  <span class="kw">hcl</span>(<span class="dt">h =</span> hues, <span class="dt">l =</span> <span class="dv">65</span>, <span class="dt">c =</span> <span class="dv">100</span>)[<span class="dv">1</span><span class="op">:</span>n]</span>
+<span id="cb65-4"><a href="#cb65-4"></a>}</span>
+<span id="cb65-5"><a href="#cb65-5"></a>cols &lt;-<span class="st"> </span><span class="kw">gg_color_hue</span>(<span class="dv">2</span>)</span>
+<span id="cb65-6"><a href="#cb65-6"></a></span>
+<span id="cb65-7"><a href="#cb65-7"></a>powerFastBlockingLow <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb65-8"><a href="#cb65-8"></a><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span></span>
+<span id="cb65-9"><a href="#cb65-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n =</span> <span class="kw">as.factor</span>(n)) <span class="op">%&gt;%</span></span>
+<span id="cb65-10"><a href="#cb65-10"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(fracVars,power,<span class="dt">group=</span>n,<span class="dt">color=</span>n)) <span class="op">+</span></span>
+<span id="cb65-11"><a href="#cb65-11"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb65-12"><a href="#cb65-12"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> powerFast <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(n<span class="op">==</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(power),<span class="dt">color=</span>cols[<span class="dv">1</span>]) <span class="op">+</span></span>
+<span id="cb65-13"><a href="#cb65-13"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;CRD (n=3)&quot;</span>,</span>
+<span id="cb65-14"><a href="#cb65-14"></a>    <span class="dt">x =</span> <span class="fl">0.05</span>, <span class="dt">y =</span> powerFast <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(n<span class="op">==</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(power) <span class="fl">+.02</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">colour =</span> cols[<span class="dv">1</span>]) <span class="op">+</span></span>
+<span id="cb65-15"><a href="#cb65-15"></a><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> powerFast <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(n<span class="op">==</span><span class="dv">7</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(power),<span class="dt">color=</span>cols[<span class="dv">2</span>]) <span class="op">+</span></span>
+<span id="cb65-16"><a href="#cb65-16"></a><span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">label =</span> <span class="st">&quot;CRD (n=7)&quot;</span>,</span>
+<span id="cb65-17"><a href="#cb65-17"></a>    <span class="dt">x =</span> <span class="fl">0.05</span>, <span class="dt">y =</span> powerFast <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(n<span class="op">==</span><span class="dv">7</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(power) <span class="fl">+.02</span>, <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">colour =</span> cols[<span class="dv">2</span>]) <span class="op">+</span></span>
+<span id="cb65-18"><a href="#cb65-18"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="kw">expression</span>(<span class="op">~</span>sigma[between]<span class="op">^</span><span class="dv">2</span><span class="op">/</span>(sigma[between]<span class="op">^</span><span class="dv">2</span><span class="op">+</span>sigma[within]<span class="op">^</span><span class="dv">2</span>))) <span class="op">+</span></span>
+<span id="cb65-19"><a href="#cb65-19"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="dv">1</span><span class="op">-</span>varWithin<span class="op">/</span>varBetweenPlusWithin) <span class="op">+</span></span>
+<span id="cb65-20"><a href="#cb65-20"></a><span class="st">  </span><span class="kw">xlim</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<ul>
+<li><p>Als de variantie die wordt verklaard door het blokeffect klein is dan verlies je power in vergelijking met het CRD design. Inderdaad,</p>
+<ul>
+<li>SSE verkleint dan niet veel en</li>
+<li>n<span class="math inline">\(_\text{blocks}\)</span>-1 vrijheidsgraden werden opgeofferd.</li>
+</ul></li>
+<li><p>Van zodra dat het blokeffect een behoorlijk aandeel van de variabiliteit verklaart is het RCB heel erg nuttig!</p></li>
+<li><p>Merk op dat hetzelfde aantal MS runs nodig zijn voor beide designs. Maar voor het RCB hebben we maar de helft van de ratten nodig.</p></li>
+</ul>
+</div>
+</div>
+<div id="penicilline-voorbeeld" class="section level1">
+<h1><span class="header-section-number">5</span> Penicilline voorbeeld</h1>
+<p>Voor de productie van piniciline wordt corn steep liquor (CSL) gebruikt. CSL wordt in blends geproduceerd en er is een behoorlijk grote variabiliteit van blend tot blend.</p>
+<p>Stel dat</p>
+<ul>
+<li>vier methoden moeten worden geëvalueerd om penicilline te produceren (A-D),</li>
+<li>één blend voldoende is voor 4 runs met een penicilline reactor en</li>
+<li>dat 20 runs worden voorzien voor het experiment.</li>
+</ul>
+<p>Hoe zou je de methoden toekennen aan de CSL blends.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="kw">data</span>(penicillin, <span class="dt">package=</span><span class="st">&quot;faraway&quot;</span>)</span>
+<span id="cb66-2"><a href="#cb66-2"></a><span class="kw">table</span>(penicillin<span class="op">$</span>blend,penicillin<span class="op">$</span>treat)</span></code></pre></div>
+<pre><code>##         
+##          A B C D
+##   Blend1 1 1 1 1
+##   Blend2 1 1 1 1
+##   Blend3 1 1 1 1
+##   Blend4 1 1 1 1
+##   Blend5 1 1 1 1</code></pre>
+<div id="data" class="section level2">
+<h2><span class="header-section-number">5.1</span> Data</h2>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="kw">head</span>(penicillin)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["treat"],"name":[1],"type":["fct"],"align":["left"]},{"label":["blend"],"name":[2],"type":["fct"],"align":["left"]},{"label":["yield"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"A","2":"Blend1","3":"89","_rn_":"1"},{"1":"B","2":"Blend1","3":"88","_rn_":"2"},{"1":"C","2":"Blend1","3":"97","_rn_":"3"},{"1":"D","2":"Blend1","3":"94","_rn_":"4"},{"1":"A","2":"Blend2","3":"84","_rn_":"5"},{"1":"B","2":"Blend2","3":"77","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a><span class="kw">matrix</span>(penicillin<span class="op">$</span>yield,<span class="dt">nrow=</span><span class="dv">5</span>,<span class="dt">ncol=</span><span class="dv">4</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>,<span class="dt">dimnames=</span><span class="kw">list</span>(<span class="kw">levels</span>(penicillin<span class="op">$</span>blend),<span class="kw">levels</span>(penicillin<span class="op">$</span>treat)))</span></code></pre></div>
+<pre><code>##         A  B  C  D
+## Blend1 89 88 97 94
+## Blend2 84 77 92 79
+## Blend3 81 87 87 85
+## Blend4 87 92 89 84
+## Blend5 79 81 80 88</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>penicillin <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb71-2"><a href="#cb71-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> blend, <span class="dt">y =</span> yield, <span class="dt">group =</span> treat, <span class="dt">color =</span> treat)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb71-3"><a href="#cb71-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb71-4"><a href="#cb71-4"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a>penicillin <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> treat, <span class="dt">y =</span> yield, <span class="dt">group =</span> blend, <span class="dt">color =</span> blend)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb72-3"><a href="#cb72-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb72-4"><a href="#cb72-4"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="analyse" class="section level2">
+<h2><span class="header-section-number">5.2</span> Analyse</h2>
+<p>We analyseren de opbrengst met</p>
+<ul>
+<li>een factor voor blend en<br />
+</li>
+<li>een factor voor de behandeling.</li>
+</ul>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>lmPen &lt;-<span class="st"> </span><span class="kw">lm</span>(yield<span class="op">~</span>treat <span class="op">+</span><span class="st"> </span>blend, <span class="dt">data =</span> penicillin)</span>
+<span id="cb73-2"><a href="#cb73-2"></a><span class="kw">plot</span>(lmPen)</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-30-1.png" width="672" /><img src="experimentalDesignII_files/figure-html/unnamed-chunk-30-2.png" width="672" /><img src="experimentalDesignII_files/figure-html/unnamed-chunk-30-3.png" width="672" /><img src="experimentalDesignII_files/figure-html/unnamed-chunk-30-4.png" width="672" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a>car<span class="op">::</span><span class="kw">Anova</span>(lmPen,<span class="dt">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"20250","2":"1","3":"1075.221239","4":"4.097853e-13","_rn_":"(Intercept)"},{"1":"70","2":"3","3":"1.238938","4":"3.386581e-01","_rn_":"treat"},{"1":"264","2":"4","3":"3.504425","4":"4.074617e-02","_rn_":"blend"},{"1":"226","2":"12","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We kunnen besluiten dat het effect van de behandeling op de penicilline opbrengst niet significant is op het 5% significantieniveau. (p = 0.34.</p>
+<p>We observeren een groot effect van de blend op de opbrengst.<br />
+Blend verklaart 47.1% van de variabiliteit in de penicilline opbrengst.</p>
+</div>
+</div>
+<div id="pseudo-replicatie" class="section level1">
+<h1><span class="header-section-number">6</span> Pseudo-replicatie</h1>
+<p>Een studie op de pathogeen Francisella tularensis werd door Ramond et al. (2015) uitgevoerd.</p>
+<ul>
+<li><p>F. tularensis besmet de cellen van de gastheer via fagocytosis.</p></li>
+<li><p>De auteurs toonden aan dat tularensis deficiënt is aan arginine. Het importeert arginine actief uit de cellen van de gastheer via een arginine transporter, ArgP.</p></li>
+<li><p>Zonder de transporter is de fagosome escape en multiplicatie in het cytoplasma vertraagd.</p></li>
+<li><p>In de studie vergeleken ze het proteome van wild type F. tularensis (WT) met dat van ArgP-gene deleted F. tularensis (knock-out, D8).</p></li>
+<li><p>Elk bio-rep werd in technisch triplicaat gerund op de mass-spectrometer.</p></li>
+<li><p>We gebruiken de data voor het 50S ribosomaal proteïne L5 <a href="https://www.uniprot.org/uniprot/A0Q4J5">A0Q4J5</a></p></li>
+</ul>
+<div id="data-exploratie-2" class="section level2">
+<h2><span class="header-section-number">6.1</span> Data exploratie</h2>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>franc &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/francisellaA0Q4J5.txt&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   genotype = col_character(),
+##   biorep = col_character(),
+##   intensityLog2 = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>franc</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["genotype"],"name":[1],"type":["chr"],"align":["left"]},{"label":["biorep"],"name":[2],"type":["chr"],"align":["left"]},{"label":["intensityLog2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"WT","2":"WT_n3","3":"27.73900"},{"1":"WT","2":"WT_n3","3":"27.47128"},{"1":"WT","2":"WT_n3","3":"27.70466"},{"1":"WT","2":"WT_n4","3":"27.47251"},{"1":"WT","2":"WT_n4","3":"27.58132"},{"1":"WT","2":"WT_n4","3":"27.55821"},{"1":"WT","2":"WT_n5","3":"27.54348"},{"1":"WT","2":"WT_n5","3":"27.53997"},{"1":"WT","2":"WT_n5","3":"27.63349"},{"1":"D8","2":"D8_n3","3":"27.13884"},{"1":"D8","2":"D8_n3","3":"27.33571"},{"1":"D8","2":"D8_n3","3":"27.28402"},{"1":"D8","2":"D8_n4","3":"27.32043"},{"1":"D8","2":"D8_n4","3":"27.42848"},{"1":"D8","2":"D8_n4","3":"27.53619"},{"1":"D8","2":"D8_n5","3":"27.34253"},{"1":"D8","2":"D8_n5","3":"27.38901"},{"1":"D8","2":"D8_n5","3":"27.44917"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>franc <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb78-2"><a href="#cb78-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(biorep, intensityLog2, <span class="dt">color =</span> genotype)) <span class="op">+</span></span>
+<span id="cb78-3"><a href="#cb78-3"></a><span class="st">  </span><span class="kw">geom_point</span>()</span></code></pre></div>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<ul>
+<li>Response?</li>
+<li>Experimentele eenheid?</li>
+<li>Observationele eenheid?</li>
+<li>Factoren?</li>
+</ul>
+<p><span class="math inline">\(\rightarrow\)</span> Pseudo-replicatie, randomisatie naar bio-rep en elke bio-rep werd 3 keer gemeten.</p>
+<p><span class="math inline">\(\rightarrow\)</span> Als we de data zouden analyseren met een lineair model op basis van elke gemeten intensiteit, dan zouden we doen alsof we 18 bio-reps hadden in de studie. <span class="math inline">\(\rightarrow\)</span> Effect van interesse tussen de bio-reps. Blok analyse is niet mogelijk!</p>
+<p>Als we hetzelfde aantal technische replicaten hebben voor elke bio-rep:</p>
+<ul>
+<li><p>kunnen we de technische replicaten eerst uitmiddelen over elke biorep om onafhankelijke metingen te bekomen</p></li>
+<li><p>deze gemiddelden zullen dan eenzelfde precisie hebben</p></li>
+<li><p>we kunnen dan het effect van de behandeling schatten op de samengevatte waarden per bio-rep.</p></li>
+<li><p><strong>LET OP: middel nooit uit over de bio-reps/experimentele eenheden</strong></p></li>
+</ul>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>lmBiorep &lt;-<span class="st"> </span><span class="kw">lm</span>(intensityLog2 <span class="op">~</span><span class="st"> </span><span class="dv">-1</span> <span class="op">+</span><span class="st"> </span>biorep, franc)</span>
+<span id="cb79-2"><a href="#cb79-2"></a>lmBiorep</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensityLog2 ~ -1 + biorep, data = franc)
+## 
+## Coefficients:
+## biorepD8_n3  biorepD8_n4  biorepD8_n5  biorepWT_n3  biorepWT_n4  biorepWT_n5  
+##       27.25        27.43        27.39        27.64        27.54        27.57</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>francSum &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">genotype =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;D8&quot;</span>,<span class="st">&quot;WT&quot;</span>),<span class="dt">each=</span><span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.factor <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">relevel</span>(<span class="st">&quot;WT&quot;</span>), <span class="dt">intensityLog2 =</span> lmBiorep<span class="op">$</span>coef)</span>
+<span id="cb81-2"><a href="#cb81-2"></a>francSum</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["genotype"],"name":[1],"type":["fct"],"align":["left"]},{"label":["intensityLog2"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"D8","2":"27.25286","_rn_":"biorepD8_n3"},{"1":"D8","2":"27.42836","_rn_":"biorepD8_n4"},{"1":"D8","2":"27.39357","_rn_":"biorepD8_n5"},{"1":"WT","2":"27.63831","_rn_":"biorepWT_n3"},{"1":"WT","2":"27.53734","_rn_":"biorepWT_n4"},{"1":"WT","2":"27.57232","_rn_":"biorepWT_n5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>lmSum &lt;-<span class="st"> </span><span class="kw">lm</span>(intensityLog2 <span class="op">~</span><span class="st"> </span>genotype, francSum)</span>
+<span id="cb82-2"><a href="#cb82-2"></a><span class="kw">summary</span>(lmSum)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensityLog2 ~ genotype, data = francSum)
+## 
+## Residuals:
+## biorepD8_n3 biorepD8_n4 biorepD8_n5 biorepWT_n3 biorepWT_n4 biorepWT_n5 
+##    -0.10541     0.07010     0.03531     0.05566    -0.04531    -0.01034 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.58266    0.04333 636.581 3.65e-11 ***
+## genotypeD8  -0.22439    0.06128  -3.662   0.0215 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.07505 on 4 degrees of freedom
+## Multiple R-squared:  0.7702, Adjusted R-squared:  0.7128 
+## F-statistic: 13.41 on 1 and 4 DF,  p-value: 0.02154</code></pre>
+</div>
+<div id="verkeerde-analyse" class="section level2">
+<h2><span class="header-section-number">6.2</span> Verkeerde analyse</h2>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1"></a>lmWrong &lt;-<span class="st"> </span><span class="kw">lm</span>(intensityLog2 <span class="op">~</span><span class="st"> </span>genotype, franc)</span>
+<span id="cb84-2"><a href="#cb84-2"></a><span class="kw">summary</span>(lmWrong)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = intensityLog2 ~ genotype, data = franc)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.21943 -0.04181 -0.01914  0.06537  0.17792 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 27.35826    0.03457  791.48  &lt; 2e-16 ***
+## genotypeWT   0.22439    0.04888    4.59 0.000302 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1037 on 16 degrees of freedom
+## Multiple R-squared:  0.5684, Adjusted R-squared:  0.5414 
+## F-statistic: 21.07 on 1 and 16 DF,  p-value: 0.0003017</code></pre>
+<p>Merk op dat de verkeerde analyse geen rekening houdt dat er meerdere technische replicaten zijn voor elke bio-repeat waardoor er een artificieel significant resultaat wordt bekomen omdat het voor deze analyse lijkt alsof er 3 drie zoveel onafhankelijke metingen zijn.</p>
+<div id="type-i-fout" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Type I fout!</h3>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1"></a>sigmaWithin &lt;-<span class="st"> </span><span class="kw">sigma</span>(lmBiorep)</span>
+<span id="cb86-2"><a href="#cb86-2"></a>sigmaBetween &lt;-<span class="st"> </span><span class="kw">sigma</span>(lmSum)</span>
+<span id="cb86-3"><a href="#cb86-3"></a>xBiorep &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~-</span><span class="dv">1</span><span class="op">+</span>biorep,franc)</span>
+<span id="cb86-4"><a href="#cb86-4"></a>xWrong &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span>genotype,franc)</span>
+<span id="cb86-5"><a href="#cb86-5"></a></span>
+<span id="cb86-6"><a href="#cb86-6"></a></span>
+<span id="cb86-7"><a href="#cb86-7"></a><span class="kw">set.seed</span>(<span class="dv">2523</span>)</span>
+<span id="cb86-8"><a href="#cb86-8"></a>nSim &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb86-9"><a href="#cb86-9"></a>resWrong &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,nSim,<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span>as.data.frame</span>
+<span id="cb86-10"><a href="#cb86-10"></a><span class="kw">names</span>(resWrong) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Estimate&quot;</span>,<span class="st">&quot;Std. Error&quot;</span>,<span class="st">&quot;t value&quot;</span>,<span class="st">&quot;pvalue&quot;</span>)</span>
+<span id="cb86-11"><a href="#cb86-11"></a>resCorrect &lt;-<span class="st"> </span>resWrong</span>
+<span id="cb86-12"><a href="#cb86-12"></a>genotype &lt;-<span class="st"> </span>franc<span class="op">$</span>genotype</span>
+<span id="cb86-13"><a href="#cb86-13"></a>genotypeSum &lt;-<span class="st"> </span>francSum<span class="op">$</span>genotype</span>
+<span id="cb86-14"><a href="#cb86-14"></a>biorep &lt;-<span class="st"> </span>franc<span class="op">$</span>biorep</span>
+<span id="cb86-15"><a href="#cb86-15"></a></span>
+<span id="cb86-16"><a href="#cb86-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nSim)</span>
+<span id="cb86-17"><a href="#cb86-17"></a>{</span>
+<span id="cb86-18"><a href="#cb86-18"></a>biorepSim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">ncol</span>(xBiorep),<span class="dt">sd=</span>sigmaBetween)</span>
+<span id="cb86-19"><a href="#cb86-19"></a>ySim &lt;-<span class="st"> </span>xBiorep<span class="op">%*%</span>biorepSim <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(xBiorep),<span class="dt">sd=</span>sigmaWithin)</span>
+<span id="cb86-20"><a href="#cb86-20"></a>ySum &lt;-<span class="st"> </span><span class="kw">lm</span>(ySim<span class="op">~</span>biorep)<span class="op">$</span>coefficient</span>
+<span id="cb86-21"><a href="#cb86-21"></a>resWrong[i,] &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(ySim<span class="op">~</span>genotype))<span class="op">$</span>coefficient[<span class="dv">2</span>,]</span>
+<span id="cb86-22"><a href="#cb86-22"></a>resCorrect[i,]&lt;-<span class="kw">summary</span>(<span class="kw">lm</span>(ySum<span class="op">~</span>genotypeSum))<span class="op">$</span>coefficient[<span class="dv">2</span>,]</span>
+<span id="cb86-23"><a href="#cb86-23"></a>}</span>
+<span id="cb86-24"><a href="#cb86-24"></a><span class="kw">mean</span>(resCorrect<span class="op">$</span>pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
+<pre><code>## [1] 0.042</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1"></a><span class="kw">mean</span>(resWrong<span class="op">$</span>pvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</span></code></pre></div>
+<pre><code>## [1] 0.143</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a><span class="kw">qplot</span>(resCorrect<span class="op">$</span>pvalue,<span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>,<span class="dt">boundary=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb90-2"><a href="#cb90-2"></a><span class="st">  </span><span class="kw">stat_bin</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,.<span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb90-3"><a href="#cb90-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;pvalue&quot;</span>) <span class="op">+</span></span>
+<span id="cb90-4"><a href="#cb90-4"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Correct analysis&quot;</span>)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Computation failed in `stat_bin()`:
+## &#39;from&#39; must be of length 1</code></pre>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1"></a><span class="kw">qplot</span>(resWrong<span class="op">$</span>pvalue,<span class="dt">geom =</span> <span class="st">&quot;histogram&quot;</span>,<span class="dt">boundary=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb93-2"><a href="#cb93-2"></a><span class="st">  </span><span class="kw">stat_bin</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,.<span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb93-3"><a href="#cb93-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;pvalue&quot;</span>) <span class="op">+</span></span>
+<span id="cb93-4"><a href="#cb93-4"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Wrong analysis&quot;</span>)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Computation failed in `stat_bin()`:
+## &#39;from&#39; must be of length 1</code></pre>
+<p><img src="experimentalDesignII_files/figure-html/unnamed-chunk-38-2.png" width="672" /></p>
+<ul>
+<li><p>We observeren dat de analyse die geen rekening houdt met pseudo-replicatie veel te liberaal is!</p></li>
+<li><p>De analyse waarbij we eerst uitmiddellen over de technische replicaten geeft correcte p-waarden en een juiste controle van de type I fout!</p></li>
+</ul>
+</div>
+</div>
+<div id="verschillend-aantal-technische-herhalingen" class="section level2">
+<h2><span class="header-section-number">6.3</span> Verschillend aantal technische herhalingen?</h2>
+<ol style="list-style-type: decimal">
+<li><p>subsampelen tot we een gelijk aantal technische herhalingen hebben en dan uitmiddelen (suboptimaal <span class="math inline">\(\rightarrow\)</span> verlies aan informatie)</p></li>
+<li><p>Meer geavanceerde methoden zijn noodzakelijk:</p>
+<ul>
+<li>e.g. mixed models</li>
+<li>het mixed model framework kan de correlatiestructuur van de data modelleren.</li>
+</ul></li>
+</ol>
+<ul>
+<li><p>Mixed models kunnen ook worden gebruikt voor de analyse van designs waarbij men is geïnteresseerd in effecten die zowel binnen als tussen blokken dienen te worden geschat, e.g. split-plot designs.</p></li>
+<li><p>Mixed models vallen buiten het bestek van deze cursus maar worden behandeld in het opleidingsonderdeel geavanceerde biostatistiek in de master opleiding</p></li>
+</ul>
+</div>
+</div>
+<div id="nature-methods-split-plot-designs" class="section level1">
+<h1><span class="header-section-number">7</span> Nature methods: Split-plot designs</h1>
+<p><a href="https://www.nature.com/articles/nmeth.3293.pdf">Nature Methods - Point of Significance - Split-plot Designs</a></p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhwZXJpbWVudGVlbCBEZXNpZ24gSUk6IFJhbmRvbWl6ZWQgQ29tcGxldGUgQmxvY2sgRGVzaWducyBlbiBQc2V1ZG8tcmVwbGljYXRpZSIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICBodG1sX2RvY3VtZW50OgogICAgY29kZV9kb3dubG9hZDogeWVzCiAgICB0aGVtZTogY29zbW8KICAgIHRvYzogeWVzCiAgICB0b2NfZmxvYXQ6IHllcwogICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKCgotLS0KCjxhIHJlbD0ibGljZW5zZSIgaHJlZj0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMCI+PGltZyBhbHQ9IkNyZWF0aXZlIENvbW1vbnMgTGljZW5zZSIgc3R5bGU9ImJvcmRlci13aWR0aDowIiBzcmM9Imh0dHBzOi8vaS5jcmVhdGl2ZWNvbW1vbnMub3JnL2wvYnktbmMtc2EvNC4wLzg4eDMxLnBuZyIgLz48L2E+CgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKIyBSYW5kb21pemVkIGNvbXBsZXRlIGJsb2NrIGRlc2lnbnMKClxbXHNpZ21hXjI9IFxzaWdtYV4yX3tiaW99K1xzaWdtYV4yX1x0ZXh0e2xhYn0gK1xzaWdtYV4yX1x0ZXh0e2V4dHJhY3Rpb259ICsgXHNpZ21hXjJfXHRleHR7cnVufSArIFxsZG90c1xdCgotIEJpb2xvZ2lzY2g6IGZsdWN0dWF0aWVzIGluIHByb3Rlw69uZSBuaXZlYXUgdHVzc2VuIG11aXplbiwgZmx1Y3RhdGllcyBpbiBwcm90ZcOvbmUgY29uY2VudHJhdGllIHR1c3NlbiBjZWxsZW4sIC4uLgotIFRlY2huaXNjaDoga29vaS1lZmZlY3QsIGxhYiBlZmZlY3QsIHdlZWsgZWZmZWN0LCBwbGFzbWEgZXh0cmFjdGllLCBNUy1ydW4sIC4uLgoKIyBOYXR1cmUgbWV0aG9kczogUG9pbnRzIG9mIHNpZ25pZmljYW5jZSAtIEJsb2NraW5nIAoKW2h0dHBzOi8vd3d3Lm5hdHVyZS5jb20vYXJ0aWNsZXMvbm1ldGguMzAwNS5wZGZdKGh0dHBzOi8vd3d3Lm5hdHVyZS5jb20vYXJ0aWNsZXMvbm1ldGguMzAwNS5wZGYpCgotIE9uZXdheSBhbm92YSBpcyBlZW4gc3BlY2lhYWwgZ2V2YWwgdmFuIGVlbiAiY29tcGxldGVseSByYW5kb21pemVkIGRlc2lnbiIgKENSRCk6CgogICAgLSBleHBlcmltZW50ZWxlIGVlbmhlZGVuIHppam4gYXQgcmFuZG9tIGdldHJva2tlbiB1aXQgZGUgcG9wdWxhdGllLiAKICAgIC0gYmVoYW5kZWxpbmdlbiB3b3JkZW4gYXQgcmFuZG9tIHRvZWdld2V6ZW4gYWFuIGRlIGV4cGVyaW1lbnRlbGUgZWVuaGVkZW4gCiAgICAtIEVsa2UgZXhwZXJpbWVudGVsZSBlZW5oZWlkIGtyaWpndCAxIGJlaGFuZGVsaW5nIGVuIHdvcmR0IDEga2VlciBnZW1ldGVuLiAKCi0gSW4gZWVuIGJsb2tkZXNpZ24gemlqbiBkZSBibG9ra2VuIGJsb2trZW4gZGllIGF0IHJhbmRvbSB3b3JkZW4gZ2VzYW1wbGVkIHVpdCBkZSBwb3B1bGF0aWUgdmFuIGFsbGUgbW9nZWxpamtlIGJsb2trZW4uIAogICAgCiAgICAtIERlICJyYW5kb21pemVkIGNvbXBsZXRlIGJsb2NrIGRlc2lnbiIgKFJDQikgYmVwZXJrdCBkZSByYW5kb21pc2F0aWU6IGRlIGJlaGFuZGVsaW5nZW4gd29yZGVuIGJpbm5lbiBkZSBibG9ra2VuIGdlcmFuZG9taXNlZXJkLiAKICAgIC0gaGV0IGthbiBuaWV0IGFscyBlZW4gb25lLXdheSBhbm92YSB3b3JkZW4gZ2VhbmFseXNlZXJkLiAKICAgIC0gRWVuIGdlcGFhcmQgZGVzaWduIGlzIGhldCBtZWVzdCBlZW52b3VkaWdlIFJDQjogbWV0IGJsb2tncm9vdHRlIDIuCiAgICAtIEJpbm5lbiBibG9jayBlZmZlY3RlbiBrdW5uZW4gd29yZGVuIGdlc2NoYXQgbWV0IGRlIGxtIGZ1bmN0aWUgaW4gUi4KCiMgTXVpcyB2b29yYmVlbGQgCgojIyBJbnRybwoKYGBge3IgZWNobz1GQUxTRSwgb3V0LndpZHRoPSI1MCUifQprbml0cjo6aW5jbHVkZV9ncmFwaGljcygiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvbWFzdGVyL2ZpZ3VyZXMvbW91c2VUY2VsbF9SQ0JfZGVzaWduLnBuZyIpCmBgYAoKRHVndWV0IGV0IGFsLiAoMjAxNykgTUNQIDE2KDgpOjE0MTYtMTQzMi4gZG9pOiAxMC4xMDc0L21jcC5tMTE2LjA2Mjc0NQoKLSBBbGxlIGJlaGFuZGVsaW5nZW4gKGhpZXIgY2VsdHlwZXMpIHZhbiBpbnRlcmVzc2UgemlqbiBiaW5uZW4gYmxvayEgIAotIFdlIGt1bm5lbiBoZXQgZWZmZWN0IHNjaGF0dGVuIHZhbiBkZSBiZWhhbmRlbGluZyBiaW5uZW4gYmxvayEgCgpXZSBmb2N1c3NlbiBvcCDDqcOpbiBwcm90ZcOvbmUKCiAgLSBEZSBnZW1ldGVuIGludGVuc2l0ZWl0ZW4gemlqbiByZWVkcyBsb2cyIGdldHJhbnNmb3JtZWVyZC4gVmVyc2NoaWxsZW4gaW4gZGUgaW50ZW5zaXRlaXRlbiBrdW5uZW4gZHVzIGFscyBsb2cyIEZDIChmb2xkIGNoYW5nZXMpIHdvcmRlbiBnZcOvbnRlcnByZXRlZXJkLiAKICAtIFAxNjA0NSBvciBHYWxlY3Rpbi0xLiAKICAtIEZ1bmN0aWU6ICJMZWN0aW4gdGhhdCBiaW5kcyBiZXRhLWdhbGFjdG9zaWRlIGFuZCBhIHdpZGUgYXJyYXkgb2YgY29tcGxleCBjYXJib2h5ZG1vdXNlZXMuIFBsYXlzIGEgcm9sZSBpbiByZWd1bGF0aW5nIGFwb3B0b3NpcywgY2VsbCBwcm9saWZlcmF0aW9uIGFuZCBjZWxsIGRpZmZlcmVudGlhdGlvbi4gSW5oaWJpdHMgQ0Q0NSBwcm90ZWluIHBob3NwaGF0YXNlIGFjdGl2aXR5IGFuZCB0aGVyZWZvcmUgdGhlIGRlcGhvc3Bob3J5bGF0aW9uIG9mIEx5biBraW5hc2UuIFN0cm9uZyBpbmR1Y2VyIG9mIFQtY2VsbCBhcG9wdG9zaXMuIiAoc291cmNlOiBbdW5pcHJvdF0oaHR0cHM6Ly93d3cudW5pcHJvdC5vcmcvdW5pcHJvdC9QMTYwNDUpKQoKIyMgRGF0YSBFeHBsb3JhdGllIAoKYGBge3J9Cm1vdXNlIDwtIHJlYWRfdHN2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL21vdXNlUDE2MDQ1LnR4dCIpCm1vdXNlCmBgYAoKCmBgYHtyfQptb3VzZSAlPiUgCiAgZ2dwbG90KGFlcyh4ID0gbW91c2UsIHk9IGludGVuc2l0eSwgY29sPWNlbGx0eXBlKSkgKwogIGdlb21fcG9pbnQoKQpgYGAKCmBgYHtyfQptb3VzZSAlPiUgIAogICAgZ2dwbG90KGFlcyh4ID0gY2VsbHR5cGUsIHk9IGludGVuc2l0eSkpICsKICAgIGdlb21fYm94cGxvdChhZXMoY29sPWNlbGx0eXBlKSxvdXRsaWVyLnNoYXBlID0gTkEpICsKICAgIGdlb21fbGluZShhZXMoZ3JvdXAgPSBtb3VzZSkpICsKICAgIGdlb21fcG9pbnQoYWVzKGNvbD1jZWxsdHlwZSkpCmBgYAoKCkRlIHBsb3RzIHRvbmVuIGV2aWRlbnRpZSB2b29yIAoKLSBvcHJlZ3VsYXRpZSB2YW4gcHJvdGXDr25lIGV4cHJlc3NpZSBpbiByZWd1bGF0b3Jpc2NoZSBULWNlbGxzIGVuIAotIHZlZWwgdmFyaWFiaWxpdGVpdCBpbiBkZSBleHByZXNzaWUgdHVzc2VuIGRlIHByb2VmZGllcmVuISAKCiMjIEdlcGFhcmRlIGFuYWx5c2UKCkhldCBpcyBlZW4gZ2VwYWFyZCBkZXNpZ24sIGhldCBtZWVzdCBlZW52b3VkaWdlIFJDQi4gCgpJbiBkZSBINSB2YW4gZGUgYmFzaXNjdXJzdXMgc3RhdGlzdGllayB6b3VkZW4gd2UgZGUgZGF0YSBhbmFseXNlcmVuIGRvb3IgZ2VicnVpa3QgdGUgbWFrZW4gdmFuIGhldCB2ZXJzY2hpbCBpbiBleHByZXNzaWUgdHVzc2VuIGRlIGNlbHR5cGVzLiAKCmBgYHtyfQptb3VzZVdpZGUgPC0gbW91c2UgJT4lIAogIHNwcmVhZChjZWxsdHlwZSxpbnRlbnNpdHkpICU+JQogIG11dGF0ZShkZWx0YSA9IFRyZWcgLSBUY29uKQptb3VzZVdpZGUKYGBgCgojIyMgRGF0YSBleHBsb3JhdGllCgotIEJveHBsb3QgdmFuIGRlIHZlcnNjaGlsbGVuIAoKYGBge3J9Cm1vdXNlV2lkZSAlPiUgCiAgZ2dwbG90KGFlcyh4PSIiLHk9ZGVsdGEpKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKyAKICBnZW9tX2ppdHRlcigpCmBgYAoKLSBTdW1tYXJ5IHN0YXRpc3RpY3MKCmBgYHtyfQpkZWx0YVN1bSA8LSBtb3VzZVdpZGUgJT4lIAogIHN1bW1hcml6ZV9hdCgiZGVsdGEiLCAKICAgICAgICAgICAgICAgbGlzdCgKICAgICAgICAgICAgICAgICAgICBtZWFuID0gfiBtZWFuKC4sbmEucm0gPSBUUlVFKSwKICAgICAgICAgICAgICAgICAgICBzZCA9IH4gc2QoLixuYS5ybSA9IFRSVUUpLAogICAgICAgICAgICAgICAgICAgIG4gPSB+IGlzLm5hKC4pICU+JSBgIWAgJT4lIHN1bQogICAgICAgICAgICAgICAgICAgKQogICAgICAgICAgICAgICApICU+JSAKICBtdXRhdGUoc2UgPSBzZC9zcXJ0KG4pKQpkZWx0YVN1bQpgYGAgIAoKCk1lcmsgb3AsIGRhdCBkZSBpbnRlbnNpdGVpdHNkYXRhIG5pZXQgb25hZmhhbmtlbGlqayB6aWpuIG9tZGF0IHdlIGRlIGV4cHJlc3NpZSBoZWJiZW4gZ2VtZXRlbiBpbiB0d2VlIGNlbHR5cGVzIHZhbiBoZXR6ZWxmZGUgcHJvZWZkaWVyLiAKCi0gQ292YXJpYW50aWUgZW4gY29ycmVsYXRpZSB2YW4gZGUgZXhwcmVzc2llIGluIGJlaWRlIGNlbHR5cGVzIAoKYGBge3J9CmNvcihtb3VzZVdpZGVbLGMoIlRjb24iLCJUcmVnIildKQp2YXIobW91c2VXaWRlWyxjKCJUY29uIiwiVHJlZyIpXSkKdmFyKG1vdXNlV2lkZVssYygiVGNvbiIsIlRyZWciKV0pICU+JSAKICBkaWFnICU+JSAKICBzcXJ0CmBgYAoKLSBFciBpcyBpbmRlcmRhYWQgZWVuIGdyb3RlIGNvcnJlbGF0aWUgaW4gZGUgZXhwcmVzc2llIHZvb3IgaGV0IHByb3Rlw69uZSBpbiBjb252ZW50aW9uZWxlIGFuZCByZWd1bGF0b3Jpc2NoZSBULWNlbGxlbi4gCgotIFN0YW5kYXJkZGV2aWF0aWUgdmFuIHZlcnNjaGlsPyAKCgokJApcYmVnaW57YXJyYXl9e2xjbH0KXHRleHR7c2R9X3theF9yICsgYnhfY30gJj0mIFxzcXJ0e2FeMlxoYXQgXHNpZ21hX3JeMiArIGJeMiBcaGF0IFxzaWdtYV9jXjIgKyAyYWIgXGhhdFxzaWdtYV97cixjfX0gXFwKXHRleHR7c2R9X3t4X3IgLSB4X2N9ICY9JlxzcXJ0ezFeMlxoYXQgXHNpZ21hX3JeMiArICgtMSleMiBcaGF0IFxzaWdtYV9jXjIgKyAyIFx0aW1lcyAxClx0aW1lcyAtMSAKXHRpbWVzIFxoYXRcc2lnbWFfe3IsY319XFwKJj0mXHNxcnR7XGhhdCBcc2lnbWFfcl4yICsgXGhhdCBcc2lnbWFfY14yIC0gMiBcdGltZXMgXGhhdFxzaWdtYV97cixjfX0KXGVuZHthcnJheX0KJCQKCgoKYGBge3J9CnNkRGVsdGEyIDwtIChjKC0xLDEpICUqJSB2YXIobW91c2VXaWRlWyxjKCJUY29uIiwiVHJlZyIpXSkgJSolIGMoLTEsMSkpICU+JQogIHNxcnQKc2REZWx0YTIKCnNlRGVsdGFCYXIgPC0gc2REZWx0YTIgLyBzcXJ0KGRlbHRhU3VtJG4pCnNlRGVsdGFCYXIKCmRlbHRhU3VtCmBgYAoKLSBEZSBzdGFuZGFyZGRldmlhdGllIHZhbiBoZXQgdmVyc2NoaWwgaXMgdmVlbCBrbGVpbmVyIGRvb3IgZGUgc3RlcmtlIGNvcnJlbGF0aWUgaW4gZXhwcmVzc2llIGluIGJlaWRlIGNlbHR5cGVzLiAKLSBNZXJrIG9wLCBkYXQgaGV0IGdlcGFhcmRlIGRlc2lnbiBvbnMgdG9lbGFhdCBvbSBkZSBsb2cyIEZDIHRlIGJlcmVrZW5lbiB0dXNzZW4gYmVpZGUgY2VsdHlwZXMgdm9vciBlbGsgcHJvZWZkaWVyLiAKCiMjIFJDQiBhbmFseXNlCgpXZSBrdW5uZW4gZGUgZGF0YSBvb2sgYW5hbHlzZXJlbiBtZXQgZWVuIGxpbmVhaXIgbW9kZWwgbWV0IAoKLSBlZW4gaG9vZmRlZmZlY3Qgdm9vciBjZWx0eXBlIGVuCi0gZWVuIGhvb2ZkZWZmZWN0IHZvb3IgZGUgYmxva2ZhY3RvciBtdWlzCgpPbWRhdCB3ZSBkZSBleHByZXNzaWUgaW4gZWxrIGNlbHR5cGUgaGViYmVuIGdlbWV0ZW4ga3VubmVuIHdlIGR1cyBoZXQgZ2VtaWRkZWxkZSBlZmZlY3Qgc2NoYXR0ZW4gdm9vciBlbGtlIG11aXMuIAoKYGBge3J9CmxtUkNCIDwtIGxtKGludGVuc2l0eSB+IGNlbGx0eXBlICsgbW91c2UsIG1vdXNlKQpwbG90KGxtUkNCLCB3aGljaCA9IGMoMSwyLDMpKQpgYGAKCkFscyBqZSB0d2lqZmVsdCBvZiB2b2xkYWFuIGlzIGFhbiBkZSBhYW5uYW1lcyB2YW4gaGV0IG1vZGVsIGlzIGhldCBudXR0aWcgb20gZ2VicnVpa3QgdGUgbWFrZW4gdmFuIHNpbXVsYXRpZXMgd2FhcmJpaiB3ZSBkYXRhIHNpbXVsZXJlbiB1aXQgZWVuIG1vZGVsIHdhYXIgYWxsZSBhYW5uYW1lcyB6aWpuIHZvbGRhYW4uIAoKYGBge3J9CmRlc2lnbiA8LSAgbW9kZWwubWF0cml4KGludGVuc2l0eSB+IGNlbGx0eXBlICsgbW91c2UsIG1vdXNlKSAKc2lnbWFNb3VzZSA8LSBzcXJ0KGNhcjo6QW5vdmEobG1SQ0IsIHR5cGUgPSAiSUlJIilbIm1vdXNlIiwiU3VtIFNxIl0vY2FyOjpBbm92YShsbVJDQiwgdHlwZSA9ICJJSUkiKVsibW91c2UiLCJEZiJdKSAKYmV0YXMgPC0gbG1SQ0IkY29lZmZpY2llbnRzCm5Nb3VzZSA8LSBtb3VzZSRtb3VzZSAlPiUgdW5pcXVlICU+JSBsZW5ndGgKCnBhcihtZnJvdz1jKDMsMykpCmZvciAoaSBpbiAxOjkpCnsKICAgIG1vdXNlRWZmZWN0IDwtIHJub3JtKG5Nb3VzZSwgc2QgPSBzaWdtYU1vdXNlKQogICAgYmV0YXNNb3VzZSA8LSBtb3VzZUVmZmVjdFstMV0tbW91c2VFZmZlY3RbMV0KICAgIGJldGFzWy1jKDE6MildIDwtIGJldGFzTW91c2UgCiAgICB5c2ltIDwtIGRlc2lnbiAlKiUgYmV0YXMgICsgcm5vcm0obnJvdyhkZXNpZ24pLHNkPXNpZ21hKGxtUkNCKSkKICAgIHBsb3QobG0oeXNpbSB+IC0xICsgZGVzaWduKSwgd2hpY2ggPSAxKSAKfQpgYGAKCkRlIGRldmlhdGllcyBkaWUgd2UgaW4gZGUgcmVzaWR1cGxvdCB6aWVuIHZvb3Igb25zIGV4cGVyaW1lbnQgemlqbiB2ZXJnZWxpamtiYWFyIG1ldCBhZndpamtpbmdlbiBkaWUgd2Uga3VubmVuIG9ic2VydmVyZW4gdWl0IGdlc2ltdWxlZXJkZSBkYXRhIHVpdCBlZW4gZ2VsaWprYWFyZGlnZSBwcm9lZiB3YWFyYmlqIGFhbiBhbGxlIGFhbm5hbWVzIHZhbiBoZXQgbW9kZWwgaXMgdm9sZGFhbi4gCgojIyMgSW5mZXJlbnRpZSAKCmBgYHtyfQphbm92YVJDQiA8LSBjYXI6OkFub3ZhKGxtUkNCLCB0eXBlID0gIklJSSIpCnN1bW1hcnkobG1SQ0IpCnQudGVzdChtb3VzZVdpZGUkZGVsdGEpCmFub3ZhUkNCCmBgYAoKTWVyayBvcCBkYXQgCgoxLiBkZSBwdW50c2NoYXR0ZXIsIHNlLCB0LXRlc3Qgc3RhdGlzdGllayBlbiBwLXdhYXJkZSB2b29yIGhldCBjZWx0eXBlIGVmZmVjdCBleGFjdCBvdmVyZWVua29tdCBtZXQgZGUgYW5hbHlzZSBhLmQuaC52LiBlZW4gZ2VwYWFyZGUgdC10ZXN0ISAKCjIuIGRlIGFub3ZhIGFuYWx5c2UgdG9vbnQgZGF0IHdlIG1ldCBoZXQgbW9kZWwgZGUgdG90YWxlIHZhcmlhYmlsaXRlaXQgaW4gZGUgZXhwcmVzc2llIG9wc3BsaXRzZW4gaW4gdmFyaWFiaWxpdGVpdCBkb29yIGNlbHR5cGUgKENUKSwgdmFyaWFiaWxpdGVpdCB0dXNzZW4gbXVpemVuIChNKSBlbiByZXNpZHVlbGUgdmFyaWFiaWxpdGVpdCAoUikgYmlubmVuIG11aXMgZGllIHdlIG5pZXQga3VubmVuIHZlcmtsYXJlbiBtZXQgaGV0IG1vZGVsOiAgCgokJApcYmVnaW57YXJyYXl9e2xjbH0KXHRleHR7U1NUb3R9ICY9JiBcdGV4dHtTU0NUfSArIFx0ZXh0e1NTTX0gKyBcdGV4dHtTU0V9XFwKYHIgcm91bmQoYW5vdmFSQ0JbLTEsIlN1bSBTcSJdICU+JSBzdW0oKSwxKWAgJj0mIGByIHJvdW5kKGFub3ZhUkNCWyJjZWxsdHlwZSIsIlN1bSBTcSJdLDEpYCArIGByIHJvdW5kKGFub3ZhUkNCWyJtb3VzZSIsIlN1bSBTcSJdLDEpYCArIGByIHJvdW5kKGFub3ZhUkNCWyJSZXNpZHVhbHMiLCJTdW0gU3EiXSwxKWAKXGVuZHthcnJheX0KJCQKCkhldCBjZWx0eXBlIGVuIG11aXMgZWZmZWN0IHZlcmtsYXJlbiByZXNwZWN0aWV2ZWxpamsKJCQKXGJlZ2lue2FycmF5fXtsbH0KXGZyYWN7XHRleHR7U1NDVH19e1x0ZXh0e1NTVG90fX1cdGltZXMgMTAwJlxmcmFje1x0ZXh0e1NTTX19e1x0ZXh0e1NTVG90fX1cdGltZXMgMTAwXFxcXApgciByb3VuZChhbm92YVJDQlsiY2VsbHR5cGUiLCJTdW0gU3EiXS9zdW0oYW5vdmFSQ0JbLTEsIlN1bSBTcSJdKSoxMDAsMSlgJgpgciByb3VuZChhbm92YVJDQlsibW91c2UiLCJTdW0gU3EiXS9zdW0oYW5vdmFSQ0JbLTEsIlN1bSBTcSJdKSoxMDAsMSlgXFwKXGVuZHthcnJheX0KJCQKCnBlcmNlbnQgdmFuIGRlIHZhcmlhYmlsaXRlaXQgaW4gbG9nMiBwcm90ZcOvbmUtaW50ZW5zaXRlaXRlbiBlbgoKJCQgClxmcmFje1x0ZXh0e1NTRX19e1x0ZXh0e1NTVG90fX0gXHRpbWVzIDEwMCA9IGByIHJvdW5kKGFub3ZhUkNCWyJSZXNpZHVhbHMiLCJTdW0gU3EiXS9zdW0oYW5vdmFSQ0JbLTEsIlN1bSBTcSJdKSoxMDAsMSlgCiQkCnBlcmNlbnQga2FuIG5pZXQgd29yZGVuIHZlcmtsYWFyZDogcmVzaWR1ZWxlIHZhcmlhYmlsaXRlaXQuIAoKTWVyayBvcCwgZGF0IAoKLSBkZSB2YXJpYWJpbGl0ZWl0IHR1c3NlbiBtdWl6ZW4gZGUgZ3Jvb3RzdGUgYnJvbiB2YW4gdmFyaWFiaWxpdGVpdCBpcyBpbiBkZSBkYXRhLCAKLSBEZXplIHZhcmlhYmlsaXRlaXQga3VubmVuIHdlIHNjaGF0dGVuIG1ldCBoZXQgUkNCIGRlc2lnbiBlbgotIHdlIGt1bm5lbiBkZXplIHZhcmlhYmlsaXRlaXQgZHVzIGlzb2xlcmVuIHZhbiBkZSByZXNpZHVlbGUgdmFyaWFiaWxpdGVpdAotIERhdCBsZWlkdCB0b3QgZWVuIHZlZWwgaG9nZXJlIHByZWNpc2llIHZhbiBkZSBzY2hhdHRlciB2b29yIGRlIGdlbWlkZGVsZGUgbG9nMiBGQyB0dXNzZW4gIHJlZ3VsYXRvcmlzY2hlIGViIGNvbnZlbnRpb25lbGUgVC1jZWxsZW4gZGFuIHdhdCB6b3Ugd29yZGVuIHZlcmtyZWdlbiBiaWogZWVuIENSRCBkZXNpZ24hCgpNZXJrIG9vayBvcCBkYXQgaGV0IFJDQiBvb2sgZWVuIGFhbnRhbCB2cmlqaGVpZHNncmFkZW4gZGllbnQgb3AgdGUgb2ZmZXJlbiBvbSBoZXQgbXVpc2VmZmVjdCB0ZSBrdW5uZW4gc2NoYXR0ZW4sIGhpZXIgNiBERi4KCkRlIHdpbnN0IGluIHBvd2VyIHZhbiBlZW4gUkNCIGlzIGR1cyBlZW4gYWZ3ZWdpbmcgdHVzc2VuIGRlIHZhcmlhYmlsaXRlaXQgZGllIGthbiB3b3JkZW4gdmVya2xhYXJ0IG1ldCBoZXQgYmxva2VmZmVjdCBlbiBoZXQgdmVybGllcyBpbiB2cmlqaGVpZHNncmFkZW4uIAoKQWxzIGplIGplIGRlIGZvcm11bGUgdm9vciBkZSB2YXJpYW50aWUgY292YXJpYW50aWUgbWF0cml4IHZhbiBkZSBwYXJhbWV0ZXIgc2NoYXR0ZXJzIGJpamhhYWx0IHppZW4gd2UKJCQKXGhhdHtcYm9sZHN5bWJvbHtcU2lnbWF9fV4yX3tcaGF0e1xib2xkc3ltYm9se1xiZXRhfX19Cj1cbGVmdChcbWF0aGJme1h9XlRcbWF0aGJme1h9XHJpZ2h0KV57LTF9XGhhdFxzaWdtYV4yCiQkCgpkYXQgaGV0IFJDQiBlZW4gaW1wYWN0IGhlZWZ0IG9wIAoKLSAkXGxlZnQoXG1hdGhiZntYfV5UXG1hdGhiZntYfVxyaWdodCleey0xfSQgYWxzb29rIG9wCi0gICRcaGF0XHNpZ21hXjIkIHZhbiBkZSByZXNpZHVlbiEKCiRccmlnaHRhcnJvdyQgV2Uga3VubmVuIGRlIHZhcmlhbnRpZSBpbiBkZSBleHByZXNzaWUgdHVzc2VuIGRlIHByb2VmZGllcmVuL2Jsb2trZW4gaXNvbGVyZW4gdWl0IG9uemUgYW5hbHlzZSEgCgokXHJpZ2h0YXJyb3ckIERhdCByZWR1Y2VlcnQgZGUgdmFyaWFudGllIHZhbiBkZSByZXNpZHVlbiBlbiBsZWlkdCB0b3QgZWVuIHRvZW5hbWUgaW4gcG93ZXIgYWxzIGRlIHZhcmlhYmlsaXRlaXQgdHVzc2VuIG11aXplbi9ibG9ra2VuIGdyb290IGlzLiAKCk1lcmsgb3AgZGF0LCAKCiQkClxoYXRcc2lnbWFeMiA9IFxmcmFje1x0ZXh0e1NTRX19e24tcH0gPSBcZnJhY3tTU1RvdCAtIFNTTSAtIFNTQ1R9e24tcH0gCiQkIAoKLSBCbG9ra2VuIGlzIGR1cyBudXR0aWcgYWxzIGRlIHJlZHVjdGllIGluIFNTRSBncm9vdCBpcyBpbiB2ZXJnZWxpamtpbmcgbWV0IGhldCB2ZXJsaWVzIGluIHZyaWpoZWlkc2dyYWRlbi4gCi0gRHVzIGFscyBTU00gZWVuIGdyb290IGRlZWwgaW4gdmFuIGRlIHRvdGFsZSB2YXJpYWJpbGl0ZWl0IGthbiB2ZXJrbGFyZW4uIAoKVmVyZGVyIGhlZWZ0IGhldCB2ZXJsaWVzIGluIHZyaWpoZWlkc2dyYWRlbiBvb2sgZWVuIGltcGFjdCBvcCBkZSB0LXZlcmRlbGluZyBkaWUgemFsIHdvcmRlbiBnZWJydWlrdCB2b29yIGluZmVyZW50aWUsIGRpZSBoaWVyZG9vciBicmVkZXJlIHN0YWFydGVuIHphbCBoZWJiZW4uIAoKIyBWZXJnZWxpamtpbmcgdmFuIGRlIHBvd2VyIHR1c3NlbiBlZW4gQ1JEIGVuIFJDQiAKCiMjIFZvb3JiZWVsZGVuIHZhbiBkZSB0d2VlIGRlc2lnbnMKCkhpZXIgZ2FhbiB3ZSBkZSBkYXRhIGdlYnJ1aWtlbiBvbSB0d2VlIGV4cGVyaW1lbnRlbiB0ZSBzaW11bGVyZW46CgotIGVlbiByYW5kb21pemVkIGNvbXBsZXRlIGJsb2NrIGRlc2lnbiAoUkNCKSBtZXQgMyBtdWl6ZW4KCi0gZWVuIGNvbXBsZXRlbHkgcmFuZG9taXplZCBkZXNpZ24gKENSRCkgbWV0IDYgbXVpemVuIG1hYXIgd2FhcmJpaiB3ZSBlbmtlbCDDqcOpbiBjZWx0eXBlIHBlciBtdWlzIG1ldGVuLiAKCmBgYHtyfQpzZXQuc2VlZCg4NTkpCm1SY2IgPC0gbW91c2UgJT4lIAogIHB1bGwobW91c2UpICU+JQogIHVuaXF1ZSAlPiUKICBzYW1wbGUoc2l6ZT0zKQoKcmNiU21hbGwgPC0gbW91c2UgJT4lIGZpbHRlcihtb3VzZSVpbiVtUmNiKQpyY2JTbWFsbApgYGAKCmBgYHtyfQptQ3JkIDwtIG1vdXNlICU+JSAKICBwdWxsKG1vdXNlKSAlPiUKICB1bmlxdWUgJT4lCiAgc2FtcGxlKHNpemU9NikKCgpjcmRTbWFsbCA8LSAKICBiaW5kX3Jvd3MoCiAgICBtb3VzZSAlPiUgCiAgICAgIGZpbHRlcihtb3VzZSVpbiVtQ3JkWzE6M10pICU+JSAKICAgICAgZmlsdGVyKGNlbGx0eXBlPT0iVGNvbiIpLAogICAgbW91c2UgJT4lIAogICAgICBmaWx0ZXIobW91c2UlaW4lbUNyZFstKDE6MyldKSAlPiUgCiAgICAgIGZpbHRlcihjZWxsdHlwZT09IlRyZWciKSkKY3JkU21hbGwKYGBgCgpJbiBiZWlkZSBleHBlcmltZW50ZW4gZGllbmVuIHdlIGR1cyA2IG1hc3NhLXNwZWN0cm9tZXRyaWUgcnVucyB0ZSBkb2VuLiAKCgpgYGB7cn0KbG1DUkRTbWFsbCA8LSBsbShpbnRlbnNpdHkgfiBjZWxsdHlwZSwgY3JkU21hbGwpCnN1bW1hcnkobG1DUkRTbWFsbCkKYW5vdmEobG1DUkRTbWFsbCkKYGBgCgpgYGB7cn0KbG1SQ0JTbWFsbCA8LSBsbShpbnRlbnNpdHkgfiBjZWxsdHlwZSArIG1vdXNlLCByY2JTbWFsbCkKYW5vdmEobG1SQ0JTbWFsbCkKc3VtbWFyeShsbVJDQlNtYWxsKQpgYGAKCk1lcmsgb3AgZGF0IAoKLSB3ZSBkZSBvcHJlZ3VsYXRpZSB2YW4gaGV0IHByb3Rlw69uZSBpbiByZWd1bGF0b3Jpc2NoZSBULWNlbGxlbiBvcCBrdW5uZW4gcGlra2VuIG1ldCBoZXQgUkNCIG1hYXIgbmlldCBtZXQgaGV0IENSRC4gCi0gZGUgc3RhbmRhcmRlcnJvciB2YW4gZGUgJFxsb2dfMlx0ZXh0e0ZDfV9cdGV4dHtUcmVnLVRjb259JCBzY2hhdHRpbmcgaXMgZWVuIGZhY3RvciBgciByb3VuZChzdW1tYXJ5KGxtQ1JEU21hbGwpJGNvZWZbImNlbGx0eXBlVHJlZyIsIlN0ZC4gRXJyb3IiXS9zdW1tYXJ5KGxtUkNCU21hbGwpJGNvZWZbImNlbGx0eXBlVHJlZyIsIlN0ZC4gRXJyb3IiXSwxKWAga2xlaW5lciB2b29yIGhldCBSQ0IgZGVzaWduISAKCgoKRWVuIHNsZWNodGUgZGF0YSBhbmFseXN0IGRpZSBpbiB6aWpuIGFuYWx5c2UgdmVyZ2VldCBvbSByZWtlbmluZyB0ZSBob3VkZW4gbWV0IGhldCBibG9rZWZmZWN0IGlzIHRlcnVnIG5hYXIgYWY6CgpgYGB7cn0Kd3JvbmdSY2IgPC0gbG0oaW50ZW5zaXR5IH4gY2VsbHR5cGUsIHJjYlNtYWxsKQphbm92YSh3cm9uZ1JjYikKc3VtbWFyeSh3cm9uZ1JjYikKYGBgCgotIEluIGRlemUgYW5hbHlzZSB3b3JkdCBkZSB2YXJpYWJpbGl0ZWl0IHR1c3NlbiBkZSBibG9ra2VuIGdlYWJzb3JiZWVyZCBpbiBkZSB2YXJpYW50aWVzY2hhdHRlciB2b29yIGRlIHJlc2lkdWVsZSB2YXJpYWJpbGl0ZWl0LiAKCi0gVWl0ZXJhYXJkIG1vZ2VuIHdlIGVlbiBSQ0IgZGVzaWduIG5vb2l0IGFuYWx5c2VyZW4gem9uZGVyIGRlIGJsb2tmYWN0b3Igb3AgdGUgbmVtZW4gaW4gaGV0IG1vZGVsIG9tZGF0IGhldCBkZXNpZ24gZWVuIHJhbmRvbWlzYXRpZXJlc3RyaWN0aWUgaW1wbGljZWVydC4gCgojIyBXaW5zdCBpbiBwb3dlciBkb29yIGJsb2traW5nPyAKCiMjIyBQb3dlciB2b29yIGNvbXBsZXRlbHkgcmFuZG9taXplZCBkZXNpZ24gKENSRCkKCmBgYHtyfQp2YXJCZXR3ZWVuUGx1c1dpdGhpbiA8LSBzdW0oY2FyOjpBbm92YShsbVJDQix0eXBlPSJJSUkiKVtjKCJtb3VzZSIsIlJlc2lkdWFscyIpLCJTdW0gU3EiXSkvc3VtKGNhcjo6QW5vdmEobG1SQ0IsdHlwZT0iSUlJIilbYygibW91c2UiLCJSZXNpZHVhbHMiKSwiRGYiXSkKCmFscGhhIDwtIDAuMDUKblNpbSA8LSAyMDAwMApiMCA8LSAwCnNkIDwtIHNxcnQodmFyQmV0d2VlblBsdXNXaXRoaW4pCm5zIDwtICBjKDMsNykgIApkZWx0YXMgPC0gbG1SQ0IkY29lZmZpY2llbnRzWyJjZWxsdHlwZVRyZWciXQoKTCA8LSBsaW1tYTo6bWFrZUNvbnRyYXN0cygiY2VsbHR5cGVUcmVnIixsZXZlbHM9YygiKEludGVyY2VwdCkiLCJjZWxsdHlwZVRyZWciKSkKCnBvd2VyRmFzdCA8LSBtYXRyaXgoTkEsbnJvdz1sZW5ndGgobnMpKmxlbmd0aChkZWx0YXMpLG5jb2w9MykgJT4lIGFzLmRhdGEuZnJhbWUKbmFtZXMocG93ZXJGYXN0KSA8LSBjKCJiMSIsIm4iLCJwb3dlciIpCgppIDwtIDAKZm9yIChuIGluIG5zKQp7CiAgbjEgPC0gbjIgPC0gIG4KICAKICAjIyMgU2ltdWxhdGlvbgogIHByZWRpY3RvckRhdGEgPC0gZGF0YS5mcmFtZShjZWxsdHlwZSA9IHJlcChjKCJUY29uIiwiVHJlZyIpLGMobjEsbjIpKSAlPiUgYXMuZmFjdG9yKQogIGRlc2lnbiA8LSBtb2RlbC5tYXRyaXgofmNlbGx0eXBlLHByZWRpY3RvckRhdGEpCiAgCiAgZm9yIChiMSBpbiBkZWx0YXMpCiAgewogICAgeVNpbSA8LSBybm9ybShucm93KHByZWRpY3RvckRhdGEpKm5TaW0sc2Q9c2QpCiAgICBkaW0oeVNpbSkgPC1jKG5yb3cocHJlZGljdG9yRGF0YSksblNpbSkKICAgIHlTaW0gPC0geVNpbSArIGMoZGVzaWduICUqJWMoYjAsYjEpKQogICAgeVNpbSA8LSB0KHlTaW0pCiAgCiAgICAjIyMgRml0dGluZwogICAgZml0QWxsIDwtIGxpbW1hOjpsbUZpdCh5U2ltLGRlc2lnbikKICAKICAgICMjIyBJbmZlcmVuY2UKICAgIHZhclVuc2NhbGVkIDwtIGModChMKSUqJWZpdEFsbCRjb3YuY29lZmZpY2llbnRzJSolTCkKICAgIGNvbnRyYXN0cyA8LSBmaXRBbGwkY29lZmZpY2llbnRzICUqJUwKICAgIHNlQ29udHJhc3RzIDwtIHZhclVuc2NhbGVkXi41KmZpdEFsbCRzaWdtYQogICAgdHN0YXRzIDwtIGNvbnRyYXN0cy9zZUNvbnRyYXN0cwogICAgcHZhbHMgPC0gcHQoYWJzKHRzdGF0cyksZml0QWxsJGRmLnJlc2lkdWFsLGxvd2VyLnRhaWwgPSBGQUxTRSkqMgogICAgCiAgICBpIDwtIGkrMQogICAgcG93ZXJGYXN0W2ksXSA8LSBjKGIxLG4sbWVhbihwdmFscyA8IGFscGhhKSkKICB9Cn0KcG93ZXJGYXN0CmBgYAoKT21kYXQgd2UgaGllciBlZW4gZWVudm91ZGlnZSB2ZXJnZWxpamtpbmcgdHVzc2VuIHR3ZWUgZ3JvZXBlbiBkb2VuIGt1bm5lbiB3ZSBkZSBwb3dlciBvb2sgYmVyZWtlbmVuIG1ldCBkZSBgcG93ZXIudC50ZXN0YCBmdW5jdGllLgoKYGBge3J9CnBvd2VyLnQudGVzdChuID0gMyxkZWx0YSA9IGxtUkNCJGNvZWZmaWNpZW50c1siY2VsbHR5cGVUcmVnIl0sIHNkID0gc3FydCh2YXJCZXR3ZWVuUGx1c1dpdGhpbikpCnBvd2VyLnQudGVzdChuID0gNyxkZWx0YSA9IGxtUkNCJGNvZWZmaWNpZW50c1siY2VsbHR5cGVUcmVnIl0sIHNkID0gc3FydCh2YXJCZXR3ZWVuUGx1c1dpdGhpbikpCmBgYAoKIyMgUG93ZXIgdm9vciByYW5kb21pemVkIGNvbXBsZXRlIGJsb2NrIGRlc2lnbiAoUkNCKQoKCgoKYGBge3J9CmFscGhhIDwtIDAuMDUKblNpbSA8LSAyMDAwMApiMCA8LSAwCnNkIDwtIHNpZ21hKGxtUkNCKQpzZE1vdXNlPC0gc3FydChjYXI6OkFub3ZhKGxtUkNCKVsibW91c2UiLCJTdW0gU3EiXS9jYXI6OkFub3ZhKGxtUkNCKVsibW91c2UiLCJEZiJdKSAKbnMgPC0gIGMoMyw3KSAgCmRlbHRhcyA8LSBsbVJDQiRjb2VmZmljaWVudHNbImNlbGx0eXBlVHJlZyJdCgoKcG93ZXJGYXN0QmxvY2tpbmcgPC0gbWF0cml4KE5BLG5yb3c9bGVuZ3RoKG5zKSpsZW5ndGgoZGVsdGFzKSxuY29sPTMpICU+JSBhcy5kYXRhLmZyYW1lCm5hbWVzKHBvd2VyRmFzdEJsb2NraW5nKSA8LSBjKCJiMSIsIm4iLCJwb3dlciIpCgppIDwtIDAKZm9yIChuIGluIG5zKQp7CiAgCiAgIyMjIFNpbXVsYXRpb24KICBwcmVkaWN0b3JEYXRhIDwtIGRhdGEuZnJhbWUoY2VsbHR5cGUgPSByZXAoYygiVGNvbiIsIlRyZWciKSxlYWNoPW4pICU+JSBhcy5mYWN0b3IsIG1vdXNlID0gcGFzdGUwKCJtIixyZXAoMTpuLDIpKSkKICBkZXNpZ24gPC0gbW9kZWwubWF0cml4KH4gY2VsbHR5cGUgKyBtb3VzZSxwcmVkaWN0b3JEYXRhKQogIEwgPC0gbGltbWE6Om1ha2VDb250cmFzdHMoImNlbGx0eXBlVHJlZyIsbGV2ZWxzPWNvbG5hbWVzKGRlc2lnbikpCgogIGZvciAoYjEgaW4gZGVsdGFzKQogIHsKICAgIHlTaW0gPC0gcm5vcm0obnJvdyhwcmVkaWN0b3JEYXRhKSpuU2ltLHNkPXNkKQogICAgZGltKHlTaW0pIDwtYyhucm93KHByZWRpY3RvckRhdGEpLG5TaW0pCiAgICBtb3VzZUVmZmVjdCA8LSBybm9ybShuLCBzZCA9IHNkTW91c2UpCiAgICBiZXRhc01vdXNlIDwtIG1vdXNlRWZmZWN0Wy0xXS1tb3VzZUVmZmVjdFsxXQogICAgeVNpbSA8LSB5U2ltICsgYyhkZXNpZ24gJSolYyhiMCxiMSxiZXRhc01vdXNlKSkKICAgIHlTaW0gPC0gdCh5U2ltKQogIAogICAgIyMjIEZpdHRpbmcKICAgIGZpdEFsbCA8LSBsaW1tYTo6bG1GaXQoeVNpbSxkZXNpZ24pCiAgCiAgICAjIyMgSW5mZXJlbmNlCiAgICB2YXJVbnNjYWxlZCA8LSBjKHQoTCklKiVmaXRBbGwkY292LmNvZWZmaWNpZW50cyUqJUwpCiAgICBjb250cmFzdHMgPC0gZml0QWxsJGNvZWZmaWNpZW50cyAlKiVMCiAgICBzZUNvbnRyYXN0cyA8LSB2YXJVbnNjYWxlZF4uNSpmaXRBbGwkc2lnbWEKICAgIHRzdGF0cyA8LSBjb250cmFzdHMvc2VDb250cmFzdHMKICAgIHB2YWxzIDwtIHB0KGFicyh0c3RhdHMpLGZpdEFsbCRkZi5yZXNpZHVhbCxsb3dlci50YWlsID0gRkFMU0UpKjIKICAgIAogICAgaSA8LSBpKzEKICAgIHBvd2VyRmFzdEJsb2NraW5nW2ksXSA8LSBjKGIxLG4sbWVhbihwdmFscyA8IGFscGhhKSkKICB9Cn0KcG93ZXJGYXN0QmxvY2tpbmcKYGBgCgpNZXJrIG9wIGRhdCBkZSBwb3dlciB2ZWVsIGhvZ2VyIGlzIHZvb3IgaGV0IFJDQiB6b3dlbCB2b29yIGVlbiBkZXNpZ24gbWV0IDYgYWxzIDE0IG1hc3NhLXNwZWN0cm9tZXRyaWUgcnVucy4gCgpPbWRhdCBoZXQgUkNCIGVlbiBibG9rZ3Jvb3R0ZSBoZWVmdCB2YW4gMiAgKGdlcGFhcmQgZGVzaWduKSBrdW5uZW4gd2UgZGUgcG93ZXIgb29rIGJlcmVrZW5lbiBtZXQgZGUgYHBvd2VyLnQudGVzdCBmdW5jdGlvbmAgbWV0IGB0eXBlID0gIm9uZS5zYW1wbGUiYCBlbiBgc2RgIGVxdWFsIGRlIHN0YW5kYXJkIGRldmlhdGllIHZhbiBoZXQgdmVyc2NoaWwuCgoKYGBge3J9CnBvd2VyLnQudGVzdChuID0gMyxkZWx0YSA9IG1lYW4obW91c2VXaWRlJGRlbHRhKSwgc2QgPSBzZChtb3VzZVdpZGUkZGVsdGEpKQpwb3dlci50LnRlc3QobiA9IDcsZGVsdGEgPSBtZWFuKG1vdXNlV2lkZSRkZWx0YSksIHNkID0gc2QobW91c2VXaWRlJGRlbHRhKSkKYGBgCgpNZXJrIG9wIGRhdCBkZSBwb3dlciBpZXRzIGFuZGVycyBpcyBvbWRhdCB3ZSBtZXQgZGUgcG93ZXIudC50ZXN0IGZ1bmN0aWUgaGViYmVuIGNvbmRpdGlvbmVlcmQgb3AgZGUgbXVpemVuIHVpdCBoZXQgb3JpZ2luZWxlIGV4cGVyaW1lbnQgIHRlcndpamwgd2UgZGUgaW4gZGUgc2ltdWxhdGllLXN0dWRpZSBoZWJiZW4gZ2VnZW5lcmVlcmQgZG9vciBoZXQgbXVpc2VmZmVjdCB0ZSBzaW11bGVyZW4gdWl0IGVlbiBub3JtYWxlIHZlcmRlbGluZy4gCgojIyBJbXBhY3QgdmFuIGRlIGhvZXZlZWxoZWlkIHZhcmlhYmlsaXRlaXQgZGF0IGhldCBibG9rZWZmZWN0IHZlcmtsYWFydCBvcCBkZSBwb3dlcj8KCldlIHZhcmnDq3JlbiBkZSBob2V2ZWVsaGVpZCB2YXJpYWJpbGl0ZWl0IGRpZSBoZXQgYmxva2VmZmVjdCB2ZXJrbGFhcnQ6ICAKJCQKXGZyYWN7XHNpZ21hXjJfXHRleHR7YmV0d2Vlbn19e1xzaWdtYV4yX1x0ZXh0e2JldHdlZW59K1xzaWdtYV4yX1x0ZXh0e3dpdGhpbn19PTEtXGZyYWN7XHNpZ21hXjJfXHRleHR7d2l0aGlufX17XHNpZ21hXjJfXHRleHR7YmV0d2Vlbn0rXHNpZ21hXjJfXHRleHR7d2l0aGlufX0KJCQKCkluIG9ucyB2b29yYmVlbGQgaXMgZGUgcmF0aW8gaW4gZGUgdmFyaWFiaWxpdGVpdCB0dXNzZW4gbXVpemVuIGVuIGRlIHN1bSB2YW4gZGUgdmFyaWFiaWxpdGVpdCB0dXNzZW4gZW4gYmlubmVuIG11aXplbi4gIE1lcmsgb3AgZGF0IGRlIHZhcmlhbnRpZSBiaW5uZW4gbXVpemVuIGdlbGlqayBpcyBhYW4gZGUgdmFyaWFudGllIHZhbiBkZSBlcnJvcnMgdmFuIGhldCBSQ0IuIERlIHJhdGlvIHZvb3Igb25zIGV4cGVyaW1lbnQgaXMgCgpgYGB7cn0KdmFyQmV0d2VlblBsdXNXaXRoaW4gPC0gc3VtKGNhcjo6QW5vdmEobG1SQ0IsdHlwZT0iSUlJIilbYygibW91c2UiLCJSZXNpZHVhbHMiKSwiU3VtIFNxIl0pL3N1bShjYXI6OkFub3ZhKGxtUkNCLHR5cGU9IklJSSIpW2MoIm1vdXNlIiwiUmVzaWR1YWxzIiksIkRmIl0pCnZhcldpdGhpbiA8LSBjYXI6OkFub3ZhKGxtUkNCKVsiUmVzaWR1YWxzIiwiU3VtIFNxIl0vY2FyOjpBbm92YShsbVJDQilbIlJlc2lkdWFscyIsIkRmIl0KdmFyQmV0d2VlblBsdXNXaXRoaW4KdmFyV2l0aGluCjEtIHZhcldpdGhpbi92YXJCZXR3ZWVuUGx1c1dpdGhpbgpgYGAKCgpgYGB7cn0KYWxwaGEgPC0gMC4wNQpuU2ltIDwtIDIwMDAwCmIwIDwtIDAKdmFyQmV0d2VlblBsdXNXaXRoaW4gPC0gc3VtKGNhcjo6QW5vdmEobG1SQ0IsdHlwZT0iSUlJIilbYygibW91c2UiLCJSZXNpZHVhbHMiKSwiU3VtIFNxIl0pL3N1bShjYXI6OkFub3ZhKGxtUkNCLHR5cGU9IklJSSIpW2MoIm1vdXNlIiwiUmVzaWR1YWxzIiksIkRmIl0pCiAKCm5zIDwtICBjKDMsNykgIApkZWx0YXMgPC0gbG1SQ0IkY29lZmZpY2llbnRzWyJjZWxsdHlwZVRyZWciXQoKZnJhY1ZhcnMgPC0gc2VxKDAsLjk1LC4wNSkKCnBvd2VyRmFzdEJsb2NraW5nTG93IDwtIG1hdHJpeChOQSxucm93PWxlbmd0aChucykqbGVuZ3RoKGZyYWNWYXJzKSxuY29sPTMpICU+JSBhcy5kYXRhLmZyYW1lCm5hbWVzKHBvd2VyRmFzdEJsb2NraW5nTG93KSA8LSBjKCJmcmFjVmFycyIsIm4iLCJwb3dlciIpCgppIDwtIDAKCgpmb3IgKG4gaW4gbnMpCnsKICAKICAjIyMgU2ltdWxhdGlvbgogIHByZWRpY3RvckRhdGEgPC0gZGF0YS5mcmFtZShjZWxsdHlwZSA9IHJlcChjKCJUY29uIiwiVHJlZyIpLGVhY2g9bikgJT4lIGFzLmZhY3RvciwgbW91c2UgPSBwYXN0ZTAoIm0iLHJlcCgxOm4sMikpKQogIGRlc2lnbiA8LSBtb2RlbC5tYXRyaXgofiBjZWxsdHlwZSArIG1vdXNlLHByZWRpY3RvckRhdGEpCiAgTCA8LSBsaW1tYTo6bWFrZUNvbnRyYXN0cygiY2VsbHR5cGVUcmVnIixsZXZlbHM9Y29sbmFtZXMoZGVzaWduKSkKICBmb3IgKGZyYWNWYXIgaW4gZnJhY1ZhcnMpCiAgewogIHNkIDwtIHNxcnQodmFyQmV0d2VlblBsdXNXaXRoaW4qKDEtZnJhY1ZhcikpCiAgc2RNb3VzZSA8LSBzcXJ0KHZhckJldHdlZW5QbHVzV2l0aGluKmZyYWNWYXIpIAogIGZvciAoYjEgaW4gZGVsdGFzKQogIHsKICAgIHlTaW0gPC0gcm5vcm0obnJvdyhwcmVkaWN0b3JEYXRhKSpuU2ltLHNkPXNkKQogICAgZGltKHlTaW0pIDwtYyhucm93KHByZWRpY3RvckRhdGEpLG5TaW0pCiAgICBtb3VzZUVmZmVjdCA8LSBybm9ybShuLCBzZCA9IHNkTW91c2UpCiAgICBiZXRhc01vdXNlIDwtIG1vdXNlRWZmZWN0Wy0xXS1tb3VzZUVmZmVjdFsxXQogICAgeVNpbSA8LSB5U2ltICsgYyhkZXNpZ24gJSolYyhiMCxiMSxiZXRhc01vdXNlKSkKICAgIHlTaW0gPC0gdCh5U2ltKQogIAogICAgIyMjIEZpdHRpbmcKICAgIGZpdEFsbCA8LSBsaW1tYTo6bG1GaXQoeVNpbSxkZXNpZ24pCiAgCiAgICAjIyMgSW5mZXJlbmNlCiAgICB2YXJVbnNjYWxlZCA8LSBjKHQoTCklKiVmaXRBbGwkY292LmNvZWZmaWNpZW50cyUqJUwpCiAgICBjb250cmFzdHMgPC0gZml0QWxsJGNvZWZmaWNpZW50cyAlKiVMCiAgICBzZUNvbnRyYXN0cyA8LSB2YXJVbnNjYWxlZF4uNSpmaXRBbGwkc2lnbWEKICAgIHRzdGF0cyA8LSBjb250cmFzdHMvc2VDb250cmFzdHMKICAgIHB2YWxzIDwtIHB0KGFicyh0c3RhdHMpLGZpdEFsbCRkZi5yZXNpZHVhbCxsb3dlci50YWlsID0gRkFMU0UpKjIKICAgIAogICAgaSA8LSBpKzEKICAgIHBvd2VyRmFzdEJsb2NraW5nTG93W2ksXSA8LSBjKGZyYWNWYXIsbixtZWFuKHB2YWxzIDwgYWxwaGEpKQogIH0KICB9Cn0KcG93ZXJGYXN0QmxvY2tpbmdMb3cKYGBgCgpgYGB7cn0KZ2dfY29sb3JfaHVlIDwtIGZ1bmN0aW9uKG4pIHsKICBodWVzID0gc2VxKDE1LCAzNzUsIGxlbmd0aCA9IG4gKyAxKQogIGhjbChoID0gaHVlcywgbCA9IDY1LCBjID0gMTAwKVsxOm5dCn0KY29scyA8LSBnZ19jb2xvcl9odWUoMikKCnBvd2VyRmFzdEJsb2NraW5nTG93ICU+JSAKICBhcy5kYXRhLmZyYW1lICU+JQogIG11dGF0ZShuID0gYXMuZmFjdG9yKG4pKSAlPiUKICBnZ3Bsb3QoYWVzKGZyYWNWYXJzLHBvd2VyLGdyb3VwPW4sY29sb3I9bikpICsKICBnZW9tX2xpbmUoKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gcG93ZXJGYXN0ICU+JSBmaWx0ZXIobj09MykgJT4lIHB1bGwocG93ZXIpLGNvbG9yPWNvbHNbMV0pICsKICBhbm5vdGF0ZSgidGV4dCIsIGxhYmVsID0gIkNSRCAobj0zKSIsCiAgICB4ID0gMC4wNSwgeSA9IHBvd2VyRmFzdCAlPiUgZmlsdGVyKG49PTMpICU+JSBwdWxsKHBvd2VyKSArLjAyLCBzaXplID0gMywgY29sb3VyID0gY29sc1sxXSkgKwogICAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gcG93ZXJGYXN0ICU+JSBmaWx0ZXIobj09NykgJT4lIHB1bGwocG93ZXIpLGNvbG9yPWNvbHNbMl0pICsKICAgIGFubm90YXRlKCJ0ZXh0IiwgbGFiZWwgPSAiQ1JEIChuPTcpIiwKICAgIHggPSAwLjA1LCB5ID0gcG93ZXJGYXN0ICU+JSBmaWx0ZXIobj09NykgJT4lIHB1bGwocG93ZXIpICsuMDIsIHNpemUgPSAzLCBjb2xvdXIgPSBjb2xzWzJdKSArCiAgeGxhYihleHByZXNzaW9uKH5zaWdtYVtiZXR3ZWVuXV4yLyhzaWdtYVtiZXR3ZWVuXV4yK3NpZ21hW3dpdGhpbl1eMikpKSArCiAgZ2VvbV92bGluZSh4aW50ZXJjZXB0PTEtdmFyV2l0aGluL3ZhckJldHdlZW5QbHVzV2l0aGluKSArCiAgeGxpbSgwLDEpCmBgYAoKLSBBbHMgZGUgdmFyaWFudGllIGRpZSB3b3JkdCB2ZXJrbGFhcmQgZG9vciBoZXQgYmxva2VmZmVjdCBrbGVpbiBpcyBkYW4gdmVybGllcyBqZSBwb3dlciBpbiB2ZXJnZWxpamtpbmcgbWV0IGhldCBDUkQgZGVzaWduLiBJbmRlcmRhYWQsICAKICAgIAogICAgLSBTU0UgdmVya2xlaW50IGRhbiBuaWV0IHZlZWwgZW4KICAgIC0gbiRfXHRleHR7YmxvY2tzfSQtMSB2cmlqaGVpZHNncmFkZW4gd2VyZGVuIG9wZ2VvZmZlcmQuIAogICAgCi0gVmFuIHpvZHJhIGRhdCBoZXQgYmxva2VmZmVjdCBlZW4gYmVob29ybGlqayBhYW5kZWVsIHZhbiBkZSB2YXJpYWJpbGl0ZWl0IHZlcmtsYWFydCBpcyBoZXQgUkNCIGhlZWwgZXJnIG51dHRpZyEgCgotIE1lcmsgb3AgZGF0IGhldHplbGZkZSBhYW50YWwgTVMgcnVucyBub2RpZyB6aWpuIHZvb3IgYmVpZGUgZGVzaWducy4gTWFhciB2b29yIGhldCBSQ0IgaGViYmVuIHdlIG1hYXIgZGUgaGVsZnQgdmFuIGRlIHJhdHRlbiBub2RpZy4gCgojIFBlbmljaWxsaW5lIHZvb3JiZWVsZCAKClZvb3IgZGUgIHByb2R1Y3RpZSB2YW4gcGluaWNpbGluZSB3b3JkdCBjb3JuIHN0ZWVwIGxpcXVvciAoQ1NMKSBnZWJydWlrdC4gQ1NMIHdvcmR0IGluIGJsZW5kcyBnZXByb2R1Y2VlcmQgZW4gZXIgaXMgZWVuIGJlaG9vcmxpamsgZ3JvdGUgdmFyaWFiaWxpdGVpdCB2YW4gYmxlbmQgdG90IGJsZW5kLiAKClN0ZWwgZGF0IAoKLSB2aWVyIG1ldGhvZGVuIG1vZXRlbiB3b3JkZW4gZ2XDq3ZhbHVlZXJkIG9tIHBlbmljaWxsaW5lIHRlIHByb2R1Y2VyZW4gKEEtRCksCi0gw6nDqW4gYmxlbmQgdm9sZG9lbmRlIGlzIHZvb3IgNCBydW5zIG1ldCBlZW4gcGVuaWNpbGxpbmUgcmVhY3RvciBlbiAKLSBkYXQgMjAgcnVucyB3b3JkZW4gdm9vcnppZW4gdm9vciBoZXQgZXhwZXJpbWVudC4gCgpIb2Ugem91IGplIGRlIG1ldGhvZGVuIHRvZWtlbm5lbiBhYW4gZGUgQ1NMIGJsZW5kcy4gCgoKYGBge3J9CmRhdGEocGVuaWNpbGxpbiwgcGFja2FnZT0iZmFyYXdheSIpCnRhYmxlKHBlbmljaWxsaW4kYmxlbmQscGVuaWNpbGxpbiR0cmVhdCkKYGBgCgojIyBEYXRhCgpgYGB7cn0KaGVhZChwZW5pY2lsbGluKQptYXRyaXgocGVuaWNpbGxpbiR5aWVsZCxucm93PTUsbmNvbD00LGJ5cm93PVRSVUUsZGltbmFtZXM9bGlzdChsZXZlbHMocGVuaWNpbGxpbiRibGVuZCksbGV2ZWxzKHBlbmljaWxsaW4kdHJlYXQpKSkKYGBgCgpgYGB7cn0KcGVuaWNpbGxpbiAlPiUgCiAgZ2dwbG90KGFlcyh4ID0gYmxlbmQsIHkgPSB5aWVsZCwgZ3JvdXAgPSB0cmVhdCwgY29sb3IgPSB0cmVhdCkpICsgCiAgZ2VvbV9saW5lKCkgKwogIGdlb21fcG9pbnQoKQpgYGAKCmBgYHtyfQpwZW5pY2lsbGluICU+JSAKICBnZ3Bsb3QoYWVzKHggPSB0cmVhdCwgeSA9IHlpZWxkLCBncm91cCA9IGJsZW5kLCBjb2xvciA9IGJsZW5kKSkgKyAKICBnZW9tX2xpbmUoKSArCiAgZ2VvbV9wb2ludCgpCmBgYAoKIyMgQW5hbHlzZQoKV2UgYW5hbHlzZXJlbiBkZSBvcGJyZW5nc3QgbWV0CgotIGVlbiBmYWN0b3Igdm9vciBibGVuZCBlbiAgCi0gZWVuIGZhY3RvciB2b29yIGRlIGJlaGFuZGVsaW5nLiAKCmBgYHtyfQpsbVBlbiA8LSBsbSh5aWVsZH50cmVhdCArIGJsZW5kLCBkYXRhID0gcGVuaWNpbGxpbikKcGxvdChsbVBlbikKY2FyOjpBbm92YShsbVBlbix0eXBlPSJJSUkiKQpgYGAKCldlIGt1bm5lbiBiZXNsdWl0ZW4gZGF0IGhldCBlZmZlY3QgdmFuIGRlIGJlaGFuZGVsaW5nIG9wIGRlIHBlbmljaWxsaW5lIG9wYnJlbmdzdCBuaWV0IHNpZ25pZmljYW50IGlzIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LiAocCA9IGByIGNhcjo6QW5vdmEobG1QZW4sdHlwZT0iSUlJIilbInRyZWF0IiwiUHIoPkYpIl0gJT4lIHJvdW5kKC4sMilgLgoKV2Ugb2JzZXJ2ZXJlbiBlZW4gZ3Jvb3QgZWZmZWN0IHZhbiBkZSBibGVuZCBvcCBkZSBvcGJyZW5nc3QuICAKQmxlbmQgdmVya2xhYXJ0IGByIHJvdW5kKGNhcjo6QW5vdmEobG1QZW4sdHlwZT0iSUlJIilbImJsZW5kIiwiU3VtIFNxIl0vc3VtKGNhcjo6QW5vdmEobG1QZW4sdHlwZT0iSUlJIilbLTEsIlN1bSBTcSJdKSoxMDAsMSlgJSB2YW4gZGUgdmFyaWFiaWxpdGVpdCBpbiBkZSBwZW5pY2lsbGluZSBvcGJyZW5nc3QuCgoKIyBQc2V1ZG8tcmVwbGljYXRpZQoKRWVuIHN0dWRpZSBvcCBkZSBwYXRob2dlZW4gRnJhbmNpc2VsbGEgdHVsYXJlbnNpcyB3ZXJkIGRvb3IgUmFtb25kIGV0IGFsLiAoMjAxNSkgdWl0Z2V2b2VyZC4gCgotIEYuIHR1bGFyZW5zaXMgYmVzbWV0IGRlIGNlbGxlbiB2YW4gZGUgZ2FzdGhlZXIgdmlhIGZhZ29jeXRvc2lzLiAKLSBEZSBhdXRldXJzIHRvb25kZW4gYWFuIGRhdCB0dWxhcmVuc2lzIGRlZmljacOrbnQgaXMgYWFuIGFyZ2luaW5lLiBIZXQgaW1wb3J0ZWVydCBhcmdpbmluZSBhY3RpZWYgdWl0IGRlIGNlbGxlbiB2YW4gZGUgZ2FzdGhlZXIgdmlhIGVlbiBhcmdpbmluZSB0cmFuc3BvcnRlciwgQXJnUC4gCi0gWm9uZGVyIGRlIHRyYW5zcG9ydGVyIGlzIGRlIGZhZ29zb21lIGVzY2FwZSBlbiBtdWx0aXBsaWNhdGllIGluIGhldCBjeXRvcGxhc21hIHZlcnRyYWFnZC4gCgotIEluIGRlICBzdHVkaWUgdmVyZ2VsZWtlbiB6ZSBoZXQgcHJvdGVvbWUgdmFuIHdpbGQgdHlwZSBGLiB0dWxhcmVuc2lzIChXVCkgbWV0IGRhdCB2YW4gQXJnUC1nZW5lIGRlbGV0ZWQgRi4gdHVsYXJlbnNpcyAoa25vY2stb3V0LCBEOCkuIAoKLSBFbGsgYmlvLXJlcCB3ZXJkIGluIHRlY2huaXNjaCB0cmlwbGljYWF0IGdlcnVuZCBvcCBkZSBtYXNzLXNwZWN0cm9tZXRlci4gCgotIFdlIGdlYnJ1aWtlbiBkZSBkYXRhIHZvb3IgaGV0IDUwUyByaWJvc29tYWFsIHByb3Rlw69uZSBMNSBbQTBRNEo1XShodHRwczovL3d3dy51bmlwcm90Lm9yZy91bmlwcm90L0EwUTRKNSkKCiMjIERhdGEgZXhwbG9yYXRpZQoKYGBge3J9CmZyYW5jIDwtIHJlYWRfdHN2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL2ZyYW5jaXNlbGxhQTBRNEo1LnR4dCIpCmZyYW5jCmBgYAoKYGBge3J9CmZyYW5jICU+JSAKICBnZ3Bsb3QoYWVzKGJpb3JlcCwgaW50ZW5zaXR5TG9nMiwgY29sb3IgPSBnZW5vdHlwZSkpICsKICBnZW9tX3BvaW50KCkKYGBgCgotIFJlc3BvbnNlPyAKLSBFeHBlcmltZW50ZWxlIGVlbmhlaWQ/Ci0gT2JzZXJ2YXRpb25lbGUgZWVuaGVpZD8gCi0gRmFjdG9yZW4/IAoKJFxyaWdodGFycm93JCBQc2V1ZG8tcmVwbGljYXRpZSwgcmFuZG9taXNhdGllIG5hYXIgYmlvLXJlcCBlbiBlbGtlIGJpby1yZXAgd2VyZCAzIGtlZXIgZ2VtZXRlbi4gCgokXHJpZ2h0YXJyb3ckIEFscyB3ZSBkZSBkYXRhIHpvdWRlbiBhbmFseXNlcmVuIG1ldCBlZW4gbGluZWFpciBtb2RlbCBvcCBiYXNpcyB2YW4gZWxrZSBnZW1ldGVuIGludGVuc2l0ZWl0LCBkYW4gem91ZGVuIHdlIGRvZW4gYWxzb2Ygd2UgMTggYmlvLXJlcHMgaGFkZGVuIGluIGRlIHN0dWRpZS4gCiRccmlnaHRhcnJvdyQgRWZmZWN0IHZhbiBpbnRlcmVzc2UgdHVzc2VuIGRlIGJpby1yZXBzLiBCbG9rIGFuYWx5c2UgaXMgbmlldCBtb2dlbGlqayEgCgpBbHMgd2UgaGV0emVsZmRlIGFhbnRhbCB0ZWNobmlzY2hlIHJlcGxpY2F0ZW4gaGViYmVuIHZvb3IgZWxrZSBiaW8tcmVwOiAKCi0ga3VubmVuIHdlIGRlIHRlY2huaXNjaGUgcmVwbGljYXRlbiBlZXJzdCB1aXRtaWRkZWxlbiBvdmVyIGVsa2UgYmlvcmVwIG9tIG9uYWZoYW5rZWxpamtlIG1ldGluZ2VuIHRlIGJla29tZW4KLSBkZXplIGdlbWlkZGVsZGVuIHp1bGxlbiBkYW4gZWVuemVsZmRlIHByZWNpc2llIGhlYmJlbiAKLSB3ZSBrdW5uZW4gZGFuIGhldCBlZmZlY3QgdmFuIGRlIGJlaGFuZGVsaW5nIHNjaGF0dGVuIG9wIGRlIHNhbWVuZ2V2YXR0ZSB3YWFyZGVuIHBlciBiaW8tcmVwLiAKCi0gKipMRVQgT1A6IG1pZGRlbCBub29pdCB1aXQgb3ZlciBkZSBiaW8tcmVwcy9leHBlcmltZW50ZWxlIGVlbmhlZGVuKioKCgpgYGB7cn0KbG1CaW9yZXAgPC0gbG0oaW50ZW5zaXR5TG9nMiB+IC0xICsgYmlvcmVwLCBmcmFuYykKbG1CaW9yZXAKYGBgCgpgYGB7cn0KZnJhbmNTdW0gPC0gZGF0YS5mcmFtZShnZW5vdHlwZSA9IHJlcChjKCJEOCIsIldUIiksZWFjaD0zKSAlPiUgYXMuZmFjdG9yICU+JSByZWxldmVsKCJXVCIpLCBpbnRlbnNpdHlMb2cyID0gbG1CaW9yZXAkY29lZikKZnJhbmNTdW0KYGBgCgpgYGB7cn0KbG1TdW0gPC0gbG0oaW50ZW5zaXR5TG9nMiB+IGdlbm90eXBlLCBmcmFuY1N1bSkKc3VtbWFyeShsbVN1bSkKYGBgCgojIyBWZXJrZWVyZGUgYW5hbHlzZSAKCmBgYHtyfQpsbVdyb25nIDwtIGxtKGludGVuc2l0eUxvZzIgfiBnZW5vdHlwZSwgZnJhbmMpCnN1bW1hcnkobG1Xcm9uZykKYGBgCgpNZXJrIG9wIGRhdCBkZSB2ZXJrZWVyZGUgYW5hbHlzZSBnZWVuIHJla2VuaW5nIGhvdWR0IGRhdCBlciBtZWVyZGVyZSB0ZWNobmlzY2hlIHJlcGxpY2F0ZW4gemlqbiB2b29yIGVsa2UgYmlvLXJlcGVhdCB3YWFyZG9vciBlciBlZW4gYXJ0aWZpY2llZWwgc2lnbmlmaWNhbnQgcmVzdWx0YWF0IHdvcmR0IGJla29tZW4gb21kYXQgaGV0IHZvb3IgZGV6ZSBhbmFseXNlIGxpamt0IGFsc29mIGVyIDMgZHJpZSB6b3ZlZWwgb25hZmhhbmtlbGlqa2UgbWV0aW5nZW4gemlqbi4gICAKCiMjIyBUeXBlIEkgZm91dCEKCmBgYHtyfQpzaWdtYVdpdGhpbiA8LSBzaWdtYShsbUJpb3JlcCkKc2lnbWFCZXR3ZWVuIDwtIHNpZ21hKGxtU3VtKQp4QmlvcmVwIDwtIG1vZGVsLm1hdHJpeCh+LTErYmlvcmVwLGZyYW5jKQp4V3JvbmcgPC0gbW9kZWwubWF0cml4KH5nZW5vdHlwZSxmcmFuYykKCgpzZXQuc2VlZCgyNTIzKQpuU2ltIDwtIDEwMDAKcmVzV3JvbmcgPC0gbWF0cml4KE5BLG5TaW0sNCkgJT4lIGFzLmRhdGEuZnJhbWUKbmFtZXMocmVzV3JvbmcpIDwtIGMoIkVzdGltYXRlIiwiU3RkLiBFcnJvciIsInQgdmFsdWUiLCJwdmFsdWUiKQpyZXNDb3JyZWN0IDwtIHJlc1dyb25nCmdlbm90eXBlIDwtIGZyYW5jJGdlbm90eXBlCmdlbm90eXBlU3VtIDwtIGZyYW5jU3VtJGdlbm90eXBlCmJpb3JlcCA8LSBmcmFuYyRiaW9yZXAKCmZvciAoaSBpbiAxOm5TaW0pCnsKYmlvcmVwU2ltIDwtIHJub3JtKG5jb2woeEJpb3JlcCksc2Q9c2lnbWFCZXR3ZWVuKQp5U2ltIDwtIHhCaW9yZXAlKiViaW9yZXBTaW0gKyBybm9ybShucm93KHhCaW9yZXApLHNkPXNpZ21hV2l0aGluKQp5U3VtIDwtIGxtKHlTaW1+YmlvcmVwKSRjb2VmZmljaWVudApyZXNXcm9uZ1tpLF0gPC0gc3VtbWFyeShsbSh5U2ltfmdlbm90eXBlKSkkY29lZmZpY2llbnRbMixdCnJlc0NvcnJlY3RbaSxdPC1zdW1tYXJ5KGxtKHlTdW1+Z2Vub3R5cGVTdW0pKSRjb2VmZmljaWVudFsyLF0KfQptZWFuKHJlc0NvcnJlY3QkcHZhbHVlIDwgMC4wNSkKbWVhbihyZXNXcm9uZyRwdmFsdWUgPCAwLjA1KQpgYGAKCmBgYHtyfQpxcGxvdChyZXNDb3JyZWN0JHB2YWx1ZSxnZW9tID0gImhpc3RvZ3JhbSIsYm91bmRhcnk9YygwLDEpKSArCiAgc3RhdF9iaW4oYnJlYWtzPXNlcSgwLDEsLjEpKSArCiAgeGxhYigicHZhbHVlIikgKwogIGdndGl0bGUoIkNvcnJlY3QgYW5hbHlzaXMiKQogIApxcGxvdChyZXNXcm9uZyRwdmFsdWUsZ2VvbSA9ICJoaXN0b2dyYW0iLGJvdW5kYXJ5PWMoMCwxKSkgKwogIHN0YXRfYmluKGJyZWFrcz1zZXEoMCwxLC4xKSkgKwogIHhsYWIoInB2YWx1ZSIpICsKICBnZ3RpdGxlKCJXcm9uZyBhbmFseXNpcyIpCmBgYAoKLSBXZSBvYnNlcnZlcmVuIGRhdCBkZSBhbmFseXNlIGRpZSBnZWVuIHJla2VuaW5nIGhvdWR0IG1ldCBwc2V1ZG8tcmVwbGljYXRpZSB2ZWVsIHRlIGxpYmVyYWFsIGlzISAKCi0gRGUgYW5hbHlzZSB3YWFyYmlqIHdlIGVlcnN0IHVpdG1pZGRlbGxlbiBvdmVyIGRlIHRlY2huaXNjaGUgcmVwbGljYXRlbiBnZWVmdCBjb3JyZWN0ZSBwLXdhYXJkZW4gZW4gZWVuIGp1aXN0ZSBjb250cm9sZSB2YW4gZGUgdHlwZSBJIGZvdXQhIAoKIyMgVmVyc2NoaWxsZW5kIGFhbnRhbCB0ZWNobmlzY2hlIGhlcmhhbGluZ2VuPyAKCjEuIHN1YnNhbXBlbGVuIHRvdCB3ZSBlZW4gZ2VsaWprIGFhbnRhbCB0ZWNobmlzY2hlIGhlcmhhbGluZ2VuIGhlYmJlbiBlbiBkYW4gdWl0bWlkZGVsZW4gKHN1Ym9wdGltYWFsICRccmlnaHRhcnJvdyQgdmVybGllcyBhYW4gaW5mb3JtYXRpZSkgCgoyLiBNZWVyIGdlYXZhbmNlZXJkZSBtZXRob2RlbiB6aWpuIG5vb2R6YWtlbGlqazogCiAgCiAgICAtIGUuZy4gbWl4ZWQgbW9kZWxzIAogICAgLSBoZXQgbWl4ZWQgbW9kZWwgZnJhbWV3b3JrIGthbiBkZSBjb3JyZWxhdGllc3RydWN0dXVyIHZhbiBkZSBkYXRhIG1vZGVsbGVyZW4uIAogICAgCi0gTWl4ZWQgbW9kZWxzIGt1bm5lbiBvb2sgd29yZGVuIGdlYnJ1aWt0IHZvb3IgZGUgYW5hbHlzZSB2YW4gZGVzaWducyB3YWFyYmlqIG1lbiBpcyBnZcOvbnRlcmVzc2VlcmQgaW4gZWZmZWN0ZW4gZGllIHpvd2VsIGJpbm5lbiBhbHMgdHVzc2VuIGJsb2trZW4gZGllbmVuIHRlIHdvcmRlbiBnZXNjaGF0LCBlLmcuICBzcGxpdC1wbG90IGRlc2lnbnMuIAoKLSBNaXhlZCBtb2RlbHMgdmFsbGVuIGJ1aXRlbiBoZXQgYmVzdGVrIHZhbiBkZXplIGN1cnN1cyBtYWFyIHdvcmRlbiBiZWhhbmRlbGQgaW4gaGV0IG9wbGVpZGluZ3NvbmRlcmRlZWwgZ2VhdmFuY2VlcmRlIGJpb3N0YXRpc3RpZWsgaW4gZGUgbWFzdGVyIG9wbGVpZGluZwoKIyBOYXR1cmUgbWV0aG9kczogU3BsaXQtcGxvdCBkZXNpZ25zCgpbTmF0dXJlIE1ldGhvZHMgLSBQb2ludCBvZiBTaWduaWZpY2FuY2UgLSBTcGxpdC1wbG90IERlc2lnbnNdKGh0dHBzOi8vd3d3Lm5hdHVyZS5jb20vYXJ0aWNsZXMvbm1ldGguMzI5My5wZGYpICAK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("experimentalDesignII.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

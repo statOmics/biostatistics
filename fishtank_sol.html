@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement and Jeroen Gilis" />
+
+
+<title>Exercise 8.x: The fish tank dataset - solution</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exercise 8.x: The fish tank dataset - solution</h1>
+<h4 class="author">Lieven Clement and Jeroen Gilis</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="background" class="section level1">
+<h1><span class="header-section-number">1</span> Background</h1>
+<p>Researchers want to assess the effect of three different diets on the weight gain of fish. They have set up an experiment with 12 different tanks of fish. Each tank contains the same number of fish. The weight of 6 fish in each tank was measured at the beginning and the end of the experiment. The researchers recorded the weight gain.</p>
+</div>
+<div id="experimental-design" class="section level1">
+<h1><span class="header-section-number">2</span> Experimental design</h1>
+<ul>
+<li><p>The explanatory variable in the experiment is the factor type of diet</p></li>
+<li><p>There are 3 diet types: diet 1, diet 2, and diet 3.</p></li>
+<li><p>The experimental unit is the tank: the diet treatments are adopted on the tanks, i.e., the tanks are randomized to the diet treatments.</p></li>
+<li><p>The weight gain is the response and it is measured on each fish which are the observational units.</p></li>
+</ul>
+<p>Import libraries</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="data-import" class="section level1">
+<h1><span class="header-section-number">3</span> Data import</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>fish &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/fishTank.txt&quot;</span>,<span class="dt">header=</span><span class="ot">TRUE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">head</span>(fish)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Diet"],"name":[1],"type":["int"],"align":["right"]},{"label":["Tank"],"name":[2],"type":["int"],"align":["right"]},{"label":["WtGain"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"8.8","_rn_":"1"},{"1":"1","2":"1","3":"6.5","_rn_":"2"},{"1":"1","2":"1","3":"-1.1","_rn_":"3"},{"1":"1","2":"1","3":"1.3","_rn_":"4"},{"1":"1","2":"1","3":"-0.6","_rn_":"5"},{"1":"1","2":"1","3":"2.1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="tidy-data" class="section level1">
+<h1><span class="header-section-number">4</span> Tidy data</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>fish &lt;-<span class="st"> </span>fish <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Tank =</span> <span class="kw">as.factor</span>(Tank), <span class="dt">Diet =</span> <span class="kw">as.factor</span>(Diet))</span></code></pre></div>
+</div>
+<div id="data-exploration" class="section level1">
+<h1><span class="header-section-number">5</span> Data exploration</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>fish <span class="op">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Tank, <span class="dt">y =</span> WtGain, <span class="dt">fill=</span>Diet)) <span class="op">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">    </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape=</span><span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="dt">width =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Weight gain per tank&quot;</span>) <span class="op">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Weigth gain (g)&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="st">    </span><span class="kw">stat_summary</span>(<span class="dt">fun =</span> mean, <span class="dt">geom=</span><span class="st">&quot;point&quot;</span>, <span class="dt">shape=</span><span class="dv">5</span>, <span class="dt">size=</span><span class="dv">3</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;RdGy&quot;</span>) <span class="op">+</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="st">    </span><span class="kw">theme_bw</span>()</span></code></pre></div>
+<p><img src="fishtank_sol_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="analysis" class="section level1">
+<h1><span class="header-section-number">6</span> Analysis</h1>
+<div id="pseudoreplication" class="section level2">
+<h2><span class="header-section-number">6.1</span> Pseudoreplication</h2>
+<ul>
+<li><p>The diets are randomized to the tanks, hence, the tanks are the experimental units.</p></li>
+<li><p>We measure the weight of fish, they are the observational unit.</p></li>
+<li><p>We measure multiple fish for each tank, hence the fish of the same tank are <strong>pseudoreplicates</strong>. Indeed, fish from the same tank are exposed to more similar conditions and their measurements will be more similar and are thus not independent.</p></li>
+<li><p>If we do not account for this <strong>pseudoreplication</strong> our (regression) analysis and consider all fish as independent repeats, the standard error on the estimate for the diet effect will be underestimated, resulting in overly liberal inference.</p></li>
+</ul>
+<p>To account for pseudoreplication in the data, we can average over the pseudoreplicates because we assess the same number fish in each tank. Hence, the tank averages will have an equal precision.</p>
+<p>Note, that prior to averaging, the experimental unit was the tank, while the observational unit was the fish inside the tank. After averaging, the tank will be both the experimental and the observational unit of the experiment.</p>
+<p>Averaging can be achieved with the <code>group_by</code> and <code>summarise</code> functions of the <code>dplyr</code> R package.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>fish &lt;-<span class="st"> </span>fish <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="st">    </span><span class="kw">group_by</span>(Tank, Diet) <span class="op">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">    </span><span class="kw">summarise</span>(<span class="dt">aveWtGain =</span> <span class="kw">mean</span>(WtGain))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;Tank&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>fish</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Tank"],"name":[1],"type":["fct"],"align":["left"]},{"label":["Diet"],"name":[2],"type":["fct"],"align":["left"]},{"label":["aveWtGain"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"1","3":"2.833333"},{"1":"2","2":"1","3":"3.250000"},{"1":"3","2":"1","3":"5.700000"},{"1":"4","2":"1","3":"5.133333"},{"1":"5","2":"2","3":"29.600000"},{"1":"6","2":"2","3":"20.000000"},{"1":"7","2":"2","3":"18.550000"},{"1":"8","2":"2","3":"30.100000"},{"1":"9","2":"3","3":"45.966667"},{"1":"10","2":"3","3":"47.116667"},{"1":"11","2":"3","3":"50.116667"},{"1":"12","2":"3","3":"49.716667"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now, the weight gain values are averaged over de six fish in each of the tanks.</p>
+</div>
+<div id="model-assumptions" class="section level2">
+<h2><span class="header-section-number">6.2</span> Model assumptions</h2>
+<p>List assumptions:</p>
+<ol style="list-style-type: decimal">
+<li>The observations are independent</li>
+<li>Linearity between the response and predictor variable</li>
+<li>The residues of the model must be normally distributed</li>
+<li>Homoscedasticity of the data</li>
+</ol>
+<p>After averaging the weight gain values over de six fish in each of the tanks, we dealt with the pseudo-replication within tank and we expect the tanks to be independent repeats.</p>
+<p>To assess the remaining assumptions, we first fit a linear regression model.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>lmDiet &lt;-<span class="st"> </span><span class="kw">lm</span>(aveWtGain <span class="op">~</span><span class="st"> </span>Diet, fish)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">plot</span>(lmDiet)</span></code></pre></div>
+<p><img src="fishtank_sol_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We see some undesirable patterns in the diagnostic plots of the linear model.</p>
+<p>While the smoother for assessing linearity in the data is flat and centered around zero, there is a much larger spread around the smoother for the observations (tanks) of the second diet type (tanks 5-8). These tanks are also flagged in the QQ-plot. Finally, the same tanks seam to have a larger variability in Diet 2 and/or additional tank/batch effects seem to occur. The tanks seem to cluster per two tanks and do not seem to be independent. We therefore have to be careful with the interpretation of the results.</p>
+</div>
+<div id="overall-effect-of-diet" class="section level2">
+<h2><span class="header-section-number">6.3</span> Overall effect of diet</h2>
+<div id="test-anova" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Test (ANOVA)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>lmDiet &lt;-<span class="st"> </span><span class="kw">lm</span>(aveWtGain <span class="op">~</span><span class="st"> </span>Diet, fish)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">library</span>(car)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>anova_diet &lt;-<span class="st"> </span><span class="kw">Anova</span>(lmDiet, <span class="dt">type=</span><span class="dv">3</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a>anova_diet</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"71.5434","2":"1","3":"4.914193","4":"5.384469e-02","_rn_":"(Intercept)"},{"1":"3879.4074","2":"2","3":"133.234894","4":"2.059484e-07","_rn_":"Diet"},{"1":"131.0267","2":"9","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>There is an extremely significant effect of the diet on the average weight gain of fish (p &lt;&lt; 0.001). <em>Note, that we have to be cautious with the interpretation due to the violation of the model assumptions</em></p>
+</div>
+</div>
+<div id="post-hoc-analysis" class="section level2">
+<h2><span class="header-section-number">6.4</span> Post-hoc analysis</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">library</span>(multcomp)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>multComp &lt;-<span class="st"> </span><span class="kw">glht</span>(<span class="dt">model =</span> lmDiet, </span>
+<span id="cb10-3"><a href="#cb10-3"></a>                 <span class="dt">linfct =</span> <span class="kw">mcp</span>(<span class="dt">Diet =</span> <span class="st">&quot;Tukey&quot;</span>))</span>
+<span id="cb10-4"><a href="#cb10-4"></a>sumDiet &lt;-<span class="st"> </span><span class="kw">summary</span>(multComp)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>sumDiet</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = aveWtGain ~ Diet, data = fish)
+## 
+## Linear Hypotheses:
+##            Estimate Std. Error t value Pr(&gt;|t|)    
+## 2 - 1 == 0   20.333      2.698   7.536   &lt;1e-04 ***
+## 3 - 1 == 0   44.000      2.698  16.308   &lt;1e-04 ***
+## 3 - 2 == 0   23.667      2.698   8.772   &lt;1e-04 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>confDiet &lt;-<span class="st"> </span><span class="kw">confint</span>(multComp)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>confDiet<span class="op">$</span>confint</span></code></pre></div>
+<pre><code>##       Estimate      lwr      upr
+## 2 - 1 20.33333 12.79790 27.86877
+## 3 - 1 44.00000 36.46456 51.53544
+## 3 - 2 23.66667 16.13123 31.20210
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95
+## attr(,&quot;calpha&quot;)
+## [1] 2.79296</code></pre>
+</div>
+<div id="conclusion" class="section level2">
+<h2><span class="header-section-number">6.5</span> Conclusion</h2>
+<p>There is an extremely significant effect of the diet on the average weight gain of fish (p &lt;&lt; 0.001). The average weight gain of fish is extremely significantly different between all three diets (all p &lt;&lt; 0.001).</p>
+<p>The weight gain of fish in diet 3 is on average 44g and 23.7g higher than that for fish that were fed with diet 1 and 2, respectively (95% CI [36.5, 51.5] and [16.1, 31.2], respectively). The weight gain of fish in diet 2 is on average 20.3g higher than that for fish that were fed with diet 1 (95% CI [12.8, 27.9]).</p>
+<p><strong>Note, however, that the assumptions of test are violated,</strong> i.e. larger variability in Diet 2 and/or additional tank/batch effects in Diet 2. Indeed, the tanks seem to cluster per two tanks, which may indicate additional batch effects. <strong>We therefore have to be very careful with the interpretation of the results.</strong></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgOC54OiBUaGUgZmlzaCB0YW5rIGRhdGFzZXQgLSBzb2x1dGlvbiIgICAKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQgYW5kIEplcm9lbiBHaWxpcyIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIgIApvdXRwdXQ6CiAgICBodG1sX2RvY3VtZW50OgogICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlICAgIAogICAgICB0aGVtZTogY29zbW8KICAgICAgdG9jOiB0cnVlCiAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgcGRmX2RvY3VtZW50OgogICAgICB0b2M6IHRydWUKICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAoKLS0tCgojIEJhY2tncm91bmQgCgpSZXNlYXJjaGVycyB3YW50IHRvIGFzc2VzcyB0aGUgZWZmZWN0IG9mIHRocmVlIGRpZmZlcmVudCBkaWV0cyBvbiB0aGUgd2VpZ2h0IApnYWluIG9mIGZpc2guIFRoZXkgaGF2ZSBzZXQgdXAgYW4gZXhwZXJpbWVudCB3aXRoIDEyIGRpZmZlcmVudCB0YW5rcyBvZiBmaXNoLiAKRWFjaCB0YW5rIGNvbnRhaW5zIHRoZSBzYW1lIG51bWJlciBvZiBmaXNoLiBUaGUgd2VpZ2h0IG9mIDYgZmlzaCBpbiBlYWNoIHRhbmsgCndhcyBtZWFzdXJlZCBhdCB0aGUgYmVnaW5uaW5nIGFuZCB0aGUgZW5kIG9mIHRoZSBleHBlcmltZW50LiBUaGUgcmVzZWFyY2hlcnMgCnJlY29yZGVkIHRoZSB3ZWlnaHQgZ2Fpbi4KCiMgRXhwZXJpbWVudGFsIGRlc2lnbgoKLSBUaGUgZXhwbGFuYXRvcnkgdmFyaWFibGUgaW4gdGhlIGV4cGVyaW1lbnQgaXMgdGhlIGZhY3RvciB0eXBlIG9mIGRpZXQKCi0gVGhlcmUgYXJlIDMgZGlldCB0eXBlczogZGlldCAxLCBkaWV0IDIsIGFuZCBkaWV0IDMuCgotIFRoZSBleHBlcmltZW50YWwgdW5pdCBpcyB0aGUgdGFuazogdGhlIGRpZXQgdHJlYXRtZW50cyBhcmUgYWRvcHRlZCBvbiB0aGUgCnRhbmtzLCBpLmUuLCB0aGUgdGFua3MgYXJlIHJhbmRvbWl6ZWQgdG8gdGhlIGRpZXQgdHJlYXRtZW50cy4KCi0gVGhlIHdlaWdodCBnYWluIGlzIHRoZSByZXNwb25zZSBhbmQgaXQgaXMgbWVhc3VyZWQgb24gZWFjaCBmaXNoIHdoaWNoIGFyZSAKdGhlIG9ic2VydmF0aW9uYWwgdW5pdHMuCgpJbXBvcnQgbGlicmFyaWVzCgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKIyBEYXRhIGltcG9ydAoKYGBge3J9CmZpc2ggPC0gcmVhZC50YWJsZSgiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9maXNoVGFuay50eHQiLGhlYWRlcj1UUlVFKQpoZWFkKGZpc2gpCmBgYAoKIyBUaWR5IGRhdGEKCmBgYHtyfQpmaXNoIDwtIGZpc2ggJT4lCiAgICBtdXRhdGUoVGFuayA9IGFzLmZhY3RvcihUYW5rKSwgRGlldCA9IGFzLmZhY3RvcihEaWV0KSkKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCmBgYHtyfQpmaXNoICU+JQogIGdncGxvdChhZXMoeCA9IFRhbmssIHkgPSBXdEdhaW4sIGZpbGw9RGlldCkpICsKICAgIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlPU5BKSArIAogICAgZ2VvbV9qaXR0ZXIod2lkdGggPSAwLjIpICsKICAgIGdndGl0bGUoIldlaWdodCBnYWluIHBlciB0YW5rIikgKwogICAgeWxhYigiV2VpZ3RoIGdhaW4gKGcpIikgKyAKICAgIHN0YXRfc3VtbWFyeShmdW4gPSBtZWFuLCBnZW9tPSJwb2ludCIsIHNoYXBlPTUsIHNpemU9MywgY29sb3I9ImJsYWNrIiwgZmlsbD0iYmxhY2siKSArCiAgICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlPSJSZEd5IikgKwogICAgdGhlbWVfYncoKQpgYGAKCiMgQW5hbHlzaXMKCiMjIFBzZXVkb3JlcGxpY2F0aW9uCgotIFRoZSBkaWV0cyBhcmUgcmFuZG9taXplZCB0byB0aGUgdGFua3MsIGhlbmNlLCB0aGUgdGFua3MgYXJlIHRoZSBleHBlcmltZW50YWwgdW5pdHMuIAotIFdlIG1lYXN1cmUgdGhlIHdlaWdodCBvZiBmaXNoLCB0aGV5IGFyZSB0aGUgb2JzZXJ2YXRpb25hbCB1bml0LiAKLSBXZSBtZWFzdXJlIG11bHRpcGxlIGZpc2ggZm9yIGVhY2ggdGFuaywgaGVuY2UgIHRoZSBmaXNoIG9mIHRoZSBzYW1lIHRhbmsgYXJlICoqcHNldWRvcmVwbGljYXRlcyoqLiBJbmRlZWQsIGZpc2ggZnJvbSB0aGUgc2FtZSB0YW5rIGFyZSBleHBvc2VkIHRvIG1vcmUgc2ltaWxhciBjb25kaXRpb25zIGFuZCB0aGVpciBtZWFzdXJlbWVudHMgd2lsbCBiZSBtb3JlIHNpbWlsYXIgYW5kIGFyZSB0aHVzIG5vdCBpbmRlcGVuZGVudC4gCgotIElmIHdlIGRvIG5vdCBhY2NvdW50IGZvciB0aGlzIAoqKnBzZXVkb3JlcGxpY2F0aW9uKiogb3VyIChyZWdyZXNzaW9uKSBhbmFseXNpcyBhbmQgY29uc2lkZXIgYWxsIGZpc2ggYXMgaW5kZXBlbmRlbnQgcmVwZWF0cywgdGhlIHN0YW5kYXJkIGVycm9yIG9uIHRoZSBlc3RpbWF0ZSBmb3IgdGhlIGRpZXQgZWZmZWN0IHdpbGwgYmUgdW5kZXJlc3RpbWF0ZWQsIHJlc3VsdGluZyBpbiBvdmVybHkgbGliZXJhbCBpbmZlcmVuY2UuCgpUbyBhY2NvdW50IGZvciBwc2V1ZG9yZXBsaWNhdGlvbiBpbiB0aGUgZGF0YSwgd2UgY2FuIGF2ZXJhZ2Ugb3ZlciB0aGUgcHNldWRvcmVwbGljYXRlcyBiZWNhdXNlIHdlIGFzc2VzcyB0aGUgc2FtZSBudW1iZXIgZmlzaCBpbiBlYWNoIHRhbmsuIApIZW5jZSwgdGhlIHRhbmsgYXZlcmFnZXMgd2lsbCBoYXZlIGFuIGVxdWFsIHByZWNpc2lvbi4gCgpOb3RlLCB0aGF0IHByaW9yIHRvIGF2ZXJhZ2luZywgdGhlIGV4cGVyaW1lbnRhbCB1bml0IHdhcyB0aGUgdGFuaywgd2hpbGUgdGhlCm9ic2VydmF0aW9uYWwgdW5pdCB3YXMgdGhlIGZpc2ggaW5zaWRlIHRoZSB0YW5rLiBBZnRlciBhdmVyYWdpbmcsIHRoZSB0YW5rCndpbGwgYmUgYm90aCB0aGUgZXhwZXJpbWVudGFsIGFuZCB0aGUgb2JzZXJ2YXRpb25hbCB1bml0IG9mIHRoZSBleHBlcmltZW50LgogCkF2ZXJhZ2luZyBjYW4gYmUgYWNoaWV2ZWQgd2l0aCB0aGUgYGdyb3VwX2J5YCBhbmQgYHN1bW1hcmlzZWAgZnVuY3Rpb25zIG9mIAp0aGUgYGRwbHlyYCBSIHBhY2thZ2UuCgpgYGB7cn0KZmlzaCA8LSBmaXNoICU+JSAKICAgIGdyb3VwX2J5KFRhbmssIERpZXQpICU+JQogICAgc3VtbWFyaXNlKGF2ZVd0R2FpbiA9IG1lYW4oV3RHYWluKSkKZmlzaApgYGAKCk5vdywgdGhlIHdlaWdodCBnYWluIHZhbHVlcyBhcmUgYXZlcmFnZWQgb3ZlciBkZSBzaXggZmlzaCBpbiBlYWNoIG9mIHRoZSB0YW5rcy4KCiMjIE1vZGVsIGFzc3VtcHRpb25zCgpMaXN0IGFzc3VtcHRpb25zOgoKMS4gVGhlIG9ic2VydmF0aW9ucyBhcmUgaW5kZXBlbmRlbnQKMi4gTGluZWFyaXR5IGJldHdlZW4gdGhlIHJlc3BvbnNlIGFuZCBwcmVkaWN0b3IgdmFyaWFibGUKMy4gVGhlIHJlc2lkdWVzIG9mIHRoZSBtb2RlbCBtdXN0IGJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkCjQuIEhvbW9zY2VkYXN0aWNpdHkgb2YgdGhlIGRhdGEKCkFmdGVyIGF2ZXJhZ2luZyB0aGUgd2VpZ2h0IGdhaW4gdmFsdWVzIG92ZXIgZGUgc2l4IGZpc2ggaW4gZWFjaCBvZiB0aGUgdGFua3MsCndlIGRlYWx0IHdpdGggdGhlIHBzZXVkby1yZXBsaWNhdGlvbiB3aXRoaW4gdGFuayBhbmQgd2UgZXhwZWN0IHRoZSB0YW5rcyB0byBiZSBpbmRlcGVuZGVudCByZXBlYXRzLiAKClRvIGFzc2VzcyB0aGUgcmVtYWluaW5nIGFzc3VtcHRpb25zLCB3ZSBmaXJzdCBmaXQgYSBsaW5lYXIgcmVncmVzc2lvbiBtb2RlbC4KCmBgYHtyfQpsbURpZXQgPC0gbG0oYXZlV3RHYWluIH4gRGlldCwgZmlzaCkKcGFyKG1mcm93PWMoMiwyKSkKcGxvdChsbURpZXQpCmBgYAoKV2Ugc2VlIHNvbWUgdW5kZXNpcmFibGUgcGF0dGVybnMgaW4gdGhlIGRpYWdub3N0aWMgcGxvdHMgb2YgdGhlIGxpbmVhciBtb2RlbC4KCldoaWxlIHRoZSBzbW9vdGhlciBmb3IgYXNzZXNzaW5nIGxpbmVhcml0eSBpbiB0aGUgZGF0YSBpcyBmbGF0IGFuZCBjZW50ZXJlZAphcm91bmQgemVybywgdGhlcmUgaXMgYSBtdWNoIGxhcmdlciBzcHJlYWQgYXJvdW5kIHRoZSBzbW9vdGhlciBmb3IgdGhlIApvYnNlcnZhdGlvbnMgKHRhbmtzKSBvZiB0aGUgc2Vjb25kIGRpZXQgdHlwZSAodGFua3MgNS04KS4gVGhlc2UgdGFua3MgYXJlCmFsc28gZmxhZ2dlZCBpbiB0aGUgUVEtcGxvdC4gRmluYWxseSwgdGhlIHNhbWUgdGFua3Mgc2VhbSB0byBoYXZlIGEgbGFyZ2VyIHZhcmlhYmlsaXR5IGluIERpZXQgMiBhbmQvb3IgYWRkaXRpb25hbCB0YW5rL2JhdGNoIGVmZmVjdHMgc2VlbSB0byBvY2N1ci4gVGhlIHRhbmtzIHNlZW0gdG8gY2x1c3RlciBwZXIgdHdvIHRhbmtzIGFuZCBkbyBub3Qgc2VlbSB0byBiZSBpbmRlcGVuZGVudC4gV2UgdGhlcmVmb3JlIGhhdmUgdG8gYmUgY2FyZWZ1bCB3aXRoIHRoZSBpbnRlcnByZXRhdGlvbiBvZiB0aGUgcmVzdWx0cy4KCgojIyBPdmVyYWxsIGVmZmVjdCBvZiBkaWV0CgojIyMgVGVzdCAoQU5PVkEpCgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbG1EaWV0IDwtIGxtKGF2ZVd0R2FpbiB+IERpZXQsIGZpc2gpCmxpYnJhcnkoY2FyKQphbm92YV9kaWV0IDwtIEFub3ZhKGxtRGlldCwgdHlwZT0zKQphbm92YV9kaWV0CmBgYAoKVGhlcmUgaXMgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGVmZmVjdCBvZiB0aGUgZGlldCBvbiB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBvZiBmaXNoIChwIDw8IDAuMDAxKS4gCipOb3RlLCB0aGF0IHdlIGhhdmUgdG8gYmUgY2F1dGlvdXMgd2l0aCB0aGUgaW50ZXJwcmV0YXRpb24gZHVlIHRvIHRoZSB2aW9sYXRpb24gb2YgdGhlIG1vZGVsIGFzc3VtcHRpb25zKgoKIyMgUG9zdC1ob2MgYW5hbHlzaXMKCmBgYHtyLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KG11bHRjb21wKQptdWx0Q29tcCA8LSBnbGh0KG1vZGVsID0gbG1EaWV0LCAKICAgICAgICAgICAgICAgICBsaW5mY3QgPSBtY3AoRGlldCA9ICJUdWtleSIpKQpzdW1EaWV0IDwtIHN1bW1hcnkobXVsdENvbXApCnN1bURpZXQKYGBgCgpgYGB7cn0KY29uZkRpZXQgPC0gY29uZmludChtdWx0Q29tcCkKY29uZkRpZXQkY29uZmludApgYGAKCiMjIENvbmNsdXNpb24KClRoZXJlIGlzIGFuIGV4dHJlbWVseSBzaWduaWZpY2FudCBlZmZlY3Qgb2YgdGhlIGRpZXQgb24gdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gb2YgZmlzaCAocCA8PCAwLjAwMSkuIApUaGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBvZiBmaXNoIGlzIGV4dHJlbWVseSBzaWduaWZpY2FudGx5IGRpZmZlcmVudCBiZXR3ZWVuIGFsbCB0aHJlZSBkaWV0cyAoYWxsIHAgPDwgMC4wMDEpLiAKClRoZSB3ZWlnaHQgZ2FpbiBvZiBmaXNoIGluIGRpZXQgMyBpcyBvbiBhdmVyYWdlIGByIHJvdW5kKHN1bURpZXQkdGVzdCRjb2VmZmljaWVudHNbMl0sZGlnaXRzPTEpYGcgYW5kIGByIHJvdW5kKHN1bURpZXQkdGVzdCRjb2VmZmljaWVudHNbM10sZGlnaXRzPTEpYGcgaGlnaGVyIHRoYW4gdGhhdCBmb3IgZmlzaCB0aGF0IHdlcmUgZmVkIHdpdGggZGlldCAxIGFuZCAyLCByZXNwZWN0aXZlbHkgKDk1JSBDSQpbYHIgcm91bmQoY29uZkRpZXQkY29uZmludFsyLC0xXSwxKWBdIGFuZCBbYHIgcm91bmQoY29uZkRpZXQkY29uZmludFszLC0xXSwxKWBdLCByZXNwZWN0aXZlbHkpLgpUaGUgd2VpZ2h0IGdhaW4gb2YgZmlzaCBpbiBkaWV0IDIgaXMgb24gYXZlcmFnZSBgciByb3VuZChzdW1EaWV0JHRlc3QkY29lZmZpY2llbnRzWzFdLGRpZ2l0cz0xKWBnIGhpZ2hlciB0aGFuIHRoYXQgZm9yIGZpc2ggdGhhdCB3ZXJlIGZlZCB3aXRoIGRpZXQgMSAoOTUlIENJCltgciByb3VuZChjb25mRGlldCRjb25maW50WzEsLTFdLDEpYF0pLgoKKipOb3RlLCBob3dldmVyLCB0aGF0IHRoZSBhc3N1bXB0aW9ucyBvZiB0ZXN0IGFyZSB2aW9sYXRlZCwqKiBpLmUuIGxhcmdlciAKdmFyaWFiaWxpdHkgaW4gRGlldCAyIGFuZC9vciBhZGRpdGlvbmFsIHRhbmsvYmF0Y2ggZWZmZWN0cyBpbiBEaWV0IDIuIEluZGVlZCwgdGhlIHRhbmtzIApzZWVtIHRvIGNsdXN0ZXIgcGVyIHR3byB0YW5rcywgd2hpY2ggbWF5IGluZGljYXRlIGFkZGl0aW9uYWwgYmF0Y2ggZWZmZWN0cy4gCioqV2UgdGhlcmVmb3JlIGhhdmUgdG8gYmUgdmVyeSBjYXJlZnVsIHdpdGggdGhlIGludGVycHJldGF0aW9uIG9mIHRoZSByZXN1bHRzLioqCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("fishtank_sol.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Alexandre Segers &amp; Lieven Clement" />
+
+
+<title>Practicum 1: Oefening anova</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practicum 1: Oefening anova</h1>
+<h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div id="anova-kuikentjes" class="section level1">
+<h1><span class="header-section-number">1</span> ANOVA: Kuikentjes</h1>
+<p>In deze studie (1948) werd de invloed van verschillende soorten voeding op het gewicht van kuikentjes onderzocht. De kuikentjes werden na geboorte willekeurig in één van zes groepen toegekend, waarna deze groepen elk een andere voeding kregen. Het gewicht van deze kuikentjes werd gemeten na zes weken. Wij zullen ons beperken tot drie groepen van voeding: caseïne (casein), lijnzaad (linseed) en sojabonen (soybean).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(ggplot2)})</span></code></pre></div>
+</div>
+<div id="data-exploratie" class="section level1">
+<h1><span class="header-section-number">2</span> Data exploratie</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(<span class="st">&quot;chickwts&quot;</span>)</span></code></pre></div>
+<div id="datastructuur-bekijken" class="section level2">
+<h2><span class="header-section-number">2.1</span> Datastructuur bekijken</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#Bekijk de structuur van dataset chickwts</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>(chickwts)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["feed"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"179","2":"horsebean","_rn_":"1"},{"1":"160","2":"horsebean","_rn_":"2"},{"1":"136","2":"horsebean","_rn_":"3"},{"1":"227","2":"horsebean","_rn_":"4"},{"1":"217","2":"horsebean","_rn_":"5"},{"1":"168","2":"horsebean","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="data-filteren" class="section level2">
+<h2><span class="header-section-number">2.2</span> Data filteren</h2>
+<p>We gaan de analyse beperken tot het vergelijken van voeding caseïne (casein), lijnzaad (linseed) en sojabonen (soybean).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#Filter de dataset zodat enkel datapunten van de relevante voeding (feed) aanwezig zijn.</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>chickwts &lt;-<span class="st"> </span>chickwts <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(feed <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;casein&quot;</span>,<span class="st">&quot;linseed&quot;</span>,<span class="st">&quot;soybean&quot;</span>))</span></code></pre></div>
+</div>
+<div id="figuur-van-de-data" class="section level2">
+<h2><span class="header-section-number">2.3</span> Figuur van de data</h2>
+<p>We gaan eerst de data bekijken zodat we een idee hebben waarmee we te maken hebben.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#Maak een boxplot van het gewicht voor elke groep van voeding. Plot ook de individuele observaties.</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>chickwts <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>feed,<span class="dt">y=</span>weight)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Gewicht van kuikentjes na zes weken per soort voeding&quot;</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="statische-test" class="section level1">
+<h1><span class="header-section-number">3</span> Statische test:</h1>
+<div id="welke-test-kan-men-uitvoeren-om-het-gemiddelde-gewicht-simultaan-te-vergelijken-tussen-alle-soorten-voeding-wat-is-de-link-met-het-lineair-model-geef-de-nul--en-alternatieve-hypothese-van-deze-test." class="section level2">
+<h2><span class="header-section-number">3.1</span> Welke test kan men uitvoeren om het gemiddelde gewicht simultaan te vergelijken tussen alle soorten voeding? Wat is de link met het lineair model? Geef de nul- en alternatieve hypothese van deze test.</h2>
+<p>In vorige oefening zagen we enkel de two-sample t-test om twee gemiddelden met elkaar vergelijken. We hebben echter ook reeds gezien dat de two-sample t-test een specifieke versie is van een lineair model, namelijk van een lineair model waarbij de covariaat een categorische variabele <span class="math inline">\(X\)</span> is met <span class="math inline">\(2\)</span> levels, i.e. <span class="math display">\[ E[Y_i] = \beta_0 + \beta_1 X_i \]</span></p>
+<p>Dit lineair model kan echter ook makkelijk veralgemeend worden naar factoren met meerdere levels.</p>
+<p><span class="math display">\[ E[Y_i] = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} \]</span></p>
+<p>Waarbij <span class="math inline">\(X_{1i}\)</span> gelijk is aan 1 wanneer de voeding linseed is en anders 0. Anderzijds is <span class="math inline">\(X_{2i}\)</span> gelijk aan 1 bij soybeans en gelijk aan 0 bij de andere voedingen.</p>
+<p>Er bestaat een manier waarbij we <strong>alle levels simultaan kunnen testen</strong>, men zal namelijk testen of de gehele categorische variabele een invloed heeft op de respons variabele. In de context van ons voorbeeld, zal men kunnen testen of de voeding-soort überhaupt een effect heeft op het gemiddelde gewicht van kuikentjes. Zo’n een test heet een one-way ANOVA.</p>
+<p>Stel dat <span class="math inline">\(\mu_1\)</span> het gemiddelde gewicht van kuikens voor caseïne voorstelt, en idem voor <span class="math inline">\(\mu_2\)</span> en <span class="math inline">\(\mu_3\)</span>. De nul- en alternatieve hypothese voor een ANOVA kan men dan voorstellen als</p>
+<p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_1=\mu_2=\mu_3\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: Voor minstens één <span class="math inline">\(i \ne j\)</span> is <span class="math inline">\(\mu_i \neq \mu_j\)</span>: met andere woorden <span class="math inline">\(\mu_1 \ne \mu_2\)</span> of <span class="math inline">\(\mu_1 \ne \mu_3\)</span> of <span class="math inline">\(\mu_2 \ne \mu_3\)</span></p>
+<p>In woorden, zegt de nulhypothese dat het gemiddelde gewicht van kuikens onafhankelijk is van de voeding: er is geen systematisch verschil in gemiddeld gewicht van het kuiken. De alternatieve hypothese zegt dat het gemiddelde gewicht verschilt tussen <strong>minstens twee voeding-soorten</strong>. Merk op dat men bij het verwerpen van de nulhypothese <strong>niet weet tussen welke soorten</strong> er een verschil is!</p>
+<p>Indien we de ANOVA testen op basis van het lineair model kunnen we ook de volgende nul- en alternatieve hypothese opstellen:</p>
+<p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\beta_1 = \beta_2 = 0\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: <span class="math inline">\(\beta_1 \ne 0\)</span> of <span class="math inline">\(\beta_2 \ne 0\)</span></p>
+</div>
+<div id="geef-de-assumpties-voor-dit-model-en-ga-deze-na" class="section level2">
+<h2><span class="header-section-number">3.2</span> Geef de assumpties voor dit model en ga deze na:</h2>
+<p>Zoals beschreven in de cursus, veronderstelt ANOVA een locatie-shift. Dit wil zeggen dat elke groep een gelijke variantie heeft en er enkel shifts in gemiddelde kunnen optreden. Een andere assumptie is dat de data van elke groep normaal verdeeld is, en dat de observaties onafhankelijk van elkaar zijn.</p>
+<p>Er zijn dus drie assumpties die moeten voldaan zijn. Aangezien we in de data niet kunnen waarnemen of de observaties onafhankelijk zijn van elkaar, moeten we dit veronderstellen dat de onderzoeker dit correct heeft uitgevoerd. Daarnaast moeten we controleren dat:</p>
+<ul>
+<li><p>elke groep normaal is.</p></li>
+<li><p>de groepen een gelijke variantie hebben. (homoscedasticiteit)</p></li>
+</ul>
+<p>We gaan gelijkheid van varianties na met boxplots. Dit lijkt alvast in orde te zijn.</p>
+<p>We zullen nu de assumptie van normale verdeling binnen elke groep nagaan.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#Maak een QQplot voor het gewicht per voedingssoort.</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>chickwts <span class="op">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> weight)) <span class="op">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">geom_qq_line</span>() <span class="op">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">facet_grid</span>(.<span class="op">~</span>feed) <span class="op">+</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Relatieve abundantie&quot;</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>De afwijkingen die we in onze qqplot zien lijken niet zeer uitzonderlijk. Daarom kunnen we stellen dat elke groep een normale verdeling lijkt te volgen.</p>
+<p>Indien men veel groepen moet vergelijken, kan het makkelijker zijn om slechts één plot te moeten beoordelen. In dat geval kan men ervoor kiezen om niet voor elke groep apart een QQ-plot te maken, maar kan men de residuen van het lineair model checken. Merk op dat men dan checkt voor een normale distributie van <strong><em>alle</em></strong> residuen van het gewicht ten opzichte van hun groepsgemiddelde, en dus niet voor een normale distributie binnen elke groep apart.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>model_lm &lt;-<span class="st"> </span><span class="kw">lm</span>(weight <span class="op">~</span><span class="st"> </span>feed, <span class="dt">data =</span> chickwts)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">plot</span>(model_lm) <span class="co"># Enkel figuur rechts boven is relevant</span></span></code></pre></div>
+<p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<p>De QQ-plot vertoont geen systematische afwijkingen van een normale distributie. Dit is geen garantie dat de data normaal verdeeld is binnen elke groep, maar het is een benadering die we kunnen gebruiken in het geval dat:</p>
+<ul>
+<li>er te veel groepen zijn om de assumpties te checken binnen elke groep;</li>
+<li>er te weinig observaties zijn per groep om binnen elke groep de assumpties na te gaan.</li>
+</ul>
+<p>Merk op dat je in principe de assumptie van gelijke varianties ook op basis van de plot linksboven zou kunnen checken: elke ‘kolom’ van punten stelt een soort voor (1 soort heeft 1 geschat gemiddelde) en de punten stellen de residuen voor ten opzichte van hun groepsgemiddelde. Men kan deze plot dus ook gebruiken om te kijken of er groepen (soorten) zijn die een verschillende variantie hebben ten opzichte van andere groepen.</p>
+</div>
+<div id="modelleer-de-data-met-het-lineair-model" class="section level2">
+<h2><span class="header-section-number">3.3</span> Modelleer de data met het lineair model:</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">summary</span>(model_lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ feed, data = chickwts)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -107.583  -45.717    2.571   40.500   90.250 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   323.58      16.46  19.660  &lt; 2e-16 ***
+## feedlinseed  -104.83      23.28  -4.504 7.11e-05 ***
+## feedsoybean   -77.15      22.43  -3.440  0.00152 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 57.01 on 35 degrees of freedom
+## Multiple R-squared:  0.3854, Adjusted R-squared:  0.3503 
+## F-statistic: 10.97 on 2 and 35 DF,  p-value: 0.0001996</code></pre>
+<p>De p-waarden die we hier krijgen voor de parameters komen niet overeen met de ANOVA-test die we willen uitvoeren. De p-waarde bij de F-statistic is wel de juiste p-waarde. We kunnen dit ook verkrijgen door de volgende code:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">#Voer de ANOVA uit op het lineare model.</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">anova</span>(model_lm)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"2","2":"71351.3","3":"35675.650","4":"10.97494","5":"0.0001995564","_rn_":"feed"},{"1":"35","2":"113772.6","3":"3250.646","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We voerden de ANOVA test uit aan de hand van het lineair regressiemodel. In principe testen we dan volgende nulhypothese:</p>
+<p><span class="math display">\[ H_0: \beta_1 = \beta_2 = 0  \]</span></p>
+<p>Merk op dat deze nulhypothese evenwaardig is aan de nulhypothese die we eerder formuleerden. Als alle gemiddelden <span class="math inline">\(\mu_1, \mu_2, \mu_3 = 0\)</span>, betekent dit dat beide regressieparameters <span class="math inline">\(\beta_1\)</span> en <span class="math inline">\(\beta_1\)</span> gelijk zijn aan 0.</p>
+<p>De p-waarde van deze ANOVA test is bijzonder klein. We besluiten dat we de nulhypothese kunnen verwerpen (<span class="math inline">\(p&lt;&lt;0.001\)</span>) en dat het gemiddelde gewicht van kuikens verschilt tussen minstens twee van de voedingspatronen op het 5% significantieniveau.</p>
+<p>Aan de hand van dit resultaat weten we echter niet tussen welke voedingen er een verschil optreedt, en hiervoor zullen we een <strong>post-hoc analyse</strong> moeten uitvoeren. Een post-hoc analyse voert men enkel uit indien de ANOVA test significant was, en bestaat erin om paarsgewijze vergelijkingen uit te voeren tussen de groepen. In dit geval komt dit overeen met het vergelijken of er een verschil is tussen groep 1 en 2, tussen groep 1 en 3 en tussen groep 2 en 3.</p>
+</div>
+<div id="post-hoc-analyse" class="section level2">
+<h2><span class="header-section-number">3.4</span> Post-hoc analyse</h2>
+<p>De post-hoc analyse bestaat eruit om paarsgewijze testen uit te voeren. Indien men over <span class="math inline">\(k\)</span> groepen beschikt is het totaal aantal paarsgewijze vergelijkingen gelijk aan <span class="math inline">\(k(k-1)/2\)</span>. Bij ons is <span class="math inline">\(k=3\)</span> waardoor we <span class="math inline">\(3\)</span> paarsgewijze vergelijkingen zullen uitvoeren. We kunnen echter niet elke test op het 5% significantieniveau uitvoeren vanwege het meervoudig toetsen probleem. Indien we 3 vergelijkingen zouden testen elk op het 5% significantieniveau, dan is de kans dat we minstens één nulhypothese onterecht zouden verwerpen niet langer gelijk aan ons significantieniveau (5%). In ons geval, zou deze kans gelijk zijn aan:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>nComparisons &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="dv">1</span><span class="op">-</span>(<span class="dv">1</span><span class="op">-</span>alpha)<span class="op">^</span>nComparisons</span></code></pre></div>
+<pre><code>## [1] 0.142625</code></pre>
+<p>Dus indien we elke test op het 5% significantieniveau zouden uitvoeren hebben we, als alle nulhypotheses waar zouden zijn, een kans van 14.3% dat we minstens één nulhypothese verkeerd zouden verwerpen. Om deze kans globaal gezien (dit is, over alle paarsgewijze vergelijkingen) op 5% te houden, kunnen we bijvoorbeeld de Bonferroni correctie uitvoeren.</p>
+<p>In <code>R</code> kunnen we de post-hoc analyse uitvoeren met behulp van het <code>multcomp</code> package aan de hand van de <code>glht</code> functie. We specifiëren hier in het <code>linfct</code> argument dat we <em>multiple comparisons</em> (<code>mcp</code>) willen uitvoeren waarbij we alle paarsgewijze vergelijkingen voor de <code>feed</code> variabele willen testen aan de hand van de <code>"Tukey"</code> methode. De <code>multcomp</code> package zorgt ervoor dat deze p-waarden automatisch gecorrigeerd worden voor meervoudig toetsen.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(multcomp))</span>
+<span id="cb14-2"><a href="#cb14-2"></a>mcp &lt;-<span class="st"> </span><span class="kw">glht</span>(model_lm,<span class="dt">linfct=</span><span class="kw">mcp</span>(<span class="dt">feed=</span><span class="st">&quot;Tukey&quot;</span>))</span>
+<span id="cb14-3"><a href="#cb14-3"></a>summary &lt;-<span class="st"> </span><span class="kw">summary</span>(mcp)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>summary</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = weight ~ feed, data = chickwts)
+## 
+## Linear Hypotheses:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## linseed - casein == 0   -104.83      23.28  -4.504   &lt;0.001 ***
+## soybean - casein == 0    -77.15      22.43  -3.440   0.0042 ** 
+## soybean - linseed == 0    27.68      22.43   1.234   0.4415    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<p>In de output hiervan zien we de verschillende paarsgewijze vergelijkingen die werden uitvoerd. Bijvoorbeeld <code>linseed - casein == 0</code> duidt erop dat voor dit contrast wordt getest of het gemiddelde gewicht voor voeding <code>linseed</code> min het gemiddelde gewicht voor soort <code>casein</code> verschillend is van nul. In de tweede kolom wordt het verschil in gemiddelden weergegeven, met hun standaard error en teststatistiek in de respectievelijk derde en vierde kolom. De laatste kolom geeft aangepaste p-waarden weer op een globaal significantieniveau van 5%. Aan de hand van de aangepaste p-waarden zien we dat het gemiddelde gewicht bij <code>casein</code> verschilt van zowel <code>linseed</code> en <code>soybean</code> (p &lt; 0.001 en p = 0.004) op het 5% significantieniveau. We zien ook dat er geen significant verschil is in gemiddeld gewicht bij voeding <code>soybean</code> en <code>linseed</code> op het 5% significantieniveau. De effectgrootte is voor bij zowel <code>linseed</code> als <code>soybean</code> negatief, wat erop duidt dat het gemiddelde gewicht van kuikens hoger is bij voedingspatroon <code>casein</code>.</p>
+<p>De betrouwbaarheidsintervallen van elke paarsgewijze test kunnen we ook makkelijk grafisch voorstellen aan de hand van de <code>plot</code> functie die zo op een <code>glht</code> object kan toegepast worden.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">confint</span>(mcp)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = weight ~ feed, data = chickwts)
+## 
+## Quantile = 2.4469
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##                        Estimate  lwr       upr      
+## linseed - casein == 0  -104.8333 -161.7882  -47.8785
+## soybean - casein == 0   -77.1548 -132.0378  -22.2717
+## soybean - linseed == 0   27.6786  -27.2045   82.5616</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">plot</span>(mcp)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div id="conclusie" class="section level1">
+<h1><span class="header-section-number">4</span> Conclusie</h1>
+<p>We kunnen concluderen dat er een significant verschil in gewicht is tussen het gewicht van kuikentjes met voeding caseine tegenover de andere voedingen op het 5% significantieniveau. Tussen linseed en soybean is er geen significant verschil in gewicht van de kuikentjes.</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IE9lZmVuaW5nIGFub3ZhIgphdXRob3I6ICJBbGV4YW5kcmUgU2VnZXJzICYgTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgICAgdGhlbWU6IGNvc21vCiAgICAgIHRvYzogdHJ1ZQogICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIHBkZl9kb2N1bWVudDoKICAgICAgdG9jOiB0cnVlCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKbGlua2NvbG9yOiBibHVlCnVybGNvbG9yOiBibHVlCmNpdGVjb2xvcjogYmx1ZQoKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKCgpgYGB7ciBzZXR1cCwgaW5jbHVkZT1GQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KGVjaG8gPSBUUlVFKQpgYGAKCiMgQU5PVkE6IEt1aWtlbnRqZXMKCkluIGRlemUgc3R1ZGllICgxOTQ4KSB3ZXJkIGRlIGludmxvZWQgdmFuIHZlcnNjaGlsbGVuZGUgc29vcnRlbiB2b2VkaW5nIG9wIGhldCBnZXdpY2h0IHZhbiBrdWlrZW50amVzIG9uZGVyem9jaHQuIERlIGt1aWtlbnRqZXMgd2VyZGVuIG5hIGdlYm9vcnRlIHdpbGxla2V1cmlnIGluIMOpw6luIHZhbiB6ZXMgZ3JvZXBlbiB0b2VnZWtlbmQsIHdhYXJuYSBkZXplIGdyb2VwZW4gZWxrIGVlbiBhbmRlcmUgdm9lZGluZyBrcmVnZW4uIEhldCBnZXdpY2h0IHZhbiBkZXplIGt1aWtlbnRqZXMgd2VyZCBnZW1ldGVuIG5hIHplcyB3ZWtlbi4gV2lqIHp1bGxlbiBvbnMgYmVwZXJrZW4gdG90IGRyaWUgZ3JvZXBlbiB2YW4gdm9lZGluZzogY2FzZcOvbmUgKGNhc2VpbiksIGxpam56YWFkIChsaW5zZWVkKSBlbiBzb2phYm9uZW4gKHNveWJlYW4pLgoKCgpgYGB7cn0Kc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHsKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dwbG90Mil9KQpgYGAKCiMgRGF0YSBleHBsb3JhdGllCmBgYHtyfQpkYXRhKCJjaGlja3d0cyIpCmBgYAoKIyMgRGF0YXN0cnVjdHV1ciBiZWtpamtlbgoKYGBge3J9CiNCZWtpamsgZGUgc3RydWN0dXVyIHZhbiBkYXRhc2V0IGNoaWNrd3RzCmhlYWQoY2hpY2t3dHMpCmBgYAoKIyMgRGF0YSBmaWx0ZXJlbgoKV2UgZ2FhbiBkZSBhbmFseXNlIGJlcGVya2VuIHRvdCBoZXQgdmVyZ2VsaWprZW4gdmFuIHZvZWRpbmcgY2FzZcOvbmUgKGNhc2VpbiksIGxpam56YWFkIChsaW5zZWVkKSBlbiBzb2phYm9uZW4gKHNveWJlYW4pLiAKCmBgYHtyfQojRmlsdGVyIGRlIGRhdGFzZXQgem9kYXQgZW5rZWwgZGF0YXB1bnRlbiB2YW4gZGUgcmVsZXZhbnRlIHZvZWRpbmcgKGZlZWQpIGFhbndlemlnIHppam4uCmNoaWNrd3RzIDwtIGNoaWNrd3RzICU+JSBmaWx0ZXIoZmVlZCAlaW4lIGMoImNhc2VpbiIsImxpbnNlZWQiLCJzb3liZWFuIikpCmBgYAoKIyMgRmlndXVyIHZhbiBkZSBkYXRhCgpXZSBnYWFuIGVlcnN0IGRlIGRhdGEgYmVraWprZW4gem9kYXQgd2UgZWVuIGlkZWUgaGViYmVuIHdhYXJtZWUgd2UgdGUgbWFrZW4gaGViYmVuLgoKYGBge3J9CiNNYWFrIGVlbiBib3hwbG90IHZhbiBoZXQgZ2V3aWNodCB2b29yIGVsa2UgZ3JvZXAgdmFuIHZvZWRpbmcuIFBsb3Qgb29rIGRlIGluZGl2aWR1ZWxlIG9ic2VydmF0aWVzLgpjaGlja3d0cyAlPiUgZ2dwbG90KGFlcyh4PWZlZWQseT13ZWlnaHQpKSArIAogIGdlb21fYm94cGxvdCgpICsKICBnZW9tX2ppdHRlcigpICsKICBnZ3RpdGxlKCJHZXdpY2h0IHZhbiBrdWlrZW50amVzIG5hIHplcyB3ZWtlbiBwZXIgc29vcnQgdm9lZGluZyIpCmBgYAoKCiMgU3RhdGlzY2hlIHRlc3Q6CgojIyBXZWxrZSB0ZXN0IGthbiBtZW4gdWl0dm9lcmVuIG9tIGhldCBnZW1pZGRlbGRlIGdld2ljaHQgc2ltdWx0YWFuIHRlIHZlcmdlbGlqa2VuIHR1c3NlbiBhbGxlIHNvb3J0ZW4gdm9lZGluZz8gV2F0IGlzIGRlIGxpbmsgbWV0IGhldCBsaW5lYWlyIG1vZGVsPyBHZWVmIGRlIG51bC0gZW4gYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSB2YW4gZGV6ZSB0ZXN0LgoKSW4gdm9yaWdlIG9lZmVuaW5nIHphZ2VuIHdlIGVua2VsIGRlIHR3by1zYW1wbGUgdC10ZXN0IG9tIHR3ZWUgZ2VtaWRkZWxkZW4gbWV0IGVsa2FhciB2ZXJnZWxpamtlbi4KV2UgaGViYmVuIGVjaHRlciBvb2sgcmVlZHMgZ2V6aWVuIGRhdCBkZSB0d28tc2FtcGxlIHQtdGVzdCBlZW4gc3BlY2lmaWVrZSB2ZXJzaWUgaXMgdmFuIGVlbiBsaW5lYWlyIG1vZGVsLCBuYW1lbGlqayB2YW4gZWVuIGxpbmVhaXIgbW9kZWwgd2FhcmJpaiBkZSBjb3ZhcmlhYXQgZWVuIGNhdGVnb3Jpc2NoZSB2YXJpYWJlbGUgJFgkIGlzIG1ldCAkMiQgbGV2ZWxzLCBpLmUuClxbIEVbWV9pXSA9IFxiZXRhXzAgKyBcYmV0YV8xIFhfaSBcXQoKRGl0IGxpbmVhaXIgbW9kZWwga2FuIGVjaHRlciBvb2sgbWFra2VsaWprIHZlcmFsZ2VtZWVuZCB3b3JkZW4gbmFhciBmYWN0b3JlbiBtZXQgbWVlcmRlcmUgbGV2ZWxzLiAKClxbIEVbWV9pXSA9IFxiZXRhXzAgKyBcYmV0YV8xIFhfezFpfSArIFxiZXRhXzIgWF97Mml9IFxdCgpXYWFyYmlqICRYX3sxaX0kIGdlbGlqayBpcyBhYW4gMSB3YW5uZWVyIGRlIHZvZWRpbmcgbGluc2VlZCBpcyBlbiBhbmRlcnMgMC4gQW5kZXJ6aWpkcyBpcyAkWF97Mml9JCBnZWxpamsgYWFuIDEgYmlqIHNveWJlYW5zIGVuIGdlbGlqayBhYW4gMCBiaWogZGUgYW5kZXJlIHZvZWRpbmdlbi4gCgpFciBiZXN0YWF0IGVlbiBtYW5pZXIgd2FhcmJpaiB3ZSAqKmFsbGUgbGV2ZWxzIHNpbXVsdGFhbiBrdW5uZW4gdGVzdGVuKiosIG1lbiB6YWwgbmFtZWxpamsgdGVzdGVuIG9mIGRlIGdlaGVsZSBjYXRlZ29yaXNjaGUgdmFyaWFiZWxlIGVlbiBpbnZsb2VkIGhlZWZ0IG9wIGRlIHJlc3BvbnMgdmFyaWFiZWxlLgpJbiBkZSBjb250ZXh0IHZhbiBvbnMgdm9vcmJlZWxkLCB6YWwgbWVuIGt1bm5lbiB0ZXN0ZW4gb2YgZGUgdm9lZGluZy1zb29ydCDDvGJlcmhhdXB0IGVlbiBlZmZlY3QgaGVlZnQgb3AgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB2YW4ga3Vpa2VudGplcy4KWm8nbiBlZW4gdGVzdCBoZWV0IGVlbiBvbmUtd2F5IEFOT1ZBLgoKU3RlbCBkYXQgJFxtdV8xJCBoZXQgZ2VtaWRkZWxkZSBnZXdpY2h0IHZhbiBrdWlrZW5zIHZvb3IgY2FzZcOvbmUgdm9vcnN0ZWx0LCBlbiBpZGVtIHZvb3IgJFxtdV8yJCBlbiAkXG11XzMkLgpEZSBudWwtIGVuIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2Ugdm9vciBlZW4gQU5PVkEga2FuIG1lbiBkYW4gdm9vcnN0ZWxsZW4gYWxzCgokSF8wJDogJFxtdV8xPVxtdV8yPVxtdV8zJAoKJEhfQSQ6IFZvb3IgbWluc3RlbnMgw6nDqW4gJGkgXG5lIGokIGlzICRcbXVfaSBcbmVxIFxtdV9qJDogbWV0IGFuZGVyZSB3b29yZGVuICRcbXVfMSBcbmUgXG11XzIkIG9mICRcbXVfMSBcbmUgXG11XzMkIG9mICRcbXVfMiBcbmUgXG11XzMkCgpJbiB3b29yZGVuLCB6ZWd0IGRlIG51bGh5cG90aGVzZSBkYXQgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB2YW4ga3Vpa2VucyBvbmFmaGFua2VsaWprIGlzIHZhbiBkZSB2b2VkaW5nOiBlciBpcyBnZWVuIHN5c3RlbWF0aXNjaCB2ZXJzY2hpbCBpbiBnZW1pZGRlbGQgZ2V3aWNodCB2YW4gaGV0IGt1aWtlbi4KRGUgYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSB6ZWd0IGRhdCBoZXQgZ2VtaWRkZWxkZSBnZXdpY2h0IHZlcnNjaGlsdCB0dXNzZW4gKiptaW5zdGVucyB0d2VlIHZvZWRpbmctc29vcnRlbioqLiBNZXJrIG9wIGRhdCBtZW4gYmlqIGhldCB2ZXJ3ZXJwZW4gdmFuIGRlIG51bGh5cG90aGVzZSAqKm5pZXQgd2VldCB0dXNzZW4gd2Vsa2Ugc29vcnRlbioqIGVyIGVlbiB2ZXJzY2hpbCBpcyEKCkluZGllbiB3ZSBkZSBBTk9WQSB0ZXN0ZW4gb3AgYmFzaXMgdmFuIGhldCBsaW5lYWlyIG1vZGVsIGt1bm5lbiB3ZSBvb2sgZGUgdm9sZ2VuZGUgbnVsLSBlbiBhbHRlcm5hdGlldmUgaHlwb3RoZXNlIG9wc3RlbGxlbjoKCiRIXzAkOiAkXGJldGFfMSA9IFxiZXRhXzIgPSAwJAogCiRIX0EkOiAkXGJldGFfMSBcbmUgMCQgb2YgJFxiZXRhXzIgXG5lIDAkCgojIyBHZWVmIGRlIGFzc3VtcHRpZXMgdm9vciBkaXQgbW9kZWwgZW4gZ2EgZGV6ZSBuYToKClpvYWxzIGJlc2NocmV2ZW4gaW4gZGUgY3Vyc3VzLCB2ZXJvbmRlcnN0ZWx0IEFOT1ZBIGVlbiBsb2NhdGllLXNoaWZ0LgpEaXQgd2lsIHplZ2dlbiBkYXQgZWxrZSBncm9lcCBlZW4gZ2VsaWprZSB2YXJpYW50aWUgaGVlZnQgZW4gZXIgZW5rZWwgc2hpZnRzIGluIGdlbWlkZGVsZGUga3VubmVuIG9wdHJlZGVuLiBFZW4gYW5kZXJlIGFzc3VtcHRpZSBpcyBkYXQgZGUgZGF0YSB2YW4gZWxrZSBncm9lcCBub3JtYWFsIHZlcmRlZWxkIGlzLCBlbiBkYXQgZGUgb2JzZXJ2YXRpZXMgb25hZmhhbmtlbGlqayB2YW4gZWxrYWFyIHppam4uIAoKRXIgemlqbiBkdXMgZHJpZSBhc3N1bXB0aWVzIGRpZSBtb2V0ZW4gdm9sZGFhbiB6aWpuLiBBYW5nZXppZW4gd2UgaW4gZGUgZGF0YSBuaWV0IGt1bm5lbiB3YWFybmVtZW4gb2YgZGUgb2JzZXJ2YXRpZXMgb25hZmhhbmtlbGlqayB6aWpuIHZhbiBlbGthYXIsIG1vZXRlbiB3ZSBkaXQgdmVyb25kZXJzdGVsbGVuIGRhdCBkZSBvbmRlcnpvZWtlciBkaXQgY29ycmVjdCBoZWVmdCB1aXRnZXZvZXJkLiBEYWFybmFhc3QgbW9ldGVuIHdlIGNvbnRyb2xlcmVuIGRhdDoKCiAtIGVsa2UgZ3JvZXAgbm9ybWFhbCBpcy4KIAogLSBkZSBncm9lcGVuIGVlbiBnZWxpamtlIHZhcmlhbnRpZSBoZWJiZW4uIChob21vc2NlZGFzdGljaXRlaXQpCgpXZSBnYWFuIGdlbGlqa2hlaWQgdmFuIHZhcmlhbnRpZXMgbmEgbWV0IGJveHBsb3RzLiBEaXQgbGlqa3QgYWx2YXN0IGluIG9yZGUgdGUgemlqbi4KCldlIHp1bGxlbiBudSBkZSBhc3N1bXB0aWUgdmFuIG5vcm1hbGUgdmVyZGVsaW5nIGJpbm5lbiBlbGtlIGdyb2VwIG5hZ2Fhbi4gCgpgYGB7cn0KI01hYWsgZWVuIFFRcGxvdCB2b29yIGhldCBnZXdpY2h0IHBlciB2b2VkaW5nc3Nvb3J0LgpjaGlja3d0cyAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZSA9IHdlaWdodCkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpICsKICBmYWNldF9ncmlkKC5+ZmVlZCkgKwogIHlsYWIoIlJlbGF0aWV2ZSBhYnVuZGFudGllIikKCmBgYAoKCkRlIGFmd2lqa2luZ2VuIGRpZSB3ZSBpbiBvbnplIHFxcGxvdCB6aWVuIGxpamtlbiBuaWV0IHplZXIgdWl0em9uZGVybGlqay4gRGFhcm9tIGt1bm5lbiB3ZSBzdGVsbGVuIGRhdCBlbGtlIGdyb2VwIGVlbiBub3JtYWxlIHZlcmRlbGluZyBsaWprdCB0ZSB2b2xnZW4uCgpJbmRpZW4gbWVuIHZlZWwgZ3JvZXBlbiBtb2V0IHZlcmdlbGlqa2VuLCBrYW4gaGV0IG1ha2tlbGlqa2VyIHppam4gb20gc2xlY2h0cyDDqcOpbiBwbG90IHRlIG1vZXRlbiBiZW9vcmRlbGVuLiBJbiBkYXQgZ2V2YWwga2FuIG1lbiBlcnZvb3Iga2llemVuIG9tIG5pZXQgdm9vciBlbGtlIGdyb2VwIGFwYXJ0IGVlbiBRUS1wbG90IHRlIG1ha2VuLCBtYWFyIGthbiBtZW4gZGUgcmVzaWR1ZW4gdmFuIGhldCBsaW5lYWlyIG1vZGVsIGNoZWNrZW4uIApNZXJrIG9wIGRhdCBtZW4gZGFuIGNoZWNrdCB2b29yIGVlbiBub3JtYWxlIGRpc3RyaWJ1dGllIHZhbiAqKiphbGxlKioqIHJlc2lkdWVuIHZhbiBoZXQgZ2V3aWNodCB0ZW4gb3B6aWNodGUgdmFuIGh1biBncm9lcHNnZW1pZGRlbGRlLCBlbiBkdXMgbmlldCB2b29yIGVlbiBub3JtYWxlIGRpc3RyaWJ1dGllIGJpbm5lbiBlbGtlIGdyb2VwIGFwYXJ0LgoKYGBge3J9Cm1vZGVsX2xtIDwtIGxtKHdlaWdodCB+IGZlZWQsIGRhdGEgPSBjaGlja3d0cykKcGFyKG1mcm93PWMoMiwyKSkKcGxvdChtb2RlbF9sbSkgIyBFbmtlbCBmaWd1dXIgcmVjaHRzIGJvdmVuIGlzIHJlbGV2YW50CnBhcihtZnJvdz1jKDEsMSkpCmBgYAoKRGUgUVEtcGxvdCB2ZXJ0b29udCBnZWVuIHN5c3RlbWF0aXNjaGUgYWZ3aWpraW5nZW4gdmFuIGVlbiBub3JtYWxlIGRpc3RyaWJ1dGllLiBEaXQgaXMgZ2VlbiBnYXJhbnRpZSBkYXQgZGUgZGF0YSBub3JtYWFsIHZlcmRlZWxkIGlzIGJpbm5lbiBlbGtlIGdyb2VwLCBtYWFyIGhldCBpcyBlZW4gYmVuYWRlcmluZyBkaWUgd2Uga3VubmVuIGdlYnJ1aWtlbiBpbiBoZXQgZ2V2YWwgZGF0OgoKIC0gZXIgdGUgdmVlbCBncm9lcGVuIHppam4gb20gZGUgYXNzdW1wdGllcyB0ZSBjaGVja2VuIGJpbm5lbiBlbGtlIGdyb2VwOwogLSBlciB0ZSB3ZWluaWcgb2JzZXJ2YXRpZXMgemlqbiBwZXIgZ3JvZXAgb20gYmlubmVuIGVsa2UgZ3JvZXAgZGUgYXNzdW1wdGllcyBuYSB0ZSBnYWFuLgoKTWVyayBvcCBkYXQgamUgaW4gcHJpbmNpcGUgZGUgYXNzdW1wdGllIHZhbiBnZWxpamtlIHZhcmlhbnRpZXMgb29rIG9wIGJhc2lzIHZhbiBkZSBwbG90IGxpbmtzYm92ZW4gem91IGt1bm5lbiBjaGVja2VuOiBlbGtlICdrb2xvbScgdmFuIHB1bnRlbiBzdGVsdCBlZW4gc29vcnQgdm9vciAoMSBzb29ydCBoZWVmdCAxIGdlc2NoYXQgZ2VtaWRkZWxkZSkgZW4gZGUgcHVudGVuIHN0ZWxsZW4gZGUgcmVzaWR1ZW4gdm9vciB0ZW4gb3B6aWNodGUgdmFuIGh1biBncm9lcHNnZW1pZGRlbGRlLiBNZW4ga2FuIGRlemUgcGxvdCBkdXMgb29rIGdlYnJ1aWtlbiBvbSB0ZSBraWprZW4gb2YgZXIgZ3JvZXBlbiAoc29vcnRlbikgemlqbiBkaWUgZWVuIHZlcnNjaGlsbGVuZGUgdmFyaWFudGllIGhlYmJlbiB0ZW4gb3B6aWNodGUgdmFuIGFuZGVyZSBncm9lcGVuLgoKCgojIyBNb2RlbGxlZXIgZGUgZGF0YSBtZXQgaGV0IGxpbmVhaXIgbW9kZWw6CgpgYGB7cn0Kc3VtbWFyeShtb2RlbF9sbSkKYGBgCgpEZSBwLXdhYXJkZW4gZGllIHdlIGhpZXIga3JpamdlbiB2b29yIGRlIHBhcmFtZXRlcnMga29tZW4gbmlldCBvdmVyZWVuIG1ldCBkZSBBTk9WQS10ZXN0IGRpZSB3ZSB3aWxsZW4gdWl0dm9lcmVuLiBEZSBwLXdhYXJkZSBiaWogZGUgRi1zdGF0aXN0aWMgaXMgd2VsIGRlIGp1aXN0ZSBwLXdhYXJkZS4gV2Uga3VubmVuIGRpdCBvb2sgdmVya3JpamdlbiBkb29yIGRlIHZvbGdlbmRlIGNvZGU6CgpgYGB7cn0KI1ZvZXIgZGUgQU5PVkEgdWl0IG9wIGhldCBsaW5lYXJlIG1vZGVsLgphbm92YShtb2RlbF9sbSkKYGBgCgpXZSB2b2VyZGVuIGRlIEFOT1ZBIHRlc3QgdWl0IGFhbiBkZSBoYW5kIHZhbiBoZXQgbGluZWFpciByZWdyZXNzaWVtb2RlbC4gSW4gcHJpbmNpcGUgdGVzdGVuIHdlIGRhbiB2b2xnZW5kZSBudWxoeXBvdGhlc2U6CgpcWyBIXzA6IFxiZXRhXzEgPSBcYmV0YV8yID0gMCAgXF0KCgpNZXJrIG9wIGRhdCBkZXplIG51bGh5cG90aGVzZSBldmVud2FhcmRpZyBpcyBhYW4gZGUgbnVsaHlwb3RoZXNlIGRpZSB3ZSBlZXJkZXIgZm9ybXVsZWVyZGVuLiBBbHMgYWxsZSBnZW1pZGRlbGRlbiAkXG11XzEsIFxtdV8yLCBcbXVfMyA9IDAkLCBiZXRla2VudCBkaXQgZGF0IGJlaWRlIHJlZ3Jlc3NpZXBhcmFtZXRlcnMgJFxiZXRhXzEkIGVuICRcYmV0YV8xJCBnZWxpamsgemlqbiBhYW4gMC4KCgpEZSBwLXdhYXJkZSB2YW4gZGV6ZSBBTk9WQSB0ZXN0IGlzIGJpanpvbmRlciBrbGVpbi4gV2UgYmVzbHVpdGVuIGRhdCB3ZSBkZSBudWxoeXBvdGhlc2Uga3VubmVuIHZlcndlcnBlbiAoJHA8PDAuMDAxJCkgZW4gZGF0IGhldCBnZW1pZGRlbGRlIGdld2ljaHQgdmFuIGt1aWtlbnMgdmVyc2NoaWx0IHR1c3NlbiBtaW5zdGVucyB0d2VlIHZhbiBkZSB2b2VkaW5nc3BhdHJvbmVuIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LgoKQWFuIGRlIGhhbmQgdmFuIGRpdCByZXN1bHRhYXQgd2V0ZW4gd2UgZWNodGVyIG5pZXQgdHVzc2VuIHdlbGtlIHZvZWRpbmdlbiBlciBlZW4gdmVyc2NoaWwgb3B0cmVlZHQsIGVuIGhpZXJ2b29yIHp1bGxlbiB3ZSBlZW4gKipwb3N0LWhvYyBhbmFseXNlKiogbW9ldGVuIHVpdHZvZXJlbi4gRWVuIHBvc3QtaG9jIGFuYWx5c2Ugdm9lcnQgbWVuIGVua2VsIHVpdCBpbmRpZW4gZGUgQU5PVkEgdGVzdCBzaWduaWZpY2FudCB3YXMsIGVuIGJlc3RhYXQgZXJpbiBvbSBwYWFyc2dld2lqemUgdmVyZ2VsaWpraW5nZW4gdWl0IHRlIHZvZXJlbiB0dXNzZW4gZGUgZ3JvZXBlbi4gSW4gZGl0IGdldmFsIGtvbXQgZGl0IG92ZXJlZW4gbWV0IGhldCB2ZXJnZWxpamtlbiBvZiBlciBlZW4gdmVyc2NoaWwgaXMgdHVzc2VuIGdyb2VwIDEgZW4gMiwgdHVzc2VuIGdyb2VwIDEgZW4gMyBlbiB0dXNzZW4gZ3JvZXAgMiBlbiAzLiAKCgojIyBQb3N0LWhvYyBhbmFseXNlCgpEZSBwb3N0LWhvYyBhbmFseXNlIGJlc3RhYXQgZXJ1aXQgb20gcGFhcnNnZXdpanplIHRlc3RlbiB1aXQgdGUgdm9lcmVuLiBJbmRpZW4gbWVuIG92ZXIgJGskIGdyb2VwZW4gYmVzY2hpa3QgaXMgaGV0IHRvdGFhbCBhYW50YWwgcGFhcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIGdlbGlqayBhYW4gJGsoay0xKS8yJC4gQmlqIG9ucyBpcyAkaz0zJCB3YWFyZG9vciB3ZSAkMyQgcGFhcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIHp1bGxlbiB1aXR2b2VyZW4uCldlIGt1bm5lbiBlY2h0ZXIgbmlldCBlbGtlIHRlc3Qgb3AgaGV0IDUlIHNpZ25pZmljYW50aWVuaXZlYXUgdWl0dm9lcmVuIHZhbndlZ2UgaGV0IG1lZXJ2b3VkaWcgdG9ldHNlbiBwcm9ibGVlbS4gCkluZGllbiB3ZSAzIHZlcmdlbGlqa2luZ2VuIHpvdWRlbiB0ZXN0ZW4gZWxrIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LCBkYW4gaXMgZGUga2FucyBkYXQgd2UgbWluc3RlbnMgw6nDqW4gbnVsaHlwb3RoZXNlIG9udGVyZWNodCB6b3VkZW4gdmVyd2VycGVuIG5pZXQgbGFuZ2VyIGdlbGlqayBhYW4gb25zIHNpZ25pZmljYW50aWVuaXZlYXUgKDUlKS4KSW4gb25zIGdldmFsLCB6b3UgZGV6ZSBrYW5zIGdlbGlqayB6aWpuIGFhbjoKCmBgYHtSfQphbHBoYSA8LSAwLjA1Cm5Db21wYXJpc29ucyA8LSAzCjEtKDEtYWxwaGEpXm5Db21wYXJpc29ucwpgYGAKCkR1cyBpbmRpZW4gd2UgZWxrZSB0ZXN0IG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1IHpvdWRlbiB1aXR2b2VyZW4gaGViYmVuIHdlLCBhbHMgYWxsZSBudWxoeXBvdGhlc2VzIHdhYXIgem91ZGVuIHppam4sIGVlbiBrYW5zIHZhbiBgciByb3VuZCgxLSgxLWFscGhhKV5uQ29tcGFyaXNvbnMsMykqMTAwYCUgZGF0IHdlIG1pbnN0ZW5zIMOpw6luIG51bGh5cG90aGVzZSB2ZXJrZWVyZCB6b3VkZW4gdmVyd2VycGVuLgpPbSBkZXplIGthbnMgZ2xvYmFhbCBnZXppZW4gKGRpdCBpcywgb3ZlciBhbGxlIHBhYXJzZ2V3aWp6ZSB2ZXJnZWxpamtpbmdlbikgb3AgNSUgdGUgaG91ZGVuLCBrdW5uZW4gd2UgYmlqdm9vcmJlZWxkIGRlIEJvbmZlcnJvbmkgY29ycmVjdGllIHVpdHZvZXJlbi4KCkluIGBSYCBrdW5uZW4gd2UgZGUgcG9zdC1ob2MgYW5hbHlzZSB1aXR2b2VyZW4gbWV0IGJlaHVscCB2YW4gaGV0IGBtdWx0Y29tcGAgcGFja2FnZSBhYW4gZGUgaGFuZCB2YW4gZGUgYGdsaHRgIGZ1bmN0aWUuIFdlIHNwZWNpZmnDq3JlbiBoaWVyIGluIGhldCBgbGluZmN0YCBhcmd1bWVudCBkYXQgd2UgKm11bHRpcGxlIGNvbXBhcmlzb25zKiAoYG1jcGApIHdpbGxlbiB1aXR2b2VyZW4gd2FhcmJpaiB3ZSBhbGxlIHBhYXJzZ2V3aWp6ZSB2ZXJnZWxpamtpbmdlbiB2b29yIGRlIGBmZWVkYCB2YXJpYWJlbGUgd2lsbGVuIHRlc3RlbiBhYW4gZGUgaGFuZCB2YW4gZGUgYCJUdWtleSJgIG1ldGhvZGUuIERlIGBtdWx0Y29tcGAgcGFja2FnZSB6b3JndCBlcnZvb3IgZGF0IGRlemUgcC13YWFyZGVuIGF1dG9tYXRpc2NoIGdlY29ycmlnZWVyZCB3b3JkZW4gdm9vciBtZWVydm91ZGlnIHRvZXRzZW4uCgpgYGB7cn0Kc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKGxpYnJhcnkobXVsdGNvbXApKQptY3AgPC0gZ2xodChtb2RlbF9sbSxsaW5mY3Q9bWNwKGZlZWQ9IlR1a2V5IikpCnN1bW1hcnkgPC0gc3VtbWFyeShtY3ApCnN1bW1hcnkKYGBgCgpJbiBkZSBvdXRwdXQgaGllcnZhbiB6aWVuIHdlIGRlIHZlcnNjaGlsbGVuZGUgcGFhcnNnZXdpanplIHZlcmdlbGlqa2luZ2VuIGRpZSB3ZXJkZW4gdWl0dm9lcmQuIEJpanZvb3JiZWVsZCBgbGluc2VlZCAtIGNhc2VpbiA9PSAwYCBkdWlkdCBlcm9wIGRhdCB2b29yIGRpdCBjb250cmFzdCB3b3JkdCBnZXRlc3Qgb2YgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB2b29yIHZvZWRpbmcgYGxpbnNlZWRgIG1pbiBoZXQgZ2VtaWRkZWxkZSBnZXdpY2h0IHZvb3Igc29vcnQgYGNhc2VpbmAgdmVyc2NoaWxsZW5kIGlzIHZhbiBudWwuCkluIGRlIHR3ZWVkZSBrb2xvbSB3b3JkdCBoZXQgdmVyc2NoaWwgaW4gZ2VtaWRkZWxkZW4gd2VlcmdlZ2V2ZW4sIG1ldCBodW4gc3RhbmRhYXJkIGVycm9yIGVuIHRlc3RzdGF0aXN0aWVrIGluIGRlIHJlc3BlY3RpZXZlbGlqayBkZXJkZSBlbiB2aWVyZGUga29sb20uCkRlIGxhYXRzdGUga29sb20gZ2VlZnQgYWFuZ2VwYXN0ZSBwLXdhYXJkZW4gd2VlciBvcCBlZW4gZ2xvYmFhbCBzaWduaWZpY2FudGllbml2ZWF1IHZhbiA1JS4KQWFuIGRlIGhhbmQgdmFuIGRlIGFhbmdlcGFzdGUgcC13YWFyZGVuIHppZW4gd2UgZGF0IGhldCBnZW1pZGRlbGRlIGdld2ljaHQgYmlqIGBjYXNlaW5gIHZlcnNjaGlsdCB2YW4gem93ZWwgYGxpbnNlZWRgIGVuIGBzb3liZWFuYCAocCA8IDAuMDAxIGVuIHAgPSAwLjAwNCkgb3AgaGV0IDUlIHNpZ25pZmljYW50aWVuaXZlYXUuIFdlIHppZW4gb29rIGRhdCBlciBnZWVuIHNpZ25pZmljYW50IHZlcnNjaGlsIGlzIGluIGdlbWlkZGVsZCBnZXdpY2h0IGJpaiB2b2VkaW5nIGBzb3liZWFuYCBlbiBgbGluc2VlZGAgb3AgaGV0IDUlIHNpZ25pZmljYW50aWVuaXZlYXUuCkRlIGVmZmVjdGdyb290dGUgaXMgdm9vciBiaWogem93ZWwgYGxpbnNlZWRgIGFscyBgc295YmVhbmAgbmVnYXRpZWYsIHdhdCBlcm9wIGR1aWR0IGRhdCBoZXQgZ2VtaWRkZWxkZSBnZXdpY2h0IHZhbiBrdWlrZW5zIGhvZ2VyIGlzIGJpaiB2b2VkaW5nc3BhdHJvb24gYGNhc2VpbmAuCgpEZSBiZXRyb3V3YmFhcmhlaWRzaW50ZXJ2YWxsZW4gdmFuIGVsa2UgcGFhcnNnZXdpanplIHRlc3Qga3VubmVuIHdlIG9vayBtYWtrZWxpamsgZ3JhZmlzY2ggdm9vcnN0ZWxsZW4gYWFuIGRlIGhhbmQgdmFuIGRlIGBwbG90YCBmdW5jdGllIGRpZSB6byBvcCBlZW4gYGdsaHRgIG9iamVjdCBrYW4gdG9lZ2VwYXN0IHdvcmRlbi4KCmBgYHtyfQpjb25maW50KG1jcCkKYGBgCgpgYGB7cn0KcGxvdChtY3ApCmBgYAoKCiMgQ29uY2x1c2llCgpXZSBrdW5uZW4gY29uY2x1ZGVyZW4gZGF0IGVyIGVlbiBzaWduaWZpY2FudCB2ZXJzY2hpbCBpbiBnZXdpY2h0IGlzIHR1c3NlbiBoZXQgZ2V3aWNodCB2YW4ga3Vpa2VudGplcyBtZXQgdm9lZGluZyBjYXNlaW5lIHRlZ2Vub3ZlciBkZSBhbmRlcmUgdm9lZGluZ2VuIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LiBUdXNzZW4gbGluc2VlZCBlbiBzb3liZWFuIGlzIGVyIGdlZW4gc2lnbmlmaWNhbnQgdmVyc2NoaWwgaW4gZ2V3aWNodCB2YW4gZGUga3Vpa2VudGplcy4KCg==</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Practicum_1_oplossing_anova.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

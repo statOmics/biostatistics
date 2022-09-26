@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement, Alexandre Segers" />
+
+
+<title>Examenvoorbeeld vraag 1</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics21">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Examenvoorbeeld vraag 1</h1>
+<h4 class="author">Lieven Clement, Alexandre Segers</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<p>Onderzoekers bestuderen of er een associatie tussen het de dikte van de speklaag van varkens is met het percentage vlees van varkens (permeat). Ze willen ook weten of deze associatie verschilt tussen mannelijke en vrouwelijke varkens. Uit voorgaand onderzoek weten de onderzoekers dat er een associatie is tussen het de lengte van het varken en het percentage vlees.</p>
+<div id="data-exploratie" class="section level1">
+<h1><span class="header-section-number">1</span> Data exploratie</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
+## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
+## ✔ readr   1.4.0     ✔ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<p>We lezen de data in, en filteren de data aangezien we het gewicht niet als variabele zullen gebruiken.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>pigs &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;https://raw.githubusercontent.com/statOmics/biostatistics21/master/pigs.csv&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>pigs &lt;-<span class="st"> </span>pigs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">subset</span>(<span class="dt">select =</span> <span class="op">-</span>weight)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">head</span>(pigs)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["permeat"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["bacon"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["length"],"name":[3],"type":["int"],"align":["right"]},{"label":["sex"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"67.015","2":"11.8","3":"83","4":"female","_rn_":"1"},{"1":"66.813","2":"11.1","3":"78","4":"female","_rn_":"2"},{"1":"66.637","2":"11.1","3":"79","4":"female","_rn_":"3"},{"1":"66.613","2":"12.2","3":"79","4":"female","_rn_":"4"},{"1":"66.352","2":"10.4","3":"83","4":"female","_rn_":"5"},{"1":"66.170","2":"9.6","3":"83","4":"female","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">dim</span>(pigs)</span></code></pre></div>
+<pre><code>## [1] 200   4</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">library</span>(GGally)</span></code></pre></div>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;GGally&#39;</code></pre>
+<pre><code>## The following object is masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     pigs</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>pigs <span class="op">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span>ggpairs</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Hieruit zien we dat er een duidelijke lineaire associatie is tussen het percentage vlees en de dikte van de speklaag. Er is geen duidelijke associatie tussen het percentage vlees en de lengte van het varken. Wel lijkt er een verschil van percentage vlees te zijn tussen de verschillende geslachten.</p>
+<p>We bekijken verder de associaties tussen het percentage vlees en de dikte van de speklaag per geslacht. Dit doen we ook voor de associatie met de lengte.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>pigs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>bacon,<span class="dt">y=</span>permeat)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>sex)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>pigs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>length,<span class="dt">y=</span>permeat)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>sex)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Het effect van zowel de dikte van de speklaag en de lengte lijkt licht te verschillen tussen mannelijke en vrouwelijke varkens. Er is dus mogelijks een interactie tussen dikte van de speklaag en gender en lengte en gender.</p>
+</div>
+<div id="algemeen-lineair-model-opstellen" class="section level1">
+<h1><span class="header-section-number">2</span> Algemeen lineair model opstellen</h1>
+<p>We modelleren eerst het percentage vlees in functie van alle variabelen, samen met alle tweeweg interactietermen. We modelleren dus eerst: <span class="math inline">\(E[permeat] = \beta_{bacon} x_{bacon} + \beta_{length} x_{length} + \beta_{sex} x_{sex} + \beta_{bacon:length} x_{bacon} x_{length} + \beta_{bacon:sex} x_{bacon} x_{sex} + \beta_{length:sex} x_{length} x_{sex}\)</span></p>
+<p>Merk op dat je hier geen bacon * length * sex kunt gebruiken, aangezien er dan ook de drieweg-interactie sex:bacon:length zou zijn, wat buiten de scope van de cursus valt.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>lm_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(permeat <span class="op">~</span><span class="st"> </span>bacon <span class="op">+</span><span class="st"> </span>length <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>bacon<span class="op">:</span>length <span class="op">+</span><span class="st"> </span>bacon<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span>length<span class="op">:</span>sex, <span class="dt">data =</span> pigs)</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">summary</span>(lm_<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = permeat ~ bacon + length + sex + bacon:length + 
+##     bacon:sex + length:sex, data = pigs)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7348 -1.3624  0.0503  1.1857  4.4786 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    94.70945   23.94088   3.956 0.000107 ***
+## bacon          -2.08616    1.85825  -1.123 0.262984    
+## length         -0.21988    0.29564  -0.744 0.457927    
+## sexmale        13.78461   13.65856   1.009 0.314129    
+## bacon:length    0.01105    0.02294   0.482 0.630650    
+## bacon:sexmale   0.31806    0.14579   2.182 0.030343 *  
+## length:sexmale -0.24927    0.16745  -1.489 0.138214    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.949 on 193 degrees of freedom
+## Multiple R-squared:  0.786,  Adjusted R-squared:  0.7794 
+## F-statistic: 118.2 on 6 and 193 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>We gaan de assumpties van het lineaire model na:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">plot</span>(lm_<span class="dv">1</span>)</span></code></pre></div>
+<p><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-8-3.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+<p>Alle assumpties lijken voldaan: De residuen zijn gemiddeld 0 voor elke respons waarde, de residuen zijn normaal verdeeld en de variantie is constant.</p>
+<p>We gaan verder met het bekijken welke variabelen we in het model behouden. We gaan via een anova met type 3 kwadratensommen na of de variabelen significant zijn. We beginnen met enkel de interactietermen te bekijken.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="kw">library</span>(car)</span></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     some</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">Anova</span>(lm_<span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"59.4682666","2":"1","3":"15.6497162","4":"0.0001070062","_rn_":"(Intercept)"},{"1":"4.7891945","2":"1","3":"1.2603282","4":"0.2629836051","_rn_":"bacon"},{"1":"2.1020508","2":"1","3":"0.5531774","4":"0.4579268239","_rn_":"length"},{"1":"3.8704196","2":"1","3":"1.0185427","4":"0.3141285370","_rn_":"sex"},{"1":"0.8812815","2":"1","3":"0.2319187","4":"0.6306503344","_rn_":"bacon:length"},{"1":"18.0863288","2":"1","3":"4.7596126","4":"0.0303434034","_rn_":"bacon:sex"},{"1":"8.4209189","2":"1","3":"2.2160557","4":"0.1382137661","_rn_":"length:sex"},{"1":"733.3919223","2":"193","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Zowel de interactieterm bacon:length als de interactieterm length:sex zijn niet significant op het 5% significantieniveau. We verwijderen de minst significante, bacon:length, en voeren opnieuw een anova met type 3 kwadratensommen uit.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>lm_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(permeat <span class="op">~</span><span class="st"> </span>bacon <span class="op">+</span><span class="st"> </span>length <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>bacon<span class="op">:</span>sex <span class="op">+</span><span class="st"> </span>length<span class="op">:</span>sex, <span class="dt">data =</span> pigs)</span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="kw">Anova</span>(lm_<span class="dv">2</span>, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"527.036888","2":"1","3":"139.2467486","4":"1.420394e-24","_rn_":"(Intercept)"},{"1":"312.868656","2":"1","3":"82.6620378","4":"1.154532e-16","_rn_":"bacon"},{"1":"3.608826","2":"1","3":"0.9534766","4":"3.300520e-01","_rn_":"length"},{"1":"3.403004","2":"1","3":"0.8990970","4":"3.442036e-01","_rn_":"sex"},{"1":"18.330257","2":"1","3":"4.8429793","4":"2.893915e-02","_rn_":"bacon:sex"},{"1":"10.093212","2":"1","3":"2.6666956","4":"1.040905e-01","_rn_":"length:sex"},{"1":"734.273204","2":"194","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>De interactie length:sex is weer niet significant. We verwijderen deze uit het model en voeren opnieuw een anova met type 3 kwadratensommen uit.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>lm_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(permeat <span class="op">~</span><span class="st"> </span>bacon <span class="op">+</span><span class="st"> </span>length <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>bacon<span class="op">:</span>sex , <span class="dt">data =</span> pigs)</span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="kw">Anova</span>(lm_<span class="dv">3</span>, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1274.45035","2":"1","3":"333.864899","4":"4.047965e-44","_rn_":"(Intercept)"},{"1":"311.50761","2":"1","3":"81.604949","4":"1.634364e-16","_rn_":"bacon"},{"1":"37.88170","2":"1","3":"9.923784","4":"1.888538e-03","_rn_":"length"},{"1":"37.68281","2":"1","3":"9.871681","4":"1.940086e-03","_rn_":"sex"},{"1":"17.77285","2":"1","3":"4.655914","4":"3.216952e-02","_rn_":"bacon:sex"},{"1":"744.36642","2":"195","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We zien dat de resterende variabelen en interactieterm allemaal significant zijn. We behouden het model met de drie hoofdvariabelen en een interactieterm tussen bacon en geslacht.</p>
+<p>We bekijken of de modelassumpties voldaan zijn voor dit model.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">plot</span>(lm_<span class="dv">3</span>)</span></code></pre></div>
+<p><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-12-2.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-12-3.png" width="672" /><img src="Examenvoorbeeld_oefening_1_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
+<p>De assumpties lijken weer voldaan.</p>
+</div>
+<div id="hypotheses-testen" class="section level1">
+<h1><span class="header-section-number">3</span> Hypotheses testen</h1>
+<p>De onderzoekers wilden volgende hypotheses testen:</p>
+<ul>
+<li>Is er een associatie tussen het percentage vlees en de dikte van de speklaag?</li>
+<li>Is er een verschil in de associatie tussen het percentage vlees en de dikte van de speklaag bij de verschillende geslachten?</li>
+</ul>
+<p>Dit vertaalt zich naar de volgende hypotheses:</p>
+<p><span class="math display">\[1.\quad H_0: \beta_{bacon} = 0 : \text{Er is geen lineaire associatie tussen het vleespercentage en de dikte speklaag bij zeugen.}\]</span> <span class="math display">\[\updownarrow\]</span> <span class="math display">\[H_1: \beta_{bacon} \neq  0 : \text{Er is een lineaire associatie tussen het vleespercentage en de dikte speklaag bij zeugen}\]</span></p>
+<p><span class="math display">\[2.\quad H_0: \beta_{bacon} + \beta_{bacon:sex}= 0 : \text{Er is geen lineaire associatie tussen het vleespercentage en de dikte speklaag bij beren (mannelijke varkens).}\]</span> <span class="math display">\[\updownarrow\]</span> <span class="math display">\[H_1: \beta_{bacon} + \beta_{bacon:sex} \neq 0 : \text{Er is een lineaire associatie tussen het vleespercentage en de dikte speklaag bij beren (mannelijke varkens).}\]</span></p>
+<p><span class="math display">\[3. \quad H_0:\beta_{bacon:sex} = 0 : \text{De associatie tussen de dikte van de speklaag en het vetpercentage is gelijk bij zeugen en beren.}\]</span> <span class="math display">\[\updownarrow\]</span> <span class="math display">\[H_1: \beta_{bacon:sex} \neq 0 : \text{De associatie tussen de dikte van de speklaag en het vetpercentage is verschillend bij zeugen en beren.}\]</span></p>
+<p>We voeren eerst en omnibus test uit waarbij we alle nulhypotheses simultaan falsifiëren, we kunnen dit door simultaan te testen voor het hoofdeffect voor bacon en de bacon <span class="math inline">\(\times\)</span> sex interactie:</p>
+<p><span class="math display">\[H_0: \beta_{bacon} = \beta_{bacon:sex} = 0. \]</span> <span class="math display">\[\updownarrow\]</span> <span class="math display">\[H_1: \beta_{bacon} \neq 0 \text{ en, of } \beta_{bacon:sex} \neq 0. \]</span></p>
+<p>De omnibushypothese kunnen we evalueren met een F-test tussen het volledig model en met het model dat enkel het hoofdeffect van lengte en geslacht bevat.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>lm_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">lm</span>(permeat <span class="op">~</span><span class="st"> </span>length <span class="op">+</span><span class="st"> </span>sex , <span class="dt">data =</span> pigs)</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="kw">anova</span>(lm_<span class="dv">3</span>,lm_<span class="dv">4</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"195","2":"744.3664","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"197","2":"1796.3604","3":"-2","4":"-1051.994","5":"137.7943","6":"4.964165e-38","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Gezien we de omnibus hypothese heel extreem significant kunnen verwerpen, evalueren we in een posthoc analyse of er een associatie is tussen de dikte van de speklaag en het vleespercentage bij zeugen, beren en of er een verschil is tussen de associatie bij zeugen en beren.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">library</span>(multcomp)</span></code></pre></div>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TH.data&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     geyser</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>mcp &lt;-<span class="st"> </span><span class="kw">glht</span>(lm_<span class="dv">3</span>,<span class="dt">linfct =</span> <span class="kw">c</span>(<span class="st">&quot;bacon = 0&quot;</span>, </span>
+<span id="cb43-2"><a href="#cb43-2"></a>                                <span class="st">&quot;bacon + bacon:sexmale = 0&quot;</span>,</span>
+<span id="cb43-3"><a href="#cb43-3"></a>                                <span class="st">&quot;bacon:sexmale = 0&quot;</span></span>
+<span id="cb43-4"><a href="#cb43-4"></a>                                ))</span>
+<span id="cb43-5"><a href="#cb43-5"></a><span class="kw">summary</span>(mcp)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Fit: lm(formula = permeat ~ bacon + length + sex + bacon:sex, data = pigs)
+## 
+## Linear Hypotheses:
+##                            Estimate Std. Error t value Pr(&gt;|t|)    
+## bacon == 0                 -1.19081    0.13182  -9.034   &lt;0.001 ***
+## bacon + bacon:sexmale == 0 -0.87572    0.06286 -13.930   &lt;0.001 ***
+## bacon:sexmale == 0          0.31509    0.14603   2.158   0.0733 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>confintModel &lt;-<span class="st"> </span><span class="kw">confint</span>(mcp)</span>
+<span id="cb45-2"><a href="#cb45-2"></a>confintModel</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Fit: lm(formula = permeat ~ bacon + length + sex + bacon:sex, data = pigs)
+## 
+## Quantile = 2.3172
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##                            Estimate lwr      upr     
+## bacon == 0                 -1.19081 -1.49627 -0.88536
+## bacon + bacon:sexmale == 0 -0.87572 -1.02139 -0.73005
+## bacon:sexmale == 0          0.31509 -0.02328  0.65347</code></pre>
+</div>
+<div id="conclusie" class="section level1">
+<h1><span class="header-section-number">4</span> Conclusie</h1>
+<p>Er is een extreem significante lineaire associatie tussen de dikte van de speklaag en het vleespercentage bij varkens (p &lt;&lt; 0.001). De lineaire associatie tussen de dikte van de speklaag en het vleespercentage is heel sterk significant bij zowel vrouwelijke (p&lt;&lt;0.001) als mannelijke varkens (p&lt;0.001). Voor zeugen, die een verschillende dikte van speklaag hebben, is het vleespercentage gemiddeld 1.19 %/mm lager bij zeugen met de dikste speklaag (95% BI [0.89 %/mm, 1.5 %/mm]). Voor beren (mannelijke varkens), die een verschillende dikte van speklaag hebben, is het vleespercentage gemiddeld 0.88 %/mm lager bij beren met de dikste speklaag (95% BI [0.73 %/mm, 1.02 %/mm]). Er is op het 5% significantieniveau geen significant verschil in de associatie tussen de dikte van de speklaag en het vleespercentage tussen vrouwelijke en mannelijke varkens na correctie voor multiple testing (p = 0.0734).</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhhbWVudm9vcmJlZWxkIHZyYWFnIDEiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBBbGV4YW5kcmUgU2VnZXJzIgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvZGVfZG93bmxvYWQ6IHllcwogICAgdGhlbWU6IGNvc21vCiAgICB0b2M6IHllcwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIGhpZ2hsaWdodDogdGFuZ28KICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcGRmX2RvY3VtZW50OgogICAgdG9jOiB0cnVlCiAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIGxhdGV4X2VuZ2luZTogeGVsYXRleAotLS0KCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKCk9uZGVyem9la2VycyBiZXN0dWRlcmVuIG9mIGVyIGVlbiBhc3NvY2lhdGllIHR1c3NlbiBoZXQgZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnIHZhbiB2YXJrZW5zIGlzIG1ldCBoZXQgcGVyY2VudGFnZSB2bGVlcyB2YW4gdmFya2VucyAocGVybWVhdCkuIFplIHdpbGxlbiBvb2sgd2V0ZW4gb2YgZGV6ZSBhc3NvY2lhdGllIHZlcnNjaGlsdCB0dXNzZW4gbWFubmVsaWprZSBlbiB2cm91d2VsaWprZSB2YXJrZW5zLiBVaXQgdm9vcmdhYW5kIG9uZGVyem9layB3ZXRlbiBkZSBvbmRlcnpvZWtlcnMgZGF0IGVyIGVlbiBhc3NvY2lhdGllIGlzIHR1c3NlbiBoZXQgZGUgbGVuZ3RlIHZhbiBoZXQgdmFya2VuIGVuIGhldCBwZXJjZW50YWdlIHZsZWVzLiAKCgoKIyBEYXRhIGV4cGxvcmF0aWUKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdncGxvdDIpCmBgYAoKV2UgbGV6ZW4gZGUgZGF0YSBpbiwgZW4gZmlsdGVyZW4gZGUgZGF0YSBhYW5nZXppZW4gd2UgaGV0IGdld2ljaHQgbmlldCBhbHMgdmFyaWFiZWxlIHp1bGxlbiBnZWJydWlrZW4uCmBgYHtyfQpwaWdzIDwtIHJlYWQuY3N2KGZpbGUgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9iaW9zdGF0aXN0aWNzMjEvbWFzdGVyL3BpZ3MuY3N2IikKcGlncyA8LSBwaWdzICU+JSBzdWJzZXQoc2VsZWN0ID0gLXdlaWdodCkKYGBgCgpgYGB7cn0KaGVhZChwaWdzKQpkaW0ocGlncykKYGBgCgpgYGB7cn0KbGlicmFyeShHR2FsbHkpCnBpZ3MgJT4lCiAgZ2dwYWlycwpgYGAKCkhpZXJ1aXQgemllbiB3ZSBkYXQgZXIgZWVuIGR1aWRlbGlqa2UgbGluZWFpcmUgYXNzb2NpYXRpZSBpcyB0dXNzZW4gaGV0IHBlcmNlbnRhZ2UgdmxlZXMgZW4gZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnLiBFciBpcyBnZWVuIGR1aWRlbGlqa2UgYXNzb2NpYXRpZSB0dXNzZW4gaGV0IHBlcmNlbnRhZ2UgdmxlZXMgZW4gZGUgbGVuZ3RlIHZhbiBoZXQgdmFya2VuLiBXZWwgbGlqa3QgZXIgZWVuIHZlcnNjaGlsIHZhbiBwZXJjZW50YWdlIHZsZWVzIHRlIHppam4gdHVzc2VuIGRlIHZlcnNjaGlsbGVuZGUgZ2VzbGFjaHRlbi4KCldlIGJla2lqa2VuIHZlcmRlciBkZSBhc3NvY2lhdGllcyB0dXNzZW4gaGV0IHBlcmNlbnRhZ2UgdmxlZXMgZW4gZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnIHBlciBnZXNsYWNodC4gRGl0IGRvZW4gd2Ugb29rIHZvb3IgZGUgYXNzb2NpYXRpZSBtZXQgZGUgbGVuZ3RlLgoKYGBge3J9CnBpZ3MgJT4lIGdncGxvdChhZXMoeD1iYWNvbix5PXBlcm1lYXQpKSArIAogIGdlb21fcG9pbnQoKSArIAogIHN0YXRfc21vb3RoKG1ldGhvZCA9ICJsbSIpICsgCiAgZmFjZXRfd3JhcCh+c2V4KQpgYGAKCgoKYGBge3J9CnBpZ3MgJT4lIGdncGxvdChhZXMoeD1sZW5ndGgseT1wZXJtZWF0KSkgKyAKICBnZW9tX3BvaW50KCkgKyAKICBzdGF0X3Ntb290aChtZXRob2QgPSAibG0iKSArIAogIGZhY2V0X3dyYXAofnNleCkKYGBgCgpIZXQgZWZmZWN0IHZhbiB6b3dlbCBkZSBkaWt0ZSB2YW4gZGUgc3Bla2xhYWcgZW4gZGUgbGVuZ3RlIGxpamt0IGxpY2h0IHRlIHZlcnNjaGlsbGVuIHR1c3NlbiBtYW5uZWxpamtlIGVuIHZyb3V3ZWxpamtlIHZhcmtlbnMuIEVyIGlzIGR1cyBtb2dlbGlqa3MgZWVuIGludGVyYWN0aWUgdHVzc2VuIGRpa3RlIHZhbiBkZSBzcGVrbGFhZyBlbiBnZW5kZXIgZW4gbGVuZ3RlIGVuIGdlbmRlci4KCiMgQWxnZW1lZW4gbGluZWFpciBtb2RlbCBvcHN0ZWxsZW4KCldlIG1vZGVsbGVyZW4gZWVyc3QgaGV0IHBlcmNlbnRhZ2UgdmxlZXMgaW4gZnVuY3RpZSB2YW4gYWxsZSB2YXJpYWJlbGVuLCBzYW1lbiBtZXQgYWxsZSB0d2Vld2VnIGludGVyYWN0aWV0ZXJtZW4uIFdlIG1vZGVsbGVyZW4gZHVzIGVlcnN0OgokRVtwZXJtZWF0XSA9IFxiZXRhX3tiYWNvbn0geF97YmFjb259ICsgXGJldGFfe2xlbmd0aH0geF97bGVuZ3RofSArIFxiZXRhX3tzZXh9IHhfe3NleH0gKyBcYmV0YV97YmFjb246bGVuZ3RofSB4X3tiYWNvbn0geF97bGVuZ3RofSArIFxiZXRhX3tiYWNvbjpzZXh9IHhfe2JhY29ufSB4X3tzZXh9ICsgXGJldGFfe2xlbmd0aDpzZXh9IHhfe2xlbmd0aH0geF97c2V4fSQKCk1lcmsgb3AgZGF0IGplIGhpZXIgZ2VlbiBiYWNvbiAqIGxlbmd0aCAqIHNleCBrdW50IGdlYnJ1aWtlbiwgYWFuZ2V6aWVuIGVyIGRhbiBvb2sgZGUgZHJpZXdlZy1pbnRlcmFjdGllIHNleDpiYWNvbjpsZW5ndGggem91IHppam4sIHdhdCBidWl0ZW4gZGUgc2NvcGUgdmFuIGRlIGN1cnN1cyB2YWx0LgoKYGBge3J9CmxtXzEgPC0gbG0ocGVybWVhdCB+IGJhY29uICsgbGVuZ3RoICsgc2V4ICsgYmFjb246bGVuZ3RoICsgYmFjb246c2V4ICsgbGVuZ3RoOnNleCwgZGF0YSA9IHBpZ3MpCnN1bW1hcnkobG1fMSkKYGBgCgoKV2UgZ2FhbiBkZSBhc3N1bXB0aWVzIHZhbiBoZXQgbGluZWFpcmUgbW9kZWwgbmE6CgpgYGB7cn0KcGxvdChsbV8xKQpgYGAKCkFsbGUgYXNzdW1wdGllcyBsaWprZW4gdm9sZGFhbjogRGUgcmVzaWR1ZW4gemlqbiBnZW1pZGRlbGQgMCB2b29yIGVsa2UgcmVzcG9ucyB3YWFyZGUsIGRlIHJlc2lkdWVuIHppam4gbm9ybWFhbCB2ZXJkZWVsZCBlbiBkZSB2YXJpYW50aWUgaXMgY29uc3RhbnQuCgpXZSBnYWFuIHZlcmRlciBtZXQgaGV0IGJla2lqa2VuIHdlbGtlIHZhcmlhYmVsZW4gd2UgaW4gaGV0IG1vZGVsIGJlaG91ZGVuLiBXZSBnYWFuIHZpYSBlZW4gYW5vdmEgbWV0IHR5cGUgMyBrd2FkcmF0ZW5zb21tZW4gbmEgb2YgZGUgdmFyaWFiZWxlbiBzaWduaWZpY2FudCB6aWpuLiBXZSBiZWdpbm5lbiBtZXQgZW5rZWwgZGUgaW50ZXJhY3RpZXRlcm1lbiB0ZSBiZWtpamtlbi4gCgpgYGB7cn0KbGlicmFyeShjYXIpCkFub3ZhKGxtXzEsIHR5cGUgPSAiSUlJIikKYGBgCgpab3dlbCBkZSBpbnRlcmFjdGlldGVybSBiYWNvbjpsZW5ndGggYWxzIGRlIGludGVyYWN0aWV0ZXJtIGxlbmd0aDpzZXggemlqbiBuaWV0IHNpZ25pZmljYW50IG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LiBXZSB2ZXJ3aWpkZXJlbiBkZSBtaW5zdCBzaWduaWZpY2FudGUsIGJhY29uOmxlbmd0aCwgZW4gdm9lcmVuIG9wbmlldXcgZWVuIGFub3ZhIG1ldCB0eXBlIDMga3dhZHJhdGVuc29tbWVuIHVpdC4KCmBgYHtyfQpsbV8yIDwtIGxtKHBlcm1lYXQgfiBiYWNvbiArIGxlbmd0aCArIHNleCArIGJhY29uOnNleCArIGxlbmd0aDpzZXgsIGRhdGEgPSBwaWdzKQpBbm92YShsbV8yLCB0eXBlID0gIklJSSIpCmBgYAoKRGUgaW50ZXJhY3RpZSBsZW5ndGg6c2V4IGlzIHdlZXIgbmlldCBzaWduaWZpY2FudC4gV2UgdmVyd2lqZGVyZW4gZGV6ZSB1aXQgaGV0IG1vZGVsIGVuIHZvZXJlbiBvcG5pZXV3IGVlbiBhbm92YSBtZXQgdHlwZSAzIGt3YWRyYXRlbnNvbW1lbiB1aXQuIAoKYGBge3J9CmxtXzMgPC0gbG0ocGVybWVhdCB+IGJhY29uICsgbGVuZ3RoICsgc2V4ICsgYmFjb246c2V4ICwgZGF0YSA9IHBpZ3MpCkFub3ZhKGxtXzMsIHR5cGUgPSAiSUlJIikKCmBgYAoKV2UgemllbiBkYXQgZGUgcmVzdGVyZW5kZSB2YXJpYWJlbGVuIGVuIGludGVyYWN0aWV0ZXJtIGFsbGVtYWFsIHNpZ25pZmljYW50IHppam4uIFdlIGJlaG91ZGVuIGhldCBtb2RlbCBtZXQgZGUgZHJpZSBob29mZHZhcmlhYmVsZW4gZW4gZWVuIGludGVyYWN0aWV0ZXJtIHR1c3NlbiBiYWNvbiBlbiBnZXNsYWNodC4KCldlIGJla2lqa2VuIG9mIGRlIG1vZGVsYXNzdW1wdGllcyB2b2xkYWFuIHppam4gdm9vciBkaXQgbW9kZWwuCgpgYGB7cn0KcGxvdChsbV8zKQpgYGAKCkRlIGFzc3VtcHRpZXMgbGlqa2VuIHdlZXIgdm9sZGFhbi4gCgojIEh5cG90aGVzZXMgdGVzdGVuCgpEZSBvbmRlcnpvZWtlcnMgd2lsZGVuIHZvbGdlbmRlIGh5cG90aGVzZXMgdGVzdGVuOgoKLSBJcyBlciBlZW4gYXNzb2NpYXRpZSB0dXNzZW4gaGV0IHBlcmNlbnRhZ2UgdmxlZXMgZW4gZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnPwotIElzIGVyIGVlbiB2ZXJzY2hpbCBpbiBkZSBhc3NvY2lhdGllIHR1c3NlbiBoZXQgcGVyY2VudGFnZSB2bGVlcyBlbiBkZSBkaWt0ZSB2YW4gZGUgc3Bla2xhYWcgYmlqIGRlIHZlcnNjaGlsbGVuZGUgZ2VzbGFjaHRlbj8KCkRpdCB2ZXJ0YWFsdCB6aWNoIG5hYXIgZGUgdm9sZ2VuZGUgaHlwb3RoZXNlczoKCiQkMS5ccXVhZCBIXzA6IFxiZXRhX3tiYWNvbn0gPSAwIDogXHRleHR7RXIgaXMgZ2VlbiBsaW5lYWlyZSBhc3NvY2lhdGllIHR1c3NlbiBoZXQgdmxlZXNwZXJjZW50YWdlIGVuIGRlIGRpa3RlIHNwZWtsYWFnIGJpaiB6ZXVnZW4ufSQkCiQkXHVwZG93bmFycm93JCQKJCRIXzE6IFxiZXRhX3tiYWNvbn0gXG5lcSAgMCA6IFx0ZXh0e0VyIGlzIGVlbiBsaW5lYWlyZSBhc3NvY2lhdGllIHR1c3NlbiBoZXQgdmxlZXNwZXJjZW50YWdlIGVuIGRlIGRpa3RlIHNwZWtsYWFnIGJpaiB6ZXVnZW59JCQKCiQkMi5ccXVhZCBIXzA6IFxiZXRhX3tiYWNvbn0gKyBcYmV0YV97YmFjb246c2V4fT0gMCA6IFx0ZXh0e0VyIGlzIGdlZW4gbGluZWFpcmUgYXNzb2NpYXRpZSB0dXNzZW4gaGV0IHZsZWVzcGVyY2VudGFnZSBlbiBkZSBkaWt0ZSBzcGVrbGFhZyBiaWogYmVyZW4gKG1hbm5lbGlqa2UgdmFya2VucykufSQkCiQkXHVwZG93bmFycm93JCQKJCRIXzE6IFxiZXRhX3tiYWNvbn0gKyBcYmV0YV97YmFjb246c2V4fSBcbmVxIDAgOiBcdGV4dHtFciBpcyBlZW4gbGluZWFpcmUgYXNzb2NpYXRpZSB0dXNzZW4gaGV0IHZsZWVzcGVyY2VudGFnZSBlbiBkZSBkaWt0ZSBzcGVrbGFhZyBiaWogYmVyZW4gKG1hbm5lbGlqa2UgdmFya2VucykufSQkCgoKJCQzLiBccXVhZCBIXzA6XGJldGFfe2JhY29uOnNleH0gPSAwIDogXHRleHR7RGUgYXNzb2NpYXRpZSB0dXNzZW4gZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnIGVuIGhldCB2ZXRwZXJjZW50YWdlIGlzIGdlbGlqayBiaWogemV1Z2VuIGVuIGJlcmVuLn0kJAokJFx1cGRvd25hcnJvdyQkCiQkSF8xOiBcYmV0YV97YmFjb246c2V4fSBcbmVxIDAgOiBcdGV4dHtEZSBhc3NvY2lhdGllIHR1c3NlbiBkZSBkaWt0ZSB2YW4gZGUgc3Bla2xhYWcgZW4gaGV0IHZldHBlcmNlbnRhZ2UgaXMgdmVyc2NoaWxsZW5kIGJpaiB6ZXVnZW4gZW4gYmVyZW4ufSQkCgoKCldlIHZvZXJlbiBlZXJzdCBlbiBvbW5pYnVzIHRlc3QgdWl0IHdhYXJiaWogd2UgYWxsZSBudWxoeXBvdGhlc2VzIHNpbXVsdGFhbiBmYWxzaWZpw6tyZW4sIHdlIGt1bm5lbiBkaXQgZG9vciBzaW11bHRhYW4gdGUgdGVzdGVuIHZvb3IgaGV0IGhvb2ZkZWZmZWN0IHZvb3IgYmFjb24gZW4gZGUgYmFjb24gJFx0aW1lcyQgc2V4IGludGVyYWN0aWU6CgokJEhfMDogXGJldGFfe2JhY29ufSA9IFxiZXRhX3tiYWNvbjpzZXh9ID0gMC4gJCQKJCRcdXBkb3duYXJyb3ckJAokJEhfMTogXGJldGFfe2JhY29ufSBcbmVxIDAgXHRleHR7IGVuLCBvZiB9IFxiZXRhX3tiYWNvbjpzZXh9IFxuZXEgMC4gJCQKCgpEZSBvbW5pYnVzaHlwb3RoZXNlIGt1bm5lbiB3ZSBldmFsdWVyZW4gbWV0IGVlbiBGLXRlc3QgdHVzc2VuIGhldCB2b2xsZWRpZyBtb2RlbCBlbiBtZXQgaGV0IG1vZGVsIGRhdCBlbmtlbCBoZXQgaG9vZmRlZmZlY3QgdmFuIGxlbmd0ZSBlbiBnZXNsYWNodCBiZXZhdC4KCmBgYHtyfQpsbV80IDwtIGxtKHBlcm1lYXQgfiBsZW5ndGggKyBzZXggLCBkYXRhID0gcGlncykKYW5vdmEobG1fMyxsbV80KQpgYGAKCkdlemllbiB3ZSBkZSBvbW5pYnVzIGh5cG90aGVzZSBoZWVsIGV4dHJlZW0gc2lnbmlmaWNhbnQga3VubmVuIHZlcndlcnBlbiwgZXZhbHVlcmVuIHdlIGluIGVlbiBwb3N0aG9jIGFuYWx5c2Ugb2YgZXIgZWVuIGFzc29jaWF0aWUgaXMgdHVzc2VuIGRlIGRpa3RlIHZhbiBkZSBzcGVrbGFhZyBlbiBoZXQgdmxlZXNwZXJjZW50YWdlIGJpaiB6ZXVnZW4sIGJlcmVuIGVuIG9mIGVyIGVlbiB2ZXJzY2hpbCBpcyB0dXNzZW4gZGUgYXNzb2NpYXRpZSBiaWogemV1Z2VuIGVuIGJlcmVuLiAKCmBgYHtyfQpsaWJyYXJ5KG11bHRjb21wKQptY3AgPC0gZ2xodChsbV8zLGxpbmZjdCA9IGMoImJhY29uID0gMCIsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJiYWNvbiArIGJhY29uOnNleG1hbGUgPSAwIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiYmFjb246c2V4bWFsZSA9IDAiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKSkKc3VtbWFyeShtY3ApCmBgYAoKYGBge3J9CmNvbmZpbnRNb2RlbCA8LSBjb25maW50KG1jcCkKY29uZmludE1vZGVsCmBgYAoKIyBDb25jbHVzaWUKCkVyIGlzIGVlbiBleHRyZWVtIHNpZ25pZmljYW50ZSBsaW5lYWlyZSBhc3NvY2lhdGllIHR1c3NlbiBkZSBkaWt0ZSB2YW4gZGUgc3Bla2xhYWcgZW4gaGV0IHZsZWVzcGVyY2VudGFnZSBiaWogdmFya2VucyAocCA8PCAwLjAwMSkuIApEZSBsaW5lYWlyZSBhc3NvY2lhdGllIHR1c3NlbiBkZSBkaWt0ZSB2YW4gZGUgc3Bla2xhYWcgZW4gaGV0IHZsZWVzcGVyY2VudGFnZSBpcyBoZWVsIHN0ZXJrIHNpZ25pZmljYW50IGJpaiB6b3dlbCB2cm91d2VsaWprZSAocDw8MC4wMDEpIGFscyBtYW5uZWxpamtlIHZhcmtlbnMgKHA8MC4wMDEpLiAKVm9vciB6ZXVnZW4sIGRpZSBlZW4gdmVyc2NoaWxsZW5kZSBkaWt0ZSB2YW4gc3Bla2xhYWcgaGViYmVuLCBpcyBoZXQgdmxlZXNwZXJjZW50YWdlIGdlbWlkZGVsZCBgciBjb25maW50TW9kZWwkY29uZmludFsxLDFdICU+JSBhYnMgJT4lIHNvcnQgJT4lIHJvdW5kKC4sMikgJT4lIHBhc3RlMCguLCIgJS9tbSIpYCBsYWdlciBiaWogemV1Z2VuIG1ldCBkZSBkaWtzdGUgc3Bla2xhYWcgKDk1JSBCSSBbYHIgY29uZmludE1vZGVsJGNvbmZpbnRbMSwtMV0gJT4lIGFicyAlPiUgc29ydCAlPiUgcm91bmQoLiwyKSAlPiUgcGFzdGUwKC4sIiAlL21tIilgXSkuIApWb29yIGJlcmVuIChtYW5uZWxpamtlIHZhcmtlbnMpLCBkaWUgZWVuIHZlcnNjaGlsbGVuZGUgZGlrdGUgdmFuIHNwZWtsYWFnIGhlYmJlbiwgaXMgaGV0IHZsZWVzcGVyY2VudGFnZSBnZW1pZGRlbGQgYHIgY29uZmludE1vZGVsJGNvbmZpbnRbMiwxXSAlPiUgYWJzICU+JSBzb3J0ICU+JSByb3VuZCguLDIpICU+JSBwYXN0ZTAoLiwiICUvbW0iKWAgbGFnZXIgYmlqIGJlcmVuIG1ldCBkZSBkaWtzdGUgc3Bla2xhYWcgKDk1JSBCSSBbYHIgY29uZmludE1vZGVsJGNvbmZpbnRbMiwtMV0gJT4lIGFicyAlPiUgc29ydCAlPiUgcm91bmQoLiwyKSAlPiUgcGFzdGUwKC4sIiAlL21tIilgXSkuCkVyIGlzIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1IGdlZW4gc2lnbmlmaWNhbnQgdmVyc2NoaWwgaW4gZGUgYXNzb2NpYXRpZSB0dXNzZW4gZGUgZGlrdGUgdmFuIGRlIHNwZWtsYWFnIGVuIGhldCB2bGVlc3BlcmNlbnRhZ2UgdHVzc2VuIHZyb3V3ZWxpamtlIGVuIG1hbm5lbGlqa2UgdmFya2VucyBuYSBjb3JyZWN0aWUgdm9vciBtdWx0aXBsZSB0ZXN0aW5nIChwID0gMC4wNzM0KS4KCgoKCgo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Examenvoorbeeld_oefening_1.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
