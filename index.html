@@ -13,7 +13,7 @@
 
 <title>Biostatistiek 2022: partim Univariate Statistiek</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -61,7 +61,6 @@ if (window.hljs) {
 
 
 
-
 <link rel="stylesheet" href="style.css" type="text/css" />
 
 
@@ -86,9 +85,6 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
 }
 pre code {
   padding: 0;
@@ -241,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -257,7 +253,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Hoorcolleges
@@ -283,7 +279,7 @@ $(document).ready(function () {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -305,6 +301,15 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing Voorbereiding 3</a>
     </li>
     <li>
       <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
@@ -331,8 +336,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Biostatistiek 2022: partim Univariate
-Statistiek</h1>
+<h1 class="title toc-ignore">Biostatistiek 2022: partim Univariate Statistiek</h1>
 
 </div>
 
@@ -340,47 +344,21 @@ Statistiek</h1>
 <p><img src="index_files/figure-html/pop2Samp2Pop-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="situering" class="section level2">
 <h2>Situering</h2>
-<p>Deze cursus bouwt verder op de basis cursus statistiek die werd
-gedoceerd in 2de bachelor biologie aan de Universiteit Gent. De cursus
-focust op essentiële statistische concepten en methoden om inzicht te
-verwerven uit empirische data uit de levenswetenschappen. Het is een
-toegepaste cursus statistiek waarin de data centraal staan. We starten
-hierbij steeds bij het design van de studie en een data exploratie.
-Vervolgens worden de data statistisch gemodelleerd. Hierbij ligt de
-focus op de link tussen lineaire regressie en variantie analyse. Deze
-technieken kunnen worden samengebracht in het algemene lineaire model.
-De concepten en methoden worden via case-studies aangebracht. Hierbij
-zullen we steeds focussen op de concrete onderzoeksvraag en hoe we deze
-kunnen vertalen in hypotheses met betrekking tot lineaire combinanties
-van de parameters in het model. Na de introductie van het algemene
-lineaire model zullen we dieper ingaan op belangrijke concepten van
-experimenteel design.</p>
+<p>Deze cursus bouwt verder op de basis cursus statistiek die werd gedoceerd in 2de bachelor biologie aan de Universiteit Gent. De cursus focust op essentiële statistische concepten en methoden om inzicht te verwerven uit empirische data uit de levenswetenschappen. Het is een toegepaste cursus statistiek waarin de data centraal staan. We starten hierbij steeds bij het design van de studie en een data exploratie. Vervolgens worden de data statistisch gemodelleerd. Hierbij ligt de focus op de link tussen lineaire regressie en variantie analyse. Deze technieken kunnen worden samengebracht in het algemene lineaire model. De concepten en methoden worden via case-studies aangebracht. Hierbij zullen we steeds focussen op de concrete onderzoeksvraag en hoe we deze kunnen vertalen in hypotheses met betrekking tot lineaire combinanties van de parameters in het model. Na de introductie van het algemene lineaire model zullen we dieper ingaan op belangrijke concepten van experimenteel design.</p>
 </div>
 <div id="inhoud" class="section level2">
 <h2>Inhoud</h2>
 <div id="hoorcolleges" class="section level3">
 <h3>Hoorcolleges</h3>
 <ul>
-<li><p>Introductie: <a href="./introduction.html">html</a>, [<a
-href="./introduction.pdf">PDF</a>]</p></li>
+<li><p>Introductie: <a href="./introduction.html">html</a>, [<a href="./introduction.pdf">PDF</a>]</p></li>
 <li><p>Algemeen lineair model:</p>
 <ul>
-<li>Lecture 2-3 : <a href="./10-MultipleRegression.html">html</a>, [<a
-href="./10-MultipleRegression.pdf">PDF</a>]</li>
-<li>Lecture 4 factoriële designs: <a
-href="./10-MultipleRegression-FactorialDesigns.html">html</a>, [<a
-href="./10-MultipleRegression-FactorialDesigns.pdf">PDF</a>]</li>
-<li>Lecture 5, Booster Sessie: <a
-href="./10-Recap-AlgemeenLineairModel-AdditiefModel.html">additief model
-html</a>, [<a
-href="./10-Recap-AlgemeenLineairModel-AdditiefModel.pdf">PDF</a>]; <a
-href="./10-Recap-AlgemeenLineairModel-OverigeConcepten.html">interacties
-- diagnostiek - contrasten - factoriële designs</a>, [<a
-href="./10-Recap-AlgemeenLineairModel-OverigeConcepten.pdf">PDF</a>]</li>
-<li>Lecture 6: <a href="./experimentalDesignI.html">Experimental Design
-I</a>, [<a href="./experimentalDesignI.pdf">PDF</a>]</li>
-<li>Lecture 7: <a href="./experimentalDesignII.html">Experimental Design
-II</a>, [<a href="./experimentalDesignII.pdf">PDF</a>]</li>
+<li>Lecture 2-3 : <a href="./10-MultipleRegression.html">html</a>, [<a href="./10-MultipleRegression.pdf">PDF</a>]</li>
+<li>Lecture 4 factoriële designs: <a href="./10-MultipleRegression-FactorialDesigns.html">html</a>, [<a href="./10-MultipleRegression-FactorialDesigns.pdf">PDF</a>]</li>
+<li>Lecture 5, Booster Sessie: <a href="./10-Recap-AlgemeenLineairModel-AdditiefModel.html">additief model html</a>, [<a href="./10-Recap-AlgemeenLineairModel-AdditiefModel.pdf">PDF</a>]; <a href="./10-Recap-AlgemeenLineairModel-OverigeConcepten.html">interacties - diagnostiek - contrasten - factoriële designs</a>, [<a href="./10-Recap-AlgemeenLineairModel-OverigeConcepten.pdf">PDF</a>]</li>
+<li>Lecture 6: <a href="./experimentalDesignI.html">Experimental Design I</a>, [<a href="./experimentalDesignI.pdf">PDF</a>]</li>
+<li>Lecture 7: <a href="./experimentalDesignII.html">Experimental Design II</a>, [<a href="./experimentalDesignII.pdf">PDF</a>]</li>
 </ul></li>
 </ul>
 </div>
@@ -389,15 +367,15 @@ II</a>, [<a href="./experimentalDesignII.pdf">PDF</a>]</li>
 <ul>
 <li>Practicum 1:
 <ul>
-<li>Voorbeeld two-sample t-test: <a
-href="./ttest_example.html">html</a></li>
+<li>Voorbeeld two-sample t-test: <a href="./ttest_example.html">html</a></li>
 <li>Voorbeeld anova: <a href="./anova_example.html">html</a></li>
-<li>Voorbereiding 1: <a
-href="./Practicum_1_Voorbereiding_1.html">html</a></li>
-<li>Voorbereiding 2: <a
-href="./Practicum_1_Voorbereiding_2.html">html</a></li>
-<li>Voorbereiding 3: <a
-href="./Practicum_1_Voorbereiding_3.html">html</a></li>
+<li>Voorbereiding 1: <a href="./Practicum_1_Voorbereiding_1.html">html</a></li>
+<li>Voorbereiding 2: <a href="./Practicum_1_Voorbereiding_2.html">html</a></li>
+<li>Voorbereiding 3: <a href="./Practicum_1_Voorbereiding_3.html">html</a></li>
+<li>Oplossing Voorbereiding 1: <a href="./Practicum_1_oplossing_Two_sample_t_test.html">html</a></li>
+<li>Oplossing Voorbereiding 2: <a href="./Practicum_1_oplossing_anova.html">html</a></li>
+<li>Oplossing Voorbereiding 3: <a href="./Practicum_1_oplossing_niet_parametrische_test.html">html</a></li>
+<li>Oefening Practicum 1 Lineair model: <a href="./Practicum_1_oefening_4.html">html</a></li>
 </ul></li>
 </ul>
 </div>
@@ -405,9 +383,7 @@ href="./Practicum_1_Voorbereiding_3.html">html</a></li>
 <div id="licentie" class="section level2">
 <h2>Licentie</h2>
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<p>Deze pagina is deel van de cursus <a
-href="https://statomics.github.io/biostatistics/">Biostatistiek
-2022</a></p>
+<p>Deze pagina is deel van de cursus <a href="https://statomics.github.io/biostatistics/">Biostatistiek 2022</a></p>
 </div>
 
 <div class="footer">
