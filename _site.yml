@@ -38,6 +38,9 @@ navbar:
           href: Practicum_1_oplossing_niet_parametrische_test.html
         - text: "Practicum 1: Oefening lineair model"
           href: Practicum_1_oefening_4.html
+        - text: "Practicum 1: Oplossing lineair model"
+          href: Practicum_1_oplossing_lineair_model.html
+
 
 
   right:
