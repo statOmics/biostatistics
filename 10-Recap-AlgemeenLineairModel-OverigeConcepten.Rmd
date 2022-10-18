@@ -276,7 +276,7 @@ summary(lmMidarm)
 ### Exploratief
 
 - *Studentized residu's* om outliers op te sporen
-- *leverage (invloed, hefboom)* om observaties met extreem covariaatpatroon op te sporen
+- *leverage (invloed, hefboom)* om observaties met extreem covariaatpatroon op te sporen. Extreme leverage: leverage waarde groter dan  2p/n
 
 ```{r}
 plot(lmVWS,5)
