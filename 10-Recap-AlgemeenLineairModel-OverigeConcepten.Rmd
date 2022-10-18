@@ -418,7 +418,7 @@ Wat doen we als interacties niet significant zijn?
 
 Merk op dat
 
-1. We bij complexe modellen veel testen uitvoeren om tot het vereenvoudigt model te komen.
+1. We bij complexe modellen veel testen uitvoeren om tot het vereenvoudigd model te komen.
 2. Het aanvaarden van de nulhypotheses een zwakke conclusie is en dat er typisch weinig power is om een interactie op te pikken. Het is dus mogelijk dat het model zonder interacties toch het foutieve model is.
 3. Bij high troughput experimenten gaan we typisch inferentie doen voor alle genen/proteinen die we meten (vb. 40000 genen of 1000den proteïnen). Door grote correctie voor multiple testing kunnen we interactie termen niet weglaten want daar weten we zeker dat de power om interacties op te pikken zeer laag.
 
