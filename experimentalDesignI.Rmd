@@ -72,7 +72,9 @@ text(7.5,.5,"DATA EXPLORATIE &\nBESCHRIJVENDE STATISTIEK (2)",col="black",cex=1.
 
 # Concepten
 
-- Experimentele eenheden zijn representatief voor populatie: Randomisatie
+- Experimentele eenheden zijn subjecten, planten, proefdieren of objecten die aan behandelingen worden onderworpen in een experimentele studie. 
+- Observationele eenheden zijn de subjecten, planten proefdieren of objecten waarop we metingen doen. Meestal zijn de experimentele en observationele eenheden hetzelfde. Als dat niet het geval is heeft met vaak pseudoreplicatie. 
+- Experimentele eenheden representatief voor populatie: Randomisatie
 - Replicatie: technisch vs biologisch, steekproefgrootte - power
 - Bronnen van variabiliteit: technisch, biologisch, binnen en tussen subjecten. 
 
@@ -219,7 +221,7 @@ $$\rightarrow \hat{\boldsymbol{\beta}}=\text{argmin}_\beta \text{ RSS}(\boldsymb
 &=&(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T(\mathbf{I}\sigma^2)\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}
 \\\\
 &=&(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{I}\quad\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\sigma^2\\\\
-%\hat{\boldmath{\Sigma}}_{\hat{\boldsymbol{\beta}}}&=&(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T \text{var}\left[\mathbf{Y}\right](\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}\\
+%\hat{\boldmath{\Sigma}}_{\hat{\boldsymbol{\beta}}}&=&(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\text{var}\left[\mathbf{Y}\right](\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}\\
 &=&(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\sigma^2\\\\
 &=&(\mathbf{X}^T\mathbf{X})^{-1}\sigma^2
 \end{array}
