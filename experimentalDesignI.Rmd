@@ -251,7 +251,7 @@ $$
 vs de alternatieve hypothese 
 
 $$
-H_0: \mathbf{L}^T\boldsymbol{\beta} \neq 0 
+H_1: \mathbf{L}^T\boldsymbol{\beta} \neq 0 
 $$
 
 En het bewijs in het experiment tegen $H_0$ kan worden gekwantificeerd met de t-test statistiek: 
