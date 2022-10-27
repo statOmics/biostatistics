@@ -14,6 +14,7 @@
 
 <title>Experimenteel Design II: replicatie en power - KPNA2</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,16 +515,19 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Experimenteel Design II: replicatie en power - KPNA2</h1>
+<h1 class="title toc-ignore">Experimenteel Design II: replicatie en
+power - KPNA2</h1>
 <h4 class="author">Lieven Clement &amp; Alexandre Segers</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
 ## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
@@ -533,146 +536,206 @@ div.tocify {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div id="background" class="section level1">
+<div id="background" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Background</h1>
-<p>Histologic grade in breast cancer provides clinically important prognostic information. Researchers examined whether histologic grade was associated with gene expression profiles of breast cancers and whether such profiles could be used to improve histologic grading. In this tutorial we will assess the association between histologic grade and the expression of the KPNA2 gene that is known to be associated with poor BC prognosis. The patients, however, do not only differ in the histologic grade, but also on their lymph node status. The lymph nodes were not affected (0) or chirugically removed (1).</p>
+<p>Histologic grade in breast cancer provides clinically important
+prognostic information. Researchers examined whether histologic grade
+was associated with gene expression profiles of breast cancers and
+whether such profiles could be used to improve histologic grading. In
+this tutorial we will assess the association between histologic grade
+and the expression of the KPNA2 gene that is known to be associated with
+poor BC prognosis. The patients, however, do not only differ in the
+histologic grade, but also on their lymph node status. The lymph nodes
+were not affected (0) or chirugically removed (1).</p>
 <ul>
-<li>Redo data analysis (you can copy the results of the tutorial on multiple linear regression)</li>
-<li>What is the power to pick up each of the contrasts when their real effect sizes would be equal to the effect sizes we observed in the study?</li>
-<li>How does the power evolves if we have 2 upto 10 repeats for each factor combination of grade and node when their real effect sizes would be equal to the ones we observed in the study?</li>
-<li>What is the power to pick up each of the contrasts when the FC for grade for patients with unaffected lymf nodes equals 1.5 (<span class="math inline">\(\beta_g = log2(1.5)\)</span>)?</li>
+<li>Redo data analysis (you can copy the results of the tutorial on
+multiple linear regression)</li>
+<li>What is the power to pick up each of the contrasts when their real
+effect sizes would be equal to the effect sizes we observed in the
+study?</li>
+<li>How does the power evolves if we have 2 upto 10 repeats for each
+factor combination of grade and node when their real effect sizes would
+be equal to the ones we observed in the study?</li>
+<li>What is the power to pick up each of the contrasts when the FC for
+grade for patients with unaffected lymf nodes equals 1.5 (<span
+class="math inline">\(\beta_g = log2(1.5)\)</span>)?</li>
 </ul>
 </div>
-<div id="data-analysis" class="section level1">
+<div id="data-analysis" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data analysis</h1>
-<div id="import-kpna2-data-in-r" class="section level2">
-<h2><span class="header-section-number">2.1</span> Import KPNA2 data in R</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>kpna2 &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/SGA21/master/data/kpna2.txt&quot;</span>,<span class="dt">header=</span><span class="ot">TRUE</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>kpna2</span></code></pre></div>
+<div id="import-kpna2-data-in-r" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Import KPNA2 data in
+R</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kpna2 <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/SGA21/master/data/kpna2.txt&quot;</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>kpna2</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["grade"],"name":[1],"type":["int"],"align":["right"]},{"label":["node"],"name":[2],"type":["int"],"align":["right"]},{"label":["gene"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"3","2":"1","3":"367.8179"},{"1":"3","2":"1","3":"590.3576"},{"1":"1","2":"1","3":"346.6583"},{"1":"1","2":"1","3":"258.4455"},{"1":"1","2":"0","3":"153.8416"},{"1":"3","2":"0","3":"643.6799"},{"1":"3","2":"1","3":"817.8558"},{"1":"1","2":"1","3":"329.4113"},{"1":"3","2":"0","3":"746.4951"},{"1":"3","2":"0","3":"380.0940"},{"1":"1","2":"0","3":"205.2980"},{"1":"3","2":"0","3":"703.5070"},{"1":"1","2":"0","3":"223.5533"},{"1":"1","2":"0","3":"186.6673"},{"1":"1","2":"0","3":"165.5948"},{"1":"3","2":"1","3":"439.0382"},{"1":"1","2":"1","3":"252.0597"},{"1":"3","2":"0","3":"495.8720"},{"1":"1","2":"1","3":"286.7907"},{"1":"3","2":"1","3":"552.1972"},{"1":"1","2":"1","3":"233.5769"},{"1":"3","2":"0","3":"521.4048"},{"1":"3","2":"1","3":"474.2651"},{"1":"1","2":"0","3":"148.1059"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>Because histolic grade and lymph node status are both categorical variables, we model them both as factors.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>kpna2<span class="op">$</span>grade &lt;-<span class="st"> </span>...</span>
-<span id="cb6-2"><a href="#cb6-2"></a>kpna2<span class="op">$</span>node &lt;-<span class="st"> </span>...</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>kpna2 <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>node<span class="op">:</span>grade,<span class="dt">y=</span>gene,<span class="dt">fill=</span>node<span class="op">:</span>grade)) <span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
-<p>As discussed in a previous exercise, it seems that there is both an effect of histologic grade and lymph node status on the gene expression. There also seems to be a different effect of lymph node status on the gene expression for the different histologic grades.</p>
-<p>As we saw before, we can model this with a model that contains both histologic grade, lymph node status and the interaction term between both. When checking the linear model assumptions, we see that the variance is not equal. Therefore we model the gene expression with a log2-transformation, which makes that all the assumptions of the linear model are satisfied.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#Model with main effects for histological grade and node and grade x node interaction</span></span></code></pre></div>
+<p>Because histolic grade and lymph node status are both categorical
+variables, we model them both as factors.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>kpna2<span class="sc">$</span>grade <span class="ot">&lt;-</span> ...</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>kpna2<span class="sc">$</span>node <span class="ot">&lt;-</span> ...</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>kpna2 <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>node<span class="sc">:</span>grade,<span class="at">y=</span>gene,<span class="at">fill=</span>node<span class="sc">:</span>grade)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div>
+<p>As discussed in a previous exercise, it seems that there is both an
+effect of histologic grade and lymph node status on the gene expression.
+There also seems to be a different effect of lymph node status on the
+gene expression for the different histologic grades.</p>
+<p>As we saw before, we can model this with a model that contains both
+histologic grade, lymph node status and the interaction term between
+both. When checking the linear model assumptions, we see that the
+variance is not equal. Therefore we model the gene expression with a
+log2-transformation, which makes that all the assumptions of the linear
+model are satisfied.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with main effects for histological grade and node and grade x node interaction</span></span></code></pre></div>
 <p>Check if the interaction term is significant:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">library</span>(car)</span></code></pre></div>
-<p>As we are dealing with a factorial design, we can calculate the mean gene expression for each group by the following parameter summations.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>ExploreModelMatrix<span class="op">::</span><span class="kw">VisualizeDesign</span>(kpna2,<span class="op">~</span>grade<span class="op">*</span>node)<span class="op">$</span>plotlist</span></code></pre></div>
-<p>The researchers want to know the power for testing following hypotheses (remark that we will have to adjust for multiple testing):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<p>As we are dealing with a factorial design, we can calculate the mean
+gene expression for each group by the following parameter
+summations.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(kpna2,<span class="sc">~</span>grade<span class="sc">*</span>node)<span class="sc">$</span>plotlist</span></code></pre></div>
+<p>The researchers want to know the power for testing following
+hypotheses (remark that we will have to adjust for multiple
+testing):</p>
 <ul>
-<li>Log fold change between histologic grade 3 and histologic grade 1 for patients with unaffected lymph nodes (=0).</li>
+<li>Log fold change between histologic grade 3 and histologic grade 1
+for patients with unaffected lymph nodes (=0).</li>
 </ul>
-<p><span class="math display">\[H_0: \log_2{FC}_{g3n0-g1n0} = \beta_{g3} = 0\]</span></p>
+<p><span class="math display">\[H_0: \log_2{FC}_{g3n0-g1n0} = \beta_{g3}
+= 0\]</span></p>
 <ul>
-<li>Log fold change between histologic grade 3 and histologic grade 1 for patients with removed lymph nodes (=1).</li>
+<li>Log fold change between histologic grade 3 and histologic grade 1
+for patients with removed lymph nodes (=1).</li>
 </ul>
-<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g1n1} = \beta_{g3} + \beta_{g3n1} = 0\]</span></p>
+<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g1n1} = \beta_{g3}
++ \beta_{g3n1} = 0\]</span></p>
 <ul>
-<li>Log fold change between unaffected and removed lymph nodes for patients of histologic grade 1.</li>
+<li>Log fold change between unaffected and removed lymph nodes for
+patients of histologic grade 1.</li>
 </ul>
-<p><span class="math display">\[H_0: \log_2{FC}_{g1n1-g1n0} = \beta_{n1} = 0\]</span></p>
+<p><span class="math display">\[H_0: \log_2{FC}_{g1n1-g1n0} = \beta_{n1}
+= 0\]</span></p>
 <ul>
-<li>Log fold change between unaffected and removed lymph nodes for patients of histologic grade 3.</li>
+<li>Log fold change between unaffected and removed lymph nodes for
+patients of histologic grade 3.</li>
 </ul>
-<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g3n0} = \beta_{n1} + \beta_{g3n1} = 0\]</span></p>
+<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g3n0} = \beta_{n1}
++ \beta_{g3n1} = 0\]</span></p>
 <ul>
-<li>Difference in log fold change between patients of histological grade 3 and histological grade 1 with removed lymph nodes and log fold change between patients between patients of histological grade 3 and histological grade 1 with unaffected lymph nodes.</li>
+<li>Difference in log fold change between patients of histological grade
+3 and histological grade 1 with removed lymph nodes and log fold change
+between patients between patients of histological grade 3 and
+histological grade 1 with unaffected lymph nodes.</li>
 </ul>
-<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g1n1} - \log_2{FC}_{g3n0-g1n0} = \beta_{g3n1} = 0\]</span> which is an equivalent hypotheses with <span class="math display">\[H_0: \log_2{FC}_{g3n1-g3n0} - \log_2{FC}_{g1n1-g1n0} = \beta_{g3n1} = 0\]</span></p>
-<p>We can test this using multcomp, which controls for multiple testing.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">library</span>(multcomp)</span></code></pre></div>
-<p>We get a significant p-value for the first, second, third and fifth hypothesis. The fourth hypothesis is not significant at the overall 5% significance level.</p>
+<p><span class="math display">\[H_0: \log_2{FC}_{g3n1-g1n1} -
+\log_2{FC}_{g3n0-g1n0} = \beta_{g3n1} = 0\]</span> which is an
+equivalent hypotheses with <span class="math display">\[H_0:
+\log_2{FC}_{g3n1-g3n0} - \log_2{FC}_{g1n1-g1n0} = \beta_{g3n1} =
+0\]</span></p>
+<p>We can test this using multcomp, which controls for multiple
+testing.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div>
+<p>We get a significant p-value for the first, second, third and fifth
+hypothesis. The fourth hypothesis is not significant at the overall 5%
+significance level.</p>
 </div>
 </div>
-<div id="power-of-the-tests-for-each-of-the-contrasts" class="section level1">
-<h1><span class="header-section-number">3</span> Power of the tests for each of the contrasts</h1>
-<div id="simulation-function" class="section level2">
-<h2><span class="header-section-number">3.1</span> Simulation function</h2>
-<p>Function to simulate data similar to that of our experiment under our model assumptions.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>simFastMultipleContrasts &lt;-<span class="st"> </span><span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="dt">alpha =</span> <span class="fl">.05</span>, <span class="dt">nSim =</span> <span class="dv">10000</span>, <span class="dt">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>{</span>
-<span id="cb12-3"><a href="#cb12-3"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(data)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(data),nSim)</span>
-<span id="cb12-5"><a href="#cb12-5"></a>    design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span>betas)</span>
-<span id="cb12-7"><a href="#cb12-7"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>  </span>
-<span id="cb12-9"><a href="#cb12-9"></a>    <span class="co">### Fitting</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
-<span id="cb12-11"><a href="#cb12-11"></a>  </span>
-<span id="cb12-12"><a href="#cb12-12"></a>    <span class="co">### Inference</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">t</span>(contrasts)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>contrasts</span>
-<span id="cb12-14"><a href="#cb12-14"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>contrasts</span>
-<span id="cb12-15"><a href="#cb12-15"></a>    seContrasts &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">diag</span>(varUnscaled)<span class="op">^</span>.<span class="dv">5</span>,<span class="dt">nrow=</span>nSim,<span class="dt">ncol=</span><span class="dv">5</span>,<span class="dt">byrow =</span> <span class="ot">TRUE</span>)<span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
-<span id="cb12-16"><a href="#cb12-16"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
-<span id="cb12-17"><a href="#cb12-17"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb12-18"><a href="#cb12-18"></a>    pvals &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">apply</span>(pvals, <span class="dv">1</span>, p.adjust, <span class="dt">method =</span> adjust))</span>
-<span id="cb12-19"><a href="#cb12-19"></a>    </span>
-<span id="cb12-20"><a href="#cb12-20"></a>    <span class="kw">return</span>(<span class="kw">colMeans</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
-<span id="cb12-21"><a href="#cb12-21"></a>}</span></code></pre></div>
+<div id="power-of-the-tests-for-each-of-the-contrasts"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Power of the tests for
+each of the contrasts</h1>
+<div id="simulation-function" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Simulation
+function</h2>
+<p>Function to simulate data similar to that of our experiment under our
+model assumptions.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>simFastMultipleContrasts <span class="ot">&lt;-</span> <span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">nSim =</span> <span class="dv">10000</span>, <span class="at">adjust =</span> <span class="st">&quot;bonferroni&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data)<span class="sc">*</span>nSim,<span class="at">sd=</span>sd)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dim</span>(ySim) <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">nrow</span>(data),nSim)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(form, data)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> ySim <span class="sc">+</span> <span class="fu">c</span>(design <span class="sc">%*%</span>betas)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">t</span>(ySim)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Fitting</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    fitAll <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">lmFit</span>(ySim,design)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Inference</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    varUnscaled <span class="ot">&lt;-</span> <span class="fu">t</span>(contrasts)<span class="sc">%*%</span>fitAll<span class="sc">$</span>cov.coefficients<span class="sc">%*%</span>contrasts</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    contrasts <span class="ot">&lt;-</span> fitAll<span class="sc">$</span>coefficients <span class="sc">%*%</span>contrasts</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    seContrasts <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">diag</span>(varUnscaled)<span class="sc">^</span>.<span class="dv">5</span>,<span class="at">nrow=</span>nSim,<span class="at">ncol=</span><span class="dv">5</span>,<span class="at">byrow =</span> <span class="cn">TRUE</span>)<span class="sc">*</span>fitAll<span class="sc">$</span>sigma</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    tstats <span class="ot">&lt;-</span> contrasts<span class="sc">/</span>seContrasts</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(tstats),fitAll<span class="sc">$</span>df.residual,<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(pvals, <span class="dv">1</span>, p.adjust, <span class="at">method =</span> adjust))</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">colMeans</span>(pvals <span class="sc">&lt;</span> alpha))</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="power-of-current-experiment" class="section level2">
-<h2><span class="header-section-number">3.2</span> power of current experiment</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>power1 &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(<span class="dt">form =</span> ...,</span>
-<span id="cb13-2"><a href="#cb13-2"></a>                                   <span class="dt">data =</span> ...,</span>
-<span id="cb13-3"><a href="#cb13-3"></a>                                   <span class="dt">betas =</span> ..., </span>
-<span id="cb13-4"><a href="#cb13-4"></a>                                   <span class="dt">sd =</span> ...,</span>
-<span id="cb13-5"><a href="#cb13-5"></a>                                   <span class="dt">contrasts =</span> ...,</span>
-<span id="cb13-6"><a href="#cb13-6"></a>                                   <span class="dt">alpha =</span> ...,</span>
-<span id="cb13-7"><a href="#cb13-7"></a>                                   <span class="dt">nSim =</span> ...)</span>
-<span id="cb13-8"><a href="#cb13-8"></a>power1</span></code></pre></div>
-<p>We observe large powers for all contrasts, except for contrast nodeg3, which has a small effect size.</p>
+<div id="power-of-current-experiment" class="section level2"
+number="3.2">
+<h2><span class="header-section-number">3.2</span> power of current
+experiment</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>power1 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(<span class="at">form =</span> ...,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">data =</span> ...,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">betas =</span> ..., </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">sd =</span> ...,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">contrasts =</span> ...,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha =</span> ...,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">nSim =</span> ...)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>power1</span></code></pre></div>
+<p>We observe large powers for all contrasts, except for contrast
+nodeg3, which has a small effect size.</p>
 </div>
-<div id="power-for-increasing-sample-size" class="section level2">
-<h2><span class="header-section-number">3.3</span> Power for increasing sample size</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>powers &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="dv">9</span>, <span class="dt">ncol=</span><span class="dv">6</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">colnames</span>(powers) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;n&quot;</span>,<span class="kw">colnames</span>(contrasts))</span>
-<span id="cb14-3"><a href="#cb14-3"></a>powers[,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co"># Zorg hier voor 1 designpunt (of observatie) per groep. In de for-loop gaan we deze designpunten herhalen voor het aantal observaties.</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>dataAllComb &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">grade =</span> ...,</span>
-<span id="cb14-7"><a href="#cb14-7"></a>                          <span class="dt">node =</span> ...) </span>
-<span id="cb14-8"><a href="#cb14-8"></a>  </span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(powers))</span>
-<span id="cb14-10"><a href="#cb14-10"></a>{  </span>
-<span id="cb14-11"><a href="#cb14-11"></a>predData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">grade =</span> <span class="kw">rep</span>(dataAllComb<span class="op">$</span>grade, powers[i,<span class="dv">1</span>]), </span>
-<span id="cb14-12"><a href="#cb14-12"></a>                       <span class="dt">node =</span> <span class="kw">rep</span>(dataAllComb<span class="op">$</span>node, powers[i,<span class="dv">1</span>]))</span>
-<span id="cb14-13"><a href="#cb14-13"></a></span>
-<span id="cb14-14"><a href="#cb14-14"></a>powers[i,<span class="op">-</span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(<span class="dt">form =</span> ...,</span>
-<span id="cb14-15"><a href="#cb14-15"></a>                                   <span class="dt">data =</span> predData,</span>
-<span id="cb14-16"><a href="#cb14-16"></a>                                   <span class="dt">betas =</span> ..., </span>
-<span id="cb14-17"><a href="#cb14-17"></a>                                   <span class="dt">sd =</span> ...,</span>
-<span id="cb14-18"><a href="#cb14-18"></a>                                   <span class="dt">contrasts =</span> ...,</span>
-<span id="cb14-19"><a href="#cb14-19"></a>                                   <span class="dt">alpha =</span> ...,</span>
-<span id="cb14-20"><a href="#cb14-20"></a>                                   <span class="dt">nSim =</span> ...)</span>
-<span id="cb14-21"><a href="#cb14-21"></a>}</span>
-<span id="cb14-22"><a href="#cb14-22"></a>powers</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>powers <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span>as.data.frame <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span><span class="kw">gather</span>(contrast, power, <span class="op">-</span>n) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(n,power,<span class="dt">color=</span>contrast)) <span class="op">+</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div id="power-for-increasing-sample-size" class="section level2"
+number="3.3">
+<h2><span class="header-section-number">3.3</span> Power for increasing
+sample size</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>powers <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="at">nrow=</span><span class="dv">9</span>, <span class="at">ncol=</span><span class="dv">6</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(powers) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;n&quot;</span>,<span class="fu">colnames</span>(contrasts))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>powers[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Zorg hier voor 1 designpunt (of observatie) per groep. In de for-loop gaan we deze designpunten herhalen voor het aantal observaties.</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>dataAllComb <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">grade =</span> ...,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">node =</span> ...) </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(powers))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>{  </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>predData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">grade =</span> <span class="fu">rep</span>(dataAllComb<span class="sc">$</span>grade, powers[i,<span class="dv">1</span>]), </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">node =</span> <span class="fu">rep</span>(dataAllComb<span class="sc">$</span>node, powers[i,<span class="dv">1</span>]))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>powers[i,<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(<span class="at">form =</span> ...,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">data =</span> predData,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">betas =</span> ..., </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">sd =</span> ...,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">contrasts =</span> ...,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha =</span> ...,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">nSim =</span> ...)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>powers</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>powers <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  as.data.frame <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(contrast, power, <span class="sc">-</span>n) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n,power,<span class="at">color=</span>contrast)) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 </div>
-<div id="power-when-fc-for-grade-in-patients-with-unaffected-lymph-nodes-equals-1.5-beta_g-log21.5" class="section level2">
-<h2><span class="header-section-number">3.4</span> Power when FC for grade in patients with unaffected lymph nodes equals 1.5 (<span class="math inline">\(\beta_g = log2(1.5)\)</span>)</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>power3 &lt;-<span class="st"> </span><span class="kw">simFastMultipleContrasts</span>(<span class="dt">form =</span> ...,</span>
-<span id="cb16-2"><a href="#cb16-2"></a>                                   <span class="dt">data =</span> ...,</span>
-<span id="cb16-3"><a href="#cb16-3"></a>                                   <span class="dt">betas =</span> ..., </span>
-<span id="cb16-4"><a href="#cb16-4"></a>                                   <span class="dt">sd =</span> ...,</span>
-<span id="cb16-5"><a href="#cb16-5"></a>                                   <span class="dt">contrasts =</span> ...,</span>
-<span id="cb16-6"><a href="#cb16-6"></a>                                   <span class="dt">alpha =</span> ...,</span>
-<span id="cb16-7"><a href="#cb16-7"></a>                                   <span class="dt">nSim =</span> ...)</span>
-<span id="cb16-8"><a href="#cb16-8"></a>power3</span></code></pre></div>
+<div
+id="power-when-fc-for-grade-in-patients-with-unaffected-lymph-nodes-equals-1.5-beta_g-log21.5"
+class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Power when FC for
+grade in patients with unaffected lymph nodes equals 1.5 (<span
+class="math inline">\(\beta_g = log2(1.5)\)</span>)</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>power3 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(<span class="at">form =</span> ...,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">data =</span> ...,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">betas =</span> ..., </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">sd =</span> ...,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">contrasts =</span> ...,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">alpha =</span> ...,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">nSim =</span> ...)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>power3</span></code></pre></div>
 </div>
 </div>
 

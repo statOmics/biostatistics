@@ -15,6 +15,7 @@
 
 <title>Examenvoorbeeld vraag 1</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -432,10 +433,16 @@ div.tocify {
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<p>Onderzoekers bestuderen of er een associatie tussen het de dikte van de speklaag van varkens is met het percentage vlees van varkens (permeat). Ze willen ook weten of deze associatie verschilt tussen mannelijke en vrouwelijke varkens. Uit voorgaand onderzoek weten de onderzoekers dat er een associatie is tussen het de lengte van het varken en het percentage vlees.</p>
-<div id="data-exploratie" class="section level1">
+<p>Onderzoekers bestuderen of er een associatie tussen het de dikte van
+de speklaag van varkens is met het percentage vlees van varkens
+(permeat). Ze willen ook weten of deze associatie verschilt tussen
+mannelijke en vrouwelijke varkens. Uit voorgaand onderzoek weten de
+onderzoekers dat er een associatie is tussen het de lengte van het
+varken en het percentage vlees.</p>
+<div id="data-exploratie" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Data exploratie</h1>
-<p>We lezen de data in, en filteren de data aangezien we het gewicht niet als variabele zullen gebruiken.</p>
+<p>We lezen de data in, en filteren de data aangezien we het gewicht
+niet als variabele zullen gebruiken.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
@@ -448,13 +455,15 @@ div.tocify {
 <pre class="r"><code>pigs &lt;- read.csv(file = &quot;https://raw.githubusercontent.com/statOmics/biostatistics21/master/pigs.csv&quot;)
 pigs &lt;- pigs %&gt;% subset(select = -weight)</code></pre>
 </div>
-<div id="algemeen-lineair-model-opstellen" class="section level1">
-<h1><span class="header-section-number">2</span> Algemeen lineair model opstellen</h1>
+<div id="algemeen-lineair-model-opstellen" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Algemeen lineair model
+opstellen</h1>
 </div>
-<div id="hypotheses-testen" class="section level1">
+<div id="hypotheses-testen" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Hypotheses testen</h1>
 </div>
-<div id="conclusie" class="section level1">
+<div id="conclusie" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Conclusie</h1>
 </div>
 

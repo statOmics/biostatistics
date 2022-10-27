@@ -14,6 +14,7 @@
 
 <title>Experimental Design II: replication and power exercise 1</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,15 +515,18 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Experimental Design II: replication and power exercise 1</h1>
+<h1 class="title toc-ignore">Experimental Design II: replication and
+power exercise 1</h1>
 <h4 class="author">Lieven Clement &amp; Alexandre Segers</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
@@ -532,74 +535,101 @@ div.tocify {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div id="power" class="section level1">
+<div id="power" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Power</h1>
 <p>The power of a test is defined as:</p>
-<p><span class="math display">\[P(p &lt; 
-\alpha | H_1)\]</span> This is the probability to reject the nulhypothesis at the significance level <span class="math inline">\(\alpha\)</span> given that the alternative hypothesis is true.</p>
+<p><span class="math display">\[P(p &lt;
+\alpha | H_1)\]</span> This is the probability to reject the
+nulhypothesis at the significance level <span
+class="math inline">\(\alpha\)</span> given that the alternative
+hypothesis is true.</p>
 <p>The power depends on:</p>
 <ul>
-<li>the real effect size in the population <span class="math inline">\(\mathbf{L}^T\boldsymbol{\beta}\)</span>.</li>
+<li>the real effect size in the population <span
+class="math inline">\(\mathbf{L}^T\boldsymbol{\beta}\)</span>.</li>
 <li>the number of observations: SE and df.</li>
 <li>Choice of designpoints</li>
-<li>Choice of significance-level <span class="math inline">\(\alpha\)</span>.</li>
+<li>Choice of significance-level <span
+class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <p>We will evaluate the power using simulation.</p>
 </div>
-<div id="rodents" class="section level1">
+<div id="rodents" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Rodents</h1>
-<p>A biologist examined the effect of a fungal infection on the eating behavior of rodents. Infected apples were offered to a group of eight rodents, and sterile apples were offered to a group of 4 rodents. The amount of grams of apples consumed per kg body weight are given in the dataset below.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>rodents &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight=</span><span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),<span class="dt">group=</span><span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>),<span class="kw">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span>
-<span id="cb5-2"><a href="#cb5-2"></a>rodents </span></code></pre></div>
+<p>A biologist examined the effect of a fungal infection on the eating
+behavior of rodents. Infected apples were offered to a group of eight
+rodents, and sterile apples were offered to a group of 4 rodents. The
+amount of grams of apples consumed per kg body weight are given in the
+dataset below.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rodents <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">weight=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),<span class="at">group=</span><span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>),<span class="fu">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>rodents </span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"11","2":"treat"},{"1":"33","2":"treat"},{"1":"48","2":"treat"},{"1":"34","2":"treat"},{"1":"112","2":"treat"},{"1":"369","2":"treat"},{"1":"64","2":"treat"},{"1":"44","2":"treat"},{"1":"177","2":"ctrl"},{"1":"80","2":"ctrl"},{"1":"141","2":"ctrl"},{"1":"332","2":"ctrl"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="data-exploratie" class="section level2">
+<div id="data-exploratie" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Data exploratie</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>rodents <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>group,<span class="dt">y=</span>weight)) <span class="op">+</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rodents <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>weight)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>()</span></code></pre></div>
 <p><img src="Exp_design_fast_1_sol_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rodents <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">sample =</span> weight)) <span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">geom_qq</span>() <span class="op">+</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">geom_qq_line</span>() <span class="op">+</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>group)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rodents <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> weight)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> group)</span></code></pre></div>
 <p><img src="Exp_design_fast_1_sol_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
-<p>In the data exploration we do not have enough data to evaluate the assumptions.</p>
-<p>Suppose that the assumptions are valid and that standard deviation in the population would be equal to the ones you observed in the experiment.</p>
+<p>In the data exploration we do not have enough data to evaluate the
+assumptions.</p>
+<p>Suppose that the assumptions are valid and that standard deviation in
+the population would be equal to the ones you observed in the
+experiment.</p>
 <ol style="list-style-type: decimal">
-<li>What is the power of the experiment if the effect size and standard deviation in the population would be equal to the ones you observed in the experiment</li>
-<li>What would the power by if number of rodents would balanced in both groups</li>
-<li>How many observations would you need to pick up the treatment effect with a power of 80%?</li>
-<li>How many observations would you need to pick up the treatment effect of 60 g/kg with a power of 80%?</li>
+<li>What is the power of the experiment if the effect size and standard
+deviation in the population would be equal to the ones you observed in
+the experiment</li>
+<li>What would the power by if number of rodents would balanced in both
+groups</li>
+<li>How many observations would you need to pick up the treatment effect
+with a power of 80%?</li>
+<li>How many observations would you need to pick up the treatment effect
+of 60 g/kg with a power of 80%?</li>
 </ol>
 </div>
 </div>
-<div id="analyse-of-the-data" class="section level1">
-<h1><span class="header-section-number">3</span> Analyse of the data</h1>
-<p>We will model the data using a linear model with one dummy variable.</p>
+<div id="analyse-of-the-data" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Analyse of the
+data</h1>
+<p>We will model the data using a linear model with one dummy
+variable.</p>
 <p><span class="math display">\[
-y_i = \beta_0 + \beta_1 x_{t,i} + 
+y_i = \beta_0 + \beta_1 x_{t,i} +
 \epsilon_i
-\]</span> with <span class="math inline">\(x_{p,i} = 0\)</span> if the rodent is subjected the control treatment with sterile apples and <span class="math inline">\(x_{t,i} = 1\)</span> if rodent receives the treatment with infected apples.</p>
+\]</span> with <span class="math inline">\(x_{p,i} = 0\)</span> if the
+rodent is subjected the control treatment with sterile apples and <span
+class="math inline">\(x_{t,i} = 1\)</span> if rodent receives the
+treatment with infected apples.</p>
 <ul>
 <li>Estimated effect size?</li>
 </ul>
-<p>The average difference amount of apples eaten in g/kg body weight between infected and sterile apples is:</p>
+<p>The average difference amount of apples eaten in g/kg body weight
+between infected and sterile apples is:</p>
 <p><span class="math display">\[
 \hat \beta_1 = \bar y_t - \bar y_c
 \]</span></p>
 <ul>
-<li><span class="math inline">\(H_0\)</span>: rodents eat consume on average the same amount of apples per kg body weight when they are fed with sterile or with infected apples.<br />
+<li><span class="math inline">\(H_0\)</span>: rodents eat consume on
+average the same amount of apples per kg body weight when they are fed
+with sterile or with infected apples.<br />
 </li>
-<li><span class="math inline">\(H_1\)</span>: the average amount of apples in g/kg body weight is different when rodents are fed with sterile then as when they are fed with infected apples.</li>
+<li><span class="math inline">\(H_1\)</span>: the average amount of
+apples in g/kg body weight is different when rodents are fed with
+sterile then as when they are fed with infected apples.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>lm1 &lt;-<span class="st"> </span><span class="kw">lm</span>(weight <span class="op">~</span><span class="st"> </span>group, rodents)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">summary</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> group, rodents)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = weight ~ group, data = rodents)
@@ -618,113 +648,131 @@ y_i = \beta_0 + \beta_1 x_{t,i} +
 ## Residual standard error: 114.1 on 10 degrees of freedom
 ## Multiple R-squared:  0.1509, Adjusted R-squared:  0.06601 
 ## F-statistic: 1.777 on 1 and 10 DF,  p-value: 0.212</code></pre>
-<p>With the current study and under when we assume that the assumptions of the model hold, we conclude that the amount of apples that rodents on average consume does not differ significantly between the group that was fed with sterile apples and the group that was fed with infected apples.</p>
+<p>With the current study and under when we assume that the assumptions
+of the model hold, we conclude that the amount of apples that rodents on
+average consume does not differ significantly between the group that was
+fed with sterile apples and the group that was fed with infected
+apples.</p>
 </div>
-<div id="power-of-the-test-to-detect-the-same-effect-size-as-observed-in-our-dataset-with-our-experimental-design" class="section level1">
-<h1><span class="header-section-number">4</span> Power of the test to detect the same effect size as observed in our dataset with our experimental design?</h1>
-<div id="simulation-function" class="section level2">
-<h2><span class="header-section-number">4.1</span> Simulation function</h2>
-<p>Function to simulate data similar to that of our experiment under our model assumptions.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>simFast &lt;-<span class="st"> </span><span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="dt">alpha =</span> <span class="fl">.05</span>, <span class="dt">nSim =</span> <span class="dv">10000</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>{</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(data)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(data),nSim)</span>
-<span id="cb10-5"><a href="#cb10-5"></a>    design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span>betas)</span>
-<span id="cb10-7"><a href="#cb10-7"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
-<span id="cb10-8"><a href="#cb10-8"></a>  </span>
-<span id="cb10-9"><a href="#cb10-9"></a>    <span class="co">### Fitting</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
-<span id="cb10-11"><a href="#cb10-11"></a>  </span>
-<span id="cb10-12"><a href="#cb10-12"></a>    <span class="co">### Inference</span></span>
-<span id="cb10-13"><a href="#cb10-13"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(contrasts)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>contrasts)</span>
-<span id="cb10-14"><a href="#cb10-14"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>contrasts</span>
-<span id="cb10-15"><a href="#cb10-15"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
-<span id="cb10-16"><a href="#cb10-16"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
-<span id="cb10-17"><a href="#cb10-17"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb10-18"><a href="#cb10-18"></a>    <span class="kw">return</span>(<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
-<span id="cb10-19"><a href="#cb10-19"></a>}</span></code></pre></div>
+<div
+id="power-of-the-test-to-detect-the-same-effect-size-as-observed-in-our-dataset-with-our-experimental-design"
+class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Power of the test to
+detect the same effect size as observed in our dataset with our
+experimental design?</h1>
+<div id="simulation-function" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Simulation
+function</h2>
+<p>Function to simulate data similar to that of our experiment under our
+model assumptions.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>simFast <span class="ot">&lt;-</span> <span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">nSim =</span> <span class="dv">10000</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data)<span class="sc">*</span>nSim,<span class="at">sd=</span>sd)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dim</span>(ySim) <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">nrow</span>(data),nSim)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(form, data)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> ySim <span class="sc">+</span> <span class="fu">c</span>(design <span class="sc">%*%</span>betas)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">t</span>(ySim)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Fitting</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    fitAll <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">lmFit</span>(ySim,design)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Inference</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    varUnscaled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">t</span>(contrasts)<span class="sc">%*%</span>fitAll<span class="sc">$</span>cov.coefficients<span class="sc">%*%</span>contrasts)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    contrasts <span class="ot">&lt;-</span> fitAll<span class="sc">$</span>coefficients <span class="sc">%*%</span>contrasts</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    seContrasts <span class="ot">&lt;-</span> varUnscaled<span class="sc">^</span>.<span class="dv">5</span><span class="sc">*</span>fitAll<span class="sc">$</span>sigma</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    tstats <span class="ot">&lt;-</span> contrasts<span class="sc">/</span>seContrasts</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(tstats),fitAll<span class="sc">$</span>df.residual,<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">mean</span>(pvals <span class="sc">&lt;</span> alpha))</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="simulation" class="section level2">
+<div id="simulation" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Simulation</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>betas &lt;-<span class="st"> </span>lm1<span class="op">$</span>coefficients</span>
-<span id="cb11-2"><a href="#cb11-2"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>group </span>
-<span id="cb11-4"><a href="#cb11-4"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(lm1)</span>
-<span id="cb11-5"><a href="#cb11-5"></a>contrast &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="dt">levels =</span> <span class="kw">names</span>(lm1<span class="op">$</span>coefficients))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> group </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(lm1)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="at">levels =</span> <span class="fu">names</span>(lm1<span class="sc">$</span>coefficients))</span></code></pre></div>
 <pre><code>## Warning in limma::makeContrasts(&quot;grouptreat&quot;, levels = names(lm1$coefficients)):
 ## Renaming (Intercept) to Intercept</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>contrast</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>contrast</span></code></pre></div>
 <pre><code>##             Contrasts
 ## Levels       grouptreat
 ##   Intercept           0
 ##   grouptreat          1</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#contrast &lt;- matrix(c(0,1),ncol=1)</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#rownames(contrast) &lt;- names(mod1$coefficients)</span></span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb15-5"><a href="#cb15-5"></a>power &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, rodents, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb15-6"><a href="#cb15-6"></a>power</span></code></pre></div>
-<pre><code>## [1] 0.2221</code></pre>
-<p>We observe that the experiment is severly underpowered. We only have a power of 22.2% to pick up the treatment effect.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#contrast &lt;- matrix(c(0,1),ncol=1)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#rownames(contrast) &lt;- names(mod1$coefficients)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, rodents, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
+<pre><code>## [1] 0.2258</code></pre>
+<p>We observe that the experiment is severly underpowered. We only have
+a power of 22.6% to pick up the treatment effect.</p>
 </div>
 </div>
-<div id="power-for-a-balanced-design" class="section level1">
-<h1><span class="header-section-number">5</span> Power for a balanced design</h1>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>betas &lt;-<span class="st"> </span>lm1<span class="op">$</span>coefficients</span>
-<span id="cb17-2"><a href="#cb17-2"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>group </span>
-<span id="cb17-4"><a href="#cb17-4"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(lm1)</span>
-<span id="cb17-5"><a href="#cb17-5"></a>contrast &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="dt">levels =</span> <span class="kw">names</span>(lm1<span class="op">$</span>coefficients))</span></code></pre></div>
+<div id="power-for-a-balanced-design" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Power for a balanced
+design</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> group </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(lm1)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="at">levels =</span> <span class="fu">names</span>(lm1<span class="sc">$</span>coefficients))</span></code></pre></div>
 <pre><code>## Warning in limma::makeContrasts(&quot;grouptreat&quot;, levels = names(lm1$coefficients)):
 ## Renaming (Intercept) to Intercept</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span><span class="kw">nrow</span>(rodents)<span class="op">/</span><span class="dv">2</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">group =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="kw">c</span>(n1,n2)) <span class="op">%&gt;%</span><span class="st"> </span>as.factor)</span>
-<span id="cb19-3"><a href="#cb19-3"></a>powerBalanced &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, predictorData, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb19-4"><a href="#cb19-4"></a>powerBalanced</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> n2 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(rodents)<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>predictorData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="fu">c</span>(n1,n2)) <span class="sc">%&gt;%</span> as.factor)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>powerBalanced <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, predictorData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>powerBalanced</span></code></pre></div>
 <pre><code>## [1] 0.2482</code></pre>
-<p>We observe that the power is larger for the balanced design. We could also have known this from formula of the standard error from the two-sample t-test.</p>
+<p>We observe that the power is larger for the balanced design. We could
+also have known this from formula of the standard error from the
+two-sample t-test.</p>
 <p><span class="math display">\[
 SE = \hat \sigma \sqrt{1/n1 + 1/n2}
 \]</span> Indeed,</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span><span class="kw">sum</span>(rodents<span class="op">$</span>group<span class="op">==</span><span class="st">&quot;treat&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="kw">sum</span>(rodents<span class="op">$</span>group<span class="op">==</span><span class="st">&quot;ctrl&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">sum</span>(rodents<span class="sc">$</span>group<span class="sc">==</span><span class="st">&quot;treat&quot;</span>) <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sum</span>(rodents<span class="sc">$</span>group<span class="sc">==</span><span class="st">&quot;ctrl&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] 0.6123724</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n1)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">1</span><span class="sc">/</span>n1 <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>n1)</span></code></pre></div>
 <pre><code>## [1] 0.5773503</code></pre>
 <p>So the SE is larger when the design is not balanced.</p>
 </div>
-<div id="required-sample-size-to-obtain-a-power-of-90" class="section level1">
-<h1><span class="header-section-number">6</span> Required sample size to obtain a power of 90 %?</h1>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">set.seed</span>(<span class="dv">1400</span>)</span>
-<span id="cb25-2"><a href="#cb25-2"></a>betas &lt;-<span class="st"> </span>lm1<span class="op">$</span>coefficients</span>
-<span id="cb25-3"><a href="#cb25-3"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>group </span>
-<span id="cb25-5"><a href="#cb25-5"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(lm1)</span>
-<span id="cb25-6"><a href="#cb25-6"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb25-7"><a href="#cb25-7"></a>contrast &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="dt">levels =</span> <span class="kw">names</span>(lm1<span class="op">$</span>coefficients))</span></code></pre></div>
+<div id="required-sample-size-to-obtain-a-power-of-90"
+class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Required sample size to
+obtain a power of 90 %?</h1>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1400</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> lm1<span class="sc">$</span>coefficients</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> group </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(lm1)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="at">levels =</span> <span class="fu">names</span>(lm1<span class="sc">$</span>coefficients))</span></code></pre></div>
 <pre><code>## Warning in limma::makeContrasts(&quot;grouptreat&quot;, levels = names(lm1$coefficients)):
 ## Renaming (Intercept) to Intercept</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>power &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n=</span><span class="kw">seq</span>(<span class="dv">5</span>,<span class="dv">50</span>,<span class="dv">5</span>),<span class="dt">power=</span><span class="ot">NA</span>)</span>
-<span id="cb27-2"><a href="#cb27-2"></a></span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(power))</span>
-<span id="cb27-4"><a href="#cb27-4"></a>{</span>
-<span id="cb27-5"><a href="#cb27-5"></a>  n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span>power<span class="op">$</span>n[i]</span>
-<span id="cb27-6"><a href="#cb27-6"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">group =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="kw">c</span>(n1,n2)) <span class="op">%&gt;%</span><span class="st"> </span>as.factor)</span>
-<span id="cb27-7"><a href="#cb27-7"></a>  power<span class="op">$</span>power[i] &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, predictorData, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb27-8"><a href="#cb27-8"></a>}</span>
-<span id="cb27-9"><a href="#cb27-9"></a>power</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">50</span>,<span class="dv">5</span>),<span class="at">power=</span><span class="cn">NA</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(power))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  n1 <span class="ot">&lt;-</span> n2 <span class="ot">&lt;-</span> power<span class="sc">$</span>n[i]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  predictorData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="fu">c</span>(n1,n2)) <span class="sc">%&gt;%</span> as.factor)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  power<span class="sc">$</span>power[i] <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, predictorData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["n"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["power"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"5","2":"0.2106"},{"1":"10","2":"0.4063"},{"1":"15","2":"0.5753"},{"1":"20","2":"0.7087"},{"1":"25","2":"0.8077"},{"1":"30","2":"0.8792"},{"1":"35","2":"0.9196"},{"1":"40","2":"0.9515"},{"1":"45","2":"0.9688"},{"1":"50","2":"0.9816"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>power <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>n,<span class="dt">y=</span>power)) <span class="op">+</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>power <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n,<span class="at">y=</span>power)) <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="Exp_design_fast_1_sol_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Through simulations we show that we need about 32-33 observations to obtain a power of about 90%.</p>
-<p>This is similar to what we would obtain with the close form formula that can be applied for a two group design</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">power.t.test</span>(<span class="dt">delta =</span> lm1<span class="op">$</span>coef[<span class="dv">2</span>], <span class="dt">sd =</span> <span class="kw">sigma</span>(lm1),<span class="dt">power=</span>.<span class="dv">9</span>)</span></code></pre></div>
+<p>Through simulations we show that we need about 32-33 observations to
+obtain a power of about 90%.</p>
+<p>This is similar to what we would obtain with the close form formula
+that can be applied for a two group design</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">delta =</span> lm1<span class="sc">$</span>coef[<span class="dv">2</span>], <span class="at">sd =</span> <span class="fu">sigma</span>(lm1),<span class="at">power=</span>.<span class="dv">9</span>)</span></code></pre></div>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
@@ -737,45 +785,52 @@ SE = \hat \sigma \sqrt{1/n1 + 1/n2}
 ## 
 ## NOTE: n is number in *each* group</code></pre>
 </div>
-<div id="impact-of-effect-size" class="section level1">
-<h1><span class="header-section-number">7</span> Impact of effect size</h1>
-<p>Suppose that we would like to pick up an effect size of <span class="math inline">\(\beta_1 = 60 g/kg\)</span>. how many samples would be required in each group to obtain a power of 90%? Note, that</p>
+<div id="impact-of-effect-size" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Impact of effect
+size</h1>
+<p>Suppose that we would like to pick up an effect size of <span
+class="math inline">\(\beta_1 = 60 g/kg\)</span>. how many samples would
+be required in each group to obtain a power of 90%? Note, that</p>
 <ul>
-<li>we do a two-sided test so the sign of the effect size is arbitrary.</li>
-<li>the intercept in the power analysis is also arbitrary so we could also set it at 0.</li>
+<li>we do a two-sided test so the sign of the effect size is
+arbitrary.</li>
+<li>the intercept in the power analysis is also arbitrary so we could
+also set it at 0.</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">set.seed</span>(<span class="dv">1400</span>)</span>
-<span id="cb31-2"><a href="#cb31-2"></a>betas &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">60</span>)</span>
-<span id="cb31-3"><a href="#cb31-3"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>group </span>
-<span id="cb31-5"><a href="#cb31-5"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(lm1)</span>
-<span id="cb31-6"><a href="#cb31-6"></a>power2 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n=</span><span class="kw">seq</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="dt">power=</span><span class="ot">NA</span>)</span>
-<span id="cb31-7"><a href="#cb31-7"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb31-8"><a href="#cb31-8"></a>contrast &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="dt">levels =</span> <span class="kw">names</span>(lm1<span class="op">$</span>coefficients))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1400</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">60</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> group </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(lm1)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>power2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="at">power=</span><span class="cn">NA</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">makeContrasts</span>(<span class="st">&quot;grouptreat&quot;</span>,<span class="at">levels =</span> <span class="fu">names</span>(lm1<span class="sc">$</span>coefficients))</span></code></pre></div>
 <pre><code>## Warning in limma::makeContrasts(&quot;grouptreat&quot;, levels = names(lm1$coefficients)):
 ## Renaming (Intercept) to Intercept</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(power2))</span>
-<span id="cb33-2"><a href="#cb33-2"></a>{</span>
-<span id="cb33-3"><a href="#cb33-3"></a>  n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span>power2<span class="op">$</span>n[i]</span>
-<span id="cb33-4"><a href="#cb33-4"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">group =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="kw">c</span>(n1,n2)) <span class="op">%&gt;%</span><span class="st"> </span>as.factor)</span>
-<span id="cb33-5"><a href="#cb33-5"></a>  power2<span class="op">$</span>power[i] &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, predictorData, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb33-6"><a href="#cb33-6"></a>}</span>
-<span id="cb33-7"><a href="#cb33-7"></a>power2</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(power2))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  n1 <span class="ot">&lt;-</span> n2 <span class="ot">&lt;-</span> power2<span class="sc">$</span>n[i]</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  predictorData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">group =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="st">&quot;treat&quot;</span>),<span class="fu">c</span>(n1,n2)) <span class="sc">%&gt;%</span> as.factor)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  power2<span class="sc">$</span>power[i] <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, predictorData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>power2</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["n"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["power"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"5","2":"0.1071"},{"1":"10","2":"0.2017"},{"1":"15","2":"0.2841"},{"1":"20","2":"0.3660"},{"1":"25","2":"0.4431"},{"1":"30","2":"0.5105"},{"1":"35","2":"0.5829"},{"1":"40","2":"0.6473"},{"1":"45","2":"0.6844"},{"1":"50","2":"0.7405"},{"1":"55","2":"0.7818"},{"1":"60","2":"0.8146"},{"1":"65","2":"0.8481"},{"1":"70","2":"0.8701"},{"1":"75","2":"0.8959"},{"1":"80","2":"0.9141"},{"1":"85","2":"0.9310"},{"1":"90","2":"0.9414"},{"1":"95","2":"0.9492"},{"1":"100","2":"0.9599"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>power2 <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>n,<span class="dt">y=</span>power)) <span class="op">+</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.9</span>, <span class="dt">lty=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>power2 <span class="sc">%&gt;%</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>n,<span class="at">y=</span>power)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> .<span class="dv">9</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Exp_design_fast_1_sol_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>We observe that we need between 75-80 observations to obtain a power of 90%.</p>
-<p>This is confirmed with the power functions for the two sample t-test.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>b1 =<span class="st"> </span><span class="op">-</span><span class="st"> </span><span class="dv">60</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a>power =<span class="st"> </span><span class="fl">.9</span></span>
-<span id="cb35-3"><a href="#cb35-3"></a><span class="kw">power.t.test</span>(<span class="dt">d =</span> b1, <span class="dt">sd =</span> <span class="kw">sigma</span>(lm1), <span class="dt">type=</span><span class="st">&#39;two.sample&#39;</span>,<span class="dt">power =</span> power)</span></code></pre></div>
+<p>We observe that we need between 75-80 observations to obtain a power
+of 90%.</p>
+<p>This is confirmed with the power functions for the two sample
+t-test.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="sc">-</span> <span class="dv">60</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>power <span class="ot">=</span> .<span class="dv">9</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">power.t.test</span>(<span class="at">d =</span> b1, <span class="at">sd =</span> <span class="fu">sigma</span>(lm1), <span class="at">type=</span><span class="st">&#39;two.sample&#39;</span>,<span class="at">power =</span> power)</span></code></pre></div>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
@@ -787,7 +842,9 @@ SE = \hat \sigma \sqrt{1/n1 + 1/n2}
 ##     alternative = two.sided
 ## 
 ## NOTE: n is number in *each* group</code></pre>
-<p>Note, that we would require a much larger sample size. This is because the desired effect size that we would like to pick up is small compared to the variability (standard deviation) in the population.</p>
+<p>Note, that we would require a much larger sample size. This is
+because the desired effect size that we would like to pick up is small
+compared to the variability (standard deviation) in the population.</p>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhwZXJpbWVudGFsIERlc2lnbiBJSTogcmVwbGljYXRpb24gYW5kIHBvd2VyIGV4ZXJjaXNlIDEiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50ICYgQWxleGFuZHJlIFNlZ2VycyIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICAgIHRoZW1lOiBjb3NtbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKCiAgICAKLS0tCgoKPGEgcmVsPSJsaWNlbnNlIiBocmVmPSJodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnktbmMtc2EvNC4wIj48aW1nIGFsdD0iQ3JlYXRpdmUgQ29tbW9ucyBMaWNlbnNlIiBzdHlsZT0iYm9yZGVyLXdpZHRoOjAiIHNyYz0iaHR0cHM6Ly9pLmNyZWF0aXZlY29tbW9ucy5vcmcvbC9ieS1uYy1zYS80LjAvODh4MzEucG5nIiAvPjwvYT4KCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgojIFBvd2VyCgpUaGUgcG93ZXIgb2YgYSB0ZXN0IGlzIGRlZmluZWQgYXM6CgokJFAocCA8IApcYWxwaGEgfCBIXzEpJCQKVGhpcyBpcyB0aGUgcHJvYmFiaWxpdHkgdG8gcmVqZWN0IHRoZSBudWxoeXBvdGhlc2lzIGF0IHRoZSBzaWduaWZpY2FuY2UgbGV2ZWwgJFxhbHBoYSQgZ2l2ZW4gdGhhdCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpcyBpcyB0cnVlLiAKClRoZSBwb3dlciBkZXBlbmRzIG9uOgoKLSB0aGUgcmVhbCBlZmZlY3Qgc2l6ZSBpbiB0aGUgcG9wdWxhdGlvbiAkXG1hdGhiZntMfV5UXGJvbGRzeW1ib2x7XGJldGF9JC4KLSB0aGUgbnVtYmVyIG9mIG9ic2VydmF0aW9uczogU0UgYW5kIGRmLgotIENob2ljZSBvZiBkZXNpZ25wb2ludHMgCi0gQ2hvaWNlIG9mIHNpZ25pZmljYW5jZS1sZXZlbCAkXGFscGhhJC4gCgpXZSB3aWxsIGV2YWx1YXRlIHRoZSBwb3dlciB1c2luZyBzaW11bGF0aW9uLgoKIyBSb2RlbnRzCgpBIGJpb2xvZ2lzdCBleGFtaW5lZCB0aGUgZWZmZWN0IG9mIGEgZnVuZ2FsIGluZmVjdGlvbiBvbiB0aGUgZWF0aW5nIGJlaGF2aW9yIG9mIHJvZGVudHMuIApJbmZlY3RlZCBhcHBsZXMgd2VyZSBvZmZlcmVkIHRvIGEgZ3JvdXAgb2YgZWlnaHQgcm9kZW50cywgYW5kIHN0ZXJpbGUgYXBwbGVzIHdlcmUgb2ZmZXJlZCB0byBhIGdyb3VwIG9mIDQgcm9kZW50cy4gVGhlIGFtb3VudCBvZiBncmFtcyBvZiBhcHBsZXMgY29uc3VtZWQgcGVyIGtnIGJvZHkgd2VpZ2h0IGFyZSBnaXZlbiBpbiB0aGUgZGF0YXNldCBiZWxvdy4gCgpgYGB7cn0Kcm9kZW50cyA8LSBkYXRhLmZyYW1lKHdlaWdodD1jKDExLDMzLDQ4LDM0LDExMiwzNjksNjQsNDQsMTc3LDgwLDE0MSwzMzIpLGdyb3VwPWFzLmZhY3RvcihjKHJlcCgidHJlYXQiLDgpLHJlcCgiY3RybCIsNCkpKSkKcm9kZW50cyAKYGBgCgoKIyMgRGF0YSBleHBsb3JhdGllCgoKYGBge3J9CnJvZGVudHMgJT4lIAogIGdncGxvdChhZXMoeD1ncm91cCx5PXdlaWdodCkpICsKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZSA9IE5BKSArCiAgZ2VvbV9qaXR0ZXIoKQpyb2RlbnRzICU+JSAKICBnZ3Bsb3QoYWVzKHNhbXBsZSA9IHdlaWdodCkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpICsKICBmYWNldF93cmFwKH4gZ3JvdXApCmBgYAoKSW4gdGhlIGRhdGEgZXhwbG9yYXRpb24gd2UgZG8gbm90IGhhdmUgZW5vdWdoIGRhdGEgdG8gZXZhbHVhdGUgdGhlIGFzc3VtcHRpb25zLgoKU3VwcG9zZSB0aGF0IHRoZSBhc3N1bXB0aW9ucyBhcmUgdmFsaWQgYW5kIHRoYXQgc3RhbmRhcmQgZGV2aWF0aW9uIGluIHRoZSBwb3B1bGF0aW9uIHdvdWxkIGJlIGVxdWFsIHRvIHRoZSBvbmVzIHlvdSBvYnNlcnZlZCBpbiB0aGUgZXhwZXJpbWVudC4KCjEuIFdoYXQgaXMgdGhlIHBvd2VyIG9mIHRoZSBleHBlcmltZW50IGlmIHRoZSBlZmZlY3Qgc2l6ZSBhbmQgc3RhbmRhcmQgZGV2aWF0aW9uIGluIHRoZSBwb3B1bGF0aW9uIHdvdWxkIGJlIGVxdWFsIHRvIHRoZSBvbmVzIHlvdSBvYnNlcnZlZCBpbiB0aGUgZXhwZXJpbWVudAoyLiBXaGF0IHdvdWxkIHRoZSBwb3dlciBieSBpZiBudW1iZXIgb2Ygcm9kZW50cyB3b3VsZCAgYmFsYW5jZWQgaW4gYm90aCBncm91cHMKMy4gSG93IG1hbnkgb2JzZXJ2YXRpb25zIHdvdWxkIHlvdSBuZWVkIHRvIHBpY2sgdXAgdGhlIHRyZWF0bWVudCBlZmZlY3Qgd2l0aCBhIHBvd2VyIG9mIDgwJT8KNC4gSG93IG1hbnkgb2JzZXJ2YXRpb25zIHdvdWxkIHlvdSBuZWVkIHRvIHBpY2sgdXAgdGhlIHRyZWF0bWVudCBlZmZlY3Qgb2YgNjAgZy9rZyB3aXRoIGEgcG93ZXIgb2YgODAlPwoKIyBBbmFseXNlIG9mIHRoZSBkYXRhIAoKV2Ugd2lsbCBtb2RlbCB0aGUgZGF0YSB1c2luZyBhIGxpbmVhciBtb2RlbCB3aXRoIG9uZSBkdW1teSB2YXJpYWJsZS4gCgokJAp5X2kgPSBcYmV0YV8wICsgXGJldGFfMSB4X3t0LGl9ICsgClxlcHNpbG9uX2kKJCQKd2l0aCAkeF97cCxpfSA9IDAkIGlmIHRoZSByb2RlbnQgaXMgc3ViamVjdGVkIHRoZSBjb250cm9sIHRyZWF0bWVudCB3aXRoIHN0ZXJpbGUgYXBwbGVzIGFuZCAkeF97dCxpfSA9IDEkIGlmIHJvZGVudCByZWNlaXZlcyB0aGUgdHJlYXRtZW50IHdpdGggaW5mZWN0ZWQgYXBwbGVzLiAKCi0gRXN0aW1hdGVkIGVmZmVjdCBzaXplPwoKVGhlIGF2ZXJhZ2UgZGlmZmVyZW5jZSBhbW91bnQgb2YgYXBwbGVzIGVhdGVuIGluIGcva2cgYm9keSB3ZWlnaHQgYmV0d2VlbiBpbmZlY3RlZCBhbmQgc3RlcmlsZSBhcHBsZXMgaXM6IAoKJCQKXGhhdCBcYmV0YV8xID0gXGJhciB5X3QgLSBcYmFyIHlfYwokJAoKLSAkSF8wJDogcm9kZW50cyBlYXQgY29uc3VtZSBvbiBhdmVyYWdlIHRoZSBzYW1lIGFtb3VudCBvZiBhcHBsZXMgcGVyIGtnIGJvZHkgd2VpZ2h0IHdoZW4gdGhleSBhcmUgZmVkIHdpdGggc3RlcmlsZSBvciB3aXRoIGluZmVjdGVkIGFwcGxlcy4gIAotICRIXzEkOiB0aGUgYXZlcmFnZSBhbW91bnQgb2YgYXBwbGVzIGluIGcva2cgYm9keSB3ZWlnaHQgaXMgZGlmZmVyZW50IHdoZW4gcm9kZW50cyBhcmUgZmVkIHdpdGggc3RlcmlsZSB0aGVuIGFzIHdoZW4gdGhleSBhcmUgZmVkIHdpdGggaW5mZWN0ZWQgYXBwbGVzLgoKYGBge3J9CmxtMSA8LSBsbSh3ZWlnaHQgfiBncm91cCwgcm9kZW50cykKc3VtbWFyeShsbTEpCmBgYAoKV2l0aCB0aGUgY3VycmVudCBzdHVkeSBhbmQgdW5kZXIgd2hlbiB3ZSBhc3N1bWUgdGhhdCB0aGUgYXNzdW1wdGlvbnMgb2YgdGhlIG1vZGVsIGhvbGQsIHdlIGNvbmNsdWRlIHRoYXQgdGhlIGFtb3VudCBvZiBhcHBsZXMgdGhhdCByb2RlbnRzIG9uIGF2ZXJhZ2UgY29uc3VtZSBkb2VzIG5vdCBkaWZmZXIgc2lnbmlmaWNhbnRseSBiZXR3ZWVuIHRoZSBncm91cCB0aGF0IHdhcyBmZWQgd2l0aCBzdGVyaWxlIGFwcGxlcyBhbmQgdGhlIGdyb3VwIHRoYXQgd2FzIGZlZCB3aXRoIGluZmVjdGVkIGFwcGxlcy4gCgojIFBvd2VyIG9mIHRoZSB0ZXN0IHRvIGRldGVjdCB0aGUgc2FtZSBlZmZlY3Qgc2l6ZSBhcyBvYnNlcnZlZCBpbiBvdXIgZGF0YXNldCB3aXRoIG91ciBleHBlcmltZW50YWwgZGVzaWduPyAKCiMjIFNpbXVsYXRpb24gZnVuY3Rpb24KCkZ1bmN0aW9uIHRvIHNpbXVsYXRlIGRhdGEgc2ltaWxhciB0byB0aGF0IG9mIG91ciBleHBlcmltZW50IHVuZGVyIG91ciBtb2RlbCBhc3N1bXB0aW9ucy4gCgpgYGB7cn0Kc2ltRmFzdCA8LSBmdW5jdGlvbihmb3JtLCBkYXRhLCBiZXRhcywgc2QsIGNvbnRyYXN0cywgYWxwaGEgPSAuMDUsIG5TaW0gPSAxMDAwMCkKewogICAgeVNpbSA8LSBybm9ybShucm93KGRhdGEpKm5TaW0sc2Q9c2QpCiAgICBkaW0oeVNpbSkgPC1jKG5yb3coZGF0YSksblNpbSkKICAgIGRlc2lnbiA8LSBtb2RlbC5tYXRyaXgoZm9ybSwgZGF0YSkKICAgIHlTaW0gPC0geVNpbSArIGMoZGVzaWduICUqJWJldGFzKQogICAgeVNpbSA8LSB0KHlTaW0pCiAgCiAgICAjIyMgRml0dGluZwogICAgZml0QWxsIDwtIGxpbW1hOjpsbUZpdCh5U2ltLGRlc2lnbikKICAKICAgICMjIyBJbmZlcmVuY2UKICAgIHZhclVuc2NhbGVkIDwtIGModChjb250cmFzdHMpJSolZml0QWxsJGNvdi5jb2VmZmljaWVudHMlKiVjb250cmFzdHMpCiAgICBjb250cmFzdHMgPC0gZml0QWxsJGNvZWZmaWNpZW50cyAlKiVjb250cmFzdHMKICAgIHNlQ29udHJhc3RzIDwtIHZhclVuc2NhbGVkXi41KmZpdEFsbCRzaWdtYQogICAgdHN0YXRzIDwtIGNvbnRyYXN0cy9zZUNvbnRyYXN0cwogICAgcHZhbHMgPC0gcHQoYWJzKHRzdGF0cyksZml0QWxsJGRmLnJlc2lkdWFsLGxvd2VyLnRhaWwgPSBGQUxTRSkqMgogICAgcmV0dXJuKG1lYW4ocHZhbHMgPCBhbHBoYSkpCn0KYGBgCgojIyBTaW11bGF0aW9uCgpgYGB7cn0KYmV0YXMgPC0gbG0xJGNvZWZmaWNpZW50cwpuU2ltIDwtIDEwMDAwCmZvcm0gPC0gfiBncm91cCAKc2QgPC0gc2lnbWEobG0xKQpjb250cmFzdCA8LSBsaW1tYTo6bWFrZUNvbnRyYXN0cygiZ3JvdXB0cmVhdCIsbGV2ZWxzID0gbmFtZXMobG0xJGNvZWZmaWNpZW50cykpCmNvbnRyYXN0CiNjb250cmFzdCA8LSBtYXRyaXgoYygwLDEpLG5jb2w9MSkKI3Jvd25hbWVzKGNvbnRyYXN0KSA8LSBuYW1lcyhtb2QxJGNvZWZmaWNpZW50cykKCmFscGhhIDwtIDAuMDUgCnBvd2VyIDwtIHNpbUZhc3QoZm9ybSwgcm9kZW50cywgYmV0YXMsIHNkLCBjb250cmFzdHMgPSBjb250cmFzdCwgYWxwaGEgPSBhbHBoYSwgblNpbSA9IG5TaW0pCnBvd2VyCmBgYAoKV2Ugb2JzZXJ2ZSB0aGF0IHRoZSBleHBlcmltZW50IGlzIHNldmVybHkgdW5kZXJwb3dlcmVkLiBXZSBvbmx5IGhhdmUgYSBwb3dlciBvZiBgciByb3VuZChwb3dlcioxMDAsMSlgJSB0byBwaWNrIHVwIHRoZSB0cmVhdG1lbnQgZWZmZWN0LiAKCiMgUG93ZXIgZm9yIGEgYmFsYW5jZWQgZGVzaWduIAoKYGBge3J9CmJldGFzIDwtIGxtMSRjb2VmZmljaWVudHMKblNpbSA8LSAxMDAwMApmb3JtIDwtIH4gZ3JvdXAgCnNkIDwtIHNpZ21hKGxtMSkKY29udHJhc3QgPC0gbGltbWE6Om1ha2VDb250cmFzdHMoImdyb3VwdHJlYXQiLGxldmVscyA9IG5hbWVzKGxtMSRjb2VmZmljaWVudHMpKQpuMSA8LSBuMiA8LSBucm93KHJvZGVudHMpLzIKcHJlZGljdG9yRGF0YSA8LSBkYXRhLmZyYW1lKGdyb3VwID0gcmVwKGMoImN0cmwiLCJ0cmVhdCIpLGMobjEsbjIpKSAlPiUgYXMuZmFjdG9yKQpwb3dlckJhbGFuY2VkIDwtIHNpbUZhc3QoZm9ybSwgcHJlZGljdG9yRGF0YSwgYmV0YXMsIHNkLCBjb250cmFzdHMgPSBjb250cmFzdCwgYWxwaGEgPSBhbHBoYSwgblNpbSA9IG5TaW0pCnBvd2VyQmFsYW5jZWQKYGBgCgpXZSBvYnNlcnZlIHRoYXQgdGhlIHBvd2VyIGlzIGxhcmdlciBmb3IgdGhlIGJhbGFuY2VkIGRlc2lnbi4gCldlIGNvdWxkIGFsc28gaGF2ZSBrbm93biB0aGlzIGZyb20gZm9ybXVsYSBvZiB0aGUgc3RhbmRhcmQgZXJyb3IgZnJvbSB0aGUgdHdvLXNhbXBsZSB0LXRlc3QuIAoKJCQKU0UgPSBcaGF0IFxzaWdtYSBcc3FydHsxL24xICsgMS9uMn0KJCQKSW5kZWVkLCAKCmBgYHtyfQpzcXJ0KDEvc3VtKHJvZGVudHMkZ3JvdXA9PSJ0cmVhdCIpICsgMS9zdW0ocm9kZW50cyRncm91cD09ImN0cmwiKSkKc3FydCgxL24xICsgMS9uMSkKYGBgCgpTbyB0aGUgU0UgaXMgbGFyZ2VyIHdoZW4gdGhlIGRlc2lnbiBpcyBub3QgYmFsYW5jZWQuIAoKCiMgUmVxdWlyZWQgc2FtcGxlIHNpemUgdG8gb2J0YWluIGEgcG93ZXIgb2YgOTAgJT8gCgpgYGB7cn0Kc2V0LnNlZWQoMTQwMCkKYmV0YXMgPC0gbG0xJGNvZWZmaWNpZW50cwpuU2ltIDwtIDEwMDAwCmZvcm0gPC0gfiBncm91cCAKc2QgPC0gc2lnbWEobG0xKQphbHBoYSA8LSAwLjA1IApjb250cmFzdCA8LSBsaW1tYTo6bWFrZUNvbnRyYXN0cygiZ3JvdXB0cmVhdCIsbGV2ZWxzID0gbmFtZXMobG0xJGNvZWZmaWNpZW50cykpCgpwb3dlciA8LSBkYXRhLmZyYW1lKG49c2VxKDUsNTAsNSkscG93ZXI9TkEpCgpmb3IgKGkgaW4gMTpucm93KHBvd2VyKSkKewogIG4xIDwtIG4yIDwtIHBvd2VyJG5baV0KICBwcmVkaWN0b3JEYXRhIDwtIGRhdGEuZnJhbWUoZ3JvdXAgPSByZXAoYygiY3RybCIsInRyZWF0IiksYyhuMSxuMikpICU+JSBhcy5mYWN0b3IpCiAgcG93ZXIkcG93ZXJbaV0gPC0gc2ltRmFzdChmb3JtLCBwcmVkaWN0b3JEYXRhLCBiZXRhcywgc2QsIGNvbnRyYXN0cyA9IGNvbnRyYXN0LCBhbHBoYSA9IGFscGhhLCBuU2ltID0gblNpbSkKfQpwb3dlcgpgYGAKCmBgYHtyfQpwb3dlciAlPiUgCiAgZ2dwbG90KGFlcyh4PW4seT1wb3dlcikpICsKICBnZW9tX2xpbmUoKQpgYGAKClRocm91Z2ggc2ltdWxhdGlvbnMgd2Ugc2hvdyB0aGF0IHdlIG5lZWQgYWJvdXQgMzItMzMgb2JzZXJ2YXRpb25zIHRvIG9idGFpbiBhIHBvd2VyIG9mIGFib3V0IDkwJS4KCgpUaGlzIGlzIHNpbWlsYXIgdG8gd2hhdCB3ZSB3b3VsZCBvYnRhaW4gd2l0aCB0aGUgY2xvc2UgZm9ybSBmb3JtdWxhIHRoYXQgY2FuIGJlIGFwcGxpZWQgZm9yIGEgdHdvIGdyb3VwIGRlc2lnbgoKYGBge3J9CnBvd2VyLnQudGVzdChkZWx0YSA9IGxtMSRjb2VmWzJdLCBzZCA9IHNpZ21hKGxtMSkscG93ZXI9LjkpCmBgYAoKCiMgSW1wYWN0IG9mIGVmZmVjdCBzaXplCgpTdXBwb3NlIHRoYXQgd2Ugd291bGQgbGlrZSB0byBwaWNrIHVwIGFuIGVmZmVjdCBzaXplIG9mICRcYmV0YV8xID0gNjAgZy9rZyQuIApob3cgbWFueSBzYW1wbGVzIHdvdWxkIGJlIHJlcXVpcmVkIGluIGVhY2ggZ3JvdXAgdG8gb2J0YWluIGEgcG93ZXIgb2YgOTAlPwpOb3RlLCB0aGF0IAoKLSB3ZSBkbyBhIHR3by1zaWRlZCB0ZXN0IHNvIHRoZSBzaWduIG9mIHRoZSBlZmZlY3Qgc2l6ZSBpcyBhcmJpdHJhcnkuIAotIHRoZSBpbnRlcmNlcHQgaW4gdGhlIHBvd2VyIGFuYWx5c2lzIGlzIGFsc28gYXJiaXRyYXJ5IHNvIHdlIGNvdWxkIGFsc28gc2V0IGl0IGF0IDAuIAoKYGBge3J9CnNldC5zZWVkKDE0MDApCmJldGFzIDwtIGMoMCw2MCkKblNpbSA8LSAxMDAwMApmb3JtIDwtIH4gZ3JvdXAgCnNkIDwtIHNpZ21hKGxtMSkKcG93ZXIyIDwtIGRhdGEuZnJhbWUobj1zZXEoNSwxMDAsNSkscG93ZXI9TkEpCmFscGhhIDwtIDAuMDUgCmNvbnRyYXN0IDwtIGxpbW1hOjptYWtlQ29udHJhc3RzKCJncm91cHRyZWF0IixsZXZlbHMgPSBuYW1lcyhsbTEkY29lZmZpY2llbnRzKSkKZm9yIChpIGluIDE6bnJvdyhwb3dlcjIpKQp7CiAgbjEgPC0gbjIgPC0gcG93ZXIyJG5baV0KICBwcmVkaWN0b3JEYXRhIDwtIGRhdGEuZnJhbWUoZ3JvdXAgPSByZXAoYygiY3RybCIsInRyZWF0IiksYyhuMSxuMikpICU+JSBhcy5mYWN0b3IpCiAgcG93ZXIyJHBvd2VyW2ldIDwtIHNpbUZhc3QoZm9ybSwgcHJlZGljdG9yRGF0YSwgYmV0YXMsIHNkLCBjb250cmFzdHMgPSBjb250cmFzdCwgYWxwaGEgPSBhbHBoYSwgblNpbSA9IG5TaW0pCn0KcG93ZXIyCmBgYAoKYGBge3J9CnBvd2VyMiAlPiUgCiAgZ2dwbG90KGFlcyh4PW4seT1wb3dlcikpICsKICBnZW9tX2xpbmUoKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gLjksIGx0eT0yKQpgYGAKCldlIG9ic2VydmUgdGhhdCB3ZSBuZWVkIGJldHdlZW4gNzUtODAgb2JzZXJ2YXRpb25zIHRvIG9idGFpbiBhIHBvd2VyIG9mIDkwJS4gCgpUaGlzIGlzIGNvbmZpcm1lZCB3aXRoIHRoZSBwb3dlciBmdW5jdGlvbnMgZm9yIHRoZSB0d28gc2FtcGxlIHQtdGVzdC4gCgpgYGB7cn0KYjEgPSAtIDYwCnBvd2VyID0gLjkKcG93ZXIudC50ZXN0KGQgPSBiMSwgc2QgPSBzaWdtYShsbTEpLCB0eXBlPSd0d28uc2FtcGxlJyxwb3dlciA9IHBvd2VyKQpgYGAKCk5vdGUsIHRoYXQgd2Ugd291bGQgcmVxdWlyZSBhIG11Y2ggbGFyZ2VyIHNhbXBsZSBzaXplLiBUaGlzIGlzIGJlY2F1c2UgdGhlIGRlc2lyZWQgZWZmZWN0IHNpemUgdGhhdCB3ZSB3b3VsZCBsaWtlIHRvIHBpY2sgdXAgaXMgc21hbGwgY29tcGFyZWQgdG8gdGhlIHZhcmlhYmlsaXR5IChzdGFuZGFyZCBkZXZpYXRpb24pIGluIHRoZSBwb3B1bGF0aW9uLiAK</div>

@@ -14,6 +14,7 @@
 
 <title>Experimental Design II: replication and power exercise 1</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,15 +515,18 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Experimental Design II: replication and power exercise 1</h1>
+<h1 class="title toc-ignore">Experimental Design II: replication and
+power exercise 1</h1>
 <h4 class="author">Lieven Clement &amp; Alexandre Segers</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
@@ -532,131 +535,177 @@ div.tocify {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div id="power" class="section level1">
+<div id="power" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Power</h1>
 <p>The power of a test is defined as:</p>
-<p><span class="math display">\[P(p &lt; 
-\alpha | H_1)\]</span> This is the probability to reject the nulhypothesis at the significance level <span class="math inline">\(\alpha\)</span> given that the alternative hypothesis is true.</p>
+<p><span class="math display">\[P(p &lt;
+\alpha | H_1)\]</span> This is the probability to reject the
+nulhypothesis at the significance level <span
+class="math inline">\(\alpha\)</span> given that the alternative
+hypothesis is true.</p>
 <p>The power depends on:</p>
 <ul>
-<li>the real effect size in the population <span class="math inline">\(\mathbf{L}^T\boldsymbol{\beta}\)</span>.</li>
+<li>the real effect size in the population <span
+class="math inline">\(\mathbf{L}^T\boldsymbol{\beta}\)</span>.</li>
 <li>the number of observations: SE and df.</li>
 <li>Choice of designpoints</li>
-<li>Choice of significance-level <span class="math inline">\(\alpha\)</span>.</li>
+<li>Choice of significance-level <span
+class="math inline">\(\alpha\)</span>.</li>
 </ul>
 <p>We will evaluate the power using simulation.</p>
 </div>
-<div id="rodents" class="section level1">
+<div id="rodents" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Rodents</h1>
-<p>A biologist examined the effect of a fungal infection on the eating behavior of rodents. Infected apples were offered to a group of eight rodents, and sterile apples were offered to a group of 4 rodents. The amount of grams of apples consumed per kg body weight are given in the dataset below.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>rodents &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight =</span> <span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),</span>
-<span id="cb5-2"><a href="#cb5-2"></a>                      <span class="dt">group =</span> <span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>), <span class="kw">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span>
-<span id="cb5-3"><a href="#cb5-3"></a>rodents </span></code></pre></div>
+<p>A biologist examined the effect of a fungal infection on the eating
+behavior of rodents. Infected apples were offered to a group of eight
+rodents, and sterile apples were offered to a group of 4 rodents. The
+amount of grams of apples consumed per kg body weight are given in the
+dataset below.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rodents <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">weight =</span> <span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">group =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>), <span class="fu">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rodents </span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"11","2":"treat"},{"1":"33","2":"treat"},{"1":"48","2":"treat"},{"1":"34","2":"treat"},{"1":"112","2":"treat"},{"1":"369","2":"treat"},{"1":"64","2":"treat"},{"1":"44","2":"treat"},{"1":"177","2":"ctrl"},{"1":"80","2":"ctrl"},{"1":"141","2":"ctrl"},{"1":"332","2":"ctrl"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="data-exploration" class="section level2">
+<div id="data-exploration" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Data exploration</h2>
 <p>Make visualizations: boxplot and QQ-plot.</p>
-<p>In the data exploration we do not have enough data to evaluate the assumptions.</p>
-<p>Suppose that the assumptions are valid and that standard deviation in the population would be equal to the ones you observed in the experiment.</p>
+<p>In the data exploration we do not have enough data to evaluate the
+assumptions.</p>
+<p>Suppose that the assumptions are valid and that standard deviation in
+the population would be equal to the ones you observed in the
+experiment.</p>
 </div>
 </div>
-<div id="assess-the-effect-of-fungal-infection-on-apple-consumption" class="section level1">
-<h1><span class="header-section-number">3</span> Assess the effect of fungal infection on apple consumption</h1>
-<p>We will model the data using a linear model with one dummy variable. Test the relevant model parameter.</p>
+<div id="assess-the-effect-of-fungal-infection-on-apple-consumption"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Assess the effect of
+fungal infection on apple consumption</h1>
+<p>We will model the data using a linear model with one dummy variable.
+Test the relevant model parameter.</p>
 </div>
-<div id="power-analyses" class="section level1">
+<div id="power-analyses" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Power analyses</h1>
-<div id="question-1" class="section level2">
+<div id="question-1" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Question 1</h2>
-<p>What is the power of the experiment if the effect size and standard deviation in the population would be equal to the ones you observed in the experiment?</p>
+<p>What is the power of the experiment if the effect size and standard
+deviation in the population would be equal to the ones you observed in
+the experiment?</p>
 </div>
-<div id="simulation-function" class="section level2">
-<h2><span class="header-section-number">4.2</span> Simulation function</h2>
-<p>We provide you with a function to simulate data similar to that of our experiment under our model assumptions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>simFast &lt;-<span class="st"> </span><span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="dt">alpha =</span> <span class="fl">.05</span>, <span class="dt">nSim =</span> <span class="dv">10000</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>{</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(data)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(data),nSim)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span>betas)</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
-<span id="cb6-8"><a href="#cb6-8"></a>  </span>
-<span id="cb6-9"><a href="#cb6-9"></a>    <span class="co">### Fitting</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
-<span id="cb6-11"><a href="#cb6-11"></a>  </span>
-<span id="cb6-12"><a href="#cb6-12"></a>    <span class="co">### Inference</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(contrasts)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>contrasts)</span>
-<span id="cb6-14"><a href="#cb6-14"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>contrasts</span>
-<span id="cb6-15"><a href="#cb6-15"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
-<span id="cb6-16"><a href="#cb6-16"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
-<span id="cb6-17"><a href="#cb6-17"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a>    <span class="kw">return</span>(<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
-<span id="cb6-19"><a href="#cb6-19"></a>}</span></code></pre></div>
-<p>Without going into the full code details, this function allows us to simulate data similar to that of our experiment under our model assumptions, given the following inputs:</p>
+<div id="simulation-function" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Simulation
+function</h2>
+<p>We provide you with a function to simulate data similar to that of
+our experiment under our model assumptions.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>simFast <span class="ot">&lt;-</span> <span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">nSim =</span> <span class="dv">10000</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data)<span class="sc">*</span>nSim,<span class="at">sd=</span>sd)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dim</span>(ySim) <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">nrow</span>(data),nSim)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(form, data)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> ySim <span class="sc">+</span> <span class="fu">c</span>(design <span class="sc">%*%</span>betas)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">t</span>(ySim)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Fitting</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    fitAll <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">lmFit</span>(ySim,design)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Inference</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    varUnscaled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">t</span>(contrasts)<span class="sc">%*%</span>fitAll<span class="sc">$</span>cov.coefficients<span class="sc">%*%</span>contrasts)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    contrasts <span class="ot">&lt;-</span> fitAll<span class="sc">$</span>coefficients <span class="sc">%*%</span>contrasts</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    seContrasts <span class="ot">&lt;-</span> varUnscaled<span class="sc">^</span>.<span class="dv">5</span><span class="sc">*</span>fitAll<span class="sc">$</span>sigma</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    tstats <span class="ot">&lt;-</span> contrasts<span class="sc">/</span>seContrasts</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(tstats),fitAll<span class="sc">$</span>df.residual,<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">mean</span>(pvals <span class="sc">&lt;</span> alpha))</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Without going into the full code details, this function allows us to
+simulate data similar to that of our experiment under our model
+assumptions, given the following inputs:</p>
 <ul>
-<li><code>form</code>: model formula for the experiment we want to simulate (e.g. “~ gewicht + dosis”)</li>
-<li><code>data</code>: the target dataset on which we want to base our simulations on (dataframe with colnames equal to the variable names, values equal to the design points chosen, e.g dataframe(gewicht = rep(c(1,2), each = 4), dosis = rep(c(1,2), times = 4)) )</li>
-<li><code>betas</code>: the linear regression coefficients for the target dataset</li>
-<li><code>sd</code>: the residual standard errors from the linear regression model fit on the target dataset</li>
-<li><code>contrasts</code>: comparison of interest, i.e. which (combination of) model parameters we would like to assess (should be a matrix containing the parameter names as rownames (names(mod1$coefficients)), in the column the contrast that you want to test e.g matrix(c(0,1,0),ncol=1))</li>
-<li><code>alpha</code>: alpha-level at which to conduct the hypothesis testing</li>
+<li><code>form</code>: model formula for the experiment we want to
+simulate (e.g. “~ gewicht + dosis”)</li>
+<li><code>data</code>: the target dataset on which we want to base our
+simulations on (dataframe with colnames equal to the variable names,
+values equal to the design points chosen, e.g dataframe(gewicht =
+rep(c(1,2), each = 4), dosis = rep(c(1,2), times = 4)) )</li>
+<li><code>betas</code>: the linear regression coefficients for the
+target dataset</li>
+<li><code>sd</code>: the residual standard errors from the linear
+regression model fit on the target dataset</li>
+<li><code>contrasts</code>: comparison of interest, i.e. which
+(combination of) model parameters we would like to assess (should be a
+matrix containing the parameter names as rownames
+(names(mod1$coefficients)), in the column the contrast that you want to
+test e.g matrix(c(0,1,0),ncol=1))</li>
+<li><code>alpha</code>: alpha-level at which to conduct the hypothesis
+testing</li>
 <li><code>nSim</code>: number of datasets we would like to simulate</li>
 </ul>
-<p>To simulate new data based on our target dataset <code>data</code>, we will need to fill in all the arguments to the <code>simFast</code> function.</p>
-<p><strong>Hint: for the betas and sd, we will need to fit a linear model first!</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>power1 &lt;-<span class="st"> </span><span class="kw">simFast</span>(<span class="dt">form =</span> ..., </span>
-<span id="cb7-2"><a href="#cb7-2"></a>                  <span class="dt">data =</span> ..., </span>
-<span id="cb7-3"><a href="#cb7-3"></a>                  <span class="dt">betas =</span> ..., </span>
-<span id="cb7-4"><a href="#cb7-4"></a>                  <span class="dt">sd =</span> ..., </span>
-<span id="cb7-5"><a href="#cb7-5"></a>                  <span class="dt">contrasts =</span> ..., </span>
-<span id="cb7-6"><a href="#cb7-6"></a>                  <span class="dt">alpha =</span> ..., </span>
-<span id="cb7-7"><a href="#cb7-7"></a>                  <span class="dt">nSim =</span> ...)</span>
-<span id="cb7-8"><a href="#cb7-8"></a>power1</span></code></pre></div>
+<p>To simulate new data based on our target dataset <code>data</code>,
+we will need to fill in all the arguments to the <code>simFast</code>
+function.</p>
+<p><strong>Hint: for the betas and sd, we will need to fit a linear
+model first!</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>power1 <span class="ot">&lt;-</span> <span class="fu">simFast</span>(<span class="at">form =</span> ..., </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> ..., </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">betas =</span> ..., </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> ..., </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">contrasts =</span> ..., </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> ..., </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nSim =</span> ...)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>power1</span></code></pre></div>
 <p>Interpret the outcome.</p>
 </div>
-<div id="question-2" class="section level2">
+<div id="question-2" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Question 2</h2>
-<p>What would the power by if number of rodents would balanced be in both groups? Again, we simulate a large number of new experiments. Adjust one more more of the inputs to the <code>simFast</code> to allow for addressing this question.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>power2 &lt;-<span class="st"> </span><span class="kw">simFast</span>(<span class="dt">form =</span> ..., </span>
-<span id="cb8-2"><a href="#cb8-2"></a>                  <span class="dt">data =</span> ..., </span>
-<span id="cb8-3"><a href="#cb8-3"></a>                  <span class="dt">betas =</span> ..., </span>
-<span id="cb8-4"><a href="#cb8-4"></a>                  <span class="dt">sd =</span> ..., </span>
-<span id="cb8-5"><a href="#cb8-5"></a>                  <span class="dt">contrasts =</span> ..., </span>
-<span id="cb8-6"><a href="#cb8-6"></a>                  <span class="dt">alpha =</span> ..., </span>
-<span id="cb8-7"><a href="#cb8-7"></a>                  <span class="dt">nSim =</span> ...)</span>
-<span id="cb8-8"><a href="#cb8-8"></a>power2</span></code></pre></div>
+<p>What would the power by if number of rodents would balanced be in
+both groups? Again, we simulate a large number of new experiments.
+Adjust one more more of the inputs to the <code>simFast</code> to allow
+for addressing this question.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>power2 <span class="ot">&lt;-</span> <span class="fu">simFast</span>(<span class="at">form =</span> ..., </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> ..., </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">betas =</span> ..., </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> ..., </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">contrasts =</span> ..., </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> ..., </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nSim =</span> ...)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>power2</span></code></pre></div>
 </div>
-<div id="question-3" class="section level2">
+<div id="question-3" class="section level2" number="4.4">
 <h2><span class="header-section-number">4.4</span> Question 3</h2>
-<p>How many observations would you need to pick up the treatment effect with a power of 90%?</p>
-<p>This will require us to establish a relationship between sample size and power. In turn, this will require us to perform a “parameter sweep” over different values of sample size and compute the power for each of them.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>power &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n=</span><span class="kw">seq</span>(<span class="dv">5</span>,<span class="dv">50</span>,<span class="dv">5</span>),<span class="dt">power=</span><span class="ot">NA</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(power))</span>
-<span id="cb9-4"><a href="#cb9-4"></a>{</span>
-<span id="cb9-5"><a href="#cb9-5"></a>  n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span>power<span class="op">$</span>n[i]</span>
-<span id="cb9-6"><a href="#cb9-6"></a>  predictorData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(...)</span>
-<span id="cb9-7"><a href="#cb9-7"></a>  power<span class="op">$</span>power[i] &lt;-<span class="st"> </span><span class="kw">simFast</span>(<span class="dt">form =</span> ..., </span>
-<span id="cb9-8"><a href="#cb9-8"></a>                  <span class="dt">data =</span> predictorData, </span>
-<span id="cb9-9"><a href="#cb9-9"></a>                  <span class="dt">betas =</span> ..., </span>
-<span id="cb9-10"><a href="#cb9-10"></a>                  <span class="dt">sd =</span> ..., </span>
-<span id="cb9-11"><a href="#cb9-11"></a>                  <span class="dt">contrasts =</span> ..., </span>
-<span id="cb9-12"><a href="#cb9-12"></a>                  <span class="dt">alpha =</span> ..., </span>
-<span id="cb9-13"><a href="#cb9-13"></a>                  <span class="dt">nSim =</span> ...)</span>
-<span id="cb9-14"><a href="#cb9-14"></a>}</span>
-<span id="cb9-15"><a href="#cb9-15"></a>power</span></code></pre></div>
+<p>How many observations would you need to pick up the treatment effect
+with a power of 90%?</p>
+<p>This will require us to establish a relationship between sample size
+and power. In turn, this will require us to perform a “parameter sweep”
+over different values of sample size and compute the power for each of
+them.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">50</span>,<span class="dv">5</span>),<span class="at">power=</span><span class="cn">NA</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(power))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  n1 <span class="ot">&lt;-</span> n2 <span class="ot">&lt;-</span> power<span class="sc">$</span>n[i]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  predictorData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(...)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  power<span class="sc">$</span>power[i] <span class="ot">&lt;-</span> <span class="fu">simFast</span>(<span class="at">form =</span> ..., </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> predictorData, </span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">betas =</span> ..., </span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> ..., </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">contrasts =</span> ..., </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> ..., </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nSim =</span> ...)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
 </div>
-<div id="question-4" class="section level2">
+<div id="question-4" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Question 4</h2>
-<p>Suppose that we would like to pick up an effect size of <span class="math inline">\(\beta_1 = 60 g/kg\)</span>. How many samples would be required in each group to obtain a power of 90%?</p>
+<p>Suppose that we would like to pick up an effect size of <span
+class="math inline">\(\beta_1 = 60 g/kg\)</span>. How many samples would
+be required in each group to obtain a power of 90%?</p>
 <p>Note, that</p>
 <ul>
-<li>we do a two-sided test so the sign of the effect size is arbitrary.</li>
-<li>the intercept in the power analysis is also arbitrary so we could also set it at 0.</li>
+<li>we do a two-sided test so the sign of the effect size is
+arbitrary.</li>
+<li>the intercept in the power analysis is also arbitrary so we could
+also set it at 0.</li>
 </ul>
 </div>
 </div>

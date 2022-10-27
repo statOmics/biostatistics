@@ -14,6 +14,7 @@
 
 <title>10. Algemeen Lineair Model - Factoriële Designs</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,22 +515,29 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">10. Algemeen Lineair Model - Factoriële Designs</h1>
+<h1 class="title toc-ignore">10. Algemeen Lineair Model - Factoriële
+Designs</h1>
 <h4 class="author">Lieven Clement</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
-<div id="introductie" class="section level1">
+<div id="introductie" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Introductie</h1>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/V1QAv2_oYBs
 " frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
-<p>In deze sectie illustreren we hoe experimenten met een factoriële proefopzet geanalyseerd kunnen worden met het algemeen lineair model.</p>
-<p>We focussen hierbij op een two-way anova design waarbij we een continue response modelleren in functie van twee categorische predictor variabelen (factoren).</p>
+<p>In deze sectie illustreren we hoe experimenten met een factoriële
+proefopzet geanalyseerd kunnen worden met het algemeen lineair
+model.</p>
+<p>We focussen hierbij op een two-way anova design waarbij we een
+continue response modelleren in functie van twee categorische predictor
+variabelen (factoren).</p>
 </div>
-<div id="data" class="section level1">
+<div id="data" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data</h1>
 <p>48 ratten werden at random toegewezen aan</p>
 <ul>
@@ -542,48 +549,61 @@ div.tocify {
 <li>de overlevingstijd werd opgemeten (eenheid: 10 h)</li>
 </ul>
 <p>We transformeren de data eerst naar uren</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(faraway)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">data</span>(rats)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>rats &lt;-<span class="st"> </span>rats <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">time=</span>time <span class="op">*</span><span class="st"> </span><span class="dv">10</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(GGally)</span>
-<span id="cb1-8"><a href="#cb1-8"></a>rats <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="st">  </span><span class="kw">ggpairs</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faraway)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rats <span class="ot">&lt;-</span> rats <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time=</span>time <span class="sc">*</span> <span class="dv">10</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>De data exploratie suggereert een effect van beide factoren.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>rats <span class="op">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>treat,<span class="dt">y=</span>time)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape=</span><span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>poison) <span class="op">+</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;time (h)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span>time)) <span class="sc">+</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;time (h)&quot;</span>)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <ul>
-<li>Er zou een interactie kunnen zijn tussen behandeling en gif, het effect van het gif op de overlevingstijd hangt dan af van de behandeling en vice versa.</li>
+<li>Er zou een interactie kunnen zijn tussen behandeling en gif, het
+effect van het gif op de overlevingstijd hangt dan af van de behandeling
+en vice versa.</li>
 <li>De boxplots geven ook aan dat de data heteroscedastisch zijn.</li>
 </ul>
 </div>
-<div id="model" class="section level1">
+<div id="model" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Model</h1>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/UxHKF0fgwkY
 " frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
-<p>We modelleren de data met een hoofdeffect voor gif en behandeling en een gif <span class="math inline">\(\times\)</span> behandeling interactie.</p>
+<p>We modelleren de data met een hoofdeffect voor gif en behandeling en
+een gif <span class="math inline">\(\times\)</span> behandeling
+interactie.</p>
 <p><span class="math display">\[
 \begin{array}{lcl}
 y_i &amp;=&amp; \beta_0  + \\
 &amp;&amp;\beta_{II} x_{iII} + \beta_{III} x_{iIII} + \\
 &amp;&amp; \beta_{B} x_{iB}  + \beta_{C} x_{iC} + \beta_{D} x_{iD} + \\
-&amp;&amp;\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  + \beta_{II:D}x_{iII}x_{iD} + \\
-&amp;&amp;\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  + \beta_{III:D}x_{iIII}x_{iD} +
+&amp;&amp;\beta_{II:B}x_{iII}x_{iB} + \beta_{II:C}x_{iII}x_{iC}  +
+\beta_{II:D}x_{iII}x_{iD} + \\
+&amp;&amp;\beta_{III:B}x_{iIII}x_{iB} + \beta_{III:C}x_{iIII}x_{iC}  +
+\beta_{III:D}x_{iIII}x_{iD} +
 \epsilon_i
 \end{array}
 \]</span></p>
-<p>met <span class="math inline">\(i = 1, \ldots, n\)</span>, <span class="math inline">\(n=48\)</span>, en, <span class="math inline">\(x_{iII}\)</span>, <span class="math inline">\(x_{iIII}\)</span>, <span class="math inline">\(x_{iB}\)</span>, <span class="math inline">\(x_{iC}\)</span> en <span class="math inline">\(x_{iD}\)</span> dummy variabelen voor respectievelijk gif II, III, behandeling B, C, en D.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rats1 &lt;-<span class="st"> </span><span class="kw">lm</span>(time<span class="op">~</span>poison<span class="op">*</span>treat, rats)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">summary</span>(rats1)</span></code></pre></div>
+<p>met <span class="math inline">\(i = 1, \ldots, n\)</span>, <span
+class="math inline">\(n=48\)</span>, en, <span
+class="math inline">\(x_{iII}\)</span>, <span
+class="math inline">\(x_{iIII}\)</span>, <span
+class="math inline">\(x_{iB}\)</span>, <span
+class="math inline">\(x_{iC}\)</span> en <span
+class="math inline">\(x_{iD}\)</span> dummy variabelen voor
+respectievelijk gif II, III, behandeling B, C, en D.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rats1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(time<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rats1)</span></code></pre></div>
 <pre><code>
 Call:
 lm(formula = time ~ poison * treat, data = rats)
@@ -612,41 +632,48 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 1.491 on 36 degrees of freedom
 Multiple R-squared:  0.7335,    Adjusted R-squared:  0.6521 
 F-statistic:  9.01 on 11 and 36 DF,  p-value: 1.986e-07</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">plot</span>(rats1)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats1)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
-<p>De errors zijn heteroscedastisch. De residu plot suggereert een relatie tussen gemiddelde en variantie. De QQ-plot suggereert dat de verdeling mogelijks bredere staarten heeft dan de normale verdeling.</p>
-<div id="transformaties" class="section level2">
+<p>De errors zijn heteroscedastisch. De residu plot suggereert een
+relatie tussen gemiddelde en variantie. De QQ-plot suggereert dat de
+verdeling mogelijks bredere staarten heeft dan de normale verdeling.</p>
+<div id="transformaties" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Transformaties</h2>
-<div id="logaritmische-transformatie" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> Logaritmische transformatie</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>rats <span class="op">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>treat,<span class="dt">y=</span><span class="kw">log2</span>(time))) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape=</span><span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>poison)</span></code></pre></div>
+<div id="logaritmische-transformatie" class="section level3"
+number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Logaritmische
+transformatie</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span><span class="fu">log2</span>(time))) <span class="sc">+</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>rats2 &lt;-<span class="st"> </span><span class="kw">lm</span>(time <span class="op">%&gt;%</span><span class="st"> </span>log2<span class="op">~</span>poison<span class="op">*</span>treat, rats)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">plot</span>(rats2)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rats2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(time <span class="sc">%&gt;%</span> log2<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats2)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-4.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-4-5.png" width="672" /></p>
 <p>Log transformatie verwijdert heteroscedasticiteit niet volledig.</p>
 </div>
-<div id="reciproke-transformatie" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> Reciproke transformatie</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>rats <span class="op">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>treat,<span class="dt">y=</span><span class="dv">1</span><span class="op">/</span>time)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape=</span><span class="ot">NA</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>poison) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span><span class="kw">ylab</span> (<span class="st">&quot;rate of dying (1/h)&quot;</span>)</span></code></pre></div>
+<div id="reciproke-transformatie" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Reciproke
+transformatie</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rats <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>treat,<span class="at">y=</span><span class="dv">1</span><span class="sc">/</span>time)) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>poison) <span class="sc">+</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span> (<span class="st">&quot;rate of dying (1/h)&quot;</span>)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>rats3 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dv">1</span><span class="op">/</span>time<span class="op">~</span>poison<span class="op">*</span>treat, rats)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">plot</span>(rats3) </span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rats3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="dv">1</span><span class="sc">/</span>time<span class="sc">~</span>poison<span class="sc">*</span>treat, rats)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats3) </span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
-<p>De reciproke transformatie lijkt beter. Transformaties bemoeilijken soms de interpretatie. Hier kan de reciproke transformatie echter worden geïnterpreteerd als de “snelheid van sterven” (rate of dying).</p>
+<p>De reciproke transformatie lijkt beter. Transformaties bemoeilijken
+soms de interpretatie. Hier kan de reciproke transformatie echter worden
+geïnterpreteerd als de “snelheid van sterven” (rate of dying).</p>
 </div>
 </div>
 </div>
-<div id="inferentie" class="section level1">
+<div id="inferentie" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Inferentie</h1>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Dy3SyyamlHg
 " frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
@@ -654,34 +681,43 @@ F-statistic:  9.01 on 11 and 36 DF,  p-value: 1.986e-07</code></pre>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GtGKActzZT0
 " frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
-<p>Er zijn meerdere interactie termen in het model. We kunnen deze eerst samen testen a.d.h.v. van de resultaten uit de anova tabel.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">library</span>(car)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">Anova</span>(rats3, <span class="dt">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<p>Er zijn meerdere interactie termen in het model. We kunnen deze eerst
+samen testen a.d.h.v. van de resultaten uit de anova tabel.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(rats3, <span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.24738304","2":"1","3":"103.039498","4":"4.158034e-12","_rn_":"(Intercept)"},{"1":"0.11103531","2":"2","3":"23.124105","4":"3.476712e-07","_rn_":"poison"},{"1":"0.03572343","2":"3","3":"4.959818","4":"5.535116e-03","_rn_":"treat"},{"1":"0.01570772","2":"6","3":"1.090425","4":"3.867329e-01","_rn_":"poison:treat"},{"1":"0.08643083","2":"36","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="verwijderen-van-niet-significante-interactie." class="section level2">
-<h2><span class="header-section-number">4.1</span> Verwijderen van niet-significante interactie.</h2>
-<p>De interactie tussen gif en behandeling is niet significant op het 5% niveau.</p>
-<p>Een veelgebruikte methode is om de niet-significante interactie te verwijderen uit het model.</p>
-<p>We verkrijgen dan een additief model wat toelaat om de effecten van de twee factoren afzonderlijk te bestuderen.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>rats4 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="dv">1</span><span class="op">/</span>time<span class="op">~</span>poison <span class="op">+</span><span class="st"> </span>treat, rats)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">plot</span>(rats4)</span></code></pre></div>
+<div id="verwijderen-van-niet-significante-interactie."
+class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Verwijderen van
+niet-significante interactie.</h2>
+<p>De interactie tussen gif en behandeling is niet significant op het 5%
+niveau.</p>
+<p>Een veelgebruikte methode is om de niet-significante interactie te
+verwijderen uit het model.</p>
+<p>We verkrijgen dan een additief model wat toelaat om de effecten van
+de twee factoren afzonderlijk te bestuderen.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rats4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="dv">1</span><span class="sc">/</span>time<span class="sc">~</span>poison <span class="sc">+</span> treat, rats)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rats4)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
 <p>We zien wel iets meer afwijkingen in de residu plot.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">Anova</span>(rats4, <span class="dt">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(rats4, <span class="at">type=</span><span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.5821881","2":"1","3":"239.39932","4":"5.936991e-19","_rn_":"(Intercept)"},{"1":"0.3487712","2":"2","3":"71.70843","4":"2.864848e-14","_rn_":"poison"},{"1":"0.2041429","2":"3","3":"27.98160","4":"4.191931e-10","_rn_":"treat"},{"1":"0.1021386","2":"42","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>De anova tabel toont dat het effect van gif en behandeling beiden extreem siginficant zijn (beide <span class="math inline">\(p&lt;&lt; 0.001\)</span>).</p>
-<p>Het additieve model laat toe om de effecten van het type gif en de behandeling afzonderlijke te bestuderen via een post-hoc analyse.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">library</span>(multcomp)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>comparisons &lt;-<span class="st"> </span><span class="kw">glht</span>(rats4, <span class="dt">linfct =</span> <span class="kw">mcp</span>(<span class="dt">poison =</span> <span class="st">&quot;Tukey&quot;</span>, <span class="dt">treat=</span><span class="st">&quot;Tukey&quot;</span>))</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">summary</span>(comparisons)</span></code></pre></div>
+<p>De anova tabel toont dat het effect van gif en behandeling beiden
+extreem siginficant zijn (beide <span class="math inline">\(p&lt;&lt;
+0.001\)</span>).</p>
+<p>Het additieve model laat toe om de effecten van het type gif en de
+behandeling afzonderlijke te bestuderen via een post-hoc analyse.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>comparisons <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats4, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">poison =</span> <span class="st">&quot;Tukey&quot;</span>, <span class="at">treat=</span><span class="st">&quot;Tukey&quot;</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(comparisons)</span></code></pre></div>
 <pre><code>
      Simultaneous Tests for General Linear Hypotheses
 
@@ -692,19 +728,19 @@ Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
 Linear Hypotheses:
                       Estimate Std. Error t value Pr(&gt;|t|)    
-poison: II - I == 0    0.04686    0.01744   2.688  0.07352 .  
-poison: III - I == 0   0.19964    0.01744  11.451  &lt; 1e-04 ***
-poison: III - II == 0  0.15278    0.01744   8.763  &lt; 1e-04 ***
-treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 1e-04 ***
-treat: C - A == 0     -0.05721    0.02013  -2.842  0.05090 .  
-treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 1e-04 ***
-treat: C - B == 0      0.10853    0.02013   5.391  &lt; 1e-04 ***
-treat: D - B == 0      0.02991    0.02013   1.485  0.61548    
-treat: D - C == 0     -0.07862    0.02013  -3.905  0.00283 ** 
+poison: II - I == 0    0.04686    0.01744   2.688  0.07349 .  
+poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
+poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
+treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
+treat: C - A == 0     -0.05721    0.02013  -2.842  0.05080 .  
+treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
+treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
+treat: D - B == 0      0.02991    0.02013   1.485  0.61545    
+treat: D - C == 0     -0.07862    0.02013  -3.905  0.00285 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">confint</span>(comparisons)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(comparisons)</span></code></pre></div>
 <pre><code>
      Simultaneous Confidence Intervals
 
@@ -713,67 +749,89 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
-Quantile = 2.849
+Quantile = 2.8497
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                       Estimate   lwr        upr       
-poison: II - I == 0    0.0468641 -0.0028078  0.0965361
-poison: III - I == 0   0.1996425  0.1499705  0.2493145
-poison: III - II == 0  0.1527784  0.1031064  0.2024503
-treat: B - A == 0     -0.1657402 -0.2230965 -0.1083840
-treat: C - A == 0     -0.0572135 -0.1145698  0.0001427
-treat: D - A == 0     -0.1358338 -0.1931901 -0.0784776
-treat: C - B == 0      0.1085267  0.0511704  0.1658829
-treat: D - B == 0      0.0299064 -0.0274498  0.0872627
-treat: D - C == 0     -0.0786203 -0.1359765 -0.0212640</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">plot</span>(comparisons,<span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>contrastNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">axis</span>(<span class="dv">2</span>,<span class="dt">at=</span><span class="kw">c</span>(<span class="kw">length</span>(contrastNames)<span class="op">:</span><span class="dv">1</span>), <span class="dt">labels=</span>contrastNames,<span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+poison: II - I == 0    0.0468641 -0.0028207  0.0965489
+poison: III - I == 0   0.1996425  0.1499577  0.2493273
+poison: III - II == 0  0.1527784  0.1030936  0.2024631
+treat: B - A == 0     -0.1657402 -0.2231113 -0.1083692
+treat: C - A == 0     -0.0572135 -0.1145846  0.0001575
+treat: D - A == 0     -0.1358338 -0.1932049 -0.0784628
+treat: C - B == 0      0.1085267  0.0511557  0.1658977
+treat: D - B == 0      0.0299064 -0.0274646  0.0872774
+treat: D - C == 0     -0.0786203 -0.1359913 -0.0212492</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisons,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="niet-significante-interactie-term-in-het-model-weerhouden" class="section level2">
-<h2><span class="header-section-number">4.2</span> Niet-significante interactie term in het model weerhouden</h2>
-<p>Het aanvaarden van de null hypothese dat er geen interactie is, is een zwakke conclusie. Het zou immers kunnen dat de power van het experiment te klein is om de interactie op te pikken. We kunnen er ook voor kiezen om de niet significante interactie term in het model te laten.</p>
-<p>Als de interactie significant zou zijn geweest, betekent dit dat het effect van het gif op de snelheid van sterven afhangt van de behandeling en vice versa. Dan kunnen we het effect van het type gif en de behandeling op de overlevingstijd niet afzonderlijk bestuderen.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ExploreModelMatrix<span class="op">::</span><span class="kw">VisualizeDesign</span>(rats,<span class="op">~</span>poison<span class="op">*</span>treat)<span class="op">$</span>plot</span></code></pre></div>
+<div id="niet-significante-interactie-term-in-het-model-weerhouden"
+class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Niet-significante
+interactie term in het model weerhouden</h2>
+<p>Het aanvaarden van de null hypothese dat er geen interactie is, is
+een zwakke conclusie. Het zou immers kunnen dat de power van het
+experiment te klein is om de interactie op te pikken. We kunnen er ook
+voor kiezen om de niet significante interactie term in het model te
+laten.</p>
+<p>Als de interactie significant zou zijn geweest, betekent dit dat het
+effect van het gif op de snelheid van sterven afhangt van de behandeling
+en vice versa. Dan kunnen we het effect van het type gif en de
+behandeling op de overlevingstijd niet afzonderlijk bestuderen.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(rats,<span class="sc">~</span>poison<span class="sc">*</span>treat)<span class="sc">$</span>plot</span></code></pre></div>
 <pre><code>[[1]]</code></pre>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>We zouden dan het effect van het type gif afzonderlijk moeten bestuderen voor elke behandeling:</p>
+<p>We zouden dan het effect van het type gif afzonderlijk moeten
+bestuderen voor elke behandeling:</p>
 <ol style="list-style-type: decimal">
-<li>Voor behandeling A moeten we dan volgende nulhypotheses toetsen:</li>
+<li>Voor behandeling A moeten we dan volgende nulhypotheses
+toetsen:</li>
 </ol>
 <ul>
 <li>II-I: <span class="math inline">\(H_0: \beta_{II}=0\)</span></li>
 <li>III-I: <span class="math inline">\(H_0: \beta_{III}=0\)</span></li>
-<li>III-II: <span class="math inline">\(H_0: \beta_{III}-\beta_{II}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}-\beta_{II}=0\)</span></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Voor behandeling B:</li>
 </ol>
 <ul>
-<li>II-I: <span class="math inline">\(H_0: \beta_{II}+\beta_{II:B}=0\)</span></li>
-<li>III-I: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:B}=0\)</span></li>
-<li>III-II: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0\)</span></li>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:B}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:B}-\beta_{II}-\beta_{II:B}=0\)</span></li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>Voor behandeling C:</li>
 </ol>
 <ul>
-<li>II-I: <span class="math inline">\(H_0: \beta_{II}+\beta_{II:C}=0\)</span></li>
-<li>III-I: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:C}=0\)</span></li>
-<li>III-II: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0\)</span></li>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:C}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:C}-\beta_{II}-\beta_{II:C}=0\)</span></li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
 <li>Voor behandeling D:</li>
 </ol>
 <ul>
-<li>II-I: <span class="math inline">\(H_0: \beta_{II}+\beta_{II:D}=0\)</span></li>
-<li>III-I: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:D}=0\)</span></li>
-<li>III-II: <span class="math inline">\(H_0: \beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0\)</span></li>
+<li>II-I: <span class="math inline">\(H_0:
+\beta_{II}+\beta_{II:D}=0\)</span></li>
+<li>III-I: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}=0\)</span></li>
+<li>III-II: <span class="math inline">\(H_0:
+\beta_{III}+\beta_{III:D}-\beta_{II}-\beta_{II:D}=0\)</span></li>
 </ul>
-<p>Het zelfde geldt wanneer we het effect van de behandeling bestuderen:</p>
+<p>Het zelfde geldt wanneer we het effect van de behandeling
+bestuderen:</p>
 <ol style="list-style-type: decimal">
 <li>Voor gif I toetsen we dan nulhypothese</li>
 </ol>
@@ -781,114 +839,148 @@ treat: D - C == 0     -0.0786203 -0.1359765 -0.0212640</code></pre>
 <li>B-A: <span class="math inline">\(H_0: \beta_{B}=0\)</span></li>
 <li>C-A: <span class="math inline">\(H_0: \beta_{C}=0\)</span></li>
 <li>D-A: <span class="math inline">\(H_0: \beta_{D}=0\)</span></li>
-<li>C-B: <span class="math inline">\(H_0: \beta_{C}-\beta_{B}=0\)</span></li>
-<li>D-B: <span class="math inline">\(H_0: \beta_{D}-\beta_{B}=0\)</span></li>
-<li>D-C: <span class="math inline">\(H_0: \beta_{D}-\beta_{C}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}-\beta_{B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}-\beta_{C}=0\)</span></li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li>Gif II</li>
 </ol>
 <ul>
-<li>B-A: <span class="math inline">\(H_0: \beta_{B}+\beta_{II:B}=0\)</span></li>
-<li>C-A: <span class="math inline">\(H_0: \beta_{C}+\beta_{II:C}=0\)</span></li>
-<li>D-A: <span class="math inline">\(H_0: \beta_{D}+\beta_{II:D}=0\)</span></li>
-<li>C-B: <span class="math inline">\(H_0: \beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0\)</span></li>
-<li>D-B: <span class="math inline">\(H_0: \beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0\)</span></li>
-<li>D-C: <span class="math inline">\(H_0: \beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0\)</span></li>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{II:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{II:C}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{B}-\beta_{II:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}-\beta_{C}-\beta_{II:C}=0\)</span></li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>Gif III</li>
 </ol>
 <ul>
-<li>B-A: <span class="math inline">\(H_0: \beta_{B}+\beta_{III:B}=0\)</span></li>
-<li>C-A: <span class="math inline">\(H_0: \beta_{C}+\beta_{III:C}=0\)</span></li>
-<li>D-A: <span class="math inline">\(H_0: \beta_{D}+\beta_{II:D}=0\)</span></li>
-<li>C-B: <span class="math inline">\(H_0: \beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0\)</span></li>
-<li>D-B: <span class="math inline">\(H_0: \beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0\)</span></li>
-<li>D-C: <span class="math inline">\(H_0: \beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0\)</span></li>
+<li>B-A: <span class="math inline">\(H_0:
+\beta_{B}+\beta_{III:B}=0\)</span></li>
+<li>C-A: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}=0\)</span></li>
+<li>D-A: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{II:D}=0\)</span></li>
+<li>C-B: <span class="math inline">\(H_0:
+\beta_{C}+\beta_{III:C}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-B: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{B}-\beta_{III:B}=0\)</span></li>
+<li>D-C: <span class="math inline">\(H_0:
+\beta_{D}+\beta_{III:D}-\beta_{C}-\beta_{III:C}=0\)</span></li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>comparisonsInt &lt;-<span class="st"> </span><span class="kw">glht</span>(rats3, <span class="dt">linfct =</span> <span class="kw">c</span>(</span>
-<span id="cb20-2"><a href="#cb20-2"></a>  <span class="st">&quot;poisonII = 0&quot;</span>,</span>
-<span id="cb20-3"><a href="#cb20-3"></a>  <span class="st">&quot;poisonIII = 0&quot;</span>,</span>
-<span id="cb20-4"><a href="#cb20-4"></a>  <span class="st">&quot;poisonIII - poisonII = 0&quot;</span>,</span>
-<span id="cb20-5"><a href="#cb20-5"></a>  <span class="st">&quot;poisonII + poisonII:treatB = 0&quot;</span>,</span>
-<span id="cb20-6"><a href="#cb20-6"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb20-7"><a href="#cb20-7"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB - poisonII- poisonII:treatB = 0&quot;</span>,  </span>
-<span id="cb20-8"><a href="#cb20-8"></a>  <span class="st">&quot;poisonII + poisonII:treatC = 0&quot;</span>,</span>
-<span id="cb20-9"><a href="#cb20-9"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC = 0&quot;</span>,</span>
-<span id="cb20-10"><a href="#cb20-10"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC - poisonII- poisonII:treatC = 0&quot;</span>,  </span>
-<span id="cb20-11"><a href="#cb20-11"></a>  <span class="st">&quot;poisonII + poisonII:treatD = 0&quot;</span>,</span>
-<span id="cb20-12"><a href="#cb20-12"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD = 0&quot;</span>,</span>
-<span id="cb20-13"><a href="#cb20-13"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD - poisonII- poisonII:treatD = 0&quot;</span>,  </span>
-<span id="cb20-14"><a href="#cb20-14"></a>  <span class="st">&quot;treatB = 0&quot;</span>,</span>
-<span id="cb20-15"><a href="#cb20-15"></a>  <span class="st">&quot;treatC = 0&quot;</span>,</span>
-<span id="cb20-16"><a href="#cb20-16"></a>  <span class="st">&quot;treatD = 0&quot;</span>,</span>
-<span id="cb20-17"><a href="#cb20-17"></a>  <span class="st">&quot;treatC - treatB = 0&quot;</span>,</span>
-<span id="cb20-18"><a href="#cb20-18"></a>  <span class="st">&quot;treatD - treatB = 0&quot;</span>,</span>
-<span id="cb20-19"><a href="#cb20-19"></a>  <span class="st">&quot;treatD - treatC = 0&quot;</span>,</span>
-<span id="cb20-20"><a href="#cb20-20"></a>  <span class="st">&quot;treatB + poisonII:treatB = 0&quot;</span>,</span>
-<span id="cb20-21"><a href="#cb20-21"></a>  <span class="st">&quot;treatC + poisonII:treatC = 0&quot;</span>,</span>
-<span id="cb20-22"><a href="#cb20-22"></a>  <span class="st">&quot;treatD + poisonII:treatD = 0&quot;</span>,</span>
-<span id="cb20-23"><a href="#cb20-23"></a>  <span class="st">&quot;treatC + poisonII:treatC - treatB - poisonII:treatB = 0&quot;</span>,</span>
-<span id="cb20-24"><a href="#cb20-24"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatB - poisonII:treatB = 0&quot;</span>,</span>
-<span id="cb20-25"><a href="#cb20-25"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatC - poisonII:treatC = 0&quot;</span>,</span>
-<span id="cb20-26"><a href="#cb20-26"></a>  <span class="st">&quot;treatB + poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb20-27"><a href="#cb20-27"></a>  <span class="st">&quot;treatC + poisonIII:treatC = 0&quot;</span>,</span>
-<span id="cb20-28"><a href="#cb20-28"></a>  <span class="st">&quot;treatD + poisonIII:treatD = 0&quot;</span>,</span>
-<span id="cb20-29"><a href="#cb20-29"></a>  <span class="st">&quot;treatC + poisonIII:treatC - treatB - poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb20-30"><a href="#cb20-30"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatB - poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb20-31"><a href="#cb20-31"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatC - poisonIII:treatC = 0&quot;</span>)</span>
-<span id="cb20-32"><a href="#cb20-32"></a>)</span>
-<span id="cb20-33"><a href="#cb20-33"></a></span>
-<span id="cb20-34"><a href="#cb20-34"></a>contrastNames&lt;-</span>
-<span id="cb20-35"><a href="#cb20-35"></a><span class="st">  </span><span class="kw">c</span>(<span class="kw">paste</span>(<span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>],<span class="dt">each=</span><span class="dv">3</span>),<span class="kw">rep</span>(<span class="kw">apply</span>(<span class="kw">combn</span>(<span class="kw">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="dv">2</span>)[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="dt">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">4</span>),<span class="dt">sep=</span><span class="st">&quot;: &quot;</span>),</span>
-<span id="cb20-36"><a href="#cb20-36"></a>    <span class="kw">paste</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="dt">each=</span><span class="dv">6</span>),<span class="kw">rep</span>(<span class="kw">apply</span>(<span class="kw">combn</span>(<span class="kw">c</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]),<span class="dv">2</span>)[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="dt">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">3</span>),<span class="dt">sep=</span><span class="st">&quot;: &quot;</span>))</span>
-<span id="cb20-37"><a href="#cb20-37"></a></span>
-<span id="cb20-38"><a href="#cb20-38"></a><span class="kw">plot</span>(comparisonsInt,<span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb20-39"><a href="#cb20-39"></a><span class="kw">axis</span>(<span class="dv">2</span>,<span class="dt">at=</span><span class="kw">c</span>(<span class="kw">length</span>(contrastNames)<span class="op">:</span><span class="dv">1</span>), <span class="dt">labels=</span>contrastNames,<span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>comparisonsInt <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats3, <span class="at">linfct =</span> <span class="fu">c</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII = 0&quot;</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII = 0&quot;</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII - poisonII = 0&quot;</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatB - poisonII- poisonII:treatB = 0&quot;</span>,  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatC - poisonII- poisonII:treatC = 0&quot;</span>,  </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + poisonIII:treatD - poisonII- poisonII:treatD = 0&quot;</span>,  </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB = 0&quot;</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC = 0&quot;</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD = 0&quot;</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC - treatB = 0&quot;</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD - treatB = 0&quot;</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD - treatC = 0&quot;</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonII:treatC - treatB - poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatB - poisonII:treatB = 0&quot;</span>,</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonII:treatD - treatC - poisonII:treatC = 0&quot;</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + poisonIII:treatC - treatB - poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatB - poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + poisonIII:treatD - treatC - poisonIII:treatC = 0&quot;</span>)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>contrastNames<span class="ot">&lt;-</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">rep</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],<span class="at">each=</span><span class="dv">3</span>),<span class="fu">rep</span>(<span class="fu">apply</span>(<span class="fu">combn</span>(<span class="fu">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="dv">2</span>)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="at">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">4</span>),<span class="at">sep=</span><span class="st">&quot;: &quot;</span>),</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;I&quot;</span>,<span class="st">&quot;II&quot;</span>,<span class="st">&quot;III&quot;</span>),<span class="at">each=</span><span class="dv">6</span>),<span class="fu">rep</span>(<span class="fu">apply</span>(<span class="fu">combn</span>(<span class="fu">c</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]),<span class="dv">2</span>)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>,],<span class="dv">2</span>,paste,<span class="at">collapse=</span><span class="st">&quot;-&quot;</span>) ,<span class="dv">3</span>),<span class="at">sep=</span><span class="st">&quot;: &quot;</span>))</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisonsInt,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>In onze studie was de interactie echter niet significant. Het effect van het gif (II-I, III-I en III- II) verandert dus niet significant volgens de behandeling (A, B, C, en D) en vice versa. Voor onze dataset lijkt het dus zinvol om</p>
+<p>In onze studie was de interactie echter niet significant. Het effect
+van het gif (II-I, III-I en III- II) verandert dus niet significant
+volgens de behandeling (A, B, C, en D) en vice versa. Voor onze dataset
+lijkt het dus zinvol om</p>
 <ol style="list-style-type: decimal">
-<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te middelen over alle behandelingen (A, B, C, en D), en,</li>
-<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten door ze uit te middelen over alle giffen (I, II, III).</li>
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende giffen (II-I, III-I en III- II) te schatten door ze uit te
+middelen over alle behandelingen (A, B, C, en D), en,</li>
+<li>de effectgrootte voor de pairsgewijze vergelijkingen tussen de
+verschillende behandelingen (B-A, C-A, D-A, C-B, D-B en D-C) te schatten
+door ze uit te middelen over alle giffen (I, II, III).</li>
 </ol>
-<p>Dat zou ons gelijkaardige schattingen van de effectgroottes moeten geven als deze voor het additieve model waarbij we de interactie term uit het model hadden geweerd.</p>
-<p>B.v. voor gif III vs gif II zou dat in volgende contrast resulteren:</p>
+<p>Dat zou ons gelijkaardige schattingen van de effectgroottes moeten
+geven als deze voor het additieve model waarbij we de interactie term
+uit het model hadden geweerd.</p>
+<p>B.v. voor gif III vs gif II zou dat in volgende contrast
+resulteren:</p>
 <ul>
-<li>III-II: <span class="math display">\[H_0: 
+<li>III-II: <span class="math display">\[H_0:
 \begin{array}{l}
 \frac{\beta_{III}-\beta_{II}}{4} + \\
-\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} + \\
-\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} - \beta_{II:C}}{4} + \\
-\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} - \beta_{II:D}}{4}=0
+\quad \frac{\beta_{III} + \beta_{III:B}-\beta_{II} - \beta_{II:B}}{4} +
+\\
+\quad \quad \frac{\beta_{III} + \beta_{III:C}-\beta_{II} -
+\beta_{II:C}}{4} + \\
+\quad \quad \quad \frac{\beta_{III} + \beta_{III:D}-\beta_{II} -
+\beta_{II:D}}{4}=0
 \end{array}
 \]</span> <span class="math display">\[
-H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4} \times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
--\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4} \times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
+H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4}
+\times\beta_{III:C} +  \frac{1}{4} \times\beta_{III:D}
+-\beta_{II} - \frac{1}{4} \times\beta_{II:B} -  \frac{1}{4}
+\times\beta_{II:C}  - \frac{1}{4} \times\beta_{II:D}=0
 \]</span></li>
 </ul>
-<p>We schatten met onderstaande code alle gemiddelde contrasten a.d.h.v. het model met interactie.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>contrasts &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="st">&quot;poisonII + 1/4*poisonII:treatB + 1/4*poisonII:treatC + 1/4*poisonII:treatD = 0&quot;</span>,</span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD= 0&quot;</span>,</span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD - poisonII - 1/4*poisonII:treatB - 1/4*poisonII:treatC - 1/4*poisonII:treatD = 0&quot;</span>,</span>
-<span id="cb21-5"><a href="#cb21-5"></a>  <span class="st">&quot;treatB + 1/3*poisonII:treatB + 1/3*poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC = 0&quot;</span>,</span>
-<span id="cb21-7"><a href="#cb21-7"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD = 0&quot;</span>,</span>
-<span id="cb21-8"><a href="#cb21-8"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb21-9"><a href="#cb21-9"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
-<span id="cb21-10"><a href="#cb21-10"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatC - 1/3*poisonII:treatC - 1/3*poisonIII:treatC = 0&quot;</span>) </span>
-<span id="cb21-11"><a href="#cb21-11"></a></span>
-<span id="cb21-12"><a href="#cb21-12"></a></span>
-<span id="cb21-13"><a href="#cb21-13"></a>comparisonsInt2 &lt;-<span class="st"> </span><span class="kw">glht</span>(rats3, <span class="dt">linfct =</span> contrasts</span>
-<span id="cb21-14"><a href="#cb21-14"></a>)</span>
-<span id="cb21-15"><a href="#cb21-15"></a><span class="kw">plot</span>(comparisonsInt2,<span class="dt">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
-<span id="cb21-16"><a href="#cb21-16"></a>contrastNames &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="kw">axis</span>(<span class="dv">2</span>,<span class="dt">at=</span><span class="kw">c</span>(<span class="kw">length</span>(contrastNames)<span class="op">:</span><span class="dv">1</span>), <span class="dt">labels=</span>contrastNames,<span class="dt">las=</span><span class="dv">2</span>)</span></code></pre></div>
+<p>We schatten met onderstaande code alle gemiddelde contrasten a.d.h.v.
+het model met interactie.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonII + 1/4*poisonII:treatB + 1/4*poisonII:treatC + 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD= 0&quot;</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;poisonIII + 1/4*poisonIII:treatB + 1/4*poisonIII:treatC + 1/4*poisonIII:treatD - poisonII - 1/4*poisonII:treatB - 1/4*poisonII:treatC - 1/4*poisonII:treatD = 0&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatB + 1/3*poisonII:treatB + 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC = 0&quot;</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD = 0&quot;</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatC + 1/3*poisonII:treatC + 1/3*poisonIII:treatC - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatB - 1/3*poisonII:treatB - 1/3*poisonIII:treatB = 0&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;treatD + 1/3*poisonII:treatD + 1/3*poisonIII:treatD  - treatC - 1/3*poisonII:treatC - 1/3*poisonIII:treatC = 0&quot;</span>) </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>comparisonsInt2 <span class="ot">&lt;-</span> <span class="fu">glht</span>(rats3, <span class="at">linfct =</span> contrasts</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisonsInt2,<span class="at">yaxt=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>,<span class="st">&quot;III-I&quot;</span>,<span class="st">&quot;III-II&quot;</span>,<span class="st">&quot;B-A&quot;</span>,<span class="st">&quot;C-A&quot;</span>,<span class="st">&quot;D-A&quot;</span>,<span class="st">&quot;C-B&quot;</span>,<span class="st">&quot;D-B&quot;</span>,<span class="st">&quot;D-C&quot;</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>,<span class="at">at=</span><span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels=</span>contrastNames,<span class="at">las=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="10-MultipleRegression-FactorialDesigns_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>De geschatte effectgroottes zijn inderdaad exact gelijk als bij het model zonder interactie omdat het experiment gebalanceerd is.</p>
-<p>De standaard errors verschillen wel lichtjes. Dat is het gevolg van de errors die verschillen tussen beiden modellen alsook het aantal vrijheidsgraden van de errors (n-p).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">data.frame</span>(<span class="dt">Additive_coef=</span><span class="kw">summary</span>(comparisons)<span class="op">$</span>test<span class="op">$</span>coef,<span class="dt">Additive_se=</span><span class="kw">summary</span>(comparisons)<span class="op">$</span>test<span class="op">$</span>sigma,<span class="dt">Int_coef=</span><span class="kw">summary</span>(comparisonsInt2)<span class="op">$</span>test<span class="op">$</span>coef,<span class="dt">int_se=</span><span class="kw">summary</span>(comparisonsInt2)<span class="op">$</span>test<span class="op">$</span>sigma) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>)</span></code></pre></div>
+<p>De geschatte effectgroottes zijn inderdaad exact gelijk als bij het
+model zonder interactie omdat het experiment gebalanceerd is.</p>
+<p>De standaard errors verschillen wel lichtjes. Dat is het gevolg van
+de errors die verschillen tussen beiden modellen alsook het aantal
+vrijheidsgraden van de errors (n-p).</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Additive_coef=</span><span class="fu">summary</span>(comparisons)<span class="sc">$</span>test<span class="sc">$</span>coef,<span class="at">Additive_se=</span><span class="fu">summary</span>(comparisons)<span class="sc">$</span>test<span class="sc">$</span>sigma,<span class="at">Int_coef=</span><span class="fu">summary</span>(comparisonsInt2)<span class="sc">$</span>test<span class="sc">$</span>coef,<span class="at">int_se=</span><span class="fu">summary</span>(comparisonsInt2)<span class="sc">$</span>test<span class="sc">$</span>sigma) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Additive_coef"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Additive_se"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Int_coef"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["int_se"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.047","2":"0.017","3":"0.047","4":"0.017","_rn_":"poison: II - I"},{"1":"0.200","2":"0.017","3":"0.200","4":"0.017","_rn_":"poison: III - I"},{"1":"0.153","2":"0.017","3":"0.153","4":"0.017","_rn_":"poison: III - II"},{"1":"-0.166","2":"0.020","3":"-0.166","4":"0.020","_rn_":"treat: B - A"},{"1":"-0.057","2":"0.020","3":"-0.057","4":"0.020","_rn_":"treat: C - A"},{"1":"-0.136","2":"0.020","3":"-0.136","4":"0.020","_rn_":"treat: D - A"},{"1":"0.109","2":"0.020","3":"0.109","4":"0.020","_rn_":"treat: C - B"},{"1":"0.030","2":"0.020","3":"0.030","4":"0.020","_rn_":"treat: D - B"},{"1":"-0.079","2":"0.020","3":"-0.079","4":"0.020","_rn_":"treat: D - C"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -896,15 +988,40 @@ H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4} \times\beta_{I
 </div>
 </div>
 </div>
-<div id="conclusie" class="section level1">
+<div id="conclusie" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Conclusie</h1>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/95DvzLFe3yk
 " frameborder="0" style="display: block; margin: auto;" allow="autoplay; encrypted-media" allowfullscreen>
 </iframe>
-<p>Er is een extreem significant effect van het type gif en de behandeling op de snelheid van sterven bij ratten (p &lt;&lt; 0.001).</p>
-<p>De interactie tussen gif en behandeling is niet significant (p = 0.387).</p>
-<p>De snelheid van sterven is gemiddeld 0.2h<span class="math inline">\(^{-1}\)</span> en 0.15h<span class="math inline">\(^{-1}\)</span> hoger voor ratten die blootgesteld worden aan gif III dan aan respectievelijk gif I en II (beide p &lt;&lt; 0.001, 95% BI III-I: [0.15, 0.25]h<span class="math inline">\(^{-1}\)</span>, 95% BI III-II: [0.1, 0.2]h<span class="math inline">\(^{-1}\)</span>) De gemiddelde snelheid van sterven was niet significant verschillend tussen ratten die werden blootgesteld aan gif I en gif II (p=0.074).</p>
-<p>De snelheid van sterven is gemiddeld 0.17h<span class="math inline">\(^{-1}\)</span> en 0.14h<span class="math inline">\(^{-1}\)</span> hoger na behandeling A dan na behandeling B en D (p &lt;&lt; 0.001, 95% BI B-A: [-0.22, -0.11]h<span class="math inline">\(^{-1}\)</span>, 95% BI D-A: [-0.19, -0.08]h<span class="math inline">\(^{-1}\)</span>). De snelheid van sterven is gemiddeld 0.11h<span class="math inline">\(^{-1}\)</span> en 0.08h<span class="math inline">\(^{-1}\)</span> hoger na behandeling C dan respectievelijk na behandeling B en D (C-B: p &lt;&lt; 0.001, 95% CI [0.05, 0.17]h<span class="math inline">\(^{-1}\)</span> , D-C: p = 0.003, 95% CI [-0.14, -0.02]h<span class="math inline">\(^{-1}\)</span>). De gemiddelde snelheid van sterven is niet significant verschillend tussen ratten behandeld met behandeling C vs A, en D vs B (p- waarden respectievelijk p = 0.051 en p = 0.61).</p>
+<p>Er is een extreem significant effect van het type gif en de
+behandeling op de snelheid van sterven bij ratten (p &lt;&lt;
+0.001).</p>
+<p>De interactie tussen gif en behandeling is niet significant (p =
+0.387).</p>
+<p>De snelheid van sterven is gemiddeld 0.2h<span
+class="math inline">\(^{-1}\)</span> en 0.15h<span
+class="math inline">\(^{-1}\)</span> hoger voor ratten die blootgesteld
+worden aan gif III dan aan respectievelijk gif I en II (beide p &lt;&lt;
+0.001, 95% BI III-I: [0.15, 0.25]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI III-II: [0.1, 0.2]h<span
+class="math inline">\(^{-1}\)</span>) De gemiddelde snelheid van sterven
+was niet significant verschillend tussen ratten die werden blootgesteld
+aan gif I en gif II (p=0.074).</p>
+<p>De snelheid van sterven is gemiddeld 0.17h<span
+class="math inline">\(^{-1}\)</span> en 0.14h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling A dan na
+behandeling B en D (p &lt;&lt; 0.001, 95% BI B-A: [-0.22, -0.11]h<span
+class="math inline">\(^{-1}\)</span>, 95% BI D-A: [-0.19, -0.08]h<span
+class="math inline">\(^{-1}\)</span>). De snelheid van sterven is
+gemiddeld 0.11h<span class="math inline">\(^{-1}\)</span> en 0.08h<span
+class="math inline">\(^{-1}\)</span> hoger na behandeling C dan
+respectievelijk na behandeling B en D (C-B: p &lt;&lt; 0.001, 95% CI
+[0.05, 0.17]h<span class="math inline">\(^{-1}\)</span> , D-C: p =
+0.003, 95% CI [-0.14, -0.02]h<span
+class="math inline">\(^{-1}\)</span>). De gemiddelde snelheid van
+sterven is niet significant verschillend tussen ratten behandeld met
+behandeling C vs A, en D vs B (p- waarden respectievelijk p = 0.051 en p
+= 0.61).</p>
 <p>Alle p-waarden werden gecorrigeerd voor meervoudig testen.</p>
 </div>
 

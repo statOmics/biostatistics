@@ -13,6 +13,7 @@
 
 <title>Practicum 1: Voorbereiding 1</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -427,63 +428,98 @@ div.tocify {
 </div>
 
 
-<div id="plantgroei-bij-behandeling" class="section level1">
-<h1><span class="header-section-number">1</span> Plantgroei bij behandeling</h1>
-<p>Deze studie vergelijkt het droog gewicht van planten tussen een controle behandeling en twee verschillende behandelingen. We willen weten of het gemiddeld gewicht van planten bij behandeling twee (de data van behandeling één gaan we niet gebruiken) verschilt tegenover de controle groep. Beide behandelingen zijn toegepast op 10 planten. De planten zijn willekeurig over de behandelingen verdeeld.</p>
+<div id="plantgroei-bij-behandeling" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Plantgroei bij
+behandeling</h1>
+<p>Deze studie vergelijkt het droog gewicht van planten tussen een
+controle behandeling en twee verschillende behandelingen. We willen
+weten of het gemiddeld gewicht van planten bij behandeling twee (de data
+van behandeling één gaan we niet gebruiken) verschilt tegenover de
+controle groep. Beide behandelingen zijn toegepast op 10 planten. De
+planten zijn willekeurig over de behandelingen verdeeld.</p>
 <pre class="r"><code>suppressPackageStartupMessages({
   library(tidyverse)
   library(ggplot2)})</code></pre>
 </div>
-<div id="data-exploratie" class="section level1">
+<div id="data-exploratie" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data exploratie</h1>
 <pre class="r"><code>data(&quot;PlantGrowth&quot;)</code></pre>
-<div id="datastructuur-bekijken" class="section level2">
-<h2><span class="header-section-number">2.1</span> Datastructuur bekijken</h2>
+<div id="datastructuur-bekijken" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Datastructuur
+bekijken</h2>
 <pre class="r"><code>#Bekijk hoe de dataset PlantGrowth eruit ziet</code></pre>
 </div>
-<div id="data-filteren" class="section level2">
+<div id="data-filteren" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data filteren</h2>
-<p>We gaan eerst de data filteren zodat enkel de controle- (ctrl) en tweede behandelingsgroep (trt2) gebruikt worden.</p>
+<p>We gaan eerst de data filteren zodat enkel de controle- (ctrl) en
+tweede behandelingsgroep (trt2) gebruikt worden.</p>
 <pre class="r"><code>#Filter de data zodat enkel data van de controle- (ctrl) en tweede behandelingsgroep (trt2) gebruikt worden.</code></pre>
 </div>
-<div id="figuur-van-de-data" class="section level2">
-<h2><span class="header-section-number">2.3</span> Figuur van de data</h2>
-<p>We gaan de gewichten (weight) van de planten per groep (group) plotten door middel van een boxplot om te zien hoe onze distributie eruit ziet.</p>
+<div id="figuur-van-de-data" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Figuur van de
+data</h2>
+<p>We gaan de gewichten (weight) van de planten per groep (group)
+plotten door middel van een boxplot om te zien hoe onze distributie
+eruit ziet.</p>
 <pre class="r"><code>#Maak een boxplot voor elke groep (group) van het gewicht (weight) van de planten </code></pre>
 </div>
 </div>
-<div id="t-test" class="section level1">
+<div id="t-test" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> T-test</h1>
-<div id="geef-de-nul--en-alternatieve-hypothese-van-de-two-sample-t-test" class="section level2">
-<h2><span class="header-section-number">3.1</span> Geef de nul- en alternatieve hypothese van de two-sample t-test:</h2>
+<div
+id="geef-de-nul--en-alternatieve-hypothese-van-de-two-sample-t-test"
+class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Geef de nul- en
+alternatieve hypothese van de two-sample t-test:</h2>
 </div>
-<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na" class="section level2">
-<h2><span class="header-section-number">3.2</span> Geef de assumpties van de deze test en ga deze na:</h2>
+<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na"
+class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Geef de assumpties
+van de deze test en ga deze na:</h2>
 </div>
-<div id="voer-de-two-sample-t-test-uit.-wat-kan-je-hieruit-concluderen-op-vlak-van-hypothesetest-en-betrouwbaarheidsinterval" class="section level2">
-<h2><span class="header-section-number">3.3</span> Voer de two-sample t-test uit. Wat kan je hieruit concluderen op vlak van hypothesetest en betrouwbaarheidsinterval?</h2>
+<div
+id="voer-de-two-sample-t-test-uit.-wat-kan-je-hieruit-concluderen-op-vlak-van-hypothesetest-en-betrouwbaarheidsinterval"
+class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Voer de two-sample
+t-test uit. Wat kan je hieruit concluderen op vlak van hypothesetest en
+betrouwbaarheidsinterval?</h2>
 <pre class="r"><code># Voer de two-sample t-test uit om de nulhypothese van gelijk gemiddeld gewicht tussen de controlebehandeling en behandeling 2 na te gaan.</code></pre>
 </div>
 </div>
-<div id="lineair-model" class="section level1">
+<div id="lineair-model" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Lineair model</h1>
-<div id="wat-is-de-link-tussen-de-two-sample-t-test-en-het-lineair-model" class="section level2">
-<h2><span class="header-section-number">4.1</span> Wat is de link tussen de two-sample t-test en het lineair model?</h2>
+<div
+id="wat-is-de-link-tussen-de-two-sample-t-test-en-het-lineair-model"
+class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Wat is de link tussen
+de two-sample t-test en het lineair model?</h2>
 </div>
-<div id="geef-de-nul--en-alternatieve-hypothese-van-deze-test" class="section level2">
-<h2><span class="header-section-number">4.2</span> Geef de nul- en alternatieve hypothese van deze test:</h2>
+<div id="geef-de-nul--en-alternatieve-hypothese-van-deze-test"
+class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Geef de nul- en
+alternatieve hypothese van deze test:</h2>
 </div>
-<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na-1" class="section level2">
-<h2><span class="header-section-number">4.3</span> Geef de assumpties van de deze test en ga deze na:</h2>
+<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na-1"
+class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Geef de assumpties
+van de deze test en ga deze na:</h2>
 </div>
-<div id="modelleer-de-data-via-een-lineaire-regressie-en-ga-na-of-de-nulhypothese-van-gelijk-gemiddeld-gewicht-verworpen-wordt.-wat-kan-je-zeggen-over-de-hypothesetest-en-de-betrouwbaarheidsintervallen-wat-betekenen-de-verschillende-parameters" class="section level2">
-<h2><span class="header-section-number">4.4</span> Modelleer de data via een lineaire regressie en ga na of de nulhypothese van gelijk gemiddeld gewicht verworpen wordt. Wat kan je zeggen over de hypothesetest en de betrouwbaarheidsintervallen? Wat betekenen de verschillende parameters?</h2>
+<div
+id="modelleer-de-data-via-een-lineaire-regressie-en-ga-na-of-de-nulhypothese-van-gelijk-gemiddeld-gewicht-verworpen-wordt.-wat-kan-je-zeggen-over-de-hypothesetest-en-de-betrouwbaarheidsintervallen-wat-betekenen-de-verschillende-parameters"
+class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Modelleer de data via
+een lineaire regressie en ga na of de nulhypothese van gelijk gemiddeld
+gewicht verworpen wordt. Wat kan je zeggen over de hypothesetest en de
+betrouwbaarheidsintervallen? Wat betekenen de verschillende
+parameters?</h2>
 <pre class="r"><code># Voer een lineare regressie toe van het gewicht in functie van de behandelingsgroep.</code></pre>
 <pre class="r"><code># Geef de 95% confidence intervals van de geschatte parameters.</code></pre>
 </div>
 </div>
-<div id="conclusie-geef-de-conclusie-van-je-analyse" class="section level1">
-<h1><span class="header-section-number">5</span> Conclusie: Geef de conclusie van je analyse</h1>
+<div id="conclusie-geef-de-conclusie-van-je-analyse"
+class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusie: Geef de
+conclusie van je analyse</h1>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IFZvb3JiZXJlaWRpbmcgMSIKb3V0cHV0OiBodG1sX2RvY3VtZW50Ci0tLQoKIyBQbGFudGdyb2VpIGJpaiBiZWhhbmRlbGluZwpEZXplIHN0dWRpZSB2ZXJnZWxpamt0IGhldCBkcm9vZyBnZXdpY2h0IHZhbiBwbGFudGVuIHR1c3NlbiBlZW4gY29udHJvbGUgYmVoYW5kZWxpbmcgZW4gdHdlZSB2ZXJzY2hpbGxlbmRlIGJlaGFuZGVsaW5nZW4uIFdlIHdpbGxlbiB3ZXRlbiBvZiBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdmFuIHBsYW50ZW4gYmlqIGJlaGFuZGVsaW5nIHR3ZWUgKGRlIGRhdGEgdmFuIGJlaGFuZGVsaW5nIMOpw6luIGdhYW4gd2UgbmlldCBnZWJydWlrZW4pIHZlcnNjaGlsdCB0ZWdlbm92ZXIgZGUgY29udHJvbGUgZ3JvZXAuIEJlaWRlIGJlaGFuZGVsaW5nZW4gemlqbiB0b2VnZXBhc3Qgb3AgMTAgcGxhbnRlbi4gRGUgcGxhbnRlbiB6aWpuIHdpbGxla2V1cmlnIG92ZXIgZGUgYmVoYW5kZWxpbmdlbiB2ZXJkZWVsZC4KCmBgYHtyfQpzdXBwcmVzc1BhY2thZ2VTdGFydHVwTWVzc2FnZXMoewogIGxpYnJhcnkodGlkeXZlcnNlKQogIGxpYnJhcnkoZ2dwbG90Mil9KQpgYGAKCgojIERhdGEgZXhwbG9yYXRpZQpgYGB7cn0KZGF0YSgiUGxhbnRHcm93dGgiKQpgYGAKCiMjIERhdGFzdHJ1Y3R1dXIgYmVraWprZW4KYGBge3J9CiNCZWtpamsgaG9lIGRlIGRhdGFzZXQgUGxhbnRHcm93dGggZXJ1aXQgemlldAoKYGBgCiMjIERhdGEgZmlsdGVyZW4KV2UgZ2FhbiBlZXJzdCBkZSBkYXRhIGZpbHRlcmVuIHpvZGF0IGVua2VsIGRlIGNvbnRyb2xlLSAoY3RybCkgZW4gdHdlZWRlIGJlaGFuZGVsaW5nc2dyb2VwICh0cnQyKSBnZWJydWlrdCB3b3JkZW4uCmBgYHtyfQojRmlsdGVyIGRlIGRhdGEgem9kYXQgZW5rZWwgZGF0YSB2YW4gZGUgY29udHJvbGUtIChjdHJsKSBlbiB0d2VlZGUgYmVoYW5kZWxpbmdzZ3JvZXAgKHRydDIpIGdlYnJ1aWt0IHdvcmRlbi4KCmBgYAoKCiMjIEZpZ3V1ciB2YW4gZGUgZGF0YQpXZSBnYWFuIGRlIGdld2ljaHRlbiAod2VpZ2h0KSB2YW4gZGUgcGxhbnRlbiBwZXIgZ3JvZXAgKGdyb3VwKSBwbG90dGVuIGRvb3IgbWlkZGVsIHZhbiBlZW4gYm94cGxvdCBvbSB0ZSB6aWVuIGhvZSBvbnplIGRpc3RyaWJ1dGllIGVydWl0IHppZXQuCmBgYHtyfQojTWFhayBlZW4gYm94cGxvdCB2b29yIGVsa2UgZ3JvZXAgKGdyb3VwKSB2YW4gaGV0IGdld2ljaHQgKHdlaWdodCkgdmFuIGRlIHBsYW50ZW4gCgoKCgpgYGAKCgojIFQtdGVzdAoKIyMgR2VlZiBkZSBudWwtIGVuIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2UgdmFuIGRlIHR3by1zYW1wbGUgdC10ZXN0OgoKCiMjIEdlZWYgZGUgYXNzdW1wdGllcyB2YW4gZGUgZGV6ZSB0ZXN0IGVuIGdhIGRlemUgbmE6CgoKIyMgVm9lciBkZSB0d28tc2FtcGxlIHQtdGVzdCB1aXQuIFdhdCBrYW4gamUgaGllcnVpdCBjb25jbHVkZXJlbiBvcCB2bGFrIHZhbiBoeXBvdGhlc2V0ZXN0IGVuIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbD8KCmBgYHtyfQojIFZvZXIgZGUgdHdvLXNhbXBsZSB0LXRlc3QgdWl0IG9tIGRlIG51bGh5cG90aGVzZSB2YW4gZ2VsaWprIGdlbWlkZGVsZCBnZXdpY2h0IHR1c3NlbiBkZSBjb250cm9sZWJlaGFuZGVsaW5nIGVuIGJlaGFuZGVsaW5nIDIgbmEgdGUgZ2Fhbi4KCgpgYGAKCgojIExpbmVhaXIgbW9kZWwKCiMjIFdhdCBpcyBkZSBsaW5rIHR1c3NlbiBkZSB0d28tc2FtcGxlIHQtdGVzdCBlbiBoZXQgbGluZWFpciBtb2RlbD8KCiMjIEdlZWYgZGUgbnVsLSBlbiBhbHRlcm5hdGlldmUgaHlwb3RoZXNlIHZhbiBkZXplIHRlc3Q6CgojIyBHZWVmIGRlIGFzc3VtcHRpZXMgdmFuIGRlIGRlemUgdGVzdCBlbiBnYSBkZXplIG5hOgoKCiMjIE1vZGVsbGVlciBkZSBkYXRhIHZpYSBlZW4gbGluZWFpcmUgcmVncmVzc2llIGVuIGdhIG5hIG9mIGRlIG51bGh5cG90aGVzZSB2YW4gZ2VsaWprIGdlbWlkZGVsZCBnZXdpY2h0IHZlcndvcnBlbiB3b3JkdC4gV2F0IGthbiBqZSB6ZWdnZW4gb3ZlciBkZSBoeXBvdGhlc2V0ZXN0IGVuIGRlIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbGxlbj8gV2F0IGJldGVrZW5lbiBkZSB2ZXJzY2hpbGxlbmRlIHBhcmFtZXRlcnM/CgpgYGB7cn0KIyBWb2VyIGVlbiBsaW5lYXJlIHJlZ3Jlc3NpZSB0b2UgdmFuIGhldCBnZXdpY2h0IGluIGZ1bmN0aWUgdmFuIGRlIGJlaGFuZGVsaW5nc2dyb2VwLgoKCmBgYAoKYGBge3J9CiMgR2VlZiBkZSA5NSUgY29uZmlkZW5jZSBpbnRlcnZhbHMgdmFuIGRlIGdlc2NoYXR0ZSBwYXJhbWV0ZXJzLgpgYGAKCgojIENvbmNsdXNpZTogR2VlZiBkZSBjb25jbHVzaWUgdmFuIGplIGFuYWx5c2UKCg==</div>

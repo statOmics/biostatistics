@@ -14,6 +14,7 @@
 
 <title>Practicum 1: Niet-parametrische test</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -517,75 +517,127 @@ div.tocify {
 
 <h1 class="title toc-ignore">Practicum 1: Niet-parametrische test</h1>
 <h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div id="eetgedrag-knaagdieren" class="section level1">
-<h1><span class="header-section-number">1</span> Eetgedrag knaagdieren:</h1>
-<p>Een bioloog onderzocht het effect van schimmelinfecties in voeding op het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan een groep van 8 knaagdieren, steriele appels aan een groep van 4 knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht (kilogram) werden gemeten. De data is beschikbaar in dataset “knaagdieren”. We willen weten of er een verschil is in hoeveelheid gegeten appel per kilogram lichaamsgewicht.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">suppressPackageStartupMessages</span>({</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(ggplot2)})</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>knaagdieren &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">weight=</span><span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),<span class="dt">group=</span><span class="kw">as.factor</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>),<span class="kw">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span></code></pre></div>
+<div id="eetgedrag-knaagdieren" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Eetgedrag
+knaagdieren:</h1>
+<p>Een bioloog onderzocht het effect van schimmelinfecties in voeding op
+het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan
+een groep van 8 knaagdieren, steriele appels aan een groep van 4
+knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht
+(kilogram) werden gemeten. De data is beschikbaar in dataset
+“knaagdieren”. We willen weten of er een verschil is in hoeveelheid
+gegeten appel per kilogram lichaamsgewicht.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)})</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>knaagdieren <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">weight=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),<span class="at">group=</span><span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>),<span class="fu">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span></code></pre></div>
 </div>
-<div id="data-exploratie" class="section level1">
+<div id="data-exploratie" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data exploratie</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">head</span>(knaagdieren)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(knaagdieren)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"11","2":"treat","_rn_":"1"},{"1":"33","2":"treat","_rn_":"2"},{"1":"48","2":"treat","_rn_":"3"},{"1":"34","2":"treat","_rn_":"4"},{"1":"112","2":"treat","_rn_":"5"},{"1":"369","2":"treat","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>We maken een boxplot voor zowel de beschimmelde appels als de steriele appels het gewicht gegeten aan appels per gewicht van het knaagdier.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>knaagdieren <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>group,<span class="dt">y=</span>weight)) <span class="op">+</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.shape =</span> <span class="ot">NA</span>) <span class="op">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">geom_jitter</span>() <span class="op">+</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Groep&quot;</span>) <span class="op">+</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Gewicht aan appels gegeten per lichaamsgewicht (g/kg)&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Gewicht steriele of beschimmelde appels gegeten per lichaamsgewicht (g/kg)&quot;</span>)</span></code></pre></div>
+<p>We maken een boxplot voor zowel de beschimmelde appels als de
+steriele appels het gewicht gegeten aan appels per gewicht van het
+knaagdier.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>knaagdieren <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>weight)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Groep&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Gewicht aan appels gegeten per lichaamsgewicht (g/kg)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Gewicht steriele of beschimmelde appels gegeten per lichaamsgewicht (g/kg)&quot;</span>)</span></code></pre></div>
 <p><img src="Practicum_1_oplossing_niet_parametrische_test_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Indien we een two-sample t-test zouden willen uitvoeren wordt verondersteld dat de data in elke groep normaal verdeeld zijn. De groep van steriele appels heeft echter te weinig observaties (4) om normaliteit na te gaan. Bovendien zien we ook een aanwijzing voor outliers. Daarom zullen we gebruik maken van een niet-parametrische test.</p>
-<p>Ook gelijkheid van variantie kan niet worden nagegaan gezien het beperkt aantal observaties in de controlegroep.</p>
+<p>Indien we een two-sample t-test zouden willen uitvoeren wordt
+verondersteld dat de data in elke groep normaal verdeeld zijn. De groep
+van steriele appels heeft echter te weinig observaties (4) om
+normaliteit na te gaan. Bovendien zien we ook een aanwijzing voor
+outliers. Daarom zullen we gebruik maken van een niet-parametrische
+test.</p>
+<p>Ook gelijkheid van variantie kan niet worden nagegaan gezien het
+beperkt aantal observaties in de controlegroep.</p>
 </div>
-<div id="wilcoxon-mann-withney-rank-sum-test-wmw-test" class="section level1">
-<h1><span class="header-section-number">3</span> Wilcoxon-Mann-Withney rank sum test (WMW test)</h1>
-<div id="nul-en-alternatieve-hypothese" class="section level2">
-<h2><span class="header-section-number">3.1</span> Nul-en alternatieve hypothese</h2>
+<div id="wilcoxon-mann-withney-rank-sum-test-wmw-test"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Wilcoxon-Mann-Withney
+rank sum test (WMW test)</h1>
+<div id="nul-en-alternatieve-hypothese" class="section level2"
+number="3.1">
+<h2><span class="header-section-number">3.1</span> Nul-en alternatieve
+hypothese</h2>
 <p>De nulhypothese stelt dus dat beide distributies dezelfde zijn.</p>
-<p>De alternatieve hypothese stelt dat de kans dat een willekeurige observatie van groep 1 groter of gelijk is aan de waarde van een willekeurige observatie van de andere groep afwijkt van 50%. In één van de twee groepen zal er dus een verhoogde kans zijn om hogere waarden te observeren dan in de andere groep.</p>
-<p><span class="math inline">\(H_0\)</span>: <span class="math inline">\(F_1(y) = F_2(y)\)</span></p>
-<p><span class="math inline">\(H_a\)</span>: <span class="math inline">\(P(Y_1 \ge Y_2) \ne \frac{1}{2}\)</span></p>
+<p>De alternatieve hypothese stelt dat de kans dat een willekeurige
+observatie van groep 1 groter of gelijk is aan de waarde van een
+willekeurige observatie van de andere groep afwijkt van 50%. In één van
+de twee groepen zal er dus een verhoogde kans zijn om hogere waarden te
+observeren dan in de andere groep.</p>
+<p><span class="math inline">\(H_0\)</span>: <span
+class="math inline">\(F_1(y) = F_2(y)\)</span></p>
+<p><span class="math inline">\(H_a\)</span>: <span
+class="math inline">\(P(Y_1 \ge Y_2) \ne \frac{1}{2}\)</span></p>
 </div>
-<div id="assumpties" class="section level2">
+<div id="assumpties" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Assumpties</h2>
-<p>Voor de Wilcoxon-Mann-Withney rank sum test moeten geen distributionele aannames worden gemaakt. Van de observaties wordt wel verondersteld dat ze onafhankelijk zijn van elkaar.</p>
+<p>Voor de Wilcoxon-Mann-Withney rank sum test moeten geen
+distributionele aannames worden gemaakt. Van de observaties wordt wel
+verondersteld dat ze onafhankelijk zijn van elkaar.</p>
 </div>
-<div id="test-uitvoeren" class="section level2">
+<div id="test-uitvoeren" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Test uitvoeren</h2>
-<p>We kunnen toetsen tegen afwijkingen van de nulhypothese in de richting van de alternatieve hypothese a.d.h.v. de Wilcoxon-Mann-Withney rank sum test.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>wilcox &lt;-<span class="st"> </span><span class="kw">wilcox.test</span>(weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> knaagdieren)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>wilcox</span></code></pre></div>
+<p>We kunnen toetsen tegen afwijkingen van de nulhypothese in de
+richting van de alternatieve hypothese a.d.h.v. de Wilcoxon-Mann-Withney
+rank sum test.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wilcox <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> knaagdieren)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wilcox</span></code></pre></div>
 <pre><code>## 
 ##  Wilcoxon rank sum exact test
 ## 
 ## data:  weight by group
 ## W = 27, p-value = 0.07273
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
-<p>We kunnen de nulhypothese van gelijke distributies niet verwerpen op het 5% significantieniveau (p = 0.073). Dit wil dus zeggen dat we besluiten dat er op het 5% significantieniveau geen significant verschil is in de distributies van het gewicht van de appels die worden gegeten per kilogram lichaamsgewicht door ratten die met beschimmelde appels worden gevoederd en ratten die met steriele appels worden gevoederd.</p>
-<p>Hoewel de test niet significant is, gaan we omwille van didactische redenen toch de probabilistische index, de effectgrootte, berekenen. De probabilistische index is de kans om een waarde te vinden voor een willekeurige observatie in de eerste groep (ctrl, steriele appels) die hoger is dan een willekeurige observatie in de tweede groep (treat, beschimmelde appels). Merk op dat de ctrl groep de referentiegroep is in R omdat de groepen alfabetisch worden gerangschikt in R.</p>
-<p>Dit kunnen we berekenen aan de hand van de geobserveerde teststatistiek en de hoeveelheid observaties per groep.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>n1 &lt;-<span class="st"> </span><span class="dv">4</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>n2 &lt;-<span class="st"> </span><span class="dv">8</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a>WObs &lt;-<span class="st"> </span><span class="kw">wilcox.test</span>(weight <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> knaagdieren)<span class="op">$</span>statistic <span class="co">#geobserveerde teststatistiek</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>WObs<span class="op">/</span>(n1<span class="op">*</span>n2)</span></code></pre></div>
+<p>We kunnen de nulhypothese van gelijke distributies niet verwerpen op
+het 5% significantieniveau (p = 0.073). Dit wil dus zeggen dat we
+besluiten dat er op het 5% significantieniveau geen significant verschil
+is in de distributies van het gewicht van de appels die worden gegeten
+per kilogram lichaamsgewicht door ratten die met beschimmelde appels
+worden gevoederd en ratten die met steriele appels worden gevoederd.</p>
+<p>Hoewel de test niet significant is, gaan we omwille van didactische
+redenen toch de probabilistische index, de effectgrootte, berekenen. De
+probabilistische index is de kans om een waarde te vinden voor een
+willekeurige observatie in de eerste groep (ctrl, steriele appels) die
+hoger is dan een willekeurige observatie in de tweede groep (treat,
+beschimmelde appels). Merk op dat de ctrl groep de referentiegroep is in
+R omdat de groepen alfabetisch worden gerangschikt in R.</p>
+<p>Dit kunnen we berekenen aan de hand van de geobserveerde
+teststatistiek en de hoeveelheid observaties per groep.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>WObs <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> knaagdieren)<span class="sc">$</span>statistic <span class="co">#geobserveerde teststatistiek</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>WObs<span class="sc">/</span>(n1<span class="sc">*</span>n2)</span></code></pre></div>
 <pre><code>##       W 
 ## 0.84375</code></pre>
-<p>In de steekproef zal een willekeurig knaagdier met een kans van 84.4% meer eten van steriele appels per kilogram lichaamsgewicht dan dat een ander knaagdier eet van beschimmelde appels. We kunnen het verschil die we zien tussen de twee groepen in de steekproef echter niet veralgemenen naar de populatie omdat deze kans niet significant verschillend is van 50% op het 5% significantie-niveau.</p>
-<p>Merk op dat de puntschatter sterk lijkt af te wijken van 50% in de steekproef, maar dat we het verschil niet op kunnen pikken met de WMW test op het 5% significantieniveau, wat mogelijks zou kunnen wijzen op een gebrek aan power van de proefopzet. We hebben inderdaad maar 4 observaties in de controle groep…</p>
+<p>In de steekproef zal een willekeurig knaagdier met een kans van 84.4%
+meer eten van steriele appels per kilogram lichaamsgewicht dan dat een
+ander knaagdier eet van beschimmelde appels. We kunnen het verschil die
+we zien tussen de twee groepen in de steekproef echter niet veralgemenen
+naar de populatie omdat deze kans niet significant verschillend is van
+50% op het 5% significantie-niveau.</p>
+<p>Merk op dat de puntschatter sterk lijkt af te wijken van 50% in de
+steekproef, maar dat we het verschil niet op kunnen pikken met de WMW
+test op het 5% significantieniveau, wat mogelijks zou kunnen wijzen op
+een gebrek aan power van de proefopzet. We hebben inderdaad maar 4
+observaties in de controle groep…</p>
 </div>
 </div>
 

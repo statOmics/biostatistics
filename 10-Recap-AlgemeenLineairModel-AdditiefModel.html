@@ -14,6 +14,7 @@
 
 <title>10. Recap: Algemeen Lineair Model - Additief Model</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,60 +515,88 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">10. Recap: Algemeen Lineair Model - Additief Model</h1>
+<h1 class="title toc-ignore">10. Recap: Algemeen Lineair Model -
+Additief Model</h1>
 <h4 class="author">Lieven Clement</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
-<div id="dataset---onderzoeksvraag---design" class="section level1">
-<h1><span class="header-section-number">1</span> Dataset - Onderzoeksvraag - Design?</h1>
+<div id="dataset---onderzoeksvraag---design" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Dataset -
+Onderzoeksvraag - Design?</h1>
 <ul>
 <li><p>Prostaatkanker case studie</p></li>
-<li><p>Associatie tussen prostaat specifiek antigen concentratie en andere predictoren</p></li>
+<li><p>Associatie tussen prostaat specifiek antigen concentratie en
+andere predictoren</p></li>
 <li><p>Type response?</p></li>
 <li><p>Type predictoren?</p></li>
 </ul>
 </div>
-<div id="data-exploratie" class="section level1">
+<div id="data-exploratie" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Data-exploratie</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>prostate &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>prostate &lt;-<span class="st"> </span>prostate <span class="op">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">svi =</span> <span class="kw">as.factor</span>(svi))</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(GGally)</span>
-<span id="cb1-7"><a href="#cb1-7"></a>prostate <span class="op">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="st">  </span>dplyr<span class="op">::</span><span class="kw">select</span>(<span class="op">-</span>pgg45)  <span class="op">%&gt;%</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="st">  </span><span class="kw">ggpairs</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statomics/sbc20/master/data/prostate.csv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prostate <span class="ot">&lt;-</span> prostate <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">svi =</span> <span class="fu">as.factor</span>(svi))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>prostate <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>pgg45)  <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>()</span></code></pre></div>
 <p><img src="10-Recap-AlgemeenLineairModel-AdditiefModel_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <ul>
-<li>Schatting voor parameter <span class="math inline">\(\beta_v\)</span> mogelijks geen zuiver effect van tumor volume.</li>
-<li>Zelfs als lcavol niet is geassocieerd met het lpsa, dan nog kunnen patiënten met een groter tumor volume een hoger lpsa hebben omdat ze bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status 1). <span class="math inline">\(\rightarrow\)</span> Confounding.</li>
-<li>Door de svi status in het model op te nemen corrigeren we voor de mogelijkse confounding.</li>
+<li>Schatting voor parameter <span
+class="math inline">\(\beta_v\)</span> mogelijks geen zuiver effect van
+tumor volume.</li>
+<li>Zelfs als lcavol niet is geassocieerd met het lpsa, dan nog kunnen
+patiënten met een groter tumor volume een hoger lpsa hebben omdat ze
+bijvoorbeeld een aantasting van de zaadblaasjes hebben (svi status 1).
+<span class="math inline">\(\rightarrow\)</span> Confounding.</li>
+<li>Door de svi status in het model op te nemen corrigeren we voor de
+mogelijkse confounding.</li>
 </ul>
 </div>
-<div id="vertalen-van-onderzoeksvraag-naar-populatie-parameters-effectgrootte" class="section level1">
-<h1><span class="header-section-number">3</span> Vertalen van onderzoeksvraag naar populatie parameters: effectgrootte</h1>
-<p><span class="math display">\[\text{E}\left(Y\vert X_v, X_w, X_s\right) = \beta_0 + \beta_v X_v + \beta_w X_w + \beta_s X_s\]</span></p>
+<div
+id="vertalen-van-onderzoeksvraag-naar-populatie-parameters-effectgrootte"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Vertalen van
+onderzoeksvraag naar populatie parameters: effectgrootte</h1>
+<p><span class="math display">\[\text{E}\left(Y\vert X_v, X_w,
+X_s\right) = \beta_0 + \beta_v X_v + \beta_w X_w + \beta_s
+X_s\]</span></p>
 <ul>
-<li><p>Associatie van predictoren met log PSA: hellingen van het model</p></li>
-<li><p>Meer accurate predicties door meerdere predictoren simultaan in rekening te brengen</p></li>
+<li><p>Associatie van predictoren met log PSA: hellingen van het
+model</p></li>
+<li><p>Meer accurate predicties door meerdere predictoren simultaan in
+rekening te brengen</p></li>
 <li><p>Interpretatie?</p>
 <ul>
-<li><p>verschil in gemiddelde uitkomst tussen subjecten die in één eenheid van log tumor volume (<span class="math inline">\(X_v\)</span>) verschillen, maar dezelfde waarde hebben voor de overige verklarende variabelen (<span class="math inline">\(X_w\)</span> en <span class="math inline">\(X_s\)</span>) in het model.</p></li>
-<li><p>Associatie tussen log PSA en de predictor log tumor volume waarbij gecorrigeerd wordt voor de overige predictoren, hier dus associatie van log PSA en het log tumor volume na correctie voor log prostaatgewicht en svi-status.</p></li>
+<li><p>verschil in gemiddelde uitkomst tussen subjecten die in één
+eenheid van log tumor volume (<span class="math inline">\(X_v\)</span>)
+verschillen, maar dezelfde waarde hebben voor de overige verklarende
+variabelen (<span class="math inline">\(X_w\)</span> en <span
+class="math inline">\(X_s\)</span>) in het model.</p></li>
+<li><p>Associatie tussen log PSA en de predictor log tumor volume
+waarbij gecorrigeerd wordt voor de overige predictoren, hier dus
+associatie van log PSA en het log tumor volume na correctie voor log
+prostaatgewicht en svi-status.</p></li>
 </ul></li>
 </ul>
 </div>
-<div id="schatten-van-effectgrootte-a.d.h.v.-steekproef" class="section level1">
-<h1><span class="header-section-number">4</span> Schatten van effectgrootte a.d.h.v. steekproef</h1>
+<div id="schatten-van-effectgrootte-a.d.h.v.-steekproef"
+class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Schatten van
+effectgrootte a.d.h.v. steekproef</h1>
 <ul>
 <li>Kleinste kwadratentechniek</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>lmV &lt;-<span class="st"> </span><span class="kw">lm</span>(lpsa<span class="op">~</span>lcavol, prostate)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">summary</span>(lmV)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lmV <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa<span class="sc">~</span>lcavol, prostate)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmV)</span></code></pre></div>
 <pre><code>
 Call:
 lm(formula = lpsa ~ lcavol, data = prostate)
@@ -587,8 +615,8 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 0.7875 on 95 degrees of freedom
 Multiple R-squared:  0.5394,    Adjusted R-squared:  0.5346 
 F-statistic: 111.3 on 1 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>lmVWS &lt;-<span class="st"> </span><span class="kw">lm</span>(lpsa<span class="op">~</span>lcavol <span class="op">+</span><span class="st"> </span>lweight <span class="op">+</span><span class="st"> </span>svi, prostate)</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">summary</span>(lmVWS)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lmVWS <span class="ot">&lt;-</span> <span class="fu">lm</span>(lpsa<span class="sc">~</span>lcavol <span class="sc">+</span> lweight <span class="sc">+</span> svi, prostate)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS)</span></code></pre></div>
 <pre><code>
 Call:
 lm(formula = lpsa ~ lcavol + lweight + svi, data = prostate)
@@ -609,57 +637,87 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 0.7168 on 93 degrees of freedom
 Multiple R-squared:  0.6264,    Adjusted R-squared:  0.6144 
 F-statistic: 51.99 on 3 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>De parameter bij lcavol geeft nu aan dat patiënten met een tumorvolume dat 1% hoger ligt, maar eenzelfde prostaat gewicht en svi status hebben, een prostaat antigeen concentratie zullen hebben dat gemiddeld slechts 0.55% hoger ligt.</p>
-<p>De reden dat we eerder een verschil van meer dan 0.72% vonden, kan worden verklaard doordat patiënten met een verschil in tumorvolume vaak ook verschillen in prostaat gewicht en svi status en omdat prostaat gewicht en svi mogelijks ook een associatie vertonen met log PSA</p>
+<p>De parameter bij lcavol geeft nu aan dat patiënten met een
+tumorvolume dat 1% hoger ligt, maar eenzelfde prostaat gewicht en svi
+status hebben, een prostaat antigeen concentratie zullen hebben dat
+gemiddeld slechts 0.55% hoger ligt.</p>
+<p>De reden dat we eerder een verschil van meer dan 0.72% vonden, kan
+worden verklaard doordat patiënten met een verschil in tumorvolume vaak
+ook verschillen in prostaat gewicht en svi status en omdat prostaat
+gewicht en svi mogelijks ook een associatie vertonen met log PSA</p>
 <p><img src="10-Recap-AlgemeenLineairModel-AdditiefModel_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="inferentie" class="section level1">
+<div id="inferentie" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Inferentie</h1>
 <ul>
-<li><p>Kunnen we hetgeen we zien in de steekproef vertalen naar de populatie toe?</p></li>
-<li><p>Hiervoor moeten we rekening houden dat we maar een heel klein deel van de populatie hebben kunnen bemonsteren.</p></li>
-<li><p>Gevens, statistieken en conclusies zijn stochastisch. Ze variëren van steekproef tot steekproef.</p></li>
-<li><p>We moeten die variabiliteit in kunnen schatten o.b.v. één enkele steekproef!</p></li>
+<li><p>Kunnen we hetgeen we zien in de steekproef vertalen naar de
+populatie toe?</p></li>
+<li><p>Hiervoor moeten we rekening houden dat we maar een heel klein
+deel van de populatie hebben kunnen bemonsteren.</p></li>
+<li><p>Gevens, statistieken en conclusies zijn stochastisch. Ze variëren
+van steekproef tot steekproef.</p></li>
+<li><p>We moeten die variabiliteit in kunnen schatten o.b.v. één enkele
+steekproef!</p></li>
 </ul>
-<div id="aannames" class="section level2">
+<div id="aannames" class="section level2" number="5.1">
 <h2><span class="header-section-number">5.1</span> Aannames?</h2>
-<div id="representatieve-steekproef" class="section level3">
-<h3><span class="header-section-number">5.1.1</span> Representatieve steekproef:</h3>
-<p><span class="math inline">\(\hat\beta_j\)</span> is een onvertekende schatter van <span class="math inline">\(\beta\)</span> als steekproef representatief is</p>
+<div id="representatieve-steekproef" class="section level3"
+number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Representatieve
+steekproef:</h3>
+<p><span class="math inline">\(\hat\beta_j\)</span> is een onvertekende
+schatter van <span class="math inline">\(\beta\)</span> als steekproef
+representatief is</p>
 <p><span class="math display">\[E[\hat \beta_j]=\beta_j\]</span></p>
 </div>
-<div id="normaliteit" class="section level3">
+<div id="normaliteit" class="section level3" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Normaliteit</h3>
-<p><span class="math display">\[Y_{i} \sim N(\mu_i,\sigma^2)\]</span> <span class="math display">\[Y_i \sim N(\beta_0+\beta_vx_{iv}+\beta_wx_{iw} + \beta_sx_{is},\sigma^2)  \longrightarrow \hat \beta_j \sim N(\beta_j, \sigma^2_{\hat \beta_j})\]</span></p>
-<p>en lineaire combinaties van de model parameterschatters zijn ook normaal verdeeld.</p>
+<p><span class="math display">\[Y_{i} \sim N(\mu_i,\sigma^2)\]</span>
+<span class="math display">\[Y_i \sim
+N(\beta_0+\beta_vx_{iv}+\beta_wx_{iw} +
+\beta_sx_{is},\sigma^2)  \longrightarrow \hat \beta_j \sim N(\beta_j,
+\sigma^2_{\hat \beta_j})\]</span></p>
+<p>en lineaire combinaties van de model parameterschatters zijn ook
+normaal verdeeld.</p>
 <p><span class="math display">\[
-\longrightarrow L^T\hat \beta \sim N(L^T\beta, \sigma^2_{L^T\hat{\boldsymbol{\beta}}})
+\longrightarrow L^T\hat \beta \sim N(L^T\beta,
+\sigma^2_{L^T\hat{\boldsymbol{\beta}}})
 \]</span></p>
 </div>
-<div id="onafhankelijkheid-en-gelijkheid-van-variantie" class="section level3">
-<h3><span class="header-section-number">5.1.3</span> Onafhankelijkheid en gelijkheid van variantie</h3>
-<p><span class="math display">\[\sigma^2_{L^T\hat{\boldsymbol{\beta}}} = c_L \sigma^2 \]</span></p>
+<div id="onafhankelijkheid-en-gelijkheid-van-variantie"
+class="section level3" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Onafhankelijkheid
+en gelijkheid van variantie</h3>
+<p><span class="math display">\[\sigma^2_{L^T\hat{\boldsymbol{\beta}}} =
+c_L \sigma^2 \]</span></p>
 <ul>
 <li><span class="math inline">\(\sigma^2?\)</span></li>
 </ul>
-<p><span class="math display">\[\hat \sigma^2 = MSE = \sum\limits_{i=1} ^ n \frac{(Y_i - \hat Y_i)^2}{n-p}\]</span></p>
-<p><span class="math display">\[SE_{L^T\hat{\boldsymbol{\beta}}} = c_L \hat \sigma \]</span></p>
+<p><span class="math display">\[\hat \sigma^2 = MSE = \sum\limits_{i=1}
+^ n \frac{(Y_i - \hat Y_i)^2}{n-p}\]</span></p>
+<p><span class="math display">\[SE_{L^T\hat{\boldsymbol{\beta}}} = c_L
+\hat \sigma \]</span></p>
 <ul>
 <li>t statistiek</li>
 </ul>
-<p><span class="math display">\[ T = \frac{L\hat{\boldsymbol{\beta}} - L\boldsymbol{\beta}}{\text{SE}_{L\hat{\boldsymbol{\beta}}}}
- \sim t_{n-p}\]</span></p>
+<p><span class="math display">\[ T = \frac{L\hat{\boldsymbol{\beta}} -
+L\boldsymbol{\beta}}{\text{SE}_{L\hat{\boldsymbol{\beta}}}}
+\sim t_{n-p}\]</span></p>
 <ul>
-<li><p>BI en T-test <span class="math inline">\(H_0: L\boldsymbol{\beta} = 0\)</span> vs <span class="math inline">\(H_1: L\boldsymbol{\beta} \neq 0\)</span></p></li>
-<li><p>F statistiek volgt F-verdeling onder de <span class="math inline">\(H_0\)</span> <span class="math display">\[ F = \frac{MSR_2 - MSR_1}{MSE} \sim F_{p_2 - p_1,n-p_2}\]</span></p></li>
+<li><p>BI en T-test <span class="math inline">\(H_0: L\boldsymbol{\beta}
+= 0\)</span> vs <span class="math inline">\(H_1: L\boldsymbol{\beta}
+\neq 0\)</span></p></li>
+<li><p>F statistiek volgt F-verdeling onder de <span
+class="math inline">\(H_0\)</span> <span class="math display">\[ F =
+\frac{MSR_2 - MSR_1}{MSE} \sim F_{p_2 - p_1,n-p_2}\]</span></p></li>
 </ul>
 </div>
 </div>
 </div>
-<div id="r---output" class="section level1">
+<div id="r---output" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> R - output</h1>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(car)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">summary</span>(lmVWS)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmVWS)</span></code></pre></div>
 <pre><code>
 Call:
 lm(formula = lpsa ~ lcavol + lweight + svi, data = prostate)
@@ -680,25 +738,37 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 0.7168 on 93 degrees of freedom
 Multiple R-squared:  0.6264,    Adjusted R-squared:  0.6144 
 F-statistic: 51.99 on 3 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">Anova</span>(lmVWS, <span class="dt">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lmVWS, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.1250021","2":"1","3":"0.2432815","4":"6.230088e-01","_rn_":"(Intercept)"},{"1":"28.0445759","2":"1","3":"54.5808864","4":"6.303883e-11","_rn_":"lcavol"},{"1":"5.8923334","2":"1","3":"11.4677711","4":"1.039115e-03","_rn_":"lweight"},{"1":"5.1813959","2":"1","3":"10.0841312","4":"2.029035e-03","_rn_":"svi"},{"1":"47.7849616","2":"93","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div id="conclusie" class="section level1">
+<div id="conclusie" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Conclusie</h1>
-<p>De associaties tussen lpsa <span class="math inline">\(\leftrightarrow\)</span> log kanker volume, lpsa <span class="math inline">\(\leftrightarrow\)</span> log prostaat gewicht en lpsa <span class="math inline">\(\leftrightarrow\)</span> status van de zaadblaasjes zijn respectievelijk extreem significant (<span class="math inline">\(p&lt;&lt;0.001\)</span>) en sterk significant (<span class="math inline">\(p = 0.001\)</span> en <span class="math inline">\(p = 0.002\)</span>).</p>
+<p>De associaties tussen lpsa <span
+class="math inline">\(\leftrightarrow\)</span> log kanker volume, lpsa
+<span class="math inline">\(\leftrightarrow\)</span> log prostaat
+gewicht en lpsa <span class="math inline">\(\leftrightarrow\)</span>
+status van de zaadblaasjes zijn respectievelijk extreem significant
+(<span class="math inline">\(p&lt;&lt;0.001\)</span>) en sterk
+significant (<span class="math inline">\(p = 0.001\)</span> en <span
+class="math inline">\(p = 0.002\)</span>).</p>
 <ul>
 <li>interpretaties van de hellingen en BI!</li>
 </ul>
 </div>
-<div id="wat-als-aannames-niet-zijn-voldaan" class="section level1">
-<h1><span class="header-section-number">8</span> Wat als aannames niet zijn voldaan?</h1>
+<div id="wat-als-aannames-niet-zijn-voldaan" class="section level1"
+number="8">
+<h1><span class="header-section-number">8</span> Wat als aannames niet
+zijn voldaan?</h1>
 <ul>
-<li>Normaliteit en heteroscedasticiteit niet voldaan: transformatie van Y</li>
-<li>Lineariteit niet voldaan: transformatie van X of hogere orde termen (interacties en machten <span class="math inline">\(X^2, X^3, ...\)</span>).</li>
+<li>Normaliteit en heteroscedasticiteit niet voldaan: transformatie van
+Y</li>
+<li>Lineariteit niet voldaan: transformatie van X of hogere orde termen
+(interacties en machten <span class="math inline">\(X^2, X^3,
+...\)</span>).</li>
 <li>Normaliteit niet voldaan: bij grote steekproeven CLT</li>
 </ul>
 </div>

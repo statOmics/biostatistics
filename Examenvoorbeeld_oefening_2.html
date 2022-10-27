@@ -14,6 +14,7 @@
 
 <title>Examen voorbeeldoefening 2</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -517,23 +517,38 @@ div.tocify {
 
 <h1 class="title toc-ignore">Examen voorbeeldoefening 2</h1>
 <h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<p>Onderzoekers hebben het proteoom van weefselbiopsieën van verschillende regio’s in het hart in kaart gebracht voor 3 patienten (patient 3, 4 en 8 genummerd). Ze hebben het proteoom gemeten in het linker atrium (LA), rechter atrium (RA), linker ventrikel (LV) en rechter ventrikel (RV) met massa-spectrometrie.</p>
-<p>De intensiteiten zijn een goeie proxy voor de proteineconcentratie. Het is de conventie in massaspectrometrie gebasseerde proteomics om de intensiteiten op log-schaal te modelleren zodat de verschillen op log-schaal een interpretatie krijgen als log2-fold changes. De intensiteitsdata zijn reeds log2 getransformeerd.</p>
-<p>In dit examen zijn we vooral geïnteresseerd in het proteïne Myosin light chain 3 (verder MyosinL3 genoemd) en wensen we volgende onderzoeksvragen te beantwoorden:</p>
+<p>Onderzoekers hebben het proteoom van weefselbiopsieën van
+verschillende regio’s in het hart in kaart gebracht voor 3 patienten
+(patient 3, 4 en 8 genummerd). Ze hebben het proteoom gemeten in het
+linker atrium (LA), rechter atrium (RA), linker ventrikel (LV) en
+rechter ventrikel (RV) met massa-spectrometrie.</p>
+<p>De intensiteiten zijn een goeie proxy voor de proteineconcentratie.
+Het is de conventie in massaspectrometrie gebasseerde proteomics om de
+intensiteiten op log-schaal te modelleren zodat de verschillen op
+log-schaal een interpretatie krijgen als log2-fold changes. De
+intensiteitsdata zijn reeds log2 getransformeerd.</p>
+<p>In dit examen zijn we vooral geïnteresseerd in het proteïne Myosin
+light chain 3 (verder MyosinL3 genoemd) en wensen we volgende
+onderzoeksvragen te beantwoorden:</p>
 <ol style="list-style-type: decimal">
-<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel en het atrium in de linkerzijde van het hart.</li>
-<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel en het atrium in de rechterzijde van het hart.</li>
-<li>Is de fold change van MyosinL3 tussen ventrikel en atrium verschillend tussen linker- en rechterzijde van het hart</li>
+<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel
+en het atrium in de linkerzijde van het hart.</li>
+<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel
+en het atrium in de rechterzijde van het hart.</li>
+<li>Is de fold change van MyosinL3 tussen ventrikel en atrium
+verschillend tussen linker- en rechterzijde van het hart</li>
 </ol>
-<div id="data-exploratie" class="section level1">
+<div id="data-exploratie" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Data exploratie</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.4     ✔ dplyr   1.0.7
@@ -542,37 +557,57 @@ div.tocify {
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 <p>Merk op dat de intensiteiten nog niet log2 getranformeerd zijn!!!</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>hart &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;https://raw.githubusercontent.com/statOmics/biostatistics21/master/hearthproteine.csv&quot;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>hart</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hart <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;https://raw.githubusercontent.com/statOmics/biostatistics21/master/hearthproteine.csv&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hart</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["location"],"name":[1],"type":["chr"],"align":["left"]},{"label":["tissue"],"name":[2],"type":["chr"],"align":["left"]},{"label":["patient"],"name":[3],"type":["int"],"align":["right"]},{"label":["intensity"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"L","2":"A","3":"3","4":"0.3702175"},{"1":"L","2":"A","3":"4","4":"0.1490791"},{"1":"L","2":"A","3":"8","4":"0.1308063"},{"1":"L","2":"V","3":"3","4":"48.2156864"},{"1":"L","2":"V","3":"4","4":"58.9686270"},{"1":"L","2":"V","3":"8","4":"39.8538197"},{"1":"R","2":"A","3":"3","4":"1.4406582"},{"1":"R","2":"A","3":"4","4":"1.6372783"},{"1":"R","2":"A","3":"8","4":"0.4484017"},{"1":"R","2":"V","3":"3","4":"43.1742393"},{"1":"R","2":"V","3":"4","4":"58.6753460"},{"1":"R","2":"V","3":"8","4":"39.0059671"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>We zien dat de data in “character” format staat voor location en tissue, en integer voor patient. We veranderen deze allemaal naar factor.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>hart<span class="op">$</span>location &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hart<span class="op">$</span>location)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>hart<span class="op">$</span>tissue &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hart<span class="op">$</span>tissue)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>hart<span class="op">$</span>patient &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hart<span class="op">$</span>patient)</span></code></pre></div>
-<p>Aangezien we de data per patient opnemen kunnen we verwachten dat de proteïneintensiteit per patient gecorreleerd is. Daarom bekijken we de data per patient, en vormen zo dus een geblocked design per patient.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>hart <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>location<span class="op">:</span>tissue, <span class="dt">y=</span>intensity <span class="op">%&gt;%</span><span class="st"> </span>log2)) <span class="op">+</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group=</span>patient, <span class="dt">color=</span>patient)) <span class="op">+</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color=</span>patient))<span class="op">+</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;log2 proteïne-intensiteit per hartcompartiment&quot;</span>) <span class="op">+</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;log2-proteïne-intensiteit&quot;</span>) </span></code></pre></div>
+<p>We zien dat de data in “character” format staat voor location en
+tissue, en integer voor patient. We veranderen deze allemaal naar
+factor.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hart<span class="sc">$</span>location <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hart<span class="sc">$</span>location)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hart<span class="sc">$</span>tissue <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hart<span class="sc">$</span>tissue)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>hart<span class="sc">$</span>patient <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hart<span class="sc">$</span>patient)</span></code></pre></div>
+<p>Aangezien we de data per patient opnemen kunnen we verwachten dat de
+proteïneintensiteit per patient gecorreleerd is. Daarom bekijken we de
+data per patient, en vormen zo dus een geblocked design per patient.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>hart <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>location<span class="sc">:</span>tissue, <span class="at">y=</span>intensity <span class="sc">%&gt;%</span> log2)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>patient, <span class="at">color=</span>patient)) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>patient))<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;log2 proteïne-intensiteit per hartcompartiment&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;log2-proteïne-intensiteit&quot;</span>) </span></code></pre></div>
 <p><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Zoals we vermoedden is de log2-proteïneintensiteit meer gelijkend per patient. Zo kan je bijvoorbeeld zien dat patient 8 op elk van de 4 verschillende metingen de laagste log2-proteïneintensiteit heeft. We zien ook dat er een groot verschil lijkt te zijn tussen het atrium en ventrikel, op zowel de linker als rechterkant van het hart. Het lijkt ook dat er een minder groot verschil is tussen het ventrikel en atrium aan de rechterkant van het hart tegenover de linkerkant.</p>
-<p>Het is ook duidelijk dat er weinig data zijn om de aannames van het model goed te kunnen evalueren. Dat is jammergenoeg dikwijls het geval wanneer dure high-throughput technologiën worden gebruikt.</p>
+<p>Zoals we vermoedden is de log2-proteïneintensiteit meer gelijkend per
+patient. Zo kan je bijvoorbeeld zien dat patient 8 op elk van de 4
+verschillende metingen de laagste log2-proteïneintensiteit heeft. We
+zien ook dat er een groot verschil lijkt te zijn tussen het atrium en
+ventrikel, op zowel de linker als rechterkant van het hart. Het lijkt
+ook dat er een minder groot verschil is tussen het ventrikel en atrium
+aan de rechterkant van het hart tegenover de linkerkant.</p>
+<p>Het is ook duidelijk dat er weinig data zijn om de aannames van het
+model goed te kunnen evalueren. Dat is jammergenoeg dikwijls het geval
+wanneer dure high-throughput technologiën worden gebruikt.</p>
 </div>
-<div id="algemeen-lineair-model-opstellen" class="section level1">
-<h1><span class="header-section-number">2</span> Algemeen lineair model opstellen</h1>
-<p>We modelleren de log2-proteïneintensiteit in functie van de locatie, het weefsel, de locatie <span class="math inline">\(\times\)</span> weefsel-interactie en een blokfactor voor patient.</p>
-<p>Merk op dat we geen interacties toevoegen voor patient. Dat is immers ook niet zinvol hier omdat we anders de resultaten niet kunnen veralgemenen naar de populatie toe. Bovendien laat de studie ook niet toe om dit te schatten, we hebben immers maar 1 meting per hartkamer per patient.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>lm1 &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">%&gt;%</span><span class="st"> </span>log2 <span class="op">~</span><span class="st"> </span>location<span class="op">*</span>tissue <span class="op">+</span><span class="st"> </span>patient, <span class="dt">data =</span> hart)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">summary</span>(lm1)</span></code></pre></div>
+<div id="algemeen-lineair-model-opstellen" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Algemeen lineair model
+opstellen</h1>
+<p>We modelleren de log2-proteïneintensiteit in functie van de locatie,
+het weefsel, de locatie <span class="math inline">\(\times\)</span>
+weefsel-interactie en een blokfactor voor patient.</p>
+<p>Merk op dat we geen interacties toevoegen voor patient. Dat is immers
+ook niet zinvol hier omdat we anders de resultaten niet kunnen
+veralgemenen naar de populatie toe. Bovendien laat de studie ook niet
+toe om dit te schatten, we hebben immers maar 1 meting per hartkamer per
+patient.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(intensity <span class="sc">%&gt;%</span> log2 <span class="sc">~</span> location<span class="sc">*</span>tissue <span class="sc">+</span> patient, <span class="at">data =</span> hart)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = intensity %&gt;% log2 ~ location * tissue + patient, 
@@ -596,43 +631,66 @@ div.tocify {
 ## Residual standard error: 0.5551 on 6 degrees of freedom
 ## Multiple R-squared:  0.9876, Adjusted R-squared:  0.9772 
 ## F-statistic: 95.22 on 5 and 6 DF,  p-value: 1.247e-05</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">plot</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code></pre></div>
 <p><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-6-4.png" width="672" /></p>
-<p>Er zijn onvoldoende data om de aannames na te gaan. We zien wel geen grote afwijkingen in de QQ-plot en de variantie lijkt min of meer constant en veronderstellen dat aan de aannames van het model is voldaan.</p>
+<p>Er zijn onvoldoende data om de aannames na te gaan. We zien wel geen
+grote afwijkingen in de QQ-plot en de variantie lijkt min of meer
+constant en veronderstellen dat aan de aannames van het model is
+voldaan.</p>
 </div>
-<div id="hypotheses-testen" class="section level1">
+<div id="hypotheses-testen" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Hypotheses testen</h1>
-<p>We wensen drie onderzoeksvragen te evalueren en vertalen die als volgt naar de parameters van het model. Aangezien we een factorieel design hebben kunnen we de gemiddelde log2-proteïneintensiteit weergeven per groep:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">library</span>(ExploreModelMatrix)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>ExploreModelMatrix<span class="op">::</span><span class="kw">VisualizeDesign</span>(hart, <span class="op">~</span><span class="st">  </span>location<span class="op">*</span>tissue <span class="op">+</span><span class="st"> </span>patient)<span class="op">$</span>plotlist</span></code></pre></div>
+<p>We wensen drie onderzoeksvragen te evalueren en vertalen die als
+volgt naar de parameters van het model. Aangezien we een factorieel
+design hebben kunnen we de gemiddelde log2-proteïneintensiteit weergeven
+per groep:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExploreModelMatrix)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(hart, <span class="sc">~</span>  location<span class="sc">*</span>tissue <span class="sc">+</span> patient)<span class="sc">$</span>plotlist</span></code></pre></div>
 <pre><code>## $`location = L`</code></pre>
 <p><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre><code>## 
 ## $`location = R`</code></pre>
 <p><img src="Examenvoorbeeld_oefening_2_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <ol style="list-style-type: decimal">
-<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel en het atrium in de linkerzijde van het hart.</li>
+<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel
+en het atrium in de linkerzijde van het hart.</li>
 </ol>
-<p><span class="math display">\[ H_0: \beta_V = 0 \leftrightarrow H_1: \beta_V \neq 0 \]</span></p>
+<p><span class="math display">\[ H_0: \beta_V = 0 \leftrightarrow H_1:
+\beta_V \neq 0 \]</span></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel en het atrium in de rechterzijde van het hart.</li>
+<li>Is er een verschil in de regulatie van MyosinL3 tussen het ventrikel
+en het atrium in de rechterzijde van het hart.</li>
 </ol>
-<p><span class="math display">\[ H_0: \beta_V + \beta_{V:R}= 0 \leftrightarrow H_1: \beta_V  + \beta_{V:R} \neq 0 \]</span></p>
+<p><span class="math display">\[ H_0: \beta_V + \beta_{V:R}= 0
+\leftrightarrow H_1: \beta_V  + \beta_{V:R} \neq 0 \]</span></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Is de fold change van MyosinL3 tussen ventrikel en atrium verschillend tussen linker- en rechterzijde van het hart <span class="math display">\[ H_0: \beta_{V:R}= 0 \leftrightarrow H_1: \beta_{V:R} \neq 0 \]</span></li>
+<li>Is de fold change van MyosinL3 tussen ventrikel en atrium
+verschillend tussen linker- en rechterzijde van het hart <span
+class="math display">\[ H_0: \beta_{V:R}= 0 \leftrightarrow H_1:
+\beta_{V:R} \neq 0 \]</span></li>
 </ol>
-<p>Eerst zullen we een omnibustest uitvoeren om te testen voor alle hypothesen simultaan. Dat vertaalt zich in de volgende omnibus null hypothese: <span class="math display">\[ H_0: \beta_V = \beta_V+\beta_{V:R} = \beta_{V:R} = 0 \rightarrow \beta_V = \beta_{V:R} = 0\]</span> Wat leidt tot het testen van</p>
-<p><span class="math display">\[ H_0: \beta_V = \beta_{V:R} = 0 \leftrightarrow H_1: \beta_V \neq 0 \text{ en, of } \beta_{V:R} \neq 0 \]</span> De omnibushypothese kunnen we evalueren met een F-test tussen het volledig model en met het model dat enkel de blokfactor patient en het locatie-effect bevat.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>lm0 &lt;-<span class="st"> </span><span class="kw">lm</span>(intensity <span class="op">%&gt;%</span><span class="st"> </span>log2 <span class="op">~</span><span class="st"> </span>patient <span class="op">+</span><span class="st"> </span>location, <span class="dt">data=</span>hart)</span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">anova</span>(lm0, lm1)</span></code></pre></div>
+<p>Eerst zullen we een omnibustest uitvoeren om te testen voor alle
+hypothesen simultaan. Dat vertaalt zich in de volgende omnibus null
+hypothese: <span class="math display">\[ H_0: \beta_V =
+\beta_V+\beta_{V:R} = \beta_{V:R} = 0 \rightarrow \beta_V = \beta_{V:R}
+= 0\]</span> Wat leidt tot het testen van</p>
+<p><span class="math display">\[ H_0: \beta_V = \beta_{V:R} = 0
+\leftrightarrow H_1: \beta_V \neq 0 \text{ en, of } \beta_{V:R} \neq 0
+\]</span> De omnibushypothese kunnen we evalueren met een F-test tussen
+het volledig model en met het model dat enkel de blokfactor patient en
+het locatie-effect bevat.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(intensity <span class="sc">%&gt;%</span> log2 <span class="sc">~</span> patient <span class="sc">+</span> location, <span class="at">data=</span>hart)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"8","2":"142.519589","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"6","2":"1.848875","3":"2","4":"140.6707","5":"228.2535","6":"2.183228e-06","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p>We zien dat er een extreem significant verschil is in de regulatie van MyosinL3 tussen het ventrikel en atrium in het hart, ofwel links en/of rechts en/of dat er een interactie is.</p>
+<p>We zien dat er een extreem significant verschil is in de regulatie
+van MyosinL3 tussen het ventrikel en atrium in het hart, ofwel links
+en/of rechts en/of dat er een interactie is.</p>
 <p>We evalueren nu elke hypothese in een posthoc analyse:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">library</span>(multcomp)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div>
 <pre><code>## Loading required package: mvtnorm</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
 <pre><code>## Loading required package: TH.data</code></pre>
@@ -647,11 +705,11 @@ div.tocify {
 <pre><code>## The following object is masked from &#39;package:MASS&#39;:
 ## 
 ##     geyser</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>mcp &lt;-<span class="st"> </span><span class="kw">glht</span>(lm1,<span class="dt">linfct =</span> <span class="kw">c</span>(<span class="st">&quot;tissueV = 0&quot;</span>, </span>
-<span id="cb25-2"><a href="#cb25-2"></a>                                <span class="st">&quot;tissueV + locationR:tissueV = 0&quot;</span>,</span>
-<span id="cb25-3"><a href="#cb25-3"></a>                                <span class="st">&quot;locationR:tissueV = 0&quot;</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>                                ))</span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="kw">summary</span>(mcp)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mcp <span class="ot">&lt;-</span> <span class="fu">glht</span>(lm1,<span class="at">linfct =</span> <span class="fu">c</span>(<span class="st">&quot;tissueV = 0&quot;</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;tissueV + locationR:tissueV = 0&quot;</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;locationR:tissueV = 0&quot;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                ))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mcp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
 ## 
@@ -662,42 +720,50 @@ div.tocify {
 ##                                  Estimate Std. Error t value Pr(&gt;|t|)    
 ## tissueV == 0                       7.9680     0.4532  17.580   &lt;0.001 ***
 ## tissueV + locationR:tissueV == 0   5.5038     0.4532  12.143   &lt;0.001 ***
-## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0185 *  
+## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0187 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">confint</span>(mcp)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(mcp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Confidence Intervals
 ## 
 ## Fit: lm(formula = intensity %&gt;% log2 ~ location * tissue + patient, 
 ##     data = hart)
 ## 
-## Quantile = 3.0308
+## Quantile = 3.0271
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                                  Estimate lwr     upr    
-## tissueV == 0                      7.9680   6.5943  9.3416
-## tissueV + locationR:tissueV == 0  5.5038   4.1302  6.8775
-## locationR:tissueV == 0           -2.4641  -4.4068 -0.5214</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="dv">2</span><span class="op">^</span><span class="kw">confint</span>(mcp)<span class="op">$</span>confint</span></code></pre></div>
-<pre><code>##                                Estimate         lwr         upr
-## tissueV                     250.3757829 96.73465114 648.0411305
-## tissueV + locationR:tissueV  45.3753769 17.53113341 117.4439085
-## locationR:tissueV             0.1812291  0.04722187   0.6955248
+## tissueV == 0                      7.9680   6.5960  9.3399
+## tissueV + locationR:tissueV == 0  5.5038   4.1318  6.8758
+## locationR:tissueV == 0           -2.4641  -4.4044 -0.5238</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="fu">confint</span>(mcp)<span class="sc">$</span>confint</span></code></pre></div>
+<pre><code>##                                Estimate        lwr         upr
+## tissueV                     250.3757829 96.8175348 647.4863545
+## tissueV + locationR:tissueV  45.3753769 17.5461543 117.3433669
+## locationR:tissueV             0.1812291  0.0472791   0.6946829
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95
 ## attr(,&quot;calpha&quot;)
-## [1] 3.027043</code></pre>
+## [1] 3.024316</code></pre>
 </div>
-<div id="conclusie" class="section level1">
+<div id="conclusie" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Conclusie:</h1>
-<p>Er is een extreem significant verschil in de regulatie van het Myosin3L proteine tussen het ventrikel en atrium in het hart (p &lt;&lt; 0.001).</p>
-<p>Het geometrisch gemiddelde van de expressie van Myosin3L is een factor 250 hoger in het linkerventrikel dan in het linkeratrium (p &lt; 0.001, 95% BI [97, 646]).</p>
-<p>Het geometrisch gemiddelde van de expressie van Myosin3L is een factor 45 hoger in het rechterventrikel dan in het rechteratrium (p &lt; 0.001, 95% BI [17.5, 117.4]).</p>
-<p>De opregulatie van Myosin3L in ventrikel vs het atrium is gemiddeld een factor 6 hoger in de linker- dan in de rechterzijde (p = 0.019, 95% BI [1.4, 21.1] ).</p>
+<p>Er is een extreem significant verschil in de regulatie van het
+Myosin3L proteine tussen het ventrikel en atrium in het hart (p &lt;&lt;
+0.001).</p>
+<p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
+factor 250 hoger in het linkerventrikel dan in het linkeratrium (p &lt;
+0.001, 95% BI [96.9, 647]).</p>
+<p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
+factor 45 hoger in het rechterventrikel dan in het rechteratrium (p &lt;
+0.001, 95% BI [17.5, 117.7]).</p>
+<p>De opregulatie van Myosin3L in ventrikel vs het atrium is gemiddeld
+een factor 6 hoger in de linker- dan in de rechterzijde (p = 0.018, 95%
+BI [1.4, 21.2] ).</p>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhhbWVuIHZvb3JiZWVsZG9lZmVuaW5nIDIiCmF1dGhvcjogIkFsZXhhbmRyZSBTZWdlcnMgJiBMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICAgIHRoZW1lOiBjb3NtbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKbGlua2NvbG9yOiBibHVlCnVybGNvbG9yOiBibHVlCmNpdGVjb2xvcjogYmx1ZQoKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKCgpPbmRlcnpvZWtlcnMgaGViYmVuIGhldCBwcm90ZW9vbSB2YW4gd2VlZnNlbGJpb3BzaWXDq24gdmFuIHZlcnNjaGlsbGVuZGUgcmVnaW8ncyBpbiBoZXQgaGFydCBpbiBrYWFydCBnZWJyYWNodCB2b29yIDMgcGF0aWVudGVuIChwYXRpZW50IDMsIDQgZW4gOCBnZW51bW1lcmQpLiBaZSBoZWJiZW4gaGV0IHByb3Rlb29tIGdlbWV0ZW4gaW4gaGV0IGxpbmtlciBhdHJpdW0gKExBKSwgcmVjaHRlciBhdHJpdW0gKFJBKSwgbGlua2VyIHZlbnRyaWtlbCAoTFYpIGVuIHJlY2h0ZXIgdmVudHJpa2VsIChSVikgbWV0IG1hc3NhLXNwZWN0cm9tZXRyaWUuIAoKRGUgaW50ZW5zaXRlaXRlbiAgemlqbiBlZW4gZ29laWUgcHJveHkgdm9vciBkZSBwcm90ZWluZWNvbmNlbnRyYXRpZS4gSGV0IGlzIGRlIGNvbnZlbnRpZSBpbiBtYXNzYXNwZWN0cm9tZXRyaWUgZ2ViYXNzZWVyZGUgcHJvdGVvbWljcyBvbSBkZSBpbnRlbnNpdGVpdGVuIG9wIGxvZy1zY2hhYWwgdGUgbW9kZWxsZXJlbiB6b2RhdCBkZSB2ZXJzY2hpbGxlbiBvcCBsb2ctc2NoYWFsIGVlbiBpbnRlcnByZXRhdGllIGtyaWpnZW4gYWxzIGxvZzItZm9sZCBjaGFuZ2VzLiBEZSBpbnRlbnNpdGVpdHNkYXRhIHppam4gcmVlZHMgbG9nMiBnZXRyYW5zZm9ybWVlcmQuICAKCkluIGRpdCBleGFtZW4gemlqbiB3ZSB2b29yYWwgZ2XDr250ZXJlc3NlZXJkIGluIGhldCBwcm90ZcOvbmUgTXlvc2luIGxpZ2h0IGNoYWluIDMgKHZlcmRlciBNeW9zaW5MMyBnZW5vZW1kKSBlbiB3ZW5zZW4gd2Ugdm9sZ2VuZGUgb25kZXJ6b2Vrc3ZyYWdlbiB0ZSBiZWFudHdvb3JkZW46IAoKMS4gSXMgZXIgZWVuIHZlcnNjaGlsIGluIGRlIHJlZ3VsYXRpZSB2YW4gTXlvc2luTDMgdHVzc2VuICBoZXQgdmVudHJpa2VsIGVuIGhldCBhdHJpdW0gaW4gZGUgbGlua2VyemlqZGUgdmFuIGhldCBoYXJ0LgoyLiBJcyBlciBlZW4gdmVyc2NoaWwgaW4gZGUgcmVndWxhdGllIHZhbiBNeW9zaW5MMyB0dXNzZW4gIGhldCB2ZW50cmlrZWwgZW4gaGV0IGF0cml1bSBpbiBkZSByZWNodGVyemlqZGUgdmFuIGhldCBoYXJ0LgozLiBJcyBkZSBmb2xkIGNoYW5nZSB2YW4gTXlvc2luTDMgdHVzc2VuICB2ZW50cmlrZWwgZW4gYXRyaXVtIHZlcnNjaGlsbGVuZCB0dXNzZW4gbGlua2VyLSBlbiByZWNodGVyemlqZGUgdmFuIGhldCBoYXJ0CgojIERhdGEgZXhwbG9yYXRpZQpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dwbG90MikKYGBgCgpNZXJrIG9wIGRhdCBkZSBpbnRlbnNpdGVpdGVuIG5vZyBuaWV0IGxvZzIgZ2V0cmFuZm9ybWVlcmQgemlqbiEhISAKCmBgYHtyfQpoYXJ0IDwtIHJlYWQuY3N2KGZpbGUgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9iaW9zdGF0aXN0aWNzMjEvbWFzdGVyL2hlYXJ0aHByb3RlaW5lLmNzdiIpCmhhcnQKYGBgCgpXZSB6aWVuIGRhdCBkZSBkYXRhIGluICJjaGFyYWN0ZXIiIGZvcm1hdCBzdGFhdCB2b29yIGxvY2F0aW9uIGVuIHRpc3N1ZSwgZW4gaW50ZWdlciB2b29yIHBhdGllbnQuIFdlIHZlcmFuZGVyZW4gZGV6ZSBhbGxlbWFhbCBuYWFyIGZhY3Rvci4gCgpgYGB7cn0KaGFydCRsb2NhdGlvbiA8LSBhcy5mYWN0b3IoaGFydCRsb2NhdGlvbikKaGFydCR0aXNzdWUgPC0gYXMuZmFjdG9yKGhhcnQkdGlzc3VlKQpoYXJ0JHBhdGllbnQgPC0gYXMuZmFjdG9yKGhhcnQkcGF0aWVudCkKYGBgCgpBYW5nZXppZW4gd2UgZGUgZGF0YSBwZXIgcGF0aWVudCBvcG5lbWVuIGt1bm5lbiB3ZSB2ZXJ3YWNodGVuIGRhdCBkZSBwcm90ZcOvbmVpbnRlbnNpdGVpdCBwZXIgcGF0aWVudCBnZWNvcnJlbGVlcmQgaXMuIERhYXJvbSBiZWtpamtlbiB3ZSBkZSBkYXRhIHBlciBwYXRpZW50LCBlbiB2b3JtZW4gem8gZHVzIGVlbiBnZWJsb2NrZWQgZGVzaWduIHBlciBwYXRpZW50LgoKYGBge3J9CmhhcnQgJT4lIAogIGdncGxvdChhZXMoeD1sb2NhdGlvbjp0aXNzdWUsIHk9aW50ZW5zaXR5ICU+JSBsb2cyKSkgKwogICAgdGhlbWVfYncoKSArCiAgICBnZW9tX2xpbmUoYWVzKGdyb3VwPXBhdGllbnQsIGNvbG9yPXBhdGllbnQpKSArCiAgICBnZW9tX3BvaW50KGFlcyhjb2xvcj1wYXRpZW50KSkrCiAgICBnZ3RpdGxlKCJsb2cyIHByb3Rlw69uZS1pbnRlbnNpdGVpdCBwZXIgaGFydGNvbXBhcnRpbWVudCIpICsKICAgIHlsYWIoImxvZzItcHJvdGXDr25lLWludGVuc2l0ZWl0IikgCmBgYAoKWm9hbHMgd2UgdmVybW9lZGRlbiBpcyBkZSBsb2cyLXByb3Rlw69uZWludGVuc2l0ZWl0IG1lZXIgZ2VsaWprZW5kIHBlciBwYXRpZW50LiBabyBrYW4gamUgYmlqdm9vcmJlZWxkIHppZW4gZGF0IHBhdGllbnQgOCBvcCBlbGsgdmFuIGRlIDQgdmVyc2NoaWxsZW5kZSBtZXRpbmdlbiBkZSBsYWFnc3RlIGxvZzItcHJvdGXDr25laW50ZW5zaXRlaXQgaGVlZnQuIFdlIHppZW4gb29rIGRhdCBlciBlZW4gZ3Jvb3QgdmVyc2NoaWwgbGlqa3QgdGUgemlqbiB0dXNzZW4gaGV0IGF0cml1bSBlbiB2ZW50cmlrZWwsIG9wIHpvd2VsIGRlIGxpbmtlciBhbHMgcmVjaHRlcmthbnQgdmFuIGhldCBoYXJ0LiBIZXQgbGlqa3Qgb29rIGRhdCBlciBlZW4gbWluZGVyIGdyb290IHZlcnNjaGlsIGlzIHR1c3NlbiBoZXQgdmVudHJpa2VsIGVuIGF0cml1bSBhYW4gZGUgcmVjaHRlcmthbnQgdmFuIGhldCBoYXJ0IHRlZ2Vub3ZlciBkZSBsaW5rZXJrYW50LiAKCkhldCBpcyBvb2sgZHVpZGVsaWprIGRhdCBlciB3ZWluaWcgZGF0YSB6aWpuIG9tIGRlIGFhbm5hbWVzIHZhbiBoZXQgbW9kZWwgZ29lZCB0ZSBrdW5uZW4gZXZhbHVlcmVuLiBEYXQgaXMgamFtbWVyZ2Vub2VnIGRpa3dpamxzIGhldCBnZXZhbCB3YW5uZWVyIGR1cmUgaGlnaC10aHJvdWdocHV0IHRlY2hub2xvZ2nDq24gd29yZGVuIGdlYnJ1aWt0LgoKIyBBbGdlbWVlbiBsaW5lYWlyIG1vZGVsIG9wc3RlbGxlbgoKV2UgbW9kZWxsZXJlbiBkZSBsb2cyLXByb3Rlw69uZWludGVuc2l0ZWl0IGluIGZ1bmN0aWUgdmFuIGRlIGxvY2F0aWUsIGhldCB3ZWVmc2VsLCBkZSBsb2NhdGllICRcdGltZXMkIHdlZWZzZWwtaW50ZXJhY3RpZSBlbiBlZW4gYmxva2ZhY3RvciB2b29yIHBhdGllbnQuIAoKTWVyayBvcCBkYXQgd2UgZ2VlbiBpbnRlcmFjdGllcyB0b2V2b2VnZW4gdm9vciBwYXRpZW50LiAKRGF0IGlzIGltbWVycyBvb2sgbmlldCB6aW52b2wgaGllciBvbWRhdCB3ZSBhbmRlcnMgZGUgcmVzdWx0YXRlbiBuaWV0IGt1bm5lbiB2ZXJhbGdlbWVuZW4gbmFhciBkZSBwb3B1bGF0aWUgdG9lLiAKQm92ZW5kaWVuIGxhYXQgZGUgc3R1ZGllIG9vayBuaWV0IHRvZSBvbSBkaXQgdGUgc2NoYXR0ZW4sIHdlIGhlYmJlbiBpbW1lcnMgbWFhciAxIG1ldGluZyBwZXIgaGFydGthbWVyIHBlciBwYXRpZW50LiAKCmBgYHtyfQpsbTEgPC0gbG0oaW50ZW5zaXR5ICU+JSBsb2cyIH4gbG9jYXRpb24qdGlzc3VlICsgcGF0aWVudCwgZGF0YSA9IGhhcnQpCnN1bW1hcnkobG0xKQpgYGAKCgpgYGB7cn0KcGxvdChsbTEpCmBgYAoKRXIgemlqbiBvbnZvbGRvZW5kZSBkYXRhIG9tIGRlIGFhbm5hbWVzIG5hIHRlIGdhYW4uIFdlIHppZW4gd2VsIGdlZW4gZ3JvdGUgYWZ3aWpraW5nZW4gaW4gZGUgUVEtcGxvdCBlbiBkZSB2YXJpYW50aWUgbGlqa3QgbWluIG9mIG1lZXIgY29uc3RhbnQgZW4gdmVyb25kZXJzdGVsbGVuIGRhdCBhYW4gZGUgYWFubmFtZXMgdmFuIGhldCBtb2RlbCBpcyB2b2xkYWFuLiAKCiMgSHlwb3RoZXNlcyB0ZXN0ZW4KCldlIHdlbnNlbiBkcmllIG9uZGVyem9la3N2cmFnZW4gdGUgZXZhbHVlcmVuIGVuIHZlcnRhbGVuIGRpZSBhbHMgdm9sZ3QgbmFhciBkZSBwYXJhbWV0ZXJzIHZhbiBoZXQgbW9kZWwuCkFhbmdlemllbiB3ZSBlZW4gZmFjdG9yaWVlbCBkZXNpZ24gaGViYmVuIGt1bm5lbiB3ZSBkZSBnZW1pZGRlbGRlIGxvZzItcHJvdGXDr25laW50ZW5zaXRlaXQgd2VlcmdldmVuIHBlciBncm9lcDoKCmBgYHtyfQpsaWJyYXJ5KEV4cGxvcmVNb2RlbE1hdHJpeCkKRXhwbG9yZU1vZGVsTWF0cml4OjpWaXN1YWxpemVEZXNpZ24oaGFydCwgfiAgbG9jYXRpb24qdGlzc3VlICsgcGF0aWVudCkkcGxvdGxpc3QKYGBgCgoxLiBJcyBlciBlZW4gdmVyc2NoaWwgaW4gZGUgcmVndWxhdGllIHZhbiBNeW9zaW5MMyB0dXNzZW4gIGhldCB2ZW50cmlrZWwgZW4gaGV0IGF0cml1bSBpbiBkZSBsaW5rZXJ6aWpkZSB2YW4gaGV0IGhhcnQuCgokJCBIXzA6IFxiZXRhX1YgPSAwIFxsZWZ0cmlnaHRhcnJvdyBIXzE6IFxiZXRhX1YgXG5lcSAwICQkCgoyLiBJcyBlciBlZW4gdmVyc2NoaWwgaW4gZGUgcmVndWxhdGllIHZhbiBNeW9zaW5MMyB0dXNzZW4gIGhldCB2ZW50cmlrZWwgZW4gaGV0IGF0cml1bSBpbiBkZSByZWNodGVyemlqZGUgdmFuIGhldCBoYXJ0LgoKJCQgSF8wOiBcYmV0YV9WICsgXGJldGFfe1Y6Un09IDAgXGxlZnRyaWdodGFycm93IEhfMTogXGJldGFfViAgKyBcYmV0YV97VjpSfSBcbmVxIDAgJCQKCjMuIElzIGRlIGZvbGQgY2hhbmdlIHZhbiBNeW9zaW5MMyB0dXNzZW4gIHZlbnRyaWtlbCBlbiBhdHJpdW0gdmVyc2NoaWxsZW5kIHR1c3NlbiBsaW5rZXItIGVuIHJlY2h0ZXJ6aWpkZSB2YW4gaGV0IGhhcnQKJCQgSF8wOiBcYmV0YV97VjpSfT0gMCBcbGVmdHJpZ2h0YXJyb3cgSF8xOiBcYmV0YV97VjpSfSBcbmVxIDAgJCQKCkVlcnN0IHp1bGxlbiB3ZSBlZW4gb21uaWJ1c3Rlc3QgdWl0dm9lcmVuIG9tIHRlIHRlc3RlbiB2b29yIGFsbGUgaHlwb3RoZXNlbiBzaW11bHRhYW4uIERhdCB2ZXJ0YWFsdCB6aWNoIGluIGRlIHZvbGdlbmRlIG9tbmlidXMgbnVsbCBoeXBvdGhlc2U6IAokJCBIXzA6IFxiZXRhX1YgPSBcYmV0YV9WK1xiZXRhX3tWOlJ9ID0gXGJldGFfe1Y6Un0gPSAwIFxyaWdodGFycm93IFxiZXRhX1YgPSBcYmV0YV97VjpSfSA9IDAkJApXYXQgbGVpZHQgdG90IGhldCB0ZXN0ZW4gdmFuCgokJCBIXzA6IFxiZXRhX1YgPSBcYmV0YV97VjpSfSA9IDAgXGxlZnRyaWdodGFycm93IEhfMTogXGJldGFfViBcbmVxIDAgXHRleHR7IGVuLCBvZiB9IFxiZXRhX3tWOlJ9IFxuZXEgMCAkJApEZSBvbW5pYnVzaHlwb3RoZXNlIGt1bm5lbiB3ZSBldmFsdWVyZW4gbWV0IGVlbiBGLXRlc3QgdHVzc2VuIGhldCB2b2xsZWRpZyBtb2RlbCBlbiBtZXQgaGV0IG1vZGVsIGRhdCBlbmtlbCBkZSBibG9rZmFjdG9yIHBhdGllbnQgZW4gaGV0IGxvY2F0aWUtZWZmZWN0IGJldmF0LgoKYGBge3J9CmxtMCA8LSBsbShpbnRlbnNpdHkgJT4lIGxvZzIgfiBwYXRpZW50ICsgbG9jYXRpb24sIGRhdGE9aGFydCkKYW5vdmEobG0wLCBsbTEpCmBgYAoKV2UgemllbiBkYXQgZXIgZWVuIGV4dHJlZW0gc2lnbmlmaWNhbnQgdmVyc2NoaWwgaXMgaW4gZGUgcmVndWxhdGllIHZhbiBNeW9zaW5MMyB0dXNzZW4gaGV0IHZlbnRyaWtlbCBlbiBhdHJpdW0gaW4gaGV0IGhhcnQsIG9md2VsIGxpbmtzIGVuL29mIHJlY2h0cyBlbi9vZiBkYXQgZXIgZWVuIGludGVyYWN0aWUgaXMuIAoKV2UgZXZhbHVlcmVuIG51IGVsa2UgaHlwb3RoZXNlIGluIGVlbiBwb3N0aG9jIGFuYWx5c2U6IAoKYGBge3J9CmxpYnJhcnkobXVsdGNvbXApCm1jcCA8LSBnbGh0KGxtMSxsaW5mY3QgPSBjKCJ0aXNzdWVWID0gMCIsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJ0aXNzdWVWICsgbG9jYXRpb25SOnRpc3N1ZVYgPSAwIiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAibG9jYXRpb25SOnRpc3N1ZVYgPSAwIgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkpCnN1bW1hcnkobWNwKQoKYGBgCgpgYGB7cn0KY29uZmludChtY3ApCmBgYAoKYGBge3J9CjJeY29uZmludChtY3ApJGNvbmZpbnQKYGBgCgoKIyBDb25jbHVzaWU6CgpFciBpcyBlZW4gZXh0cmVlbSBzaWduaWZpY2FudCB2ZXJzY2hpbCBpbiBkZSByZWd1bGF0aWUgdmFuIGhldCBNeW9zaW4zTCBwcm90ZWluZSB0dXNzZW4gaGV0IHZlbnRyaWtlbCBlbiBhdHJpdW0gaW4gaGV0IGhhcnQgKHAgPDwgMC4wMDEpLgoKSGV0IGdlb21ldHJpc2NoIGdlbWlkZGVsZGUgdmFuIGRlIGV4cHJlc3NpZSB2YW4gTXlvc2luM0wgaXMgZWVuIGZhY3RvciBgciBjb25maW50KG1jcCkkY29uZmludFsxLDFdICU+JSAyXi4gJT4lIHJvdW5kKC4sMClgIGhvZ2VyIGluIGhldCBsaW5rZXJ2ZW50cmlrZWwgZGFuIGluIGhldCBsaW5rZXJhdHJpdW0gKHAgPCAwLjAwMSwgOTUlIEJJIFtgciBjb25maW50KG1jcCkkY29uZmludFsxLC0xXSAlPiUgMl4uICU+JSByb3VuZCguLDEpYF0pLiAKCkhldCBnZW9tZXRyaXNjaCBnZW1pZGRlbGRlIHZhbiBkZSBleHByZXNzaWUgdmFuICBNeW9zaW4zTCBpcyBlZW4gZmFjdG9yIGByIGNvbmZpbnQobWNwKSRjb25maW50WzIsMV0gJT4lIDJeLiAlPiUgcm91bmQoLiwwKWAgaG9nZXIgaW4gaGV0IHJlY2h0ZXJ2ZW50cmlrZWwgZGFuIGluIGhldCByZWNodGVyYXRyaXVtIChwIDwgMC4wMDEsIDk1JSBCSSBbYHIgY29uZmludChtY3ApJGNvbmZpbnRbMiwtMV0gJT4lIDJeLiAlPiUgcm91bmQoLiwxKWBdKS4gCgpEZSBvcHJlZ3VsYXRpZSB2YW4gTXlvc2luM0wgaW4gdmVudHJpa2VsIHZzIGhldCBhdHJpdW0gaXMgZ2VtaWRkZWxkIGVlbiBmYWN0b3IgYHIgY29uZmludChtY3ApJGNvbmZpbnRbMywxXSAlPiUgYWJzICU+JSAyXi4gJT4lIHJvdW5kKC4sMClgIGhvZ2VyIGluIGRlIGxpbmtlci0gZGFuIGluIGRlIHJlY2h0ZXJ6aWpkZSAocCA9IGByIHN1bW1hcnkobWNwKSR0ZXN0JHB2YWx1ZXNbM10gJT4lIHJvdW5kKC4sMylgLCA5NSUgQkkgW2ByIGNvbmZpbnQobWNwKSRjb25maW50WzMsLTFdICU+JSBhYnMgJT4lIHNvcnQgJT4lICAyXi4gJT4lIHJvdW5kKC4sMSlgXSApLiAK</div>

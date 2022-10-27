@@ -14,6 +14,7 @@
 
 <title>Experimental Design II: replication and power exercise 2</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -35,7 +36,6 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -60,19 +60,19 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -92,7 +92,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -515,156 +515,203 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Experimental Design II: replication and power exercise 2</h1>
+<h1 class="title toc-ignore">Experimental Design II: replication and
+power exercise 2</h1>
 <h4 class="author">Lieven Clement &amp; Alexandre Segers</h4>
-<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<div id="puromycin-data" class="section level1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div id="puromycin-data" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Puromycin data</h1>
-<p>Data on the velocity of an enzymatic reaction were obtained by Treloar (1974).<br />
-The number of counts per minute of radioactive product from the reaction was measured as a function of substrate concentration in parts per million (ppm) and from these counts the initial rate (or velocity) of the reaction was calculated (counts/min/min). The experiment was conducted once with the enzyme treated with Puromycin, and once with the enzyme untreated.</p>
+<p>Data on the velocity of an enzymatic reaction were obtained by
+Treloar (1974).<br />
+The number of counts per minute of radioactive product from the reaction
+was measured as a function of substrate concentration in parts per
+million (ppm) and from these counts the initial rate (or velocity) of
+the reaction was calculated (counts/min/min). The experiment was
+conducted once with the enzyme treated with Puromycin, and once with the
+enzyme untreated.</p>
 <p>Here, we will focus again on the enzyme treated data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(Puromycin)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>Puromycin &lt;-<span class="st"> </span>Puromycin <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="st">  </span><span class="kw">filter</span>(state<span class="op">==</span><span class="st">&quot;treated&quot;</span>)</span></code></pre></div>
-<p>There was a linear association between the log10 substrate concentration and the reaction rate</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>Puromycin  <span class="op">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10,<span class="dt">y=</span>rate)) <span class="op">+</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">stat_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">stat_smooth</span>(<span class="dt">method=</span><span class="st">&#39;lm&#39;</span>,<span class="dt">col=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Reaction Rate (counts/min)&quot;</span>) <span class="op">+</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;log10(Substrate concentration) (log10 ppm)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Puromycin)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Puromycin <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state<span class="sc">==</span><span class="st">&quot;treated&quot;</span>)</span></code></pre></div>
+<p>There was a linear association between the log10 substrate
+concentration and the reaction rate</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Puromycin  <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>conc <span class="sc">%&gt;%</span> log10,<span class="at">y=</span>rate)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>,<span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method=</span><span class="st">&#39;lm&#39;</span>,<span class="at">col=</span><span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Reaction Rate (counts/min)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;log10(Substrate concentration) (log10 ppm)&quot;</span>)</span></code></pre></div>
 <p><img src="Exp_design_fast_2_sol_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Note, that the researchers have chosen 6 different substrate concentrations and conducted an experiment where they assessed the initial reaction rate twice for every concentration.</p>
+<p>Note, that the researchers have chosen 6 different substrate
+concentrations and conducted an experiment where they assessed the
+initial reaction rate twice for every concentration.</p>
 <ol style="list-style-type: decimal">
-<li><p>Use the data to calculate the power to pick up an association that is as least as strong as the association you observed in the dataset when using an experiment with the same design.</p></li>
-<li><p>Use the data to calculate the power to pick up an association where the reaction rate increases on average with 10 counts/min when the substrate concentration is 10 times higher (<span class="math inline">\(\beta_1=10\)</span>).</p></li>
-<li><p>Use the data to calculate the number of repeats you need for each concentration to pick up an association where the reaction rate increases on average with 10 counts/min when the substrate concentration is 10 times higher with a power of at least 90%. (<span class="math inline">\(\beta_1=10\)</span>)</p></li>
-<li><p>Suppose that you would setup an experiment with a design similar with the same concentrations as in the puromycin dataset and you have the following restriction: you need to use each concentration at least once and can setup at most 12 reactions, how would you choose your design points? Calculate the power for this design when the effect size is 10 counts/min per 10 times increase in the substrate concentration (<span class="math inline">\(\beta_1=10\)</span>).</p></li>
+<li><p>Use the data to calculate the power to pick up an association
+that is as least as strong as the association you observed in the
+dataset when using an experiment with the same design.</p></li>
+<li><p>Use the data to calculate the power to pick up an association
+where the reaction rate increases on average with 10 counts/min when the
+substrate concentration is 10 times higher (<span
+class="math inline">\(\beta_1=10\)</span>).</p></li>
+<li><p>Use the data to calculate the number of repeats you need for each
+concentration to pick up an association where the reaction rate
+increases on average with 10 counts/min when the substrate concentration
+is 10 times higher with a power of at least 90%. (<span
+class="math inline">\(\beta_1=10\)</span>)</p></li>
+<li><p>Suppose that you would setup an experiment with a design similar
+with the same concentrations as in the puromycin dataset and you have
+the following restriction: you need to use each concentration at least
+once and can setup at most 12 reactions, how would you choose your
+design points? Calculate the power for this design when the effect size
+is 10 counts/min per 10 times increase in the substrate concentration
+(<span class="math inline">\(\beta_1=10\)</span>).</p></li>
 </ol>
-<div id="simulation-function" class="section level2">
-<h2><span class="header-section-number">1.1</span> Simulation function</h2>
-<p>Function to simulate data similar to that of our experiment under our model assumptions.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>simFast &lt;-<span class="st"> </span><span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="dt">alpha =</span> <span class="fl">.05</span>, <span class="dt">nSim =</span> <span class="dv">10000</span>)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>{</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    ySim &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(data)<span class="op">*</span>nSim,<span class="dt">sd=</span>sd)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="kw">dim</span>(ySim) &lt;-<span class="kw">c</span>(<span class="kw">nrow</span>(data),nSim)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    ySim &lt;-<span class="st"> </span>ySim <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(design <span class="op">%*%</span>betas)</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    ySim &lt;-<span class="st"> </span><span class="kw">t</span>(ySim)</span>
-<span id="cb4-8"><a href="#cb4-8"></a>  </span>
-<span id="cb4-9"><a href="#cb4-9"></a>    <span class="co">### Fitting</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>    fitAll &lt;-<span class="st"> </span>limma<span class="op">::</span><span class="kw">lmFit</span>(ySim,design)</span>
-<span id="cb4-11"><a href="#cb4-11"></a>  </span>
-<span id="cb4-12"><a href="#cb4-12"></a>    <span class="co">### Inference</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>    varUnscaled &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">t</span>(contrasts)<span class="op">%*%</span>fitAll<span class="op">$</span>cov.coefficients<span class="op">%*%</span>contrasts)</span>
-<span id="cb4-14"><a href="#cb4-14"></a>    contrasts &lt;-<span class="st"> </span>fitAll<span class="op">$</span>coefficients <span class="op">%*%</span>contrasts</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    seContrasts &lt;-<span class="st"> </span>varUnscaled<span class="op">^</span>.<span class="dv">5</span><span class="op">*</span>fitAll<span class="op">$</span>sigma</span>
-<span id="cb4-16"><a href="#cb4-16"></a>    tstats &lt;-<span class="st"> </span>contrasts<span class="op">/</span>seContrasts</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    pvals &lt;-<span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(tstats),fitAll<span class="op">$</span>df.residual,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)<span class="op">*</span><span class="dv">2</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a>    <span class="kw">return</span>(<span class="kw">mean</span>(pvals <span class="op">&lt;</span><span class="st"> </span>alpha))</span>
-<span id="cb4-19"><a href="#cb4-19"></a>}</span></code></pre></div>
+<div id="simulation-function" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Simulation
+function</h2>
+<p>Function to simulate data similar to that of our experiment under our
+model assumptions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>simFast <span class="ot">&lt;-</span> <span class="cf">function</span>(form, data, betas, sd, contrasts, <span class="at">alpha =</span> .<span class="dv">05</span>, <span class="at">nSim =</span> <span class="dv">10000</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data)<span class="sc">*</span>nSim,<span class="at">sd=</span>sd)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dim</span>(ySim) <span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">nrow</span>(data),nSim)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(form, data)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> ySim <span class="sc">+</span> <span class="fu">c</span>(design <span class="sc">%*%</span>betas)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ySim <span class="ot">&lt;-</span> <span class="fu">t</span>(ySim)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Fitting</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    fitAll <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">lmFit</span>(ySim,design)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Inference</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    varUnscaled <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">t</span>(contrasts)<span class="sc">%*%</span>fitAll<span class="sc">$</span>cov.coefficients<span class="sc">%*%</span>contrasts)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    contrasts <span class="ot">&lt;-</span> fitAll<span class="sc">$</span>coefficients <span class="sc">%*%</span>contrasts</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    seContrasts <span class="ot">&lt;-</span> varUnscaled<span class="sc">^</span>.<span class="dv">5</span><span class="sc">*</span>fitAll<span class="sc">$</span>sigma</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    tstats <span class="ot">&lt;-</span> contrasts<span class="sc">/</span>seContrasts</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">&lt;-</span> <span class="fu">pt</span>(<span class="fu">abs</span>(tstats),fitAll<span class="sc">$</span>df.residual,<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">mean</span>(pvals <span class="sc">&lt;</span> alpha))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div id="power-to-pick-up-the-same-effect-size-as-we-observed-in-the-data-set-with-the-same-design" class="section level2">
-<h2><span class="header-section-number">1.2</span> Power to pick up the same effect size as we observed in the data set with the same design</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(rate <span class="op">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10, Puromycin)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>betas &lt;-<span class="st"> </span>mod1<span class="op">$</span>coefficients</span>
-<span id="cb5-3"><a href="#cb5-3"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10 </span>
-<span id="cb5-5"><a href="#cb5-5"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(mod1)</span>
-<span id="cb5-6"><a href="#cb5-6"></a>contrast &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="kw">rownames</span>(contrast) &lt;-<span class="st"> </span><span class="kw">names</span>(mod1<span class="op">$</span>coefficients)</span>
-<span id="cb5-8"><a href="#cb5-8"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a>power &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, Puromycin, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb5-11"><a href="#cb5-11"></a>power</span></code></pre></div>
+<div
+id="power-to-pick-up-the-same-effect-size-as-we-observed-in-the-data-set-with-the-same-design"
+class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Power to pick up the
+same effect size as we observed in the data set with the same
+design</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate <span class="sc">~</span> conc <span class="sc">%&gt;%</span> log10, Puromycin)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> mod1<span class="sc">$</span>coefficients</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> conc <span class="sc">%&gt;%</span> log10 </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(mod1)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast) <span class="ot">&lt;-</span> <span class="fu">names</span>(mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, Puromycin, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
 <pre><code>[1] 1</code></pre>
 </div>
-<div id="power-for-beta_110" class="section level2">
-<h2><span class="header-section-number">1.3</span> Power for <span class="math inline">\(\beta_1=10\)</span></h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(rate <span class="op">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10, Puromycin)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>betas &lt;-<span class="st"> </span>mod1<span class="op">$</span>coefficients</span>
-<span id="cb7-3"><a href="#cb7-3"></a>betas[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10 </span>
-<span id="cb7-6"><a href="#cb7-6"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(mod1)</span>
-<span id="cb7-7"><a href="#cb7-7"></a>contrast &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">rownames</span>(contrast) &lt;-<span class="st"> </span><span class="kw">names</span>(mod1<span class="op">$</span>coefficients)</span>
-<span id="cb7-9"><a href="#cb7-9"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb7-10"><a href="#cb7-10"></a></span>
-<span id="cb7-11"><a href="#cb7-11"></a>power &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, Puromycin, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb7-12"><a href="#cb7-12"></a>power</span></code></pre></div>
-<pre><code>[1] 0.4253</code></pre>
-<p>The power to pick up a slope of <span class="math inline">\(\beta_1=10\)</span> for this experiment is only 42.5%.</p>
+<div id="power-for-beta_110" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Power for <span
+class="math inline">\(\beta_1=10\)</span></h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate <span class="sc">~</span> conc <span class="sc">%&gt;%</span> log10, Puromycin)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> mod1<span class="sc">$</span>coefficients</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> conc <span class="sc">%&gt;%</span> log10 </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(mod1)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast) <span class="ot">&lt;-</span> <span class="fu">names</span>(mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, Puromycin, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
+<pre><code>[1] 0.4186</code></pre>
+<p>The power to pick up a slope of <span
+class="math inline">\(\beta_1=10\)</span> for this experiment is only
+41.9%.</p>
 </div>
-<div id="calculate-the-number-of-repeats-needed-per-concentration-to-obtain-a-power-of-90-to-pick-up-an-effect-of-beta_110." class="section level2">
-<h2><span class="header-section-number">1.4</span> Calculate the number of repeats needed per concentration to obtain a power of 90% to pick up an effect of <span class="math inline">\(\beta_1=10\)</span>.</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(rate <span class="op">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10, Puromycin)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>concentrations &lt;-<span class="st"> </span>Puromycin <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">pull</span>(conc) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span>unique</span>
-<span id="cb9-5"><a href="#cb9-5"></a>  </span>
-<span id="cb9-6"><a href="#cb9-6"></a>  </span>
-<span id="cb9-7"><a href="#cb9-7"></a>betas &lt;-<span class="st"> </span>mod1<span class="op">$</span>coefficients</span>
-<span id="cb9-8"><a href="#cb9-8"></a>betas[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10 </span>
-<span id="cb9-11"><a href="#cb9-11"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(mod1)</span>
-<span id="cb9-12"><a href="#cb9-12"></a>contrast &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="kw">rownames</span>(contrast) &lt;-<span class="st"> </span><span class="kw">names</span>(mod1<span class="op">$</span>coefficients)</span>
-<span id="cb9-14"><a href="#cb9-14"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb9-15"><a href="#cb9-15"></a>powers &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">n =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">power=</span><span class="ot">NA</span>)</span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)</span>
-<span id="cb9-17"><a href="#cb9-17"></a>{</span>
-<span id="cb9-18"><a href="#cb9-18"></a>  simData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">conc =</span> <span class="kw">rep</span>(concentrations,<span class="dt">each=</span>i))</span>
-<span id="cb9-19"><a href="#cb9-19"></a>  powers[i,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, simData, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb9-20"><a href="#cb9-20"></a>}</span>
-<span id="cb9-21"><a href="#cb9-21"></a>powers <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(n,power)) <span class="op">+</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">.9</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div
+id="calculate-the-number-of-repeats-needed-per-concentration-to-obtain-a-power-of-90-to-pick-up-an-effect-of-beta_110."
+class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Calculate the number
+of repeats needed per concentration to obtain a power of 90% to pick up
+an effect of <span class="math inline">\(\beta_1=10\)</span>.</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate <span class="sc">~</span> conc <span class="sc">%&gt;%</span> log10, Puromycin)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>concentrations <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(conc) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  unique</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> mod1<span class="sc">$</span>coefficients</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> conc <span class="sc">%&gt;%</span> log10 </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(mod1)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast) <span class="ot">&lt;-</span> <span class="fu">names</span>(mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>powers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">power=</span><span class="cn">NA</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  simData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">conc =</span> <span class="fu">rep</span>(concentrations,<span class="at">each=</span>i))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  powers[i,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, simData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>powers <span class="sc">%&gt;%</span> </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n,power)) <span class="sc">+</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> .<span class="dv">9</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Exp_design_fast_2_sol_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>We need 6 repeats for each concentration to obtain a power above 90%.</p>
+<p>We need 6 repeats for each concentration to obtain a power above
+90%.</p>
 </div>
 </div>
-<div id="optimal-design-with-12-reactions" class="section level1">
-<h1><span class="header-section-number">2</span> Optimal design with 12 reactions</h1>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>concentrations &lt;-<span class="st"> </span>Puromycin <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">pull</span>(conc) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span>unique</span>
-<span id="cb10-4"><a href="#cb10-4"></a>  </span>
-<span id="cb10-5"><a href="#cb10-5"></a>betas &lt;-<span class="st"> </span>mod1<span class="op">$</span>coefficients</span>
-<span id="cb10-6"><a href="#cb10-6"></a>betas[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>nSim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>form &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>conc <span class="op">%&gt;%</span><span class="st"> </span>log10 </span>
-<span id="cb10-9"><a href="#cb10-9"></a>sd &lt;-<span class="st"> </span><span class="kw">sigma</span>(mod1)</span>
-<span id="cb10-10"><a href="#cb10-10"></a>contrast &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">1</span>)</span>
-<span id="cb10-11"><a href="#cb10-11"></a><span class="kw">rownames</span>(contrast) &lt;-<span class="st"> </span><span class="kw">names</span>(mod1<span class="op">$</span>coefficients)</span>
-<span id="cb10-12"><a href="#cb10-12"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span> </span>
-<span id="cb10-13"><a href="#cb10-13"></a></span>
-<span id="cb10-14"><a href="#cb10-14"></a>simData &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">conc =</span> <span class="kw">c</span>(concentrations,<span class="kw">rep</span>(<span class="kw">min</span>(concentrations),<span class="dv">3</span>),<span class="kw">rep</span>(<span class="kw">max</span>(concentrations),<span class="dv">3</span>)))</span>
-<span id="cb10-15"><a href="#cb10-15"></a>simData</span></code></pre></div>
+<div id="optimal-design-with-12-reactions" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Optimal design with 12
+reactions</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>concentrations <span class="ot">&lt;-</span> Puromycin <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(conc) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  unique</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>betas <span class="ot">&lt;-</span> mod1<span class="sc">$</span>coefficients</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>betas[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>form <span class="ot">&lt;-</span> <span class="er">~</span> conc <span class="sc">%&gt;%</span> log10 </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>sd <span class="ot">&lt;-</span> <span class="fu">sigma</span>(mod1)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>contrast <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(contrast) <span class="ot">&lt;-</span> <span class="fu">names</span>(mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span> </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>simData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">conc =</span> <span class="fu">c</span>(concentrations,<span class="fu">rep</span>(<span class="fu">min</span>(concentrations),<span class="dv">3</span>),<span class="fu">rep</span>(<span class="fu">max</span>(concentrations),<span class="dv">3</span>)))</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>simData</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["conc"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.02"},{"1":"0.06"},{"1":"0.11"},{"1":"0.22"},{"1":"0.56"},{"1":"1.10"},{"1":"0.02"},{"1":"0.02"},{"1":"0.02"},{"1":"1.10"},{"1":"1.10"},{"1":"1.10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>powerOpt &lt;-<span class="st"> </span><span class="kw">simFast</span>(form, simData, betas, sd, <span class="dt">contrasts =</span> contrast, <span class="dt">alpha =</span> alpha, <span class="dt">nSim =</span> nSim)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>powerOpt</span></code></pre></div>
-<pre><code>[1] 0.6091</code></pre>
-<p>Note that the power for a design where we repeat each concentration 1 time and the minimum and maximum concentration 4 times is considerably higher than that for the designs where we repeat all data points.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>powers <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(n,power)) <span class="op">+</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> powerOpt, <span class="dt">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>powerOpt <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, simData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>powerOpt</span></code></pre></div>
+<pre><code>[1] 0.6115</code></pre>
+<p>Note that the power for a design where we repeat each concentration 1
+time and the minimum and maximum concentration 4 times is considerably
+higher than that for the designs where we repeat all data points.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>powers <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n,power)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> powerOpt, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Exp_design_fast_2_sol_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>Indeed, the power for our optimal design with 12 reactions is as high as the power for an experiment where you would repeat every concentration 3 times for which we need to conduct 18 reactions!</p>
+<p>Indeed, the power for our optimal design with 12 reactions is as high
+as the power for an experiment where you would repeat every
+concentration 3 times for which we need to conduct 18 reactions!</p>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhwZXJpbWVudGFsIERlc2lnbiBJSTogcmVwbGljYXRpb24gYW5kIHBvd2VyIGV4ZXJjaXNlIDIiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50ICYgQWxleGFuZHJlIFNlZ2VycyIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogIGh0bWxfZG9jdW1lbnQ6CiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICAgIHRoZW1lOiBjb3NtbwogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICBudW1iZXJfc2VjdGlvbnM6IHllcwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogdHJ1ZQogICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChpbmNsdWRlID0gVFJVRSwgY29tbWVudCA9IE5BLCBlY2hvID0gVFJVRSwKICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2UgPSBGQUxTRSwgd2FybmluZyA9IEZBTFNFKQpgYGAKCmBgYHtyfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgojIFB1cm9teWNpbiBkYXRhCgpEYXRhIG9uIHRoZSB2ZWxvY2l0eSBvZiBhbiBlbnp5bWF0aWMgcmVhY3Rpb24gd2VyZSBvYnRhaW5lZCBieSBUcmVsb2FyICgxOTc0KS4gIApUaGUgbnVtYmVyIG9mIGNvdW50cyBwZXIgbWludXRlIG9mIHJhZGlvYWN0aXZlIHByb2R1Y3QgZnJvbSB0aGUgcmVhY3Rpb24gd2FzIG1lYXN1cmVkIGFzIGEgZnVuY3Rpb24gb2Ygc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gaW4gcGFydHMgcGVyIG1pbGxpb24gKHBwbSkgYW5kIGZyb20gdGhlc2UgY291bnRzIHRoZSBpbml0aWFsIHJhdGUgKG9yIHZlbG9jaXR5KSBvZiB0aGUgcmVhY3Rpb24gd2FzIGNhbGN1bGF0ZWQgKGNvdW50cy9taW4vbWluKS4gIFRoZSBleHBlcmltZW50IHdhcyBjb25kdWN0ZWQgb25jZSB3aXRoIHRoZSBlbnp5bWUgdHJlYXRlZCB3aXRoIFB1cm9teWNpbiwgYW5kIG9uY2Ugd2l0aCB0aGUgZW56eW1lIHVudHJlYXRlZC4KCkhlcmUsIHdlIHdpbGwgZm9jdXMgYWdhaW4gb24gdGhlIGVuenltZSB0cmVhdGVkIGRhdGEuIAoKYGBge3J9CmRhdGEoUHVyb215Y2luKQpQdXJvbXljaW4gPC0gUHVyb215Y2luICU+JSAKICBmaWx0ZXIoc3RhdGU9PSJ0cmVhdGVkIikKYGBgCgpUaGVyZSB3YXMgYSBsaW5lYXIgYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgbG9nMTAgc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gYW5kIHRoZSByZWFjdGlvbiByYXRlIAoKCmBgYHtyfQpQdXJvbXljaW4gICU+JQogIGdncGxvdChhZXMoeD1jb25jICU+JSBsb2cxMCx5PXJhdGUpKSArCiAgZ2VvbV9wb2ludCgpICsgCiAgc3RhdF9zbW9vdGgobWV0aG9kID0gImxvZXNzIixjb2w9InJlZCIpICsgCiAgc3RhdF9zbW9vdGgobWV0aG9kPSdsbScsY29sPSJibGFjayIpICsKICB5bGFiKCJSZWFjdGlvbiBSYXRlIChjb3VudHMvbWluKSIpICsKICB4bGFiKCJsb2cxMChTdWJzdHJhdGUgY29uY2VudHJhdGlvbikgKGxvZzEwIHBwbSkiKQpgYGAKCk5vdGUsIHRoYXQgdGhlIHJlc2VhcmNoZXJzIGhhdmUgY2hvc2VuIDYgZGlmZmVyZW50IHN1YnN0cmF0ZSBjb25jZW50cmF0aW9ucyBhbmQgY29uZHVjdGVkIGFuIGV4cGVyaW1lbnQgd2hlcmUgdGhleSBhc3Nlc3NlZCB0aGUgaW5pdGlhbCByZWFjdGlvbiByYXRlIHR3aWNlIGZvciBldmVyeSBjb25jZW50cmF0aW9uLiAKCjEuIFVzZSB0aGUgZGF0YSB0byBjYWxjdWxhdGUgdGhlIHBvd2VyIHRvIHBpY2sgdXAgYW4gYXNzb2NpYXRpb24gdGhhdCBpcyBhcyBsZWFzdCBhcyBzdHJvbmcgYXMgdGhlIGFzc29jaWF0aW9uIHlvdSBvYnNlcnZlZCBpbiB0aGUgZGF0YXNldCB3aGVuIHVzaW5nIGFuIGV4cGVyaW1lbnQgd2l0aCB0aGUgc2FtZSBkZXNpZ24uIAoKMi4gVXNlIHRoZSBkYXRhIHRvIGNhbGN1bGF0ZSB0aGUgcG93ZXIgdG8gcGljayB1cCBhbiBhc3NvY2lhdGlvbiB3aGVyZSB0aGUgcmVhY3Rpb24gcmF0ZSBpbmNyZWFzZXMgb24gYXZlcmFnZSB3aXRoIDEwIGNvdW50cy9taW4gd2hlbiB0aGUgc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gaXMgMTAgdGltZXMgaGlnaGVyICgkXGJldGFfMT0xMCQpLgoKMy4gVXNlIHRoZSBkYXRhIHRvIGNhbGN1bGF0ZSB0aGUgbnVtYmVyIG9mIHJlcGVhdHMgeW91IG5lZWQgZm9yIGVhY2ggY29uY2VudHJhdGlvbiB0byBwaWNrIHVwIGFuIGFzc29jaWF0aW9uIHdoZXJlIHRoZSByZWFjdGlvbiByYXRlIGluY3JlYXNlcyBvbiBhdmVyYWdlIHdpdGggMTAgY291bnRzL21pbiB3aGVuIHRoZSBzdWJzdHJhdGUgY29uY2VudHJhdGlvbiBpcyAxMCB0aW1lcyBoaWdoZXIgd2l0aCBhIHBvd2VyIG9mIGF0IGxlYXN0IDkwJS4gKCRcYmV0YV8xPTEwJCkKCjQuIFN1cHBvc2UgdGhhdCB5b3Ugd291bGQgc2V0dXAgYW4gZXhwZXJpbWVudCB3aXRoIGEgZGVzaWduIHNpbWlsYXIgd2l0aCB0aGUgc2FtZSBjb25jZW50cmF0aW9ucyBhcyBpbiB0aGUgcHVyb215Y2luIGRhdGFzZXQgYW5kIHlvdSBoYXZlIHRoZSBmb2xsb3dpbmcgcmVzdHJpY3Rpb246IHlvdSBuZWVkIHRvIHVzZSBlYWNoIGNvbmNlbnRyYXRpb24gYXQgbGVhc3Qgb25jZSBhbmQgY2FuIHNldHVwIGF0IG1vc3QgMTIgcmVhY3Rpb25zLCBob3cgd291bGQgeW91IGNob29zZSB5b3VyIGRlc2lnbiBwb2ludHM/IENhbGN1bGF0ZSB0aGUgcG93ZXIgZm9yIHRoaXMgZGVzaWduIHdoZW4gdGhlIGVmZmVjdCBzaXplIGlzIDEwIGNvdW50cy9taW4gcGVyIDEwIHRpbWVzIGluY3JlYXNlIGluIHRoZSBzdWJzdHJhdGUgY29uY2VudHJhdGlvbiAoJFxiZXRhXzE9MTAkKS4KCiMjIFNpbXVsYXRpb24gZnVuY3Rpb24KCkZ1bmN0aW9uIHRvIHNpbXVsYXRlIGRhdGEgc2ltaWxhciB0byB0aGF0IG9mIG91ciBleHBlcmltZW50IHVuZGVyIG91ciBtb2RlbCBhc3N1bXB0aW9ucy4gCgpgYGB7cn0Kc2ltRmFzdCA8LSBmdW5jdGlvbihmb3JtLCBkYXRhLCBiZXRhcywgc2QsIGNvbnRyYXN0cywgYWxwaGEgPSAuMDUsIG5TaW0gPSAxMDAwMCkKewogICAgeVNpbSA8LSBybm9ybShucm93KGRhdGEpKm5TaW0sc2Q9c2QpCiAgICBkaW0oeVNpbSkgPC1jKG5yb3coZGF0YSksblNpbSkKICAgIGRlc2lnbiA8LSBtb2RlbC5tYXRyaXgoZm9ybSwgZGF0YSkKICAgIHlTaW0gPC0geVNpbSArIGMoZGVzaWduICUqJWJldGFzKQogICAgeVNpbSA8LSB0KHlTaW0pCiAgCiAgICAjIyMgRml0dGluZwogICAgZml0QWxsIDwtIGxpbW1hOjpsbUZpdCh5U2ltLGRlc2lnbikKICAKICAgICMjIyBJbmZlcmVuY2UKICAgIHZhclVuc2NhbGVkIDwtIGModChjb250cmFzdHMpJSolZml0QWxsJGNvdi5jb2VmZmljaWVudHMlKiVjb250cmFzdHMpCiAgICBjb250cmFzdHMgPC0gZml0QWxsJGNvZWZmaWNpZW50cyAlKiVjb250cmFzdHMKICAgIHNlQ29udHJhc3RzIDwtIHZhclVuc2NhbGVkXi41KmZpdEFsbCRzaWdtYQogICAgdHN0YXRzIDwtIGNvbnRyYXN0cy9zZUNvbnRyYXN0cwogICAgcHZhbHMgPC0gcHQoYWJzKHRzdGF0cyksZml0QWxsJGRmLnJlc2lkdWFsLGxvd2VyLnRhaWwgPSBGQUxTRSkqMgogICAgcmV0dXJuKG1lYW4ocHZhbHMgPCBhbHBoYSkpCn0KYGBgCgojIyBQb3dlciB0byBwaWNrIHVwIHRoZSBzYW1lIGVmZmVjdCBzaXplIGFzIHdlIG9ic2VydmVkIGluIHRoZSBkYXRhIHNldCB3aXRoIHRoZSBzYW1lIGRlc2lnbiAKCmBgYHtyfQptb2QxIDwtIGxtKHJhdGUgfiBjb25jICU+JSBsb2cxMCwgUHVyb215Y2luKQpiZXRhcyA8LSBtb2QxJGNvZWZmaWNpZW50cwpuU2ltIDwtIDEwMDAwCmZvcm0gPC0gfiBjb25jICU+JSBsb2cxMCAKc2QgPC0gc2lnbWEobW9kMSkKY29udHJhc3QgPC0gbWF0cml4KGMoMCwxKSxuY29sPTEpCnJvd25hbWVzKGNvbnRyYXN0KSA8LSBuYW1lcyhtb2QxJGNvZWZmaWNpZW50cykKYWxwaGEgPC0gMC4wNSAKCnBvd2VyIDwtIHNpbUZhc3QoZm9ybSwgUHVyb215Y2luLCBiZXRhcywgc2QsIGNvbnRyYXN0cyA9IGNvbnRyYXN0LCBhbHBoYSA9IGFscGhhLCBuU2ltID0gblNpbSkKcG93ZXIKYGBgCgojIyBQb3dlciBmb3IgJFxiZXRhXzE9MTAkCgpgYGB7cn0KbW9kMSA8LSBsbShyYXRlIH4gY29uYyAlPiUgbG9nMTAsIFB1cm9teWNpbikKYmV0YXMgPC0gbW9kMSRjb2VmZmljaWVudHMKYmV0YXNbMl0gPC0gMTAKblNpbSA8LSAxMDAwMApmb3JtIDwtIH4gY29uYyAlPiUgbG9nMTAgCnNkIDwtIHNpZ21hKG1vZDEpCmNvbnRyYXN0IDwtIG1hdHJpeChjKDAsMSksbmNvbD0xKQpyb3duYW1lcyhjb250cmFzdCkgPC0gbmFtZXMobW9kMSRjb2VmZmljaWVudHMpCmFscGhhIDwtIDAuMDUgCgpwb3dlciA8LSBzaW1GYXN0KGZvcm0sIFB1cm9teWNpbiwgYmV0YXMsIHNkLCBjb250cmFzdHMgPSBjb250cmFzdCwgYWxwaGEgPSBhbHBoYSwgblNpbSA9IG5TaW0pCnBvd2VyCmBgYAoKVGhlIHBvd2VyIHRvIHBpY2sgdXAgYSBzbG9wZSBvZiAkXGJldGFfMT0xMCQgZm9yIHRoaXMgZXhwZXJpbWVudCBpcyBvbmx5IApgciByb3VuZChwb3dlcioxMDAsMSlgJS4gCgojIyBDYWxjdWxhdGUgdGhlIG51bWJlciBvZiByZXBlYXRzIG5lZWRlZCBwZXIgY29uY2VudHJhdGlvbiB0byBvYnRhaW4gYSBwb3dlciBvZiA5MCUgdG8gcGljayB1cCBhbiBlZmZlY3Qgb2YgJFxiZXRhXzE9MTAkLgoKCmBgYHtyfQptb2QxIDwtIGxtKHJhdGUgfiBjb25jICU+JSBsb2cxMCwgUHVyb215Y2luKQpjb25jZW50cmF0aW9ucyA8LSBQdXJvbXljaW4gJT4lIAogIHB1bGwoY29uYykgJT4lIAogIHVuaXF1ZQogIAogIApiZXRhcyA8LSBtb2QxJGNvZWZmaWNpZW50cwpiZXRhc1syXSA8LSAxMApuU2ltIDwtIDEwMDAwCmZvcm0gPC0gfiBjb25jICU+JSBsb2cxMCAKc2QgPC0gc2lnbWEobW9kMSkKY29udHJhc3QgPC0gbWF0cml4KGMoMCwxKSxuY29sPTEpCnJvd25hbWVzKGNvbnRyYXN0KSA8LSBuYW1lcyhtb2QxJGNvZWZmaWNpZW50cykKYWxwaGEgPC0gMC4wNSAKcG93ZXJzIDwtIGRhdGEuZnJhbWUobiA9IDE6MTAsIHBvd2VyPU5BKQpmb3IgKGkgaW4gMToxMCkKewogIHNpbURhdGEgPC0gZGF0YS5mcmFtZShjb25jID0gcmVwKGNvbmNlbnRyYXRpb25zLGVhY2g9aSkpCiAgcG93ZXJzW2ksMl0gPC0gc2ltRmFzdChmb3JtLCBzaW1EYXRhLCBiZXRhcywgc2QsIGNvbnRyYXN0cyA9IGNvbnRyYXN0LCBhbHBoYSA9IGFscGhhLCBuU2ltID0gblNpbSkKfQpwb3dlcnMgJT4lIAogIGdncGxvdChhZXMobixwb3dlcikpICsKICBnZW9tX2xpbmUoKSArCiAgZ2VvbV9obGluZSh5aW50ZXJjZXB0ID0gLjksIGx0eSA9IDIpCmBgYAoKV2UgbmVlZCBgciB3aGljaChwb3dlcnMkcG93ZXI+MC45KSAlPiVtaW5gIHJlcGVhdHMgZm9yIGVhY2ggY29uY2VudHJhdGlvbiB0byAKb2J0YWluIGEgcG93ZXIgYWJvdmUgOTAlLiAKCiMgT3B0aW1hbCBkZXNpZ24gd2l0aCAxMiByZWFjdGlvbnMgCgpgYGB7cn0KY29uY2VudHJhdGlvbnMgPC0gUHVyb215Y2luICU+JSAKICBwdWxsKGNvbmMpICU+JSAKICB1bmlxdWUKICAKYmV0YXMgPC0gbW9kMSRjb2VmZmljaWVudHMKYmV0YXNbMl0gPC0gMTAKblNpbSA8LSAxMDAwMApmb3JtIDwtIH4gY29uYyAlPiUgbG9nMTAgCnNkIDwtIHNpZ21hKG1vZDEpCmNvbnRyYXN0IDwtIG1hdHJpeChjKDAsMSksbmNvbD0xKQpyb3duYW1lcyhjb250cmFzdCkgPC0gbmFtZXMobW9kMSRjb2VmZmljaWVudHMpCmFscGhhIDwtIDAuMDUgCgpzaW1EYXRhIDwtIGRhdGEuZnJhbWUoY29uYyA9IGMoY29uY2VudHJhdGlvbnMscmVwKG1pbihjb25jZW50cmF0aW9ucyksMykscmVwKG1heChjb25jZW50cmF0aW9ucyksMykpKQpzaW1EYXRhCgpwb3dlck9wdCA8LSBzaW1GYXN0KGZvcm0sIHNpbURhdGEsIGJldGFzLCBzZCwgY29udHJhc3RzID0gY29udHJhc3QsIGFscGhhID0gYWxwaGEsIG5TaW0gPSBuU2ltKQpwb3dlck9wdApgYGAKCk5vdGUgdGhhdCB0aGUgcG93ZXIgZm9yIGEgZGVzaWduIHdoZXJlIHdlIHJlcGVhdCBlYWNoIGNvbmNlbnRyYXRpb24gMSB0aW1lIGFuZCAKdGhlIG1pbmltdW0gYW5kIG1heGltdW0gY29uY2VudHJhdGlvbiA0IHRpbWVzIGlzIGNvbnNpZGVyYWJseSBoaWdoZXIgdGhhbiB0aGF0IApmb3IgdGhlIGRlc2lnbnMgd2hlcmUgd2UgcmVwZWF0IGFsbCBkYXRhIHBvaW50cy4gCgpgYGB7cn0KcG93ZXJzICU+JSAKICBnZ3Bsb3QoYWVzKG4scG93ZXIpKSArCiAgZ2VvbV9saW5lKCkgKwogIGdlb21faGxpbmUoeWludGVyY2VwdCA9IHBvd2VyT3B0LCBsdHkgPSAyKQpgYGAKCkluZGVlZCwgdGhlIHBvd2VyIGZvciBvdXIgb3B0aW1hbCBkZXNpZ24gd2l0aCAxMiByZWFjdGlvbnMgaXMgYXMgaGlnaCBhcyB0aGUgCnBvd2VyIGZvciBhbiBleHBlcmltZW50IHdoZXJlIHlvdSB3b3VsZCByZXBlYXQgZXZlcnkgY29uY2VudHJhdGlvbiAzIHRpbWVzIGZvciAKd2hpY2ggd2UgbmVlZCB0byBjb25kdWN0IDE4IHJlYWN0aW9ucyEg</div>

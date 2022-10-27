@@ -13,6 +13,7 @@
 
 <title>Practicum 1: Voorbereiding 3</title>
 
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -427,16 +428,27 @@ div.tocify {
 </div>
 
 
-<div id="eetgedrag-knaagdieren" class="section level1">
-<h1><span class="header-section-number">1</span> Eetgedrag knaagdieren:</h1>
-<p>Een bioloog onderzocht het effect van schimmelinfecties in voeding op het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan een groep van 8 knaagdieren, steriele appels aan een groep van 4 knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht (kilogram) werden gemeten. De data is beschikbaar in dataset “knaagdieren”.</p>
+<div id="eetgedrag-knaagdieren" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Eetgedrag
+knaagdieren:</h1>
+<p>Een bioloog onderzocht het effect van schimmelinfecties in voeding op
+het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan
+een groep van 8 knaagdieren, steriele appels aan een groep van 4
+knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht
+(kilogram) werden gemeten. De data is beschikbaar in dataset
+“knaagdieren”.</p>
 <pre class="r"><code>suppressPackageStartupMessages({
 library(tidyverse)
 library(ggplot2)})</code></pre>
 <pre class="r"><code>knaagdieren &lt;- data.frame(weight=c(11,33,48,34,112,369,64,44,177,80,141,332),group=as.factor(c(rep(&quot;treat&quot;,8),rep(&quot;ctrl&quot;,4))))</code></pre>
 </div>
-<div id="analyseer-of-er-een-verschil-is-in-de-gemiddelde-hoeveelheid-appels-die-gegeten-worden-in-beide-groepen-appels.-noteer-de-verschillende-analysestappen-en-schrijf-een-conclusie." class="section level1">
-<h1><span class="header-section-number">2</span> Analyseer of er een verschil is in de gemiddelde hoeveelheid appels die gegeten worden in beide groepen appels. Noteer de verschillende analysestappen en schrijf een conclusie.</h1>
+<div
+id="analyseer-of-er-een-verschil-is-in-de-gemiddelde-hoeveelheid-appels-die-gegeten-worden-in-beide-groepen-appels.-noteer-de-verschillende-analysestappen-en-schrijf-een-conclusie."
+class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Analyseer of er een
+verschil is in de gemiddelde hoeveelheid appels die gegeten worden in
+beide groepen appels. Noteer de verschillende analysestappen en schrijf
+een conclusie.</h1>
 </div>
 
 <div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IFZvb3JiZXJlaWRpbmcgMyIKb3V0cHV0OiBodG1sX2RvY3VtZW50Ci0tLQoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkKYGBgCgoKIyBFZXRnZWRyYWcga25hYWdkaWVyZW46CgpFZW4gYmlvbG9vZyBvbmRlcnpvY2h0IGhldCBlZmZlY3QgdmFuIHNjaGltbWVsaW5mZWN0aWVzIGluIHZvZWRpbmcgb3AgaGV0IGVldGdlZHJhZyB2YW4ga25hYWdkaWVyZW4uIEdlw69uZmVjdGVlcmRlIGFwcGVscyB3ZXJkZW4gZ2VnZXZlbiBhYW4gZWVuIGdyb2VwIHZhbiA4IGtuYWFnZGllcmVuLCBzdGVyaWVsZSBhcHBlbHMgYWFuIGVlbiBncm9lcCB2YW4gNCBrbmFhZ2RpZXJlbi4gRGUgaG9ldmVlbGhlaWQgZ2VnZXRlbiBhcHBlbCAoZ3JhbSkgcGVyIGxpY2hhYW1zZ2V3aWNodCAoa2lsb2dyYW0pIHdlcmRlbiBnZW1ldGVuLiBEZSBkYXRhIGlzIGJlc2NoaWtiYWFyIGluIGRhdGFzZXQgImtuYWFnZGllcmVuIi4KYGBge3J9CnN1cHByZXNzUGFja2FnZVN0YXJ0dXBNZXNzYWdlcyh7CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdncGxvdDIpfSkKYGBgCgoKCmBgYHtyfQprbmFhZ2RpZXJlbiA8LSBkYXRhLmZyYW1lKHdlaWdodD1jKDExLDMzLDQ4LDM0LDExMiwzNjksNjQsNDQsMTc3LDgwLDE0MSwzMzIpLGdyb3VwPWFzLmZhY3RvcihjKHJlcCgidHJlYXQiLDgpLHJlcCgiY3RybCIsNCkpKSkKYGBgCgojIEFuYWx5c2VlciBvZiBlciBlZW4gdmVyc2NoaWwgaXMgaW4gZGUgZ2VtaWRkZWxkZSBob2V2ZWVsaGVpZCBhcHBlbHMgZGllIGdlZ2V0ZW4gd29yZGVuIGluIGJlaWRlIGdyb2VwZW4gYXBwZWxzLiBOb3RlZXIgZGUgdmVyc2NoaWxsZW5kZSBhbmFseXNlc3RhcHBlbiBlbiBzY2hyaWpmIGVlbiBjb25jbHVzaWUuCg==</div>
