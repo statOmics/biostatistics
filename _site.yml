@@ -48,6 +48,18 @@ navbar:
           href: Exp_design_fast_2_ex_new_contrasts.html
         - text: "Practicum 4: Experimenteel design: krachtanalyse oefening 3"
           href: Exp_design_fast_3_ex_new_contrasts.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1"
+          href: Exp_design_fast_1_sol.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2"
+          href: Exp_design_fast_2_sol.html
+        - text: "Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3"
+          href: Exp_design_fast_3_sol.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 1"
+          href: Rats_01_ex.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 2"
+          href: fishtank.html
+        - text: "Practicum 5: Experimenteel design II: blocking oefening 3"
+          href: Rats02_ex.html
 
 
 
