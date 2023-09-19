@@ -456,77 +456,7 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-laptop"></span>
-     
-    Labs
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
-    </li>
-    <li>
-      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing Voorbereiding 1</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Voorbereiding 2</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing Voorbereiding 3</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineair model</a>
-    </li>
-    <li>
-      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen lineair model - Oplossing Oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_1_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_2_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_3_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_1_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_2_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_3_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
-    </li>
-    <li>
-      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
-    </li>
-    <li>
-      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
-    </li>
-    <li>
-      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
-    </li>
-  </ul>
-</li>
+<li class="dropdown-header">Labs</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -676,10 +606,10 @@ class="math inline">\(\beta_1=10\)</span></h2>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, Puromycin, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
-<pre><code>[1] 0.4141</code></pre>
+<pre><code>[1] 0.4247</code></pre>
 <p>The power to pick up a slope of <span
 class="math inline">\(\beta_1=10\)</span> for this experiment is only
-41.4%.</p>
+42.5%.</p>
 </div>
 <div
 id="calculate-the-number-of-repeats-needed-per-concentration-to-obtain-a-power-of-90-to-pick-up-an-effect-of-beta_110."
@@ -742,7 +672,7 @@ reactions</h1>
 </div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>powerOpt <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, simData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>powerOpt</span></code></pre></div>
-<pre><code>[1] 0.615</code></pre>
+<pre><code>[1] 0.6083</code></pre>
 <p>Note that the power for a design where we repeat each concentration 1
 time and the minimum and maximum concentration 4 times is considerably
 higher than that for the designs where we repeat all data points.</p>

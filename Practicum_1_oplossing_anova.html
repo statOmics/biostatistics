@@ -456,77 +456,7 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-laptop"></span>
-     
-    Labs
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
-    </li>
-    <li>
-      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
-    </li>
-    <li>
-      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing Voorbereiding 1</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Voorbereiding 2</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing Voorbereiding 3</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oefening_4.html">Practicum 1: Oefening lineair model</a>
-    </li>
-    <li>
-      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineair model</a>
-    </li>
-    <li>
-      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen lineair model - Oplossing Oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_1_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_2_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_3_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_1_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_2_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
-    </li>
-    <li>
-      <a href="Exp_design_fast_3_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
-    </li>
-    <li>
-      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
-    </li>
-    <li>
-      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
-    </li>
-    <li>
-      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
-    </li>
-  </ul>
-</li>
+<li class="dropdown-header">Labs</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -840,8 +770,8 @@ voor meervoudig toetsen.</p>
 ## Linear Hypotheses:
 ##                        Estimate Std. Error t value Pr(&gt;|t|)    
 ## linseed - casein == 0   -104.83      23.28  -4.504  &lt; 0.001 ***
-## soybean - casein == 0    -77.15      22.43  -3.440  0.00432 ** 
-## soybean - linseed == 0    27.68      22.43   1.234  0.44145    
+## soybean - casein == 0    -77.15      22.43  -3.440  0.00425 ** 
+## soybean - linseed == 0    27.68      22.43   1.234  0.44149    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -875,15 +805,15 @@ functie die zo op een <code>glht</code> object kan toegepast worden.</p>
 ## 
 ## Fit: lm(formula = weight ~ feed, data = chickwts)
 ## 
-## Quantile = 2.447
+## Quantile = 2.4458
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                        Estimate  lwr       upr      
-## linseed - casein == 0  -104.8333 -161.7902  -47.8765
-## soybean - casein == 0   -77.1548 -132.0398  -22.2698
-## soybean - linseed == 0   27.6786  -27.2064   82.5636</code></pre>
+## linseed - casein == 0  -104.8333 -161.7623  -47.9044
+## soybean - casein == 0   -77.1548 -132.0129  -22.2966
+## soybean - linseed == 0   27.6786  -27.1796   82.5367</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcp)</span></code></pre></div>
 <p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
