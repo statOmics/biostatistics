@@ -1,11 +1,11 @@
-# Biostatistics 2022
+# Biostatistics 2023-2024
 
 <!-- Badge to show GHA rendering status: adapt URL to your own repo! -->
 
 [![Render and Deploy](https://github.com/statOmics/biostatistics/workflows/Render%20and%20Deploy/badge.svg)](https://github.com/statOmics/biostatistics/actions)
 
 
-Course site for Biostatistics 2022 for the Bachelor of Biology at Ghent University.
+Course site for Biostatistics 2023-2024 for the Bachelor of Biology at Ghent University.
 
 https://statomics.github.io/biostatistics
 
