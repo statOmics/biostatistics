@@ -460,7 +460,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/statOmics/biostatistics21">
+  <a href="https://github.com/statOmics/biostatistics">
     <span class="fab fa-github"></span>
      
   </a>
@@ -659,22 +659,22 @@ analysis</h2>
 ## 
 ## Linear Hypotheses:
 ##            Estimate Std. Error t value Pr(&gt;|t|)    
-## 2 - 1 == 0   20.333      2.698   7.536   &lt;1e-04 ***
-## 3 - 1 == 0   44.000      2.698  16.308   &lt;1e-04 ***
-## 3 - 2 == 0   23.667      2.698   8.772   &lt;1e-04 ***
+## 2 - 1 == 0   20.333      2.698   7.536   &lt;0.001 ***
+## 3 - 1 == 0   44.000      2.698  16.308   &lt;0.001 ***
+## 3 - 2 == 0   23.667      2.698   8.772   &lt;0.001 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>confDiet <span class="ot">&lt;-</span> <span class="fu">confint</span>(multComp)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>confDiet<span class="sc">$</span>confint</span></code></pre></div>
 <pre><code>##       Estimate      lwr      upr
-## 2 - 1 20.33333 12.80545 27.86122
-## 3 - 1 44.00000 36.47212 51.52788
-## 3 - 2 23.66667 16.13878 31.19455
+## 2 - 1 20.33333 12.79162 27.87505
+## 3 - 1 44.00000 36.45829 51.54171
+## 3 - 2 23.66667 16.12495 31.20838
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95
 ## attr(,&quot;calpha&quot;)
-## [1] 2.79016</code></pre>
+## [1] 2.795287</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Conclusion</h2>

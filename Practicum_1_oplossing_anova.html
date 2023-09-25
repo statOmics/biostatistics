@@ -460,7 +460,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/statOmics/biostatistics21">
+  <a href="https://github.com/statOmics/biostatistics">
     <span class="fab fa-github"></span>
      
   </a>
@@ -769,9 +769,9 @@ voor meervoudig toetsen.</p>
 ## 
 ## Linear Hypotheses:
 ##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## linseed - casein == 0   -104.83      23.28  -4.504  &lt; 0.001 ***
-## soybean - casein == 0    -77.15      22.43  -3.440  0.00425 ** 
-## soybean - linseed == 0    27.68      22.43   1.234  0.44149    
+## linseed - casein == 0   -104.83      23.28  -4.504  0.00023 ***
+## soybean - casein == 0    -77.15      22.43  -3.440  0.00424 ** 
+## soybean - linseed == 0    27.68      22.43   1.234  0.44144    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -805,15 +805,15 @@ functie die zo op een <code>glht</code> object kan toegepast worden.</p>
 ## 
 ## Fit: lm(formula = weight ~ feed, data = chickwts)
 ## 
-## Quantile = 2.4458
+## Quantile = 2.4466
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                        Estimate  lwr       upr      
-## linseed - casein == 0  -104.8333 -161.7623  -47.9044
-## soybean - casein == 0   -77.1548 -132.0129  -22.2966
-## soybean - linseed == 0   27.6786  -27.1796   82.5367</code></pre>
+## linseed - casein == 0  -104.8333 -161.7794  -47.8872
+## soybean - casein == 0   -77.1548 -132.0294  -22.2801
+## soybean - linseed == 0   27.6786  -27.1961   82.5532</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcp)</span></code></pre></div>
 <p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
