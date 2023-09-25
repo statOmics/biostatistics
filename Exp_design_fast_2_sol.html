@@ -606,10 +606,10 @@ class="math inline">\(\beta_1=10\)</span></h2>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, Puromycin, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
-<pre><code>[1] 0.4223</code></pre>
+<pre><code>[1] 0.4285</code></pre>
 <p>The power to pick up a slope of <span
 class="math inline">\(\beta_1=10\)</span> for this experiment is only
-42.2%.</p>
+42.9%.</p>
 </div>
 <div
 id="calculate-the-number-of-repeats-needed-per-concentration-to-obtain-a-power-of-90-to-pick-up-an-effect-of-beta_110."
@@ -672,7 +672,7 @@ reactions</h1>
 </div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>powerOpt <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, simData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>powerOpt</span></code></pre></div>
-<pre><code>[1] 0.6081</code></pre>
+<pre><code>[1] 0.6047</code></pre>
 <p>Note that the power for a design where we repeat each concentration 1
 time and the minimum and maximum concentration 4 times is considerably
 higher than that for the designs where we repeat all data points.</p>

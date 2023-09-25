@@ -692,7 +692,7 @@ en/of rechts en/of dat er een interactie is.</p>
 ##                                  Estimate Std. Error t value Pr(&gt;|t|)    
 ## tissueV == 0                       7.9680     0.4532  17.580   &lt;0.001 ***
 ## tissueV + locationR:tissueV == 0   5.5038     0.4532  12.143   &lt;0.001 ***
-## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0193 *  
+## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0195 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -703,24 +703,24 @@ en/of rechts en/of dat er een interactie is.</p>
 ## Fit: lm(formula = intensity %&gt;% log2 ~ location * tissue + patient, 
 ##     data = hart)
 ## 
-## Quantile = 3.0262
+## Quantile = 3.0167
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                                  Estimate lwr     upr    
-## tissueV == 0                      7.9680   6.5963  9.3396
-## tissueV + locationR:tissueV == 0  5.5038   4.1322  6.8755
-## locationR:tissueV == 0           -2.4641  -4.4039 -0.5244</code></pre>
+## tissueV == 0                      7.9680   6.6006  9.3353
+## tissueV + locationR:tissueV == 0  5.5038   4.1365  6.8711
+## locationR:tissueV == 0           -2.4641  -4.3978 -0.5304</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="fu">confint</span>(mcp)<span class="sc">$</span>confint</span></code></pre></div>
 <pre><code>##                                Estimate         lwr         upr
-## tissueV                     250.3757829 96.85309171 647.2486482
-## tissueV + locationR:tissueV  45.3753769 17.55259829 117.3002876
-## locationR:tissueV             0.1812291  0.04730366   0.6943223
+## tissueV                     250.3757829 96.81778511 647.4846807
+## tissueV + locationR:tissueV  45.3753769 17.54619970 117.3430636
+## locationR:tissueV             0.1812291  0.04727928   0.6946804
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95
 ## attr(,&quot;calpha&quot;)
-## [1] 3.023148</code></pre>
+## [1] 3.024308</code></pre>
 </div>
 <div id="conclusie" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Conclusie:</h1>
@@ -729,10 +729,10 @@ Myosin3L proteine tussen het ventrikel en atrium in het hart (p &lt;&lt;
 0.001).</p>
 <p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
 factor 250 hoger in het linkerventrikel dan in het linkeratrium (p &lt;
-0.001, 95% BI [96.5, 649.4]).</p>
+0.001, 95% BI [96.8, 647.9]).</p>
 <p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
 factor 45 hoger in het rechterventrikel dan in het rechteratrium (p &lt;
-0.001, 95% BI [17.6, 117.2]).</p>
+0.001, 95% BI [17.5, 117.4]).</p>
 <p>De opregulatie van Myosin3L in ventrikel vs het atrium is gemiddeld
 een factor 6 hoger in de linker- dan in de rechterzijde (p = 0.018, 95%
 BI [1.4, 21.1] ).</p>
