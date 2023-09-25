@@ -21,6 +21,7 @@ output:
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
 # Concentratie witte bloedcellen bij ratten
+Test 2023-2024
 
 De data die we hier beschouwen zijn afkomstig van een studie waarbij men een behandelde groep van 16 ratten met de pertussis bacteria heeft geïnfecteerd. Men mat vervolgens de concentratie van de witte bloedcellen (WBC) in aantal per kubieke mm. In een controlegroep van 24 ratten werd eveneens de concentratie van witte bloedcellen gemeten.
 
