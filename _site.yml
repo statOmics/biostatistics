@@ -24,7 +24,7 @@ navbar:
 
   right:
     - icon: fab fa-github
-      href: https://github.com/statOmics/biostatistics21
+      href: https://github.com/statOmics/biostatistics
     - text: "statOmics"
       href: http://statomics.github.io/
 output:
