@@ -19,6 +19,17 @@ navbar:
           href:  experimentalDesignII.html 
     - text: "Labs"
       icon: fa-laptop
+      menu:
+        - text: "Practicum 1: Voorbeeld two-sample t-test"
+          href: ttest_example.html
+        - text: "Practicum 1: Voorbeeld anova"
+          href: anova_example.html
+        - text: "Practicum 1: Voorbereiding 1"
+          href: Practicum_1_Voorbereiding_1.html
+        - text: "Practicum 1: Voorbereiding 2"
+          href: Practicum_1_Voorbereiding_2.html
+        - text: "Practicum 1: Voorbereiding 3"
+          href: Practicum_1_Voorbereiding_3.html
 
 
 
