@@ -99,8 +99,19 @@ Bijvoorbeeld, indien $Y_i$ de lengte van persoon $i$ voorstelt en $X_i$ het gesl
 
 Dit lineair model kan echter ook makkelijk veralgemeend worden naar factoren met meerdere levels. 
 Men kan inderdaad meerdere dummy variabelen invoeren (1 minder dan het aantal toetsen). 
-Voor ons voorbeeld zullen we 5 dummyvariabelen nodig hebben: $X_2$, $X_3$, $X_4$, $X_5$ en $X_6$. 
-De eerste soort is dan de referentiegroep (alle dummies $X_2 = X_3 = X_4 = X_5 = X_6 =0$). 
+Voor ons voorbeeld zullen we 5 dummyvariabelen nodig hebben: $X_1$, $X_2$, $X_3$, $X_4$ en $X46$. 
+
+\[ E(Y_i) = \beta_0 + \beta_1 X_{1i} +  \beta_2 X_{2i} + \beta_3 X_{3i} + \beta_4 X_{4i} + \beta_5 X_{5i}\]
+
+De eerste soort is dan de referentiegroep (alle dummies $X_1 = X_2 = X_3 = X_4 = X_5 =0$). 
+
+\[ E(Y | soort_1)  = \beta_0 + \beta_1 *0 + \beta_2 *0 + \beta_3 *0 + \beta_4 *0 + \beta_5 *0  = \beta_0\]
+
+\[ E(Y | soort_2)  = \beta_0 + \beta_1 *1 + \beta_2 *0 + \beta_3 *0 + \beta_4 *0 + \beta_5 *0  = \beta_0 + \beta_1\]
+
+\[ E(Y | soort_3)  = \beta_0 + \beta_1 *0 + \beta_2 *1 + \beta_3 *0 + \beta_4 *0 + \beta_5 *0  = \beta_0 + \beta_2\]
+
+
 
 Er bestaat een manier waarbij we **alle levels simultaan kunnen testen**, men zal namelijk testen of de gehele factor variabele een invloed heeft op de respons.
 In de context van ons voorbeeld, zal men kunnen testen of de pleegouder-soort uberhaupt een effect heeft op de gemiddelde lengte van koekoekseieren.
