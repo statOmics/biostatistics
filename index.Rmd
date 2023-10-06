@@ -90,6 +90,12 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
     - Voorbereiding 1: [html](./Practicum_1_Voorbereiding_1.html)
     - Voorbereiding 2: [html](./Practicum_1_Voorbereiding_2.html)
     - Voorbereiding 3: [html](./Practicum_1_Voorbereiding_3.html)
+    - Oplossing Voorbereiding 1: [html](./Practicum_1_oplossing_Two_sample_t_test.html)
+    - Oplossing Voorbereiding 2: [html](./Practicum_1_oplossing_anova.html)
+    - Oplossing Voorbereiding 3: [html](./Practicum_1_oplossing_niet_parametrische_test.html)
+- Practicum 2:
+    - Oefening 1: Simpele lineaire regressie: [html](./Practicum_1_oefening_4.html)
+    - Dodona oefeningen
 
 
 ## Licentie 
