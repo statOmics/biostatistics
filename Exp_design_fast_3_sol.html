@@ -492,6 +492,15 @@ div.tocify {
     <li>
       <a href="Practicum_1_oefening_4.html">Practicum 2: Oefening lineair model</a>
     </li>
+    <li>
+      <a href="Exp_design_fast_1_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -718,11 +727,11 @@ testing.</p>
 ## 
 ## Linear Hypotheses:
 ##                            Estimate Std. Error t value Pr(&gt;|t|)    
-## grade3 == 0                  1.6675     0.1827   9.127   &lt;0.001 ***
-## grade3 + grade3:node1 == 0   0.8928     0.1827   4.886   &lt;0.001 ***
-## node1 == 0                   0.6577     0.1827   3.600   0.0071 ** 
-## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640   0.8981    
-## grade3:node1 == 0           -0.7748     0.2584  -2.998   0.0268 *  
+## grade3 == 0                  1.6675     0.1827   9.127  &lt; 0.001 ***
+## grade3 + grade3:node1 == 0   0.8928     0.1827   4.886  &lt; 0.001 ***
+## node1 == 0                   0.6577     0.1827   3.600  0.00715 ** 
+## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640  0.89817    
+## grade3:node1 == 0           -0.7748     0.2584  -2.998  0.02662 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -781,7 +790,7 @@ experiment</h2>
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>power1 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(form, kpna2, betas, sd, contrasts, <span class="at">nSim =</span> nSim)</span>
 <span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>power1</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     1.00000     0.97290     0.76090     0.02525     0.57180</code></pre>
+##     1.00000     0.97035     0.76395     0.02425     0.56395</code></pre>
 <p>We observe large powers for all contrasts, except for contrast
 nodeg3, which has a small effect size.</p>
 </div>
@@ -817,15 +826,15 @@ sample size</h2>
 <span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>powers</span></code></pre></div>
 <pre><code>##        n graden0 graden1  nodeg1  nodeg3 interaction
-##  [1,]  2 0.70185 0.21485 0.11215 0.01275     0.07905
-##  [2,]  3 0.99225 0.57085 0.29390 0.01785     0.19150
-##  [3,]  4 0.99990 0.79840 0.48920 0.01825     0.32165
-##  [4,]  5 1.00000 0.92140 0.64380 0.02170     0.44810
-##  [5,]  6 1.00000 0.97050 0.76700 0.02550     0.57060
-##  [6,]  7 1.00000 0.99075 0.84970 0.02690     0.67360
-##  [7,]  8 1.00000 0.99610 0.91025 0.03105     0.75620
-##  [8,]  9 1.00000 0.99900 0.94605 0.03335     0.81880
-##  [9,] 10 1.00000 0.99955 0.96645 0.03845     0.86365</code></pre>
+##  [1,]  2 0.69880 0.21465 0.10830 0.01200     0.07365
+##  [2,]  3 0.99195 0.56475 0.28900 0.01585     0.19205
+##  [3,]  4 0.99980 0.80195 0.48855 0.01945     0.32800
+##  [4,]  5 1.00000 0.92275 0.64450 0.02080     0.45435
+##  [5,]  6 1.00000 0.97130 0.76665 0.02370     0.57055
+##  [6,]  7 1.00000 0.98945 0.85760 0.02860     0.67495
+##  [7,]  8 1.00000 0.99725 0.90855 0.03180     0.75375
+##  [8,]  9 1.00000 0.99890 0.94320 0.03495     0.81485
+##  [9,] 10 1.00000 0.99975 0.96990 0.03670     0.86640</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>powers <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  as.data.frame <span class="sc">%&gt;%</span> </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(contrast, power, <span class="sc">-</span>n) <span class="sc">%&gt;%</span> </span>
@@ -855,7 +864,7 @@ class="math inline">\(\beta_g\)</span> = 1.5)</h2>
 <span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>power3 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(form, kpna2, betas2, sd, contrasts,<span class="at">nSim =</span> nSim)</span>
 <span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>power3</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     0.63785     0.05480     0.76230     0.02490     0.57180</code></pre>
+##     0.64370     0.05350     0.76445     0.02495     0.56870</code></pre>
 <p>It is clear that only the power of the contrasts containing <span
 class="math inline">\(\beta_g\)</span> change when the effect size of
 <span class="math inline">\(\beta_g\)</span> changes.</p>
