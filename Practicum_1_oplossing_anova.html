@@ -493,6 +493,12 @@ div.tocify {
       <a href="Practicum_1_oefening_4.html">Practicum 2: Oefening lineair model</a>
     </li>
     <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing lineair model</a>
+    </li>
+    <li>
+      <a href="oefening_vissen_volledig_uitgewerkt.html">Practicum 3: Algemeen lineair model - Oplossing Oefening 2</a>
+    </li>
+    <li>
       <a href="Exp_design_fast_1_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 1</a>
     </li>
     <li>
@@ -500,6 +506,15 @@ div.tocify {
     </li>
     <li>
       <a href="Exp_design_fast_3_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_1_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_2_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+    </li>
+    <li>
+      <a href="Exp_design_fast_3_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
     </li>
   </ul>
 </li>
@@ -815,9 +830,9 @@ voor meervoudig toetsen.</p>
 ## 
 ## Linear Hypotheses:
 ##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## linseed - casein == 0   -104.83      23.28  -4.504 0.000194 ***
-## soybean - casein == 0    -77.15      22.43  -3.440 0.004245 ** 
-## soybean - linseed == 0    27.68      22.43   1.234 0.441446    
+## linseed - casein == 0   -104.83      23.28  -4.504  &lt; 0.001 ***
+## soybean - casein == 0    -77.15      22.43  -3.440  0.00426 ** 
+## soybean - linseed == 0    27.68      22.43   1.234  0.44143    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -851,15 +866,15 @@ functie die zo op een <code>glht</code> object kan toegepast worden.</p>
 ## 
 ## Fit: lm(formula = weight ~ feed, data = chickwts)
 ## 
-## Quantile = 2.4461
+## Quantile = 2.447
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                        Estimate  lwr       upr      
-## linseed - casein == 0  -104.8333 -161.7688  -47.8978
-## soybean - casein == 0   -77.1548 -132.0192  -22.2904
-## soybean - linseed == 0   27.6786  -27.1858   82.5430</code></pre>
+## linseed - casein == 0  -104.8333 -161.7889  -47.8777
+## soybean - casein == 0   -77.1548 -132.0385  -22.2710
+## soybean - linseed == 0   27.6786  -27.2052   82.5623</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mcp)</span></code></pre></div>
 <p><img src="Practicum_1_oplossing_anova_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
