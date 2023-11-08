@@ -95,13 +95,20 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
     - Oplossing Voorbereiding 3: [html](./Practicum_1_oplossing_niet_parametrische_test.html)
 - Practicum 2:
     - Oefening 1: Simpele lineaire regressie: [html](./Practicum_1_oefening_4.html)
+    - Oplossing Oefening 1: Simpele lineaire regressie: [html](./Practicum_1_oplossing_lineair_model.html)
     - Dodona oefeningen
 - Practicum 3:
     - Dodona oefeningen
-- Practicum 4:
+    - Oplossing Oefening 2: [html](./oefening_vissen_volledig_uitgewerkt.html), [[PDF](./oefening_vissen_volledig_uitgewerkt.pdf)]
+    
+- Practicum 4: Poweranalyse
     - Oefening 1: [html](./Exp_design_fast_1_ex.html)
     - Oefening 2: [html](./Exp_design_fast_2_ex.html)
     - Oefening 3: [html](./Exp_design_fast_3_ex.html)
+    - Oplossing Oefening 1: [html](./Exp_design_fast_1_sol.html), [[PDF](./Exp_design_fast_1_sol.pdf)]
+    - Oplossing Oefening 2: [html](./Exp_design_fast_2_sol.html), [[PDF](./Exp_design_fast_2_sol.pdf)]
+    - Oplossing Oefening 3: [html](./Exp_design_fast_3_sol.html), [[PDF](./Exp_design_fast_3_sol.pdf)]
+    
 
 ## Licentie 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
