@@ -508,13 +508,22 @@ div.tocify {
       <a href="Exp_design_fast_3_ex_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oefening 3</a>
     </li>
     <li>
-      <a href="Exp_design_fast_1_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
+      <a href="Exp_design_fast_1_sol.pdf.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 1</a>
     </li>
     <li>
-      <a href="Exp_design_fast_2_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
+      <a href="Exp_design_fast_2_sol.pdf.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 2</a>
     </li>
     <li>
-      <a href="Exp_design_fast_3_sol_new_contrasts.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+      <a href="Exp_design_fast_3_sol.pdf.html">Practicum 4: Experimenteel design: krachtanalyse oplossing oefening 3</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 5: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 5: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 5: Experimenteel design II: blocking oefening 3</a>
     </li>
   </ul>
 </li>
@@ -753,7 +762,7 @@ en/of rechts en/of dat er een interactie is.</p>
 ##                                  Estimate Std. Error t value Pr(&gt;|t|)    
 ## tissueV == 0                       7.9680     0.4532  17.580   &lt;0.001 ***
 ## tissueV + locationR:tissueV == 0   5.5038     0.4532  12.143   &lt;0.001 ***
-## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0186 *  
+## locationR:tissueV == 0            -2.4641     0.6410  -3.844   0.0187 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -764,24 +773,24 @@ en/of rechts en/of dat er een interactie is.</p>
 ## Fit: lm(formula = intensity %&gt;% log2 ~ location * tissue + patient, 
 ##     data = hart)
 ## 
-## Quantile = 3.0232
+## Quantile = 3.025
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                                  Estimate lwr     upr    
-## tissueV == 0                      7.9680   6.5977  9.3382
-## tissueV + locationR:tissueV == 0  5.5038   4.1336  6.8741
-## locationR:tissueV == 0           -2.4641  -4.4019 -0.5263</code></pre>
+## tissueV == 0                      7.9680   6.5969  9.3390
+## tissueV + locationR:tissueV == 0  5.5038   4.1328  6.8749
+## locationR:tissueV == 0           -2.4641  -4.4031 -0.5252</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="fu">confint</span>(mcp)<span class="sc">$</span>confint</span></code></pre></div>
 <pre><code>##                                Estimate         lwr         upr
-## tissueV                     250.3757829 96.79672876 647.6255291
-## tissueV + locationR:tissueV  45.3753769 17.54238368 117.3685894
-## locationR:tissueV             0.1812291  0.04726474   0.6948941
+## tissueV                     250.3757829 96.82787953 647.4171797
+## tissueV + locationR:tissueV  45.3753769 17.54802911 117.3308304
+## locationR:tissueV             0.1812291  0.04728625   0.6945779
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95
 ## attr(,&quot;calpha&quot;)
-## [1] 3.025001</code></pre>
+## [1] 3.023976</code></pre>
 </div>
 <div id="conclusie" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Conclusie:</h1>
@@ -790,10 +799,10 @@ Myosin3L proteine tussen het ventrikel en atrium in het hart (p &lt;&lt;
 0.001).</p>
 <p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
 factor 250 hoger in het linkerventrikel dan in het linkeratrium (p &lt;
-0.001, 95% BI [96.9, 647.3]).</p>
+0.001, 95% BI [96.7, 648.3]).</p>
 <p>Het geometrisch gemiddelde van de expressie van Myosin3L is een
 factor 45 hoger in het rechterventrikel dan in het rechteratrium (p &lt;
-0.001, 95% BI [17.5, 117.5]).</p>
+0.001, 95% BI [17.6, 117.3]).</p>
 <p>De opregulatie van Myosin3L in ventrikel vs het atrium is gemiddeld
 een factor 6 hoger in de linker- dan in de rechterzijde (p = 0.019, 95%
 BI [1.4, 21.1] ).</p>
