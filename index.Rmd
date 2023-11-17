@@ -109,6 +109,10 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
     - Oplossing Oefening 2: [html](./Exp_design_fast_2_sol.html), [[PDF](./Exp_design_fast_2_sol.pdf)]
     - Oplossing Oefening 3: [html](./Exp_design_fast_3_sol.html), [[PDF](./Exp_design_fast_3_sol.pdf)]
     
+- Practicum 5: Blocking
+    - Oefening 1: [html](./Rats_01_ex.html)
+    - Oefening 2: [html](./fishtank.html)
+    - Oefening 3: [html](./Rats02_ex.html)
 
 ## Licentie 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
