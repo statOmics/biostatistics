@@ -60,6 +60,13 @@ navbar:
           href: fishtank.html
         - text: "Practicum 5: Experimenteel design II: blocking oefening 3"
           href: Rats02_ex.html
+        - text: "Practicum 5: Experimenteel design II: blocking oplossing oefening 1"
+          href: Rats_01.html
+        - text: "Practicum 5: Experimenteel design II: blocking oplossing oefening 2"
+          href: fishtank_sol.html
+        - text: "Practicum 5: Experimenteel design II: blocking oplossing oefening 3"
+          href: Rats_02.html
+
 
 
 
