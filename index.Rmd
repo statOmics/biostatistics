@@ -84,23 +84,32 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
 
 ### Werkcolleges
 
-- Practicum 1:
+- Practicum 1: Herhaling - zelfstandig werk
     - Voorbeeld two-sample t-test: [html](./ttest_example.html)
     - Voorbeeld anova: [html](./anova_example.html)
     - Voorbereiding 1: [html](./Practicum_1_Voorbereiding_1.html)
     - Voorbereiding 2: [html](./Practicum_1_Voorbereiding_2.html)
     - Voorbereiding 3: [html](./Practicum_1_Voorbereiding_3.html)
+    - Voorbereiding 4: [html](./Practicum_1_oefening_4.html)
+
+    
+<!--
     - Oplossing Voorbereiding 1: [html](./Practicum_1_oplossing_Two_sample_t_test.html)
     - Oplossing Voorbereiding 2: [html](./Practicum_1_oplossing_anova.html)
     - Oplossing Voorbereiding 3: [html](./Practicum_1_oplossing_niet_parametrische_test.html)
+    - Oplossing Voorbereiding 4: Simpele lineaire regressie: [html](./Practicum_1_oplossing_lineair_model.html) -->
+
 - Practicum 2:
-    - Oefening 1: Simpele lineaire regressie: [html](./Practicum_1_oefening_4.html)
-    - Oplossing Oefening 1: Simpele lineaire regressie: [html](./Practicum_1_oplossing_lineair_model.html)
     - Dodona oefeningen
+    
 - Practicum 3:
     - Dodona oefeningen
-    - Oplossing Oefening 2: [html](./oefening_vissen_volledig_uitgewerkt.html), [[PDF](./oefening_vissen_volledig_uitgewerkt.pdf)]
-    
+   
+   <!-- 
+   - Oplossing Oefening 2: [html](./oefening_vissen_volledig_uitgewerkt.html), [[PDF](./oefening_vissen_volledig_uitgewerkt.pdf)] 
+   -->
+
+<!--
 - Practicum 4: Poweranalyse
     - Oefening 1: [html](./Exp_design_fast_1_ex.html)
     - Oefening 2: [html](./Exp_design_fast_2_ex.html)
@@ -108,16 +117,20 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
     - Oplossing Oefening 1: [html](./Exp_design_fast_1_sol.html), [[PDF](./Exp_design_fast_1_sol.pdf)]
     - Oplossing Oefening 2: [html](./Exp_design_fast_2_sol.html), [[PDF](./Exp_design_fast_2_sol.pdf)]
     - Oplossing Oefening 3: [html](./Exp_design_fast_3_sol.html), [[PDF](./Exp_design_fast_3_sol.pdf)]
-    
-- Practicum 5: Blocking
+-->
+
+- Practicum 4: Blocking
     - Oefening 1: [html](./Rats_01_ex.html)
     - Oefening 2: [html](./fishtank.html)
     - Oefening 3: [html](./Rats02_ex.html)
+
+<!--
     - Oplossing oefening 1: [html](./Rats_01.html), [[PDF](./Rats_01.pdf)]
     - Oplossing oefening 2: [html](./fishtank_sol.html), [[PDF](./fishtank_sol.pdf)]
     - Oplossing oefening 3: [html](./Rats_02.html), [[PDF](./Rats_02.pdf)]
+-->
 
 ## Licentie 
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
-Deze pagina is deel van de cursus [Biostatistiek 2022](https://statomics.github.io/biostatistics/)
+Deze pagina is deel van de cursus [Biostatistiek](https://statomics.github.io/biostatistics/)

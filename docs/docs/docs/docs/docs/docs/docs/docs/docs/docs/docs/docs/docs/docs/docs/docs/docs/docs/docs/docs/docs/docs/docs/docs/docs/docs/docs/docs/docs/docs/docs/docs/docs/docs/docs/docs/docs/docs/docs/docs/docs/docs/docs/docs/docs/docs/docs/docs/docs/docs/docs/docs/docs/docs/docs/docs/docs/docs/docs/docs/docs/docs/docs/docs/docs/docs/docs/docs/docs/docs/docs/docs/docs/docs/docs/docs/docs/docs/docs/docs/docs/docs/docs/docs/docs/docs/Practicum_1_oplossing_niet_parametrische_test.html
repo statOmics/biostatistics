@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Alexandre Segers &amp; Lieven Clement" />
+
+
+<title>Practicum 1: Niet-parametrische test</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1:voorbereiding 4</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing Voorbereiding 4</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 4: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 4: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 4: Experimenteel design II: blocking oefening 3</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practicum 1: Niet-parametrische test</h1>
+<h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div id="eetgedrag-knaagdieren" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Eetgedrag
+knaagdieren:</h1>
+<p>Een bioloog onderzocht het effect van schimmelinfecties in voeding op
+het eetgedrag van knaagdieren. Geïnfecteerde appels werden gegeven aan
+een groep van 8 knaagdieren, steriele appels aan een groep van 4
+knaagdieren. De hoeveelheid gegeten appel (gram) per lichaamsgewicht
+(kilogram) werden gemeten. De data is beschikbaar in dataset
+“knaagdieren”. We willen weten of er een verschil is in hoeveelheid
+gegeten appel per kilogram lichaamsgewicht.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)})</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>knaagdieren <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">weight=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">33</span>,<span class="dv">48</span>,<span class="dv">34</span>,<span class="dv">112</span>,<span class="dv">369</span>,<span class="dv">64</span>,<span class="dv">44</span>,<span class="dv">177</span>,<span class="dv">80</span>,<span class="dv">141</span>,<span class="dv">332</span>),<span class="at">group=</span><span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;treat&quot;</span>,<span class="dv">8</span>),<span class="fu">rep</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">4</span>))))</span></code></pre></div>
+</div>
+<div id="data-exploratie" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data exploratie</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">head</span>(knaagdieren)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"11","2":"treat","_rn_":"1"},{"1":"33","2":"treat","_rn_":"2"},{"1":"48","2":"treat","_rn_":"3"},{"1":"34","2":"treat","_rn_":"4"},{"1":"112","2":"treat","_rn_":"5"},{"1":"369","2":"treat","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We maken een boxplot voor zowel de beschimmelde appels als de
+steriele appels het gewicht gegeten aan appels per gewicht van het
+knaagdier.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>knaagdieren <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>weight)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Groep&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Gewicht aan appels gegeten per lichaamsgewicht (g/kg)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Gewicht steriele of beschimmelde appels gegeten per lichaamsgewicht (g/kg)&quot;</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_niet_parametrische_test_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Indien we een two-sample t-test zouden willen uitvoeren wordt
+verondersteld dat de data in elke groep normaal verdeeld zijn. De groep
+van steriele appels heeft echter te weinig observaties (4) om
+normaliteit na te gaan. Bovendien zien we ook een aanwijzing voor
+outliers. Daarom zullen we gebruik maken van een niet-parametrische
+test.</p>
+<p>Ook gelijkheid van variantie kan niet worden nagegaan gezien het
+beperkt aantal observaties in de controlegroep.</p>
+</div>
+<div id="wilcoxon-mann-withney-rank-sum-test-wmw-test"
+class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Wilcoxon-Mann-Withney
+rank sum test (WMW test)</h1>
+<div id="nul-en-alternatieve-hypothese" class="section level2"
+number="3.1">
+<h2><span class="header-section-number">3.1</span> Nul-en alternatieve
+hypothese</h2>
+<p>De nulhypothese stelt dus dat beide distributies dezelfde zijn.</p>
+<p>De alternatieve hypothese stelt dat de kans dat een willekeurige
+observatie van groep 1 groter of gelijk is aan de waarde van een
+willekeurige observatie van de andere groep afwijkt van 50%. In één van
+de twee groepen zal er dus een verhoogde kans zijn om hogere waarden te
+observeren dan in de andere groep.</p>
+<p><span class="math inline">\(H_0\)</span>: <span
+class="math inline">\(F_1(y) = F_2(y)\)</span></p>
+<p><span class="math inline">\(H_a\)</span>: <span
+class="math inline">\(P(Y_1 \ge Y_2) \ne \frac{1}{2}\)</span></p>
+</div>
+<div id="assumpties" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Assumpties</h2>
+<p>Voor de Wilcoxon-Mann-Withney rank sum test moeten geen
+distributionele aannames worden gemaakt. Van de observaties wordt wel
+verondersteld dat ze onafhankelijk zijn van elkaar.</p>
+</div>
+<div id="test-uitvoeren" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Test uitvoeren</h2>
+<p>We kunnen toetsen tegen afwijkingen van de nulhypothese in de
+richting van de alternatieve hypothese a.d.h.v. de Wilcoxon-Mann-Withney
+rank sum test.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>wilcox <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> knaagdieren)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>wilcox</span></code></pre></div>
+<pre><code>## 
+##  Wilcoxon rank sum exact test
+## 
+## data:  weight by group
+## W = 27, p-value = 0.07273
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>We kunnen de nulhypothese van gelijke distributies niet verwerpen op
+het 5% significantieniveau (p = 0.073). Dit wil dus zeggen dat we
+besluiten dat er op het 5% significantieniveau geen significant verschil
+is in de distributies van het gewicht van de appels die worden gegeten
+per kilogram lichaamsgewicht door ratten die met beschimmelde appels
+worden gevoederd en ratten die met steriele appels worden gevoederd.</p>
+<p>Hoewel de test niet significant is, gaan we omwille van didactische
+redenen toch de probabilistische index, de effectgrootte, berekenen. De
+probabilistische index is de kans om een waarde te vinden voor een
+willekeurige observatie in de eerste groep (ctrl, steriele appels) die
+hoger is dan een willekeurige observatie in de tweede groep (treat,
+beschimmelde appels). Merk op dat de ctrl groep de referentiegroep is in
+R omdat de groepen alfabetisch worden gerangschikt in R.</p>
+<p>Dit kunnen we berekenen aan de hand van de geobserveerde
+teststatistiek en de hoeveelheid observaties per groep.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>WObs <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> knaagdieren)<span class="sc">$</span>statistic <span class="co">#geobserveerde teststatistiek</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>WObs<span class="sc">/</span>(n1<span class="sc">*</span>n2)</span></code></pre></div>
+<pre><code>##       W 
+## 0.84375</code></pre>
+<p>In de steekproef zal een willekeurig knaagdier met een kans van 84.4%
+meer eten van steriele appels per kilogram lichaamsgewicht dan dat een
+ander knaagdier eet van beschimmelde appels. We kunnen het verschil die
+we zien tussen de twee groepen in de steekproef echter niet veralgemenen
+naar de populatie omdat deze kans niet significant verschillend is van
+50% op het 5% significantie-niveau.</p>
+<p>Merk op dat de puntschatter sterk lijkt af te wijken van 50% in de
+steekproef, maar dat we het verschil niet op kunnen pikken met de WMW
+test op het 5% significantieniveau, wat mogelijks zou kunnen wijzen op
+een gebrek aan power van de proefopzet. We hebben inderdaad maar 4
+observaties in de controle groep…</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IE5pZXQtcGFyYW1ldHJpc2NoZSB0ZXN0IgphdXRob3I6ICJBbGV4YW5kcmUgU2VnZXJzICYgTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgICAgdGhlbWU6IGNvc21vCiAgICAgIHRvYzogdHJ1ZQogICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIHBkZl9kb2N1bWVudDoKICAgICAgdG9jOiB0cnVlCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKbGlua2NvbG9yOiBibHVlCnVybGNvbG9yOiBibHVlCmNpdGVjb2xvcjogYmx1ZQoKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVFJVRSkKYGBgCgoKIyBFZXRnZWRyYWcga25hYWdkaWVyZW46CgpFZW4gYmlvbG9vZyBvbmRlcnpvY2h0IGhldCBlZmZlY3QgdmFuIHNjaGltbWVsaW5mZWN0aWVzIGluIHZvZWRpbmcgb3AgaGV0IGVldGdlZHJhZyB2YW4ga25hYWdkaWVyZW4uIEdlw69uZmVjdGVlcmRlIGFwcGVscyB3ZXJkZW4gZ2VnZXZlbiBhYW4gZWVuIGdyb2VwIHZhbiA4IGtuYWFnZGllcmVuLCBzdGVyaWVsZSBhcHBlbHMgYWFuIGVlbiBncm9lcCB2YW4gNCBrbmFhZ2RpZXJlbi4gRGUgaG9ldmVlbGhlaWQgZ2VnZXRlbiBhcHBlbCAoZ3JhbSkgcGVyIGxpY2hhYW1zZ2V3aWNodCAoa2lsb2dyYW0pIHdlcmRlbiBnZW1ldGVuLiBEZSBkYXRhIGlzIGJlc2NoaWtiYWFyIGluIGRhdGFzZXQgImtuYWFnZGllcmVuIi4gV2Ugd2lsbGVuIHdldGVuIG9mIGVyIGVlbiB2ZXJzY2hpbCBpcyBpbiBob2V2ZWVsaGVpZCBnZWdldGVuIGFwcGVsIHBlciBraWxvZ3JhbSBsaWNoYWFtc2dld2ljaHQuCgpgYGB7cn0Kc3VwcHJlc3NQYWNrYWdlU3RhcnR1cE1lc3NhZ2VzKHsKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dwbG90Mil9KQpgYGAKCmBgYHtyfQprbmFhZ2RpZXJlbiA8LSBkYXRhLmZyYW1lKHdlaWdodD1jKDExLDMzLDQ4LDM0LDExMiwzNjksNjQsNDQsMTc3LDgwLDE0MSwzMzIpLGdyb3VwPWFzLmZhY3RvcihjKHJlcCgidHJlYXQiLDgpLHJlcCgiY3RybCIsNCkpKSkKYGBgCgojIERhdGEgZXhwbG9yYXRpZQpgYGB7cn0KaGVhZChrbmFhZ2RpZXJlbikKYGBgCgoKV2UgbWFrZW4gZWVuIGJveHBsb3Qgdm9vciB6b3dlbCBkZSBiZXNjaGltbWVsZGUgYXBwZWxzIGFscyBkZSBzdGVyaWVsZSBhcHBlbHMgaGV0IGdld2ljaHQgZ2VnZXRlbiBhYW4gYXBwZWxzIHBlciBnZXdpY2h0IHZhbiBoZXQga25hYWdkaWVyLgoKYGBge3J9CgprbmFhZ2RpZXJlbiAlPiUgCiAgZ2dwbG90KGFlcyh4PWdyb3VwLHk9d2VpZ2h0KSkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICBnZW9tX2ppdHRlcigpICsKICB4bGFiKCJHcm9lcCIpICsKICB5bGFiKCJHZXdpY2h0IGFhbiBhcHBlbHMgZ2VnZXRlbiBwZXIgbGljaGFhbXNnZXdpY2h0IChnL2tnKSIpICsgCiAgZ2d0aXRsZSgiR2V3aWNodCBzdGVyaWVsZSBvZiBiZXNjaGltbWVsZGUgYXBwZWxzIGdlZ2V0ZW4gcGVyIGxpY2hhYW1zZ2V3aWNodCAoZy9rZykiKQoKYGBgCgpJbmRpZW4gd2UgZWVuIHR3by1zYW1wbGUgdC10ZXN0IHpvdWRlbiB3aWxsZW4gdWl0dm9lcmVuIHdvcmR0IHZlcm9uZGVyc3RlbGQgZGF0IGRlIGRhdGEgaW4gZWxrZSBncm9lcCBub3JtYWFsIHZlcmRlZWxkIHppam4uIERlIGdyb2VwIHZhbiBzdGVyaWVsZSBhcHBlbHMgaGVlZnQgZWNodGVyIHRlIHdlaW5pZyBvYnNlcnZhdGllcyAoNCkgb20gbm9ybWFsaXRlaXQgbmEgdGUgZ2Fhbi4gQm92ZW5kaWVuIHppZW4gd2Ugb29rIGVlbiBhYW53aWp6aW5nIHZvb3Igb3V0bGllcnMuIERhYXJvbSB6dWxsZW4gd2UgZ2VicnVpayBtYWtlbiB2YW4gZWVuIG5pZXQtcGFyYW1ldHJpc2NoZSB0ZXN0LgoKT29rIGdlbGlqa2hlaWQgdmFuIHZhcmlhbnRpZSBrYW4gbmlldCB3b3JkZW4gbmFnZWdhYW4gZ2V6aWVuIGhldCBiZXBlcmt0IGFhbnRhbCBvYnNlcnZhdGllcyBpbiBkZSBjb250cm9sZWdyb2VwLiAKCgojIFdpbGNveG9uLU1hbm4tV2l0aG5leSByYW5rIHN1bSB0ZXN0IChXTVcgdGVzdCkKIyMgTnVsLWVuIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2UKCkRlIG51bGh5cG90aGVzZSBzdGVsdCBkdXMgZGF0IGJlaWRlIGRpc3RyaWJ1dGllcyBkZXplbGZkZSB6aWpuLgoKRGUgYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSBzdGVsdCBkYXQgZGUga2FucyBkYXQgZWVuIHdpbGxla2V1cmlnZSBvYnNlcnZhdGllIHZhbiBncm9lcCAxIGdyb3RlciBvZiBnZWxpamsgaXMgYWFuIGRlIHdhYXJkZSB2YW4gZWVuIHdpbGxla2V1cmlnZSBvYnNlcnZhdGllIHZhbiBkZSBhbmRlcmUgZ3JvZXAgYWZ3aWprdCB2YW4gNTAlLiBJbiDDqcOpbiB2YW4gZGUgdHdlZSBncm9lcGVuIHphbCBlciBkdXMgZWVuIHZlcmhvb2dkZSBrYW5zIHppam4gb20gaG9nZXJlIHdhYXJkZW4gdGUgb2JzZXJ2ZXJlbiBkYW4gaW4gZGUgYW5kZXJlIGdyb2VwLiAKCiRIXzAkOiAkRl8xKHkpID0gRl8yKHkpJAoKJEhfYSQ6ICRQKFlfMSBcZ2UgWV8yKSBcbmUgXGZyYWN7MX17Mn0kCgoKCgojIyBBc3N1bXB0aWVzClZvb3IgZGUgV2lsY294b24tTWFubi1XaXRobmV5IHJhbmsgc3VtIHRlc3QgbW9ldGVuIGdlZW4gZGlzdHJpYnV0aW9uZWxlIGFhbm5hbWVzIHdvcmRlbiBnZW1hYWt0LiBWYW4gZGUgb2JzZXJ2YXRpZXMgd29yZHQgd2VsIHZlcm9uZGVyc3RlbGQgZGF0IHplIG9uYWZoYW5rZWxpamsgemlqbiB2YW4gZWxrYWFyLgoKIyMgVGVzdCB1aXR2b2VyZW4KCldlIGt1bm5lbiB0b2V0c2VuIHRlZ2VuIGFmd2lqa2luZ2VuIHZhbiBkZSBudWxoeXBvdGhlc2UgaW4gZGUgcmljaHRpbmcgdmFuIGRlIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2UgYS5kLmgudi4gZGUgV2lsY294b24tTWFubi1XaXRobmV5IHJhbmsgc3VtIHRlc3QuIAoKYGBge3J9CndpbGNveCA8LSB3aWxjb3gudGVzdCh3ZWlnaHQgfiBncm91cCwgZGF0YSA9IGtuYWFnZGllcmVuKQp3aWxjb3gKYGBgCgoKCldlIGt1bm5lbiBkZSBudWxoeXBvdGhlc2UgdmFuIGdlbGlqa2UgZGlzdHJpYnV0aWVzIG5pZXQgdmVyd2VycGVuIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1IChwID0gYHIgcm91bmQod2lsY294JHAudmFsdWUsMylgKS4gRGl0IHdpbCBkdXMgemVnZ2VuIGRhdCB3ZSBiZXNsdWl0ZW4gZGF0IGVyIG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1IGdlZW4gc2lnbmlmaWNhbnQgdmVyc2NoaWwgaXMgaW4gZGUgZGlzdHJpYnV0aWVzIHZhbiBoZXQgZ2V3aWNodCB2YW4gZGUgYXBwZWxzIGRpZSB3b3JkZW4gZ2VnZXRlbiBwZXIga2lsb2dyYW0gbGljaGFhbXNnZXdpY2h0IGRvb3IgcmF0dGVuIGRpZSBtZXQgYmVzY2hpbW1lbGRlIGFwcGVscyB3b3JkZW4gZ2V2b2VkZXJkIGVuIHJhdHRlbiBkaWUgbWV0IHN0ZXJpZWxlIGFwcGVscyB3b3JkZW4gZ2V2b2VkZXJkLgoKSG9ld2VsIGRlIHRlc3QgbmlldCBzaWduaWZpY2FudCBpcywgZ2FhbiB3ZSBvbXdpbGxlIHZhbiBkaWRhY3Rpc2NoZSByZWRlbmVuIHRvY2ggZGUgcHJvYmFiaWxpc3Rpc2NoZSBpbmRleCwgZGUgZWZmZWN0Z3Jvb3R0ZSwgYmVyZWtlbmVuLiBEZSBwcm9iYWJpbGlzdGlzY2hlIGluZGV4IGlzIGRlIGthbnMgb20gZWVuIHdhYXJkZSB0ZSB2aW5kZW4gdm9vciBlZW4gd2lsbGVrZXVyaWdlIG9ic2VydmF0aWUgaW4gZGUgZWVyc3RlIGdyb2VwIChjdHJsLCBzdGVyaWVsZSBhcHBlbHMpIGRpZSBob2dlciBpcyBkYW4gZWVuIHdpbGxla2V1cmlnZSBvYnNlcnZhdGllIGluIGRlIHR3ZWVkZSBncm9lcCAodHJlYXQsIGJlc2NoaW1tZWxkZSBhcHBlbHMpLiBNZXJrIG9wIGRhdCBkZSBjdHJsIGdyb2VwIGRlIHJlZmVyZW50aWVncm9lcCBpcyBpbiBSIG9tZGF0IGRlIGdyb2VwZW4gYWxmYWJldGlzY2ggd29yZGVuIGdlcmFuZ3NjaGlrdCBpbiBSLiAKCkRpdCBrdW5uZW4gd2UgYmVyZWtlbmVuIGFhbiBkZSBoYW5kIHZhbiBkZSBnZW9ic2VydmVlcmRlIHRlc3RzdGF0aXN0aWVrIGVuIGRlIGhvZXZlZWxoZWlkIG9ic2VydmF0aWVzIHBlciBncm9lcC4KCmBgYHtyfQpuMSA8LSA0Cm4yIDwtIDgKV09icyA8LSB3aWxjb3gudGVzdCh3ZWlnaHQgfiBncm91cCwgZGF0YSA9IGtuYWFnZGllcmVuKSRzdGF0aXN0aWMgI2dlb2JzZXJ2ZWVyZGUgdGVzdHN0YXRpc3RpZWsKV09icy8objEqbjIpCmBgYAoKSW4gZGUgc3RlZWtwcm9lZiB6YWwgZWVuIHdpbGxla2V1cmlnIGtuYWFnZGllciBtZXQgZWVuIGthbnMgdmFuIGByIHJvdW5kKFdPYnMvKG4xKm4yKSwzKSoxMDBgJSBtZWVyIGV0ZW4gdmFuIHN0ZXJpZWxlIGFwcGVscyBwZXIga2lsb2dyYW0gbGljaGFhbXNnZXdpY2h0IGRhbiBkYXQgZWVuIGFuZGVyIGtuYWFnZGllciBlZXQgdmFuIGJlc2NoaW1tZWxkZSBhcHBlbHMuIFdlIGt1bm5lbiBoZXQgdmVyc2NoaWwgZGllIHdlIHppZW4gdHVzc2VuIGRlIHR3ZWUgZ3JvZXBlbiBpbiBkZSBzdGVla3Byb2VmIGVjaHRlciBuaWV0IHZlcmFsZ2VtZW5lbiBuYWFyIGRlIHBvcHVsYXRpZSBvbWRhdCBkZXplIGthbnMgbmlldCBzaWduaWZpY2FudCB2ZXJzY2hpbGxlbmQgaXMgdmFuIDUwJSBvcCBoZXQgNSUgc2lnbmlmaWNhbnRpZS1uaXZlYXUuIAoKTWVyayBvcCBkYXQgZGUgcHVudHNjaGF0dGVyIHN0ZXJrIGxpamt0IGFmIHRlIHdpamtlbiB2YW4gNTAlIGluIGRlIHN0ZWVrcHJvZWYsIG1hYXIgZGF0IHdlIGhldCB2ZXJzY2hpbCBuaWV0IG9wIGt1bm5lbiBwaWtrZW4gbWV0IGRlIFdNVyB0ZXN0IG9wIGhldCA1JSBzaWduaWZpY2FudGllbml2ZWF1LCB3YXQgbW9nZWxpamtzIHpvdSBrdW5uZW4gd2lqemVuIG9wIGVlbiBnZWJyZWsgYWFuIHBvd2VyIHZhbiBkZSBwcm9lZm9wemV0LiBXZSBoZWJiZW4gaW5kZXJkYWFkIG1hYXIgNCBvYnNlcnZhdGllcyBpbiBkZSBjb250cm9sZSBncm9lcC4uLiAK</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Practicum_1_oplossing_niet_parametrische_test.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
