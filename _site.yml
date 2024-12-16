@@ -46,6 +46,22 @@ navbar:
           href: fishtank.html
         - text: "Practicum 4: Experimenteel design II: blocking oefening 3"
           href: Rats02_ex.html
+        - text: "Practicum 4: Experimenteel design II: blocking oplossing oefening 1"
+          href: Rats_01.html
+        - text: "Practicum 4: Experimenteel design II: blocking oplossing oefening 2"
+          href: fishtank_sol.html
+        - text: "Practicum 4: Experimenteel design II: blocking oplossing oefening 3"
+          href: Rats02.html
+        - text: "Voorbeeld examenoefeningen: oefening 1"
+          href: Examenvoorbeeld_oefening_1_opgave.html
+        - text: "Voorbeeld examenoefeningen: oefening 2"
+          href: Examenvoorbeeld_oefening_2_opgave.html
+        - text: "Voorbeeld examenoefeningen: oplossing oefening 1"
+          href: Examenvoorbeeld_oefening_1.html
+        - text: "Voorbeeld examenoefeningen: oplossing oefening 2"
+          href: Examenvoorbeeld_oefening_2.html
+
+
 
 
 

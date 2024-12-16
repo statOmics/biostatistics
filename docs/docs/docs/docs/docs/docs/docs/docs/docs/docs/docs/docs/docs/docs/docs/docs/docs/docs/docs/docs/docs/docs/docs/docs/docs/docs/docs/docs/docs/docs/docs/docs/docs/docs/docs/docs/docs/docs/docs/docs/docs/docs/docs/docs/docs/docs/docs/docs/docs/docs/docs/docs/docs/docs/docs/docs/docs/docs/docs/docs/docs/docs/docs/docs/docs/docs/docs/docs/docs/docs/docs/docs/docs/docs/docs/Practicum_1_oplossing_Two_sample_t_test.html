@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Alexandre Segers &amp; Lieven Clement" />
+
+
+<title>Practicum 1: Oefening Two-sample t-test</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biostatistiek</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Hoorcolleges
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="introduction.html">Introductie</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression.html">Algemeen Lineair Model</a>
+    </li>
+    <li>
+      <a href="10-MultipleRegression-FactorialDesigns.html">Factoriële Designs</a>
+    </li>
+    <li>
+      <a href="experimentalDesignI.html">Experimental Design I</a>
+    </li>
+    <li>
+      <a href="experimentalDesignII.html">Experimental Design II</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ttest_example.html">Practicum 1: Voorbeeld two-sample t-test</a>
+    </li>
+    <li>
+      <a href="anova_example.html">Practicum 1: Voorbeeld anova</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_1.html">Practicum 1: Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_2.html">Practicum 1: Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_Voorbereiding_3.html">Practicum 1: Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oefening_4.html">Practicum 1:voorbereiding 4</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_Two_sample_t_test.html">Practicum 1: Oplossing Voorbereiding 1</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_anova.html">Practicum 1: Oplossing Voorbereiding 2</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_niet_parametrische_test.html">Practicum 1: Oplossing Voorbereiding 3</a>
+    </li>
+    <li>
+      <a href="Practicum_1_oplossing_lineair_model.html">Practicum 1: Oplossing Voorbereiding 4</a>
+    </li>
+    <li>
+      <a href="Rats_01_ex.html">Practicum 4: Experimenteel design II: blocking oefening 1</a>
+    </li>
+    <li>
+      <a href="fishtank.html">Practicum 4: Experimenteel design II: blocking oefening 2</a>
+    </li>
+    <li>
+      <a href="Rats02_ex.html">Practicum 4: Experimenteel design II: blocking oefening 3</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/biostatistics">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Practicum 1: Oefening Two-sample
+t-test</h1>
+<h4 class="author">Alexandre Segers &amp; Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a
+href="https://statomics.github.io"
+class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
+<div id="two-sample-t-test-plantgroei" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Two-sample t-test:
+Plantgroei</h1>
+<p>Deze studie vergelijkt het droog gewicht van planten tussen een
+controle behandeling en twee verschillende behandelingen. We willen
+weten of het gemiddeld gewicht van planten bij behandeling twee (de data
+van behandeling één gaan we niet gebruiken) verschilt tegenover de
+controle groep.</p>
+<div id="libraries-laden" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Libraries laden</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>})</span></code></pre></div>
+</div>
+<div id="data-inlezen" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Data inlezen</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;PlantGrowth&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="data-exploratie" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Data exploratie</h1>
+<div id="data-structuur-bekijken" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Data structuur
+bekijken</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#Bekijk hoe de dataset PlantGrowth eruit ziet</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(PlantGrowth)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weight"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["group"],"name":[2],"type":["fct"],"align":["left"]}],"data":[{"1":"4.17","2":"ctrl","_rn_":"1"},{"1":"5.58","2":"ctrl","_rn_":"2"},{"1":"5.18","2":"ctrl","_rn_":"3"},{"1":"6.11","2":"ctrl","_rn_":"4"},{"1":"4.50","2":"ctrl","_rn_":"5"},{"1":"4.61","2":"ctrl","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="data-filteren" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Data filteren</h2>
+<p>We gaan eerst de data filteren zodat enkel de controle- (ctrl) en
+tweede behandelingsgroep (trt2) gebruikt worden.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#Filter de data zodat enkel data van de controle- (ctrl) en tweede behandelingsgroep (trt2) gebruikt worden.</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>PlantGrowth <span class="ot">&lt;-</span> PlantGrowth <span class="sc">%&gt;%</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="st">&quot;ctrl&quot;</span> <span class="sc">|</span> group <span class="sc">==</span> <span class="st">&quot;trt2&quot;</span>)</span></code></pre></div>
+</div>
+<div id="boxplot-van-de-data" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Boxplot van de
+data</h2>
+<p>We gaan de gewichten (weight) van de planten per groep (group)
+plotten door middel van een boxplot om te zien hoe onze distributie
+eruit ziet. Het lijkt dat de controlegroep een groter gewicht heeft,
+maar is dit verschil significant?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#Maak een boxplot voor elke groep (group) van het gewicht (weight) van de planten </span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>PlantGrowth <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>weight)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Gewicht van de planten voor de controle en tweede behandelingsgroep&quot;</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="t-test" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> T-test</h1>
+<p>De two sample t-test kan gebruikt worden voor het gemiddelde gewicht
+te vergelijken tussen twee groepen. Deze heeft als test statistiek:</p>
+<p><span class="math display">\[ T =
+\frac{\bar{Y}_1-\bar{Y}_2}{S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}
+\]</span></p>
+<div
+id="geef-de-nul--en-alternatieve-hypothese-van-de-two-sample-t-test"
+class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Geef de nul- en
+alternatieve hypothese van de two-sample t-test:</h2>
+<p>Stel dat <span class="math inline">\(\mu_1\)</span> het gemiddeld
+gewicht van plant met controle treatment voorstelt, en <span
+class="math inline">\(\mu_2\)</span> het gemiddeld gewicht van een plant
+met treatment 2. De nul- en alternatieve hypothese voor een two-sample
+t-test kan men dan voorstellen als:</p>
+<p><span class="math inline">\(H_0\)</span>: <span
+class="math inline">\(\mu_1=\mu_2\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: <span
+class="math inline">\(\mu_1 \neq \mu_2\)</span></p>
+<p>De nulhypothese stelt dat er geen verschil is in gemiddeld gewicht
+tussen de behandelingen. De alternatieve hypothese stelt dat het
+gemiddelde gewicht verschilt tussen planten met de controle behandeling
+en planten met behandeling 2.</p>
+</div>
+<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na"
+class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Geef de assumpties
+van de deze test en ga deze na:</h2>
+<p>Zoals beschreven in de cursus, veronderstelt t-test een locatie-shift
+model. Toch zijn er verschillende t-test, namelijk deze met een gepoolde
+variantie, de Welch t-test en daarnaast gepaarde t-test voor gepaarde
+data. Deze hebben verschillende assumpties:</p>
+<p>Two-sample t-test: gepoolde variantie:</p>
+<ul>
+<li>gelijke variantie in beide groepen</li>
+<li>normaliteit van de data in elke groep</li>
+<li>onafhankelijkheid van observaties</li>
+</ul>
+<p>Welch t-test:</p>
+<ul>
+<li>normaliteit van de data in elke groep</li>
+<li>onafhankelijk van observaties</li>
+</ul>
+<p>gepaarde t-test:</p>
+<ul>
+<li>normaliteit van het verschil tussen de metingen van gepaarde
+observaties</li>
+<li>onafhankelijkheid tussen de verschillende gepaarde observaties</li>
+</ul>
+<p>Indien niet voldaan is aan de veronderstellingen, volgt de
+teststatistiek onder de nulhypothese geen t-distributie, en bijgevolg is
+er geen garantie dat de p-waarde en betrouwbaarheidsintervallen correct
+zijn. Hier werken we met een two-sample t-test met pooled variantie
+waardoor we moeten controleren of dat:</p>
+<ul>
+<li>gelijke variantie in beide groepen (= homoscedasticiteit)</li>
+<li>normaliteit van de data in elke groep</li>
+</ul>
+<p>Onafhankelijkheid van observaties: we gaan er vanuit dat de
+onderzoekers hiermee rekening hebben gehouden in hun experimenteel
+design.</p>
+<p>Voor het nagaan van gelijke varianties werken we met boxplots die
+daarnet gemaakt zijn. Deze assumptie lijkt alvast voldaan te zijn.</p>
+<p>Het is echter niet altijd eenvoudig om te beoordelen of de varianties
+sterk van mekaar verschillen bij klein aantal samples (10 per treatment
+in dit geval). Om een beter idee te krijgen, kunnen we eens een aantal
+boxplots simuleren met dezelfde steekproefgrootte als in de dataset en
+in de veronderstelling dat de varianties gelijk zijn. Ook kan het
+onmogelijk zijn om deze assumptie te controleren bij zeer kleine sample
+size.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">52</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>st_dev <span class="ot">&lt;-</span> PlantGrowth <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">stdev =</span> <span class="fu">sd</span>(weight))</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>means<span class="ot">&lt;-</span> PlantGrowth <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(group) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">m=</span><span class="fu">mean</span>(weight))</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>counts <span class="ot">&lt;-</span> PlantGrowth <span class="sc">%&gt;%</span> <span class="fu">count</span>(group)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>sd_pooled <span class="ot">=</span> <span class="fu">sqrt</span>(((counts<span class="sc">$</span>n[<span class="dv">1</span>]<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> st_dev<span class="sc">$</span>stdev[<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (counts<span class="sc">$</span>n[<span class="dv">2</span>]<span class="sc">-</span><span class="dv">1</span>) <span class="sc">*</span> st_dev<span class="sc">$</span>stdev[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (counts<span class="sc">$</span>n[<span class="dv">1</span>] <span class="sc">+</span> counts<span class="sc">$</span>n[<span class="dv">2</span>] <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>){</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(counts[<span class="dv">1</span>,<span class="dv">2</span>], <span class="at">mean=</span>means<span class="sc">$</span>m[<span class="dv">1</span>], <span class="at">sd=</span>sd_pooled)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(counts[<span class="dv">2</span>,<span class="dv">2</span>], <span class="at">mean=</span>means<span class="sc">$</span>m[<span class="dv">2</span>], <span class="at">sd=</span>sd_pooled)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;weight&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(a,b), <span class="st">&quot;group&quot;</span> <span class="ot">=</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,counts[<span class="dv">1</span>,<span class="dv">2</span>]),<span class="fu">rep</span>(<span class="dv">2</span>,counts[<span class="dv">2</span>,<span class="dv">2</span>]))))</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  </span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  plots[[i]] <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>df, <span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>weight)) <span class="sc">+</span> </span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                <span class="fu">geom_jitter</span>(<span class="at">alpha=</span>.<span class="dv">2</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>}</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">do.call</span>(<span class="st">&#39;grid.arrange&#39;</span>,<span class="fu">c</span>(plots,<span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>))</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Aangezien het gebruik van een for-loop met het stapgewijs verlengen
+van een vector computationeel inefficiënt is in R, tonen we hier ook hoe
+het zou kunnen door middel van de lapply functie.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">52</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>plotList <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="cf">function</span>(x,means,sd,nobs)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>{</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>      <span class="fu">sum</span>(counts<span class="sc">$</span>n),</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>      <span class="at">mean=</span><span class="fu">rep</span>(means<span class="sc">$</span>m,<span class="at">times=</span>nobs<span class="sc">$</span>n),</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>      <span class="at">sd=</span>sd_pooled),</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>      <span class="at">group =</span>  <span class="fu">rep</span>(nobs<span class="sc">$</span>group,<span class="at">times=</span>counts<span class="sc">$</span>n)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(group,y)) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    <span class="fu">geom_jitter</span>(<span class="at">alpha=</span>.<span class="dv">2</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>}, <span class="at">means=</span>means,<span class="at">nobs=</span>counts,<span class="at">sd=</span>sd_pooled)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">do.call</span>(<span class="st">&quot;grid.arrange&quot;</span>,<span class="fu">c</span>(plotList,<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">ncol=</span><span class="dv">3</span>))</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Dan moet nog de assumptie van normale distributie in elke groep
+nagegaan worden:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Maak een QQplot van het gewicht van de planten voor elke treatment</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>PlantGrowth <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> weight)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">facet_grid</span>(.<span class="sc">~</span>group) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Relatieve abundantie&quot;</span>)</span></code></pre></div>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>De afwijkingen die we in onze qqplot zien lijken niet zeer
+uitzonderlijk te zijn. Daarom kunnen we stellen dat beide groepen een
+normale verdeling lijken te volgen en daarom ook aan deze assumptie
+voldaan is.</p>
+<p>Ook hier kan het soms moeilijk zijn om met een beperkt aantal
+observaties te zien of normaliteit gevolgd worden. Hier zullen we ook op
+basis van een simulatiestudie bekijken hoe een steekproef van normaal
+verdeelde punten kan verschillen.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>plotList <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="cf">function</span>(x,means,sd,nobs)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>{</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>      <span class="fu">sum</span>(counts<span class="sc">$</span>n),</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>      <span class="at">mean=</span><span class="fu">rep</span>(means<span class="sc">$</span>m,<span class="at">times=</span>counts<span class="sc">$</span>n),</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>      <span class="at">sd=</span>sd_pooled),</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>      <span class="at">group =</span>  <span class="fu">rep</span>(counts<span class="sc">$</span>group,<span class="at">times=</span>counts<span class="sc">$</span>n)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>y)) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    <span class="fu">geom_qq</span>() <span class="sc">+</span> <span class="co"># qq-punten</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>    <span class="fu">geom_qq_line</span>() <span class="sc">+</span> <span class="co"># qq-lijn</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>group)</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>}, <span class="at">means=</span>means,<span class="at">nobs=</span>counts,<span class="at">sd=</span>sd_pooled)</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>plotList</span></code></pre></div>
+<pre><code>## [[1]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## 
+## [[2]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre><code>## 
+## [[3]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<pre><code>## 
+## [[4]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<pre><code>## 
+## [[5]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-5.png" width="672" /></p>
+<pre><code>## 
+## [[6]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-6.png" width="672" /></p>
+<pre><code>## 
+## [[7]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-7.png" width="672" /></p>
+<pre><code>## 
+## [[8]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-8.png" width="672" /></p>
+<pre><code>## 
+## [[9]]</code></pre>
+<p><img src="Practicum_1_oplossing_Two_sample_t_test_files/figure-html/unnamed-chunk-10-9.png" width="672" /></p>
+<p>We merken dat de natuurlijke variantie ongeveer even groot is zijn
+als de variatie die we in onze data zien. Dit betekent dat we verder
+kunnen tot het uitvoeren van de two-sample t-test.</p>
+</div>
+<div
+id="voer-de-two-sample-t-test-uit.-wat-kan-je-hieruit-concluderen-op-vlak-van-hypothesetest-en-betrouwbaarheidsinterval"
+class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Voer de two-sample
+t-test uit. Wat kan je hieruit concluderen op vlak van hypothesetest en
+betrouwbaarheidsinterval?</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Voer de two-sample t-test uit om de nulhypothese van gelijk gemiddeld gewicht tussen de controlebehandeling en behandeling 2 na te gaan.</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>model_t <span class="ot">&lt;-</span> <span class="fu">t.test</span>(weight<span class="sc">~</span>group, <span class="at">data =</span> PlantGrowth, <span class="at">var.equal=</span><span class="cn">TRUE</span>) <span class="co"># var.equal = FALSE is de default, wat de Welch t-test zou zijn</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>model_t</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  weight by group
+## t = -2.134, df = 18, p-value = 0.04685
+## alternative hypothesis: true difference in means between group ctrl and group trt2 is not equal to 0
+## 95 percent confidence interval:
+##  -0.980338117 -0.007661883
+## sample estimates:
+## mean in group ctrl mean in group trt2 
+##              5.032              5.526</code></pre>
+<p>We besluiten dat we de nulhypothese van gelijk gemiddeld gewicht
+kunnen verwerpen (p = 0.047) op het 5% significantieniveau en dat daarom
+het gemiddelde gewicht van de planten verschilt tussen de twee
+verschillende behandelingen. Daarnaast merken we op dat de effectgrootte
+negatief is, wat wil zeggen dat de planten gemiddeld minder wegen bij de
+controlebehandeling.</p>
+<p>Het 95% betrouwbaarheidsinterval valt tussen -0.98 en -0.008. Dit
+wilt zeggen dat we met 95% zekerheid kunnen stellen dat het gemiddelde
+gewicht van een plant met de controle behandeling tussen 0.008 en 0.98
+gram minder weegt dan de planten uit behandeling 2.</p>
+<p>Onze conclusie is:</p>
+<ul>
+<li><p>Er is een significant verschil in gemiddeld gewicht tussen de
+behandelingen (p = 0.047)</p></li>
+<li><p>De controlebehandeling heeft met 95% zekerheid een gemiddeld
+gewicht tussen 0.008 en 0.98 gram lager dan behandeling 2.</p></li>
+</ul>
+</div>
+</div>
+<div id="lineair-model" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Lineair model</h1>
+<div
+id="wat-is-de-link-tussen-de-two-sample-t-test-en-het-lineair-model"
+class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Wat is de link tussen
+de two-sample t-test en het lineair model?</h2>
+<p>We hebben reeds gezien dat de two-sample t-test een specifieke versie
+is van een lineair model, namelijk van een lineair model waarbij de
+covariaat een dummy variabele <span class="math inline">\(X\)</span> die
+de waarde 0 en 1 kan aannemen. <span class="math display">\[ E[Y_i] =
+\beta_0 + \beta_1 X_i \]</span> Bijvoorbeeld, indien <span
+class="math inline">\(Y_i\)</span> de lengte van persoon <span
+class="math inline">\(i\)</span> voorstelt en <span
+class="math inline">\(X_i\)</span> het geslacht van die persoon waarbij
+<span class="math inline">\(X_i=0\)</span> indien persoon <span
+class="math inline">\(i\)</span> een vrouw is, en <span
+class="math inline">\(X_i=1\)</span> indien niet. In dat geval, stelt
+<span class="math inline">\(\beta_0\)</span> de gemiddelde lengte voor
+vrouwen voor, en <span class="math inline">\(\beta_1\)</span> staat voor
+het verschil in gemiddelde lengte tussen vrouwen en mannen. De
+gemiddelde lengte voor een man kan men dan bekomen door <span
+class="math inline">\(E[Y_{male}] = \beta_0 + \beta_1\)</span>. Men kan
+dit ook schrijven als: <span class="math display">\[ E[Y | female] = E[Y
+| X = 0] = \beta_0\]</span> <span class="math display">\[ E[Y | male] =
+E[Y | X = 1] = \beta_0 + \beta_1\]</span></p>
+</div>
+<div id="geef-de-nul--en-alternatieve-hypothese-van-deze-test"
+class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Geef de nul- en
+alternatieve hypothese van deze test:</h2>
+<p>Indien we de data modelleren met een lineaire regressie dan kunnen we
+dezelfde hypothese (gelijkheid van gemiddelden) testen door middel van
+volgende hypothese:</p>
+<p><span class="math inline">\(H_0\)</span>: <span
+class="math inline">\(\beta_1 = 0\)</span></p>
+<p><span class="math inline">\(H_A\)</span>: <span
+class="math inline">\(\beta_1 \ne 0\)</span></p>
+<p>Aangezien <span class="math inline">\(\beta_1\)</span> het verschil
+tussen gemiddeld gewicht na behandeling 2 en de controlebehandeling is,
+betekent dit dat bij <span class="math inline">\(\beta_1 = 0\)</span> er
+geen verschil in gemiddeld gewicht is.</p>
+</div>
+<div id="geef-de-assumpties-van-de-deze-test-en-ga-deze-na-1"
+class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Geef de assumpties
+van de deze test en ga deze na:</h2>
+<p>De assumpties van het lineair model zijn dezelfde als bij de pooled
+two-sample t-test. We hebben hier altijd gelijke variantie nodig, en het
+is hier dus niet mogelijk om met ongelijke varianties te werken.</p>
+<p>We hebben reeds de assumpties van de pooled t-test hierboven
+getest.</p>
+</div>
+<div
+id="modelleer-de-data-via-een-lineaire-regressie-en-ga-na-of-de-nulhypothese-van-gelijk-gemiddeld-gewicht-verworpen-wordt.-wat-kan-je-zeggen-over-de-hypothesetest-en-de-betrouwbaarheidsintervallen-wat-betekenen-de-verschillende-parameters"
+class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Modelleer de data via
+een lineaire regressie en ga na of de nulhypothese van gelijk gemiddeld
+gewicht verworpen wordt. Wat kan je zeggen over de hypothesetest en de
+betrouwbaarheidsintervallen? Wat betekenen de verschillende
+parameters?</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Voer een lineare regressie toe van het gewicht in functie van de behandelingsgroep.</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>model_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(weight <span class="sc">~</span> group, <span class="at">data =</span> PlantGrowth)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_lm)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>summary</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ group, data = PlantGrowth)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.862 -0.410 -0.006  0.280  1.078 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   5.0320     0.1637  30.742   &lt;2e-16 ***
+## grouptrt2     0.4940     0.2315   2.134   0.0469 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5176 on 18 degrees of freedom
+## Multiple R-squared:  0.2019, Adjusted R-squared:  0.1576 
+## F-statistic: 4.554 on 1 and 18 DF,  p-value: 0.04685</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Geef de 95% confidence intervals van de geschatte parameters.</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>confint <span class="ot">&lt;-</span> <span class="fu">confint</span>(model_lm)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>confint</span></code></pre></div>
+<pre><code>##                   2.5 %    97.5 %
+## (Intercept) 4.688107020 5.3758930
+## grouptrt2   0.007661883 0.9803381</code></pre>
+<p>De parameter grouptrt2 (<span class="math inline">\(\beta_1\)</span>)
+heeft een p-waarde gelijk aan 0.047, waarmee we de nulhypothese van
+gelijk gemiddeld gewicht kunnen verwerpen. Het 95%
+betrouwbaarheidsinterval van parameter grouptrt2 gaat van 0 0.008 tot
+0.98. Dit wil zeggen dat het gemiddeld gewicht van behandelingsgroup 2
+met 95% zekerheid tussen 0.008 en 0.98 groter is dan in de
+controlebehandeling.</p>
+<p>Anderzijds kunnen we met 95% zekerheid stellen dat het gemiddeld
+gewicht van de controlebehandeling tussen 4.688 en 5.376 ligt, wat we
+kunnen zien bij parameter Intercept. De p-waarde die hierbij staat (p
+&lt; 2e-16), is de p-waarde voor de nulhypothese dat het intercept
+(<span class="math inline">\(\beta_0\)</span>), wat overeen komt met het
+gemiddeld gewicht voor planten met de controlebehandeling, gelijk is aan
+0 . Deze hypothese is onzinnig (anders zouden we geen plant hebben…) en
+heeft daarom geen interessante interpretatie.</p>
+<p>Weer is onze conlusie:</p>
+<ul>
+<li><p>Er is een significant verschil in gemiddeld gewicht tussen de
+behandelingen (p = 0.047)</p></li>
+<li><p>De controlebehandeling heeft met 95% zekerheid een gemiddeld
+gewicht tussen 0.008 en 0.98 lager dan behandeling 2.</p></li>
+<li><p>De controlebehandeling heeft met 95% zekerheid een gemiddeld
+gewicht tussen 4.688 en 5.376.</p></li>
+</ul>
+</div>
+</div>
+<div id="conclusie" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusie:</h1>
+<p>We kunnen concluderen dat zowel de two-sample t-test analyse als de
+lineaire regressie dezelfde resultaten geven.</p>
+<ul>
+<li><p>Er is een significant verschil in gemiddeld gewicht tussen de
+behandelingen (p = 0.047)</p></li>
+<li><p>De controlebehandeling heeft met 95% zekerheid een gemiddeld
+gewicht tussen 0.008 en 0.98 lager dan behandeling 2.</p></li>
+<li><p>De controlebehandeling heeft met 95% zekerheid een gemiddeld
+gewicht tussen 4.688 en 5.376.</p></li>
+</ul>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUHJhY3RpY3VtIDE6IE9lZmVuaW5nIFR3by1zYW1wbGUgdC10ZXN0IgphdXRob3I6ICJBbGV4YW5kcmUgU2VnZXJzICYgTGlldmVuIENsZW1lbnQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCm91dHB1dDoKICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKICAgICAgdGhlbWU6IGNvc21vCiAgICAgIHRvYzogdHJ1ZQogICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgaGlnaGxpZ2h0OiB0YW5nbwogICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgIHBkZl9kb2N1bWVudDoKICAgICAgdG9jOiB0cnVlCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICBsYXRleF9lbmdpbmU6IHhlbGF0ZXgKbGlua2NvbG9yOiBibHVlCnVybGNvbG9yOiBibHVlCmNpdGVjb2xvcjogYmx1ZQoKLS0tCgo8YSByZWw9ImxpY2Vuc2UiIGhyZWY9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS1uYy1zYS80LjAiPjxpbWcgYWx0PSJDcmVhdGl2ZSBDb21tb25zIExpY2Vuc2UiIHN0eWxlPSJib3JkZXItd2lkdGg6MCIgc3JjPSJodHRwczovL2kuY3JlYXRpdmVjb21tb25zLm9yZy9sL2J5LW5jLXNhLzQuMC84OHgzMS5wbmciIC8+PC9hPgoKIyBUd28tc2FtcGxlIHQtdGVzdDogUGxhbnRncm9laQpEZXplIHN0dWRpZSB2ZXJnZWxpamt0IGhldCBkcm9vZyBnZXdpY2h0IHZhbiBwbGFudGVuIHR1c3NlbiBlZW4gY29udHJvbGUgYmVoYW5kZWxpbmcgZW4gdHdlZSB2ZXJzY2hpbGxlbmRlIGJlaGFuZGVsaW5nZW4uIFdlIHdpbGxlbiB3ZXRlbiBvZiBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdmFuIHBsYW50ZW4gYmlqIGJlaGFuZGVsaW5nIHR3ZWUgKGRlIGRhdGEgdmFuIGJlaGFuZGVsaW5nIMOpw6luIGdhYW4gd2UgbmlldCBnZWJydWlrZW4pIHZlcnNjaGlsdCB0ZWdlbm92ZXIgZGUgY29udHJvbGUgZ3JvZXAuCgoKIyMgTGlicmFyaWVzIGxhZGVuCmBgYHtyfQpzdXBwcmVzc1BhY2thZ2VTdGFydHVwTWVzc2FnZXMoewogIGxpYnJhcnkodGlkeXZlcnNlKQogIGxpYnJhcnkoZ2dwbG90MikKICBsaWJyYXJ5KGdyaWRFeHRyYSkKfSkKYGBgCgoKIyMgRGF0YSBpbmxlemVuCmBgYHtyfQpkYXRhKCJQbGFudEdyb3d0aCIpCmBgYAoKCiMgRGF0YSBleHBsb3JhdGllCgojIyBEYXRhIHN0cnVjdHV1ciBiZWtpamtlbgoKYGBge3J9CiNCZWtpamsgaG9lIGRlIGRhdGFzZXQgUGxhbnRHcm93dGggZXJ1aXQgemlldApoZWFkKFBsYW50R3Jvd3RoKQpgYGAKCiMjIERhdGEgZmlsdGVyZW4KV2UgZ2FhbiBlZXJzdCBkZSBkYXRhIGZpbHRlcmVuIHpvZGF0IGVua2VsIGRlIGNvbnRyb2xlLSAoY3RybCkgZW4gdHdlZWRlIGJlaGFuZGVsaW5nc2dyb2VwICh0cnQyKSBnZWJydWlrdCB3b3JkZW4uCgpgYGB7cn0KI0ZpbHRlciBkZSBkYXRhIHpvZGF0IGVua2VsIGRhdGEgdmFuIGRlIGNvbnRyb2xlLSAoY3RybCkgZW4gdHdlZWRlIGJlaGFuZGVsaW5nc2dyb2VwICh0cnQyKSBnZWJydWlrdCB3b3JkZW4uClBsYW50R3Jvd3RoIDwtIFBsYW50R3Jvd3RoICU+JSBmaWx0ZXIoZ3JvdXAgPT0gImN0cmwiIHwgZ3JvdXAgPT0gInRydDIiKQpgYGAKCiMjIEJveHBsb3QgdmFuIGRlIGRhdGEKV2UgZ2FhbiBkZSBnZXdpY2h0ZW4gKHdlaWdodCkgdmFuIGRlIHBsYW50ZW4gcGVyIGdyb2VwIChncm91cCkgcGxvdHRlbiBkb29yIG1pZGRlbCB2YW4gZWVuIGJveHBsb3Qgb20gdGUgemllbiBob2Ugb256ZSBkaXN0cmlidXRpZSBlcnVpdCB6aWV0LiBIZXQgbGlqa3QgZGF0IGRlIGNvbnRyb2xlZ3JvZXAgZWVuIGdyb3RlciBnZXdpY2h0IGhlZWZ0LCBtYWFyIGlzIGRpdCB2ZXJzY2hpbCBzaWduaWZpY2FudD8KCmBgYHtyfQojTWFhayBlZW4gYm94cGxvdCB2b29yIGVsa2UgZ3JvZXAgKGdyb3VwKSB2YW4gaGV0IGdld2ljaHQgKHdlaWdodCkgdmFuIGRlIHBsYW50ZW4gClBsYW50R3Jvd3RoICU+JSBnZ3Bsb3QoYWVzKHg9Z3JvdXAseT13ZWlnaHQpKSArCiAgZ2VvbV9ib3hwbG90KCkgKwogIGdlb21faml0dGVyKCkgKwogIGdndGl0bGUoIkdld2ljaHQgdmFuIGRlIHBsYW50ZW4gdm9vciBkZSBjb250cm9sZSBlbiB0d2VlZGUgYmVoYW5kZWxpbmdzZ3JvZXAiKQpgYGAKCiMgVC10ZXN0CgpEZSB0d28gc2FtcGxlIHQtdGVzdCBrYW4gZ2VicnVpa3Qgd29yZGVuIHZvb3IgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB0ZSB2ZXJnZWxpamtlbiB0dXNzZW4gdHdlZSBncm9lcGVuLiBEZXplIGhlZWZ0IGFscyB0ZXN0IHN0YXRpc3RpZWs6CgpcWyBUID0gXGZyYWN7XGJhcntZfV8xLVxiYXJ7WX1fMn17U19wXHNxcnR7XGZyYWN7MX17bl8xfStcZnJhY3sxfXtuXzJ9fX0gXF0KCiMjIEdlZWYgZGUgbnVsLSBlbiBhbHRlcm5hdGlldmUgaHlwb3RoZXNlIHZhbiBkZSB0d28tc2FtcGxlIHQtdGVzdDoKClN0ZWwgZGF0ICRcbXVfMSQgaGV0IGdlbWlkZGVsZCBnZXdpY2h0IHZhbiBwbGFudCBtZXQgY29udHJvbGUgdHJlYXRtZW50IHZvb3JzdGVsdCwgZW4gJFxtdV8yJCBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdmFuIGVlbiBwbGFudCBtZXQgdHJlYXRtZW50IDIuCkRlIG51bC0gZW4gYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSB2b29yIGVlbiB0d28tc2FtcGxlIHQtdGVzdCBrYW4gbWVuIGRhbiB2b29yc3RlbGxlbiBhbHM6CgokSF8wJDogJFxtdV8xPVxtdV8yJAoKJEhfQSQ6ICAkXG11XzEgXG5lcSBcbXVfMiQKCkRlIG51bGh5cG90aGVzZSBzdGVsdCBkYXQgZXIgZ2VlbiB2ZXJzY2hpbCBpcyBpbiBnZW1pZGRlbGQgZ2V3aWNodCB0dXNzZW4gZGUgYmVoYW5kZWxpbmdlbi4gRGUgYWx0ZXJuYXRpZXZlIGh5cG90aGVzZSBzdGVsdCBkYXQgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB2ZXJzY2hpbHQgdHVzc2VuIHBsYW50ZW4gbWV0IGRlIGNvbnRyb2xlIGJlaGFuZGVsaW5nIGVuIHBsYW50ZW4gbWV0IGJlaGFuZGVsaW5nIDIuIAoKIyMgR2VlZiBkZSBhc3N1bXB0aWVzIHZhbiBkZSBkZXplIHRlc3QgZW4gZ2EgZGV6ZSBuYToKClpvYWxzIGJlc2NocmV2ZW4gaW4gZGUgY3Vyc3VzLCB2ZXJvbmRlcnN0ZWx0IHQtdGVzdCBlZW4gbG9jYXRpZS1zaGlmdCBtb2RlbC4gVG9jaCB6aWpuIGVyIHZlcnNjaGlsbGVuZGUgdC10ZXN0LCBuYW1lbGlqayBkZXplIG1ldCBlZW4gZ2Vwb29sZGUgdmFyaWFudGllLCBkZSBXZWxjaCB0LXRlc3QgZW4gZGFhcm5hYXN0IGdlcGFhcmRlIHQtdGVzdCB2b29yIGdlcGFhcmRlIGRhdGEuIERlemUgaGViYmVuIHZlcnNjaGlsbGVuZGUgYXNzdW1wdGllczogCgpUd28tc2FtcGxlIHQtdGVzdDogZ2Vwb29sZGUgdmFyaWFudGllOgoKLSBnZWxpamtlIHZhcmlhbnRpZSBpbiBiZWlkZSBncm9lcGVuCi0gbm9ybWFsaXRlaXQgdmFuIGRlIGRhdGEgaW4gZWxrZSBncm9lcAotIG9uYWZoYW5rZWxpamtoZWlkIHZhbiBvYnNlcnZhdGllcwoKV2VsY2ggdC10ZXN0OgoKLSBub3JtYWxpdGVpdCB2YW4gZGUgZGF0YSBpbiBlbGtlIGdyb2VwCi0gb25hZmhhbmtlbGlqayB2YW4gb2JzZXJ2YXRpZXMKCmdlcGFhcmRlIHQtdGVzdDoKCi0gbm9ybWFsaXRlaXQgdmFuIGhldCB2ZXJzY2hpbCB0dXNzZW4gZGUgbWV0aW5nZW4gdmFuIGdlcGFhcmRlIG9ic2VydmF0aWVzCi0gb25hZmhhbmtlbGlqa2hlaWQgdHVzc2VuIGRlIHZlcnNjaGlsbGVuZGUgZ2VwYWFyZGUgb2JzZXJ2YXRpZXMKCiAgCkluZGllbiBuaWV0IHZvbGRhYW4gaXMgYWFuIGRlIHZlcm9uZGVyc3RlbGxpbmdlbiwgdm9sZ3QgZGUgdGVzdHN0YXRpc3RpZWsgb25kZXIgZGUgbnVsaHlwb3RoZXNlIGdlZW4gdC1kaXN0cmlidXRpZSwgZW4gYmlqZ2V2b2xnIGlzIGVyIGdlZW4gZ2FyYW50aWUgZGF0IGRlIHAtd2FhcmRlIGVuIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbGxlbiBjb3JyZWN0IHppam4uIEhpZXIgd2Vya2VuIHdlIG1ldCBlZW4gdHdvLXNhbXBsZSB0LXRlc3QgbWV0IHBvb2xlZCB2YXJpYW50aWUgd2FhcmRvb3Igd2UgbW9ldGVuIGNvbnRyb2xlcmVuIG9mIGRhdDoKCi0gZ2VsaWprZSB2YXJpYW50aWUgaW4gYmVpZGUgZ3JvZXBlbiAoPSBob21vc2NlZGFzdGljaXRlaXQpCi0gbm9ybWFsaXRlaXQgdmFuIGRlIGRhdGEgaW4gZWxrZSBncm9lcAoKT25hZmhhbmtlbGlqa2hlaWQgdmFuIG9ic2VydmF0aWVzOiB3ZSBnYWFuIGVyIHZhbnVpdCBkYXQgZGUgb25kZXJ6b2VrZXJzIGhpZXJtZWUgcmVrZW5pbmcgaGViYmVuIGdlaG91ZGVuIGluIGh1biBleHBlcmltZW50ZWVsIGRlc2lnbi4KClZvb3IgaGV0IG5hZ2FhbiB2YW4gZ2VsaWprZSB2YXJpYW50aWVzIHdlcmtlbiB3ZSBtZXQgYm94cGxvdHMgZGllIGRhYXJuZXQgZ2VtYWFrdCB6aWpuLiBEZXplIGFzc3VtcHRpZSBsaWprdCBhbHZhc3Qgdm9sZGFhbiB0ZSB6aWpuLgoKSGV0IGlzIGVjaHRlciBuaWV0IGFsdGlqZCBlZW52b3VkaWcgb20gdGUgYmVvb3JkZWxlbiBvZiBkZSB2YXJpYW50aWVzIHN0ZXJrIHZhbiBtZWthYXIgdmVyc2NoaWxsZW4gYmlqIGtsZWluIGFhbnRhbCBzYW1wbGVzICgxMCBwZXIgdHJlYXRtZW50IGluIGRpdCBnZXZhbCkuIE9tIGVlbiBiZXRlciBpZGVlIHRlIGtyaWpnZW4sIGt1bm5lbiB3ZSBlZW5zIGVlbiBhYW50YWwgYm94cGxvdHMgc2ltdWxlcmVuIG1ldCBkZXplbGZkZSBzdGVla3Byb2VmZ3Jvb3R0ZSBhbHMgaW4gZGUgZGF0YXNldCBlbiBpbiBkZSB2ZXJvbmRlcnN0ZWxsaW5nIGRhdCBkZSB2YXJpYW50aWVzIGdlbGlqayB6aWpuLiBPb2sga2FuIGhldCBvbm1vZ2VsaWprIHppam4gb20gZGV6ZSBhc3N1bXB0aWUgdGUgY29udHJvbGVyZW4gYmlqIHplZXIga2xlaW5lIHNhbXBsZSBzaXplLgoKCmBgYHtyfQpzZXQuc2VlZCg1MikKcGFyKG1mcm93PWMoMywzKSwgbWFyPWMoMywyLDEsMSkpCnN0X2RldiA8LSBQbGFudEdyb3d0aCAlPiUgZ3JvdXBfYnkoZ3JvdXApICU+JSBzdW1tYXJpc2Uoc3RkZXYgPSBzZCh3ZWlnaHQpKQptZWFuczwtIFBsYW50R3Jvd3RoICU+JSBncm91cF9ieShncm91cCkgJT4lIHN1bW1hcmlzZShtPW1lYW4od2VpZ2h0KSkKY291bnRzIDwtIFBsYW50R3Jvd3RoICU+JSBjb3VudChncm91cCkKc2RfcG9vbGVkID0gc3FydCgoKGNvdW50cyRuWzFdLTEpICogc3RfZGV2JHN0ZGV2WzFdXjIgKyAoY291bnRzJG5bMl0tMSkgKiBzdF9kZXYkc3RkZXZbMl1eMikgLyAoY291bnRzJG5bMV0gKyBjb3VudHMkblsyXSAtIDIpKQoKcGxvdHMgPC0gbGlzdCgpCmZvcihpIGluIDE6OSl7CiAgYSA8LSBybm9ybShjb3VudHNbMSwyXSwgbWVhbj1tZWFucyRtWzFdLCBzZD1zZF9wb29sZWQpCiAgYiA8LSBybm9ybShjb3VudHNbMiwyXSwgbWVhbj1tZWFucyRtWzJdLCBzZD1zZF9wb29sZWQpCiAgZGYgPC0gZGF0YS5mcmFtZSgid2VpZ2h0IiA9IGMoYSxiKSwgImdyb3VwIiA9IGFzLmZhY3RvcihjKHJlcCgxLGNvdW50c1sxLDJdKSxyZXAoMixjb3VudHNbMiwyXSkpKSkKICAKICBwbG90c1tbaV1dIDwtIGdncGxvdChkYXRhPWRmLCBhZXMoeD1ncm91cCx5PXdlaWdodCkpICsgCiAgICAgICAgICAgICAgICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZSA9IE5BKSArIAogICAgICAgICAgICAgICAgZ2VvbV9qaXR0ZXIoYWxwaGE9LjIpCn0KZG8uY2FsbCgnZ3JpZC5hcnJhbmdlJyxjKHBsb3RzLG5yb3c9MywgbmNvbCA9IDMpKQpgYGAKCkFhbmdlemllbiBoZXQgZ2VicnVpayB2YW4gZWVuIGZvci1sb29wIG1ldCBoZXQgc3RhcGdld2lqcyB2ZXJsZW5nZW4gdmFuIGVlbiB2ZWN0b3IgY29tcHV0YXRpb25lZWwgaW5lZmZpY2nDq250IGlzIGluIFIsIHRvbmVuIHdlIGhpZXIgb29rIGhvZSBoZXQgem91IGt1bm5lbiBkb29yIG1pZGRlbCB2YW4gZGUgbGFwcGx5IGZ1bmN0aWUuCgpgYGB7cn0Kc2V0LnNlZWQoNTIpCnBhcihtZnJvdz1jKDMsMyksIG1hcj1jKDMsMiwxLDEpKQpwbG90TGlzdCA8LSBsYXBwbHkoMTo5LCBmdW5jdGlvbih4LG1lYW5zLHNkLG5vYnMpCnsKICBkYXRhLmZyYW1lKHkgPSBybm9ybSgKICAgICAgc3VtKGNvdW50cyRuKSwKICAgICAgbWVhbj1yZXAobWVhbnMkbSx0aW1lcz1ub2JzJG4pLAogICAgICBzZD1zZF9wb29sZWQpLAogICAgICBncm91cCA9ICByZXAobm9icyRncm91cCx0aW1lcz1jb3VudHMkbikKICApICU+JSAKICAgIGdncGxvdChhZXMoZ3JvdXAseSkpICsKICAgIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICAgIGdlb21faml0dGVyKGFscGhhPS4yKQp9LCBtZWFucz1tZWFucyxub2JzPWNvdW50cyxzZD1zZF9wb29sZWQpCgpgYGAKYGBge3J9CmRvLmNhbGwoImdyaWQuYXJyYW5nZSIsYyhwbG90TGlzdCxucm93PTMsbmNvbD0zKSkKYGBgCgpEYW4gbW9ldCBub2cgZGUgYXNzdW1wdGllIHZhbiBub3JtYWxlIGRpc3RyaWJ1dGllIGluIGVsa2UgZ3JvZXAgbmFnZWdhYW4gd29yZGVuOgoKYGBge3J9CiMgTWFhayBlZW4gUVFwbG90IHZhbiBoZXQgZ2V3aWNodCB2YW4gZGUgcGxhbnRlbiB2b29yIGVsa2UgdHJlYXRtZW50ClBsYW50R3Jvd3RoICU+JQogIGdncGxvdChhZXMoc2FtcGxlID0gd2VpZ2h0KSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkgKwogIGZhY2V0X2dyaWQoLn5ncm91cCkgKwogIHlsYWIoIlJlbGF0aWV2ZSBhYnVuZGFudGllIikKYGBgCgpEZSBhZndpamtpbmdlbiBkaWUgd2UgaW4gb256ZSBxcXBsb3QgemllbiBsaWprZW4gbmlldCB6ZWVyIHVpdHpvbmRlcmxpamsgdGUgemlqbi4gRGFhcm9tIGt1bm5lbiB3ZSBzdGVsbGVuIGRhdCBiZWlkZSBncm9lcGVuIGVlbiBub3JtYWxlIHZlcmRlbGluZyBsaWprZW4gdGUgdm9sZ2VuIGVuIGRhYXJvbSBvb2sgYWFuIGRlemUgYXNzdW1wdGllIHZvbGRhYW4gaXMuCgpPb2sgaGllciBrYW4gaGV0IHNvbXMgbW9laWxpamsgemlqbiBvbSBtZXQgZWVuIGJlcGVya3QgYWFudGFsIG9ic2VydmF0aWVzIHRlIHppZW4gb2Ygbm9ybWFsaXRlaXQgZ2V2b2xnZCB3b3JkZW4uIEhpZXIgenVsbGVuIHdlIG9vayBvcCBiYXNpcyB2YW4gZWVuIHNpbXVsYXRpZXN0dWRpZSBiZWtpamtlbiBob2UgZWVuIHN0ZWVrcHJvZWYgdmFuIG5vcm1hYWwgdmVyZGVlbGRlIHB1bnRlbiBrYW4gdmVyc2NoaWxsZW4uCgpgYGB7cn0KcGxvdExpc3QgPC0gbGFwcGx5KDE6OSwgZnVuY3Rpb24oeCxtZWFucyxzZCxub2JzKQp7CiAgZGF0YS5mcmFtZSh5ID0gcm5vcm0oCiAgICAgIHN1bShjb3VudHMkbiksCiAgICAgIG1lYW49cmVwKG1lYW5zJG0sdGltZXM9Y291bnRzJG4pLAogICAgICBzZD1zZF9wb29sZWQpLAogICAgICBncm91cCA9ICByZXAoY291bnRzJGdyb3VwLHRpbWVzPWNvdW50cyRuKQogICkgJT4lIAogICAgZ2dwbG90KGFlcyhzYW1wbGU9eSkpICsKICAgIGdlb21fcXEoKSArICMgcXEtcHVudGVuCiAgICBnZW9tX3FxX2xpbmUoKSArICMgcXEtbGlqbgogICAgdGhlbWVfYncoKSArIAogICAgZmFjZXRfd3JhcCh+Z3JvdXApCn0sIG1lYW5zPW1lYW5zLG5vYnM9Y291bnRzLHNkPXNkX3Bvb2xlZCkKcGxvdExpc3QKYGBgCgpXZSBtZXJrZW4gZGF0IGRlIG5hdHV1cmxpamtlIHZhcmlhbnRpZSBvbmdldmVlciBldmVuIGdyb290IGlzIHppam4gYWxzIGRlIHZhcmlhdGllIGRpZSB3ZSBpbiBvbnplIGRhdGEgemllbi4gRGl0IGJldGVrZW50IGRhdCB3ZSB2ZXJkZXIga3VubmVuIHRvdCBoZXQgdWl0dm9lcmVuIHZhbiBkZSB0d28tc2FtcGxlIHQtdGVzdC4KCiMjIFZvZXIgZGUgdHdvLXNhbXBsZSB0LXRlc3QgdWl0LiBXYXQga2FuIGplIGhpZXJ1aXQgY29uY2x1ZGVyZW4gb3AgdmxhayB2YW4gaHlwb3RoZXNldGVzdCBlbiBiZXRyb3V3YmFhcmhlaWRzaW50ZXJ2YWw/CmBgYHtyfQojIFZvZXIgZGUgdHdvLXNhbXBsZSB0LXRlc3QgdWl0IG9tIGRlIG51bGh5cG90aGVzZSB2YW4gZ2VsaWprIGdlbWlkZGVsZCBnZXdpY2h0IHR1c3NlbiBkZSBjb250cm9sZWJlaGFuZGVsaW5nIGVuIGJlaGFuZGVsaW5nIDIgbmEgdGUgZ2Fhbi4KbW9kZWxfdCA8LSB0LnRlc3Qod2VpZ2h0fmdyb3VwLCBkYXRhID0gUGxhbnRHcm93dGgsIHZhci5lcXVhbD1UUlVFKSAjIHZhci5lcXVhbCA9IEZBTFNFIGlzIGRlIGRlZmF1bHQsIHdhdCBkZSBXZWxjaCB0LXRlc3Qgem91IHppam4KbW9kZWxfdAoKYGBgCgpXZSBiZXNsdWl0ZW4gZGF0IHdlIGRlIG51bGh5cG90aGVzZSB2YW4gZ2VsaWprIGdlbWlkZGVsZCBnZXdpY2h0IGt1bm5lbiB2ZXJ3ZXJwZW4gKHAgPSBgciByb3VuZChtb2RlbF90JHAudmFsdWUsMylgKSBvcCBoZXQgNSUgc2lnbmlmaWNhbnRpZW5pdmVhdSBlbiBkYXQgZGFhcm9tIGhldCBnZW1pZGRlbGRlIGdld2ljaHQgdmFuIGRlIHBsYW50ZW4gdmVyc2NoaWx0IHR1c3NlbiBkZSB0d2VlIHZlcnNjaGlsbGVuZGUgYmVoYW5kZWxpbmdlbi4gRGFhcm5hYXN0IG1lcmtlbiB3ZSBvcCBkYXQgZGUgZWZmZWN0Z3Jvb3R0ZSBuZWdhdGllZiBpcywgd2F0IHdpbCB6ZWdnZW4gZGF0IGRlIHBsYW50ZW4gZ2VtaWRkZWxkIG1pbmRlciB3ZWdlbiBiaWogZGUgY29udHJvbGViZWhhbmRlbGluZy4KCgpIZXQgOTUlIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbCB2YWx0IHR1c3NlbiBgciByb3VuZChtb2RlbF90JGNvbmYuaW50WzFdLDMpYCBlbiBgciByb3VuZChtb2RlbF90JGNvbmYuaW50WzJdLDMpYC4gRGl0IHdpbHQgemVnZ2VuIGRhdCB3ZSBtZXQgOTUlIHpla2VyaGVpZCBrdW5uZW4gc3RlbGxlbiBkYXQgaGV0IGdlbWlkZGVsZGUgZ2V3aWNodCB2YW4gZWVuIHBsYW50IG1ldCBkZSBjb250cm9sZSBiZWhhbmRlbGluZyB0dXNzZW4gYHIgcm91bmQoLW1vZGVsX3QkY29uZi5pbnRbMl0sMylgIGVuIGByIHJvdW5kKC1tb2RlbF90JGNvbmYuaW50WzFdLDMpYCBncmFtIG1pbmRlciB3ZWVndCBkYW4gZGUgcGxhbnRlbiB1aXQgYmVoYW5kZWxpbmcgMi4KCk9uemUgY29uY2x1c2llIGlzOgoKICAtIEVyIGlzIGVlbiBzaWduaWZpY2FudCB2ZXJzY2hpbCBpbiBnZW1pZGRlbGQgZ2V3aWNodCB0dXNzZW4gZGUgYmVoYW5kZWxpbmdlbiAocCA9IGByIHJvdW5kKG1vZGVsX3QkcC52YWx1ZSwzKWApCiAgCiAgLSBEZSBjb250cm9sZWJlaGFuZGVsaW5nIGhlZWZ0IG1ldCA5NSUgemVrZXJoZWlkIGVlbiBnZW1pZGRlbGQgZ2V3aWNodCB0dXNzZW4gYHIgcm91bmQoLW1vZGVsX3QkY29uZi5pbnRbMl0sMylgIGVuIGByIHJvdW5kKC1tb2RlbF90JGNvbmYuaW50WzFdLDMpYCBncmFtIGxhZ2VyIGRhbiBiZWhhbmRlbGluZyAyLgoKCiMgTGluZWFpciBtb2RlbAoKIyMgV2F0IGlzIGRlIGxpbmsgdHVzc2VuIGRlIHR3by1zYW1wbGUgdC10ZXN0IGVuIGhldCBsaW5lYWlyIG1vZGVsPwoKV2UgaGViYmVuIHJlZWRzIGdlemllbiBkYXQgZGUgdHdvLXNhbXBsZSB0LXRlc3QgZWVuIHNwZWNpZmlla2UgdmVyc2llIGlzIHZhbiBlZW4gbGluZWFpciBtb2RlbCwgbmFtZWxpamsgdmFuIGVlbiBsaW5lYWlyIG1vZGVsIHdhYXJiaWogZGUgY292YXJpYWF0IGVlbiBkdW1teSB2YXJpYWJlbGUgJFgkIGRpZSBkZSB3YWFyZGUgMCBlbiAxIGthbiBhYW5uZW1lbi4KXFsgRVtZX2ldID0gXGJldGFfMCArIFxiZXRhXzEgWF9pIFxdCkJpanZvb3JiZWVsZCwgaW5kaWVuICRZX2kkIGRlIGxlbmd0ZSB2YW4gcGVyc29vbiAkaSQgdm9vcnN0ZWx0IGVuICRYX2kkIGhldCBnZXNsYWNodCB2YW4gZGllIHBlcnNvb24gd2FhcmJpaiAkWF9pPTAkIGluZGllbiBwZXJzb29uICRpJCBlZW4gdnJvdXcgaXMsIGVuICRYX2k9MSQgaW5kaWVuIG5pZXQuIEluIGRhdCBnZXZhbCwgc3RlbHQgJFxiZXRhXzAkIGRlIGdlbWlkZGVsZGUgbGVuZ3RlIHZvb3IgdnJvdXdlbiB2b29yLCBlbiAkXGJldGFfMSQgc3RhYXQgdm9vciBoZXQgdmVyc2NoaWwgaW4gZ2VtaWRkZWxkZSBsZW5ndGUgdHVzc2VuIHZyb3V3ZW4gZW4gbWFubmVuLiBEZSBnZW1pZGRlbGRlIGxlbmd0ZSB2b29yIGVlbiBtYW4ga2FuIG1lbiBkYW4gYmVrb21lbiBkb29yICRFW1lfe21hbGV9XSA9IFxiZXRhXzAgKyBcYmV0YV8xJC4gTWVuIGthbiBkaXQgb29rIHNjaHJpanZlbiBhbHM6ClxbIEVbWSB8IGZlbWFsZV0gPSBFW1kgfCBYID0gMF0gPSBcYmV0YV8wXF0KXFsgRVtZIHwgbWFsZV0gPSBFW1kgfCBYID0gMV0gPSBcYmV0YV8wICsgXGJldGFfMVxdCgoKIyMgR2VlZiBkZSBudWwtIGVuIGFsdGVybmF0aWV2ZSBoeXBvdGhlc2UgdmFuIGRlemUgdGVzdDoKCkluZGllbiB3ZSBkZSBkYXRhIG1vZGVsbGVyZW4gbWV0IGVlbiBsaW5lYWlyZSByZWdyZXNzaWUgZGFuIGt1bm5lbiB3ZSBkZXplbGZkZSBoeXBvdGhlc2UgKGdlbGlqa2hlaWQgdmFuIGdlbWlkZGVsZGVuKSB0ZXN0ZW4gZG9vciBtaWRkZWwgdmFuIHZvbGdlbmRlIGh5cG90aGVzZToKCiRIXzAkOiAkXGJldGFfMSA9IDAkCiAKJEhfQSQ6ICRcYmV0YV8xIFxuZSAwJCAKCkFhbmdlemllbiAkXGJldGFfMSQgaGV0IHZlcnNjaGlsIHR1c3NlbiBnZW1pZGRlbGQgZ2V3aWNodCBuYSBiZWhhbmRlbGluZyAyIGVuIGRlIGNvbnRyb2xlYmVoYW5kZWxpbmcgaXMsIGJldGVrZW50IGRpdCBkYXQgYmlqICRcYmV0YV8xID0gMCQgZXIgZ2VlbiB2ZXJzY2hpbCBpbiBnZW1pZGRlbGQgZ2V3aWNodCBpcy4KCiMjIEdlZWYgZGUgYXNzdW1wdGllcyB2YW4gZGUgZGV6ZSB0ZXN0IGVuIGdhIGRlemUgbmE6CgpEZSBhc3N1bXB0aWVzIHZhbiBoZXQgbGluZWFpciBtb2RlbCB6aWpuIGRlemVsZmRlIGFscyBiaWogZGUgcG9vbGVkIHR3by1zYW1wbGUgdC10ZXN0LiBXZSBoZWJiZW4gaGllciBhbHRpamQgZ2VsaWprZSB2YXJpYW50aWUgbm9kaWcsIGVuIGhldCBpcyBoaWVyIGR1cyBuaWV0IG1vZ2VsaWprIG9tIG1ldCBvbmdlbGlqa2UgdmFyaWFudGllcyB0ZSB3ZXJrZW4uIAoKV2UgaGViYmVuIHJlZWRzIGRlIGFzc3VtcHRpZXMgdmFuIGRlIHBvb2xlZCB0LXRlc3QgaGllcmJvdmVuIGdldGVzdC4KCiMjIE1vZGVsbGVlciBkZSBkYXRhIHZpYSBlZW4gbGluZWFpcmUgcmVncmVzc2llIGVuIGdhIG5hIG9mIGRlIG51bGh5cG90aGVzZSB2YW4gZ2VsaWprIGdlbWlkZGVsZCBnZXdpY2h0IHZlcndvcnBlbiB3b3JkdC4gV2F0IGthbiBqZSB6ZWdnZW4gb3ZlciBkZSBoeXBvdGhlc2V0ZXN0IGVuIGRlIGJldHJvdXdiYWFyaGVpZHNpbnRlcnZhbGxlbj8gV2F0IGJldGVrZW5lbiBkZSB2ZXJzY2hpbGxlbmRlIHBhcmFtZXRlcnM/CgpgYGB7cn0KIyBWb2VyIGVlbiBsaW5lYXJlIHJlZ3Jlc3NpZSB0b2UgdmFuIGhldCBnZXdpY2h0IGluIGZ1bmN0aWUgdmFuIGRlIGJlaGFuZGVsaW5nc2dyb2VwLgptb2RlbF9sbSA8LSBsbSh3ZWlnaHQgfiBncm91cCwgZGF0YSA9IFBsYW50R3Jvd3RoKQpzdW1tYXJ5IDwtIHN1bW1hcnkobW9kZWxfbG0pCnN1bW1hcnkKYGBgCmBgYHtyfQojIEdlZWYgZGUgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIHZhbiBkZSBnZXNjaGF0dGUgcGFyYW1ldGVycy4KY29uZmludCA8LSBjb25maW50KG1vZGVsX2xtKQpjb25maW50CmBgYAoKRGUgcGFyYW1ldGVyIGdyb3VwdHJ0MiAoJFxiZXRhXzEkKSBoZWVmdCBlZW4gcC13YWFyZGUgZ2VsaWprIGFhbiBgciByb3VuZChzdW1tYXJ5JGNvZWZmaWNpZW50c1s4XSwzKWAsIHdhYXJtZWUgd2UgZGUgbnVsaHlwb3RoZXNlIHZhbiBnZWxpamsgZ2VtaWRkZWxkIGdld2ljaHQga3VubmVuIHZlcndlcnBlbi4gSGV0IDk1JSBiZXRyb3V3YmFhcmhlaWRzaW50ZXJ2YWwgdmFuIHBhcmFtZXRlciBncm91cHRydDIgZ2FhdCB2YW4gMCBgciByb3VuZChjb25maW50WzJdLDMpYCB0b3QgYHIgcm91bmQoY29uZmludFs0XSwzKWAuIERpdCB3aWwgemVnZ2VuIGRhdCBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdmFuIGJlaGFuZGVsaW5nc2dyb3VwIDIgbWV0IDk1JSB6ZWtlcmhlaWQgdHVzc2VuIGByIHJvdW5kKGNvbmZpbnRbMl0sMylgIGVuIGByIHJvdW5kKGNvbmZpbnRbNF0sMylgIGdyb3RlciBpcyBkYW4gaW4gZGUgY29udHJvbGViZWhhbmRlbGluZy4gCgpBbmRlcnppamRzIGt1bm5lbiB3ZSBtZXQgOTUlIHpla2VyaGVpZCBzdGVsbGVuIGRhdCBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdmFuIGRlIGNvbnRyb2xlYmVoYW5kZWxpbmcgdHVzc2VuIGByIHJvdW5kKGNvbmZpbnRbMV0sMylgIGVuIGByIHJvdW5kKGNvbmZpbnRbM10sMylgIGxpZ3QsIHdhdCB3ZSBrdW5uZW4gemllbiBiaWogcGFyYW1ldGVyIEludGVyY2VwdC4gRGUgcC13YWFyZGUgZGllIGhpZXJiaWogc3RhYXQgKHAgPCAyZS0xNiksIGlzIGRlIHAtd2FhcmRlIHZvb3IgZGUgbnVsaHlwb3RoZXNlIGRhdCBoZXQgaW50ZXJjZXB0ICgkXGJldGFfMCQpLCB3YXQgb3ZlcmVlbiBrb210IG1ldCBoZXQgZ2VtaWRkZWxkIGdld2ljaHQgdm9vciBwbGFudGVuIG1ldCBkZSBjb250cm9sZWJlaGFuZGVsaW5nLCAgZ2VsaWprIGlzIGFhbiAwIC4gRGV6ZSBoeXBvdGhlc2UgaXMgb256aW5uaWcgKGFuZGVycyB6b3VkZW4gd2UgZ2VlbiBwbGFudCBoZWJiZW4uLi4pIGVuIGhlZWZ0IGRhYXJvbSBnZWVuIGludGVyZXNzYW50ZSBpbnRlcnByZXRhdGllLiAKCldlZXIgaXMgb256ZSBjb25sdXNpZToKCiAgLSBFciBpcyBlZW4gc2lnbmlmaWNhbnQgdmVyc2NoaWwgaW4gZ2VtaWRkZWxkIGdld2ljaHQgdHVzc2VuIGRlIGJlaGFuZGVsaW5nZW4gKHAgPSBgciByb3VuZChzdW1tYXJ5JGNvZWZmaWNpZW50c1s4XSwzKWApCiAgCiAgLSBEZSBjb250cm9sZWJlaGFuZGVsaW5nIGhlZWZ0IG1ldCA5NSUgemVrZXJoZWlkIGVlbiBnZW1pZGRlbGQgZ2V3aWNodCB0dXNzZW4gYHIgcm91bmQoY29uZmludFsyXSwzKWAgZW4gYHIgcm91bmQoY29uZmludFs0XSwzKWAgbGFnZXIgZGFuIGJlaGFuZGVsaW5nIDIuCiAgCiAgLSBEZSBjb250cm9sZWJlaGFuZGVsaW5nIGhlZWZ0IG1ldCA5NSUgemVrZXJoZWlkIGVlbiBnZW1pZGRlbGQgZ2V3aWNodCB0dXNzZW4gYHIgcm91bmQoY29uZmludFsxXSwzKWAgZW4gYHIgcm91bmQoY29uZmludFszXSwzKWAuCgoKIyBDb25jbHVzaWU6IAoKV2Uga3VubmVuIGNvbmNsdWRlcmVuIGRhdCB6b3dlbCBkZSB0d28tc2FtcGxlIHQtdGVzdCBhbmFseXNlIGFscyBkZSBsaW5lYWlyZSByZWdyZXNzaWUgZGV6ZWxmZGUgcmVzdWx0YXRlbiBnZXZlbi4gCgogIC0gRXIgaXMgZWVuIHNpZ25pZmljYW50IHZlcnNjaGlsIGluIGdlbWlkZGVsZCBnZXdpY2h0IHR1c3NlbiBkZSBiZWhhbmRlbGluZ2VuIChwID0gYHIgcm91bmQoc3VtbWFyeSRjb2VmZmljaWVudHNbOF0sMylgKQogIAogIC0gRGUgY29udHJvbGViZWhhbmRlbGluZyBoZWVmdCBtZXQgOTUlIHpla2VyaGVpZCBlZW4gZ2VtaWRkZWxkIGdld2ljaHQgdHVzc2VuIGByIHJvdW5kKGNvbmZpbnRbMl0sMylgIGVuIGByIHJvdW5kKGNvbmZpbnRbNF0sMylgIGxhZ2VyIGRhbiBiZWhhbmRlbGluZyAyLgogIAogIC0gRGUgY29udHJvbGViZWhhbmRlbGluZyBoZWVmdCBtZXQgOTUlIHpla2VyaGVpZCBlZW4gZ2VtaWRkZWxkIGdld2ljaHQgdHVzc2VuIGByIHJvdW5kKGNvbmZpbnRbMV0sMylgIGVuIGByIHJvdW5kKGNvbmZpbnRbM10sMylgLgoKCgoKCgo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Practicum_1_oplossing_Two_sample_t_test.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
