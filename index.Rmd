@@ -101,10 +101,8 @@ Na de introductie van het algemene lineaire model zullen we dieper ingaan op bel
     
 - Practicum 3:
     - Dodona oefeningen
-   
-   <!-- 
    - Oplossing Oefening 2: [html](./oefening_vissen_volledig_uitgewerkt.html), [[PDF](./oefening_vissen_volledig_uitgewerkt.pdf)] 
-   -->
+
 
 <!--
 - Practicum 4: Poweranalyse
